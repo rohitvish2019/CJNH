@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Patients = new mongoose.Schema({
+const Purchases = new mongoose.Schema({
     Name:String,
     Price:Number,
     Quantity:Number,
@@ -17,5 +17,5 @@ const Patients = new mongoose.Schema({
     timestamps:true
 });
 
-const Patient = mongoose.model('Patient', Patients);
-module.exports = Patient;
+const Purchase = mongoose.model('Purchase', Purchases);
+module.exports = Purchase;

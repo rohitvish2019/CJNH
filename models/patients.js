@@ -13,7 +13,7 @@ const Patients = new mongoose.Schema({
     isCancelled:{
         type:Boolean,
         default:false
-    },
+    }, 
     Visits:[
         {
             type: mongoose.Schema.Types.ObjectId,

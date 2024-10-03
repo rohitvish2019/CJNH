@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const Patient = require('./patients');
 const Visits = new mongoose.Schema({
-    Patient:mongoose.Schema.Types.ObjectId,
+    Patient:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Patient'
+    },
     Type:String,
     Outside_docs:String,
     Visit_date:String,

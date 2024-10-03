@@ -7,8 +7,19 @@ const Bills = new mongoose.Schema({
             type:String
         }
     ],
-    Patient:mongoose.Schema.Types.ObjectId,
-    User:mongoose.Schema.Types.ObjectId,
+    Name:String,
+    Age:Number,
+    Address:String,
+    Mobile:String,
+    Patient:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Patient'
+    },
+    User:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    UserName:String,
     BillDate:String,
     isValid:{
         type:Boolean,

@@ -1,8 +1,18 @@
 const mongoose = require('mongoose');
 const Patient = require('./patients');
 const Reports = new mongoose.Schema({
+    ReportNo:Number,
     Patient:mongoose.Schema.Types.ObjectId,
     Doctor:String,
+    Name:String,
+    Age:String,
+    Address:String,
+    Mobile:String,
+    User:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    Username:String,
     isValid:{
         type:Boolean,
         default:true
