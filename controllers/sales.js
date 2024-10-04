@@ -1,6 +1,10 @@
 const BillsData = require('../models/bills')
 const PatientData = require('../models/patients');
 const UsersData = require('../models/users')
+
+module.exports.salesHistoryHome = function(req, res){
+    return res.render('salesHistory');
+}
 module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
     //ItemName$Price$Quantity$Notes

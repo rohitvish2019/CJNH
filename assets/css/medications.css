@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+thead,th{
+    position: sticky;
+    top: 0;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: small;
+}
+th {
+    background-color: #f2f2f2;
+}
+.prescriptions-list{
+    width: 100%;
+    overflow: auto;
+}
+
+
+.prescription-form{
+    border-left: 2px dotted black;
+    width: 23%;
+    margin-top: 3%;
+}
+
+.prescription-form .input-group{
+    margin-left: 3%;
+}
+
+.input-group-prepend span{
+    font-weight: bold;
+}
+
+.patient-info{
+    height: 10%;
+    border-top: 2px dotted rgb(20, 19, 19);
+    border-bottom: 2px dotted rgb(20, 19, 19);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.patient-data{
+    width: 15%;
+}
+.patient-data label{
+    display: block;
+    font-size: medium;
+    padding: 1%;
+}
+
+.patient-address label{
+    display: block;
+    font-size: medium;
+    padding: 1%;
+}
+
+.patient-data small{
+    padding: 1%;
+}
+.patient-address small{
+    padding: 1%;
+}
+.patient-address{
+    width: 40%;
+}
+.test-data label, .test-data input{
+    font-size: small;
+}
+
+.form-floating{
+    height: 30px !important;
+}
+
+.input-group-text{
+    width: 80px;
+}
+.input-group-sm{
+    width: 100%;
+}
+.input-group-prepend span{
+    font-size: small;
+}
+.delButton:hover{
+    background-color: rgb(160, 206, 206);
+}

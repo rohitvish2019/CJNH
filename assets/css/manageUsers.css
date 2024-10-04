@@ -1,0 +1,45 @@
+body{
+    height: 100vh;
+}
+
+header{
+    height: 15%;
+}
+
+.main-body{
+    height: 86%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.usersList{
+    width: 65%;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+}
+
+.addUserForm{
+    width: 35%;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-left: 2px dotted black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+thead,th{
+    position: sticky;
+    top: 0;
+}
+th, td {
+    border: 1px solid #ddd !important;
+    padding: 8px;
+    text-align: left;
+    font-size: medium;
+}
+th {
+    background-color: #f2f2f2;
+}

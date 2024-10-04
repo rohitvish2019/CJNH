@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicine Inventory</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<link rel="stylesheet" href="/css/purchasesHistory.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div class="main-body">
+        <div class="heading">
+            <h2>Returned Inventories</h2>
+        </div>
+        <div class="searchElements" style="display: flex;justify-content: space-between;margin-right: 2%;">
+            <div>
+                <label for=""><b>Return Date Range : </b>&nbsp;</label>
+                <input type="date" name="" id="startDate">
+                <input type="date" name="" id="endDate">
+                <select name="" id="returnType">
+                    <option value="vendor">To Vendor</option>
+                    <option value="patients">From Patients</option>
+                </select>
+                <button class="btn btn-success" onclick="getReturnsHistory()">Search</button>
+            </div>
+            <div>
+                <b id="tvalue"></b>
+            </div>
+        </div>
+        <div class="table-body" style="overflow: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Medicine</th>
+                        <th>Batch No</th>
+                        <th>Qty returned</th>
+                        <th>Expiry Date</th>
+                        <th>Price</th>
+                        <th>Total Value</th>
+                        <th>Return Date</th>
+                    </tr>
+                </thead>
+                <%-include('_loader')%>
+                <tbody id="medicines">
+                    <!-- Table rows will be populated dynamically -->
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination-box">
+            <ul class="pagination" id="pagination">
+                <!-- Pagination buttons will be populated dynamically -->
+            </ul>
+        </div>
+    </div>
+    
+<script src="/js/returnHistory.js"></script>
+</body>
+</html>

@@ -15,7 +15,9 @@
 
 <body>
   
-    
+  <header>
+    <%-include('_header')%>
+  </header>
     
     <section class="main-content">
       
@@ -27,11 +29,20 @@
             </div>
             <input style="padding-left: 1%;margin-left: 2%;" value="Dr Navin Soni" type="text" id="doctorName" class="form-control" placeholder="Doctor" aria-label="Recipient's username" aria-describedby="basic-addon2" list="docLists">
             <datalist id="docLists">
-              <option value="Dr Navin Soni"></option>
-              <option value="Dr Alka Soni"></option>
+              <option value="Dr Anuj Jain"></option>
+              <option value="Dr Swati Jain"></option>
             </datalist>
         </div>
-        
+
+        <div class="form-floating" style="margin-bottom: 2%; width: 95%;">
+          <select class="form-select" id="RegType" aria-label="Floating label select example">
+            <option selected disabled value="">--Select--</option>
+            <option value="Male">OPD</option>
+            <option value="Female">IPD</option>
+          </select>
+          <label for="Gender">Registration Type <span>*</span></label>
+        </div>
+
         <div class="form-floating mb-2">
             <input type="text" class="form-control" id="Name" placeholder="name@example.com">
             <label for="Name">Full Name <span>*</span></label>
@@ -45,7 +56,7 @@
               <option value="Other">Other</option>
             </select>
             <label for="Gender">Gender <span>*</span></label>
-          </div>
+        </div>
 
         <div class="form-floating mb-2">
             <input type="text" class="form-control" id="Age" placeholder="name@example.com">

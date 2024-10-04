@@ -5,6 +5,24 @@ module.exports.test= function(req, res){
     return res.render('test');
 }
 
+
+module.exports.patientRegistartionHome = function(req, res){
+    try{
+        return res.render('patientRegistration')
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
+
+module.exports.oldAppointmentsHome = function(req, res){
+    try{
+        return res.render('oldAppointments')
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
 // This methods add a visit for old patient and also creates a patient if its new.
 module.exports.addVisitAndPatient = async function(req, res){
     try{
@@ -57,10 +75,7 @@ module.exports.getAppointmentsToday = async function(req, res){
     try{
         let date = new Date().toISOString().split('T')[0];
         let visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true}).populate('Patient');
-        return res.status(200).json({
-            message: visits.length + ' Visits fetched',
-            visits
-        })
+        return res.render('showAppointments',{visits});
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -94,9 +109,10 @@ module.exports.getAppointmentsByDateRange = async function(req, res){
 
 
 module.exports.getAppointmentsByDate = async function(req, res){
+    console.log(req.query);
     try{
         //Date formart to be fixed to handle all types of formats
-        let date = req.body.date;
+        let date = req.query.date;
         let visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true}).populate('Patient');
         return res.status(200).json({
             message: visits.length + ' Visits fetched',

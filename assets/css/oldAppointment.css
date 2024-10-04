@@ -1,0 +1,26 @@
+body{
+    height: 100vh;
+    width: 100%;
+}
+.search-div{
+    height: 12%;
+    padding: 2%;
+    padding-bottom: 1%;
+    border-bottom: 2px dotted black;
+}
+
+.search-div input{
+    margin-right: 4%;
+}
+
+.bg th{
+    background-color: #374752 !important;
+    color: white !important;
+}
+
+.loader{
+    position: fixed;
+    top:45%;
+    left: 45%;
+    display: none;
+}

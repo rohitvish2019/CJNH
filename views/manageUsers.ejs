@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users</title>
+    <link rel="stylesheet" href="/css/manageUsers.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div class="main-body">
+        <div class="usersList">
+            <h3 style="text-align: center;">Users List</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>delete</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <%for(let i=0;i<users.length;i++){%>
+                        <tr id="<%=users[i]._id%>">
+                            <td><%=users[i].full_name%></td>
+                            <td><%=users[i].email%></td>
+                            <td><%=users[i].role%></td>
+                            <td class='delButton'><img style="margin-left: 17%;" width='25px' height='25px' src="/images/delete.png" onclick='deleteUser("<%=users[i]._id%>")' alt=""></td>
+                        </tr>
+
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+        <div class="addUserForm">
+            <h3 style="text-align: center;">Add New User</h3>
+            <div>
+                <div class="form-floating mb-2 test-data">
+                    <input type="text" id="full_name" class="form-control" id="floatingInput" placeholder="" >
+                    <label for="">Name</label>
+                </div>
+                <div class="form-floating mb-2 test-data">
+                    <input type="text" id="email" class="form-control" id="floatingInput" placeholder="" >
+                    <label for="">Email/Username</label>
+                </div>
+                <div class="form-floating" style="margin-bottom: 2%;" placeholder="" >
+                    <select class="form-select" id="role" aria-label="Floating label select example" placeholder="" >
+                      <option selected disabled value="">--Select--</option>
+                      <option value="ms">Medical Staff</option>
+                      <option value="rs">Registering staff</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                    <label for="role">Role <span>*</span></label>
+                </div>
+                <div class="form-floating mb-2 test-data">
+                    <input type="password" id="password" class="form-control" id="floatingInput" placeholder="" >
+                    <label for="">Password</label>
+                </div>
+                <div class="form-floating mb-2 test-data">
+                    <input type="password" id="cpassword" class="form-control" id="floatingInput" placeholder="" >
+                    <label for="">Confirm Password</label>
+                </div>
+                <div style="width: 100%; display: flex; justify-content: center; margin-top: 12%;">
+                    <button style="width: 60%;" class="btn btn-success" onclick="addUser()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/manageUsers.js"></script>
+</body>
+</html>

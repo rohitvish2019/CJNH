@@ -1,0 +1,78 @@
+body{
+    height: 100vh;
+}
+.main-body{
+    height: 73%;
+}
+.heading{
+    height: 8%;
+    text-align: center;
+
+}
+.searchElements{
+    height: 9%;
+    margin-left: 1%;
+}
+
+.table-body{
+    height: 100%;
+    border-bottom: 2px dotted black;
+    overflow: auto;
+}
+.pagination-box{
+    height: 0%;
+}
+
+table {
+    width: 97%;
+    border-collapse: collapse;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+th, td,tr{
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #ddd !important;
+}
+th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+.pagination li {
+    margin: 0 5px;
+    margin-top: 1%;
+}
+.pagination li a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    color: #333;
+}
+.pagination li a:hover {
+    background-color: #f2f2f2;
+}
+
+.loader{
+    position: fixed;
+    left: 48%;
+    top:50%;
+    display: none;
+}
+
+#cancellationPopup{
+    height:30%;
+    width: 25%;
+    border: 1px solid black;
+    position: fixed;
+    top: 40%;
+    left: 35%;
+    display: none;
+    background-color: #f2f2f2;
+}

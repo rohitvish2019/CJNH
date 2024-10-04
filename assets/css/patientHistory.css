@@ -1,0 +1,104 @@
+body{
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+.main-container{
+    height: 99.7%;
+    width: 99.8%;
+}
+.patient-info{
+    height: 9%;
+    border-bottom: 2px dotted black;
+    border-top: 2px dotted black;
+    min-height: 40px;
+    display: flex;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.patient-data{
+    width: 15%;
+}
+.patient-data label{
+    display: block;
+    font-size: large;
+    padding: 1%;
+}
+
+.patient-address label{
+    display: block;
+    font-size: large;
+    padding: 1%;
+}
+
+.patient-data small{
+    padding: 1%;
+}
+.patient-address small{
+    padding: 1%;
+}
+.patient-address{
+    width: 40%;
+}
+
+.history-data{
+    height: 73%;
+    padding-top: 1%;
+    overflow-y: auto;
+}
+
+.one-history{
+    height: 80%;
+    margin-bottom: 2%;
+    -webkit-box-shadow: 0 0 10px gray;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    margin-left: .5%;
+    margin-right: .5%;
+    border-radius: 1.5rem;
+    padding-left: .2%;
+    padding-right: .2%;
+}
+
+.history-heading{
+    height: 6%;
+    display: flex;
+    text-align: center;
+    font-weight: bold;
+}
+.history-info{
+    height: 93%;
+    display: flex;
+    border-top: 2px dotted black;
+}
+
+.complaint{
+    width: 20%;
+    padding-left: .5%;
+    padding-right: .2%;
+    border-right: 1px dotted black;
+    overflow: auto;
+}
+
+.oes{
+    width: 20%;
+    padding-left: .5%;
+    padding-right: .2%;
+    border-right: 1px dotted black;
+    overflow: auto;
+}
+
+.tests{
+    width: 20%;
+    padding-left: .5%;
+    padding-right: .2%;
+    border-right: 1px dotted black;
+    overflow: auto;
+}
+
+.prescriptions{
+    width: 40%;
+    padding-left: .5%;
+    padding-right: .2%;
+    overflow: auto;
+}

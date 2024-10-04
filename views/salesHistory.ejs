@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medicine Inventory</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<link rel="stylesheet" href="/css/purchasesHistory.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div class="main-body">
+        <div class="heading">
+            <h2>Sales History</h2>
+        </div>
+        <div class="searchElements" style="display: flex; justify-content:flex-start;margin-right: 2%;margin-top: 2%;">
+                <div style="margin-right: 2%;">
+                    <label for=""><b>Filter type : </b>&nbsp;</label>
+                    <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
+                        <option value="byDate" selected>Exact Date</option>
+                        <option value="byDateRange">Date Range</option>
+                    </select>
+                </div>
+                
+                <div id="dateRangeInputs" style="margin-right: 2%;">
+                    <label for=""><b>Sale Date Range : </b>&nbsp;</label>
+                    <input type="date" name="" id="startDate">
+                    <input type="date" name="" id="endDate">
+                </div>
+                <div id="dateInput" style="margin-right: 2%;">
+                    <label for=""><b>Sale Date : </b>&nbsp;</label>
+                    <input type="date" name="" id="selectedDate">
+                </div>
+                <div>
+                    <label for=""><b>Bill type : </b>&nbsp;</label>
+                    <select name="" id="billType" onchange="changeInputs()" style="height: 70%;">
+                        <option value="Medical Bill" selected>Medical Bill</option>
+                        <option value="Registration Fees">Registration Fees</option>
+                        <option value="Generated Receipt">Other Receipts</option>
+                        <option value="Medical Bill Ext">Medical Bill (External)</option>
+                    </select>
+                </div>
+                <button style="height: 80%;margin-left: 2%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>
+                <b style="margin-left: 3%;" id="tvalue"></b>
+            
+            <div>
+                <b id="tvalue"></b>
+            </div>
+            
+        </div>
+        <div class="table-body" style="overflow: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Registered Patient</th>
+                        <th>Bill Type</th>
+                        <th>Amount</th>
+                        <th>Entry Date</th>
+                        <th>Open Bill</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <%-include('_loader')%>
+                <tbody id="historyBody">
+                    <!-- Table rows will be populated dynamically -->
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="returnsPopup" style="height: 80%;width: 60%;border: 1px solid green; position: fixed;top: 15%;left: 20%; background-color: antiquewhite;display: none;">
+            <div class="popup-head" style="height: 8%; border: 1px solid red;"></div>
+            <div class="popup-content" style="height: 84%; border: 1px solid red;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Price</th>
+                            <th>Max Qty</th>
+                            <th>Return Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="returnsTable">
+                        <tr>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="popup-foot" style="height: 8%;display: flex;justify-content: center;">
+                <button class="btn btn-danger" style="margin-left: 5%; margin-right: 5%;width: 15%;" onclick="closePopup()">Cancel</button>
+                <button class="btn btn-success" style="margin-left: 5%; margin-right: 5%; width: 15%;">Save</button>
+            </div>
+        </div>
+        <div id="cancellationPopup" style="padding-left: 1%;padding-right: 1%;">
+            <div style="height: 15%;width: 100%;display: flex;justify-content: flex-end;">
+                <button class="btn" style="background-color: transparent;" onclick="closeCancellationPopup()">
+                    <img src="/images/cross.svg" height="100%" width="100%" alt="">
+                </button>
+            </div>
+            <div>
+                <label for="" style="margin-top: .5%;" id="cancelInfo">Cancelling amount 300 for Karuna</label>
+                <label for="" style="margin-top: 2%;">Please enter cancellation reason below</label>
+                <input hidden type="text" id="cancellationID">
+                <textarea style="margin-top: 5%;" rows="2" cols="43" name="" id="cancellationReason"></textarea>
+            </div>
+            <div>
+                <button class="btn btn-danger" style="width: 95%;margin-top: 2%;" onclick="cancelSales()">Cancel Now</button>
+            </div>
+        </div>
+        <div class="pagination-box">
+            <ul class="pagination" id="pagination">
+                <!-- Pagination buttons will be populated dynamically -->
+            </ul>
+        </div>
+    </div>
+    
+<script src="/js/sales.js"></script>
+</body>
+</html>

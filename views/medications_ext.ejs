@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" type="text/css" href="/css/medications.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div class="patient-info" style="padding-bottom: 1%;">
+        <div class="patient-data">
+            <small for=""><b>Name</b></small>
+            <input type="text" name="" id="name">
+        </div>
+        <div class="patient-data">
+            <small for=""><b>Gender</b></small>
+            <input type="text" name="" id="gender" list="genderList">
+            <datalist id="genderList">
+                <option value="Male"></option>
+                <option value="Female"></option>
+            </datalist>
+        </div>
+        <div class="patient-data">
+            <small for=""><b>Age</b></small>
+            <input type="text" name="" id="age">
+        </div>
+        <div class="patient-data">
+            <small for=""><b>Address</b></small>
+            <input type="text" name="" id="address">
+        </div>
+        <div class="patient-address" style="width: 6%;margin-right: 1%;">
+            <small for=""><b>Discount%</b></small>
+            <label for=""><input style="width: 100%;" type="number" name="" id="discount"></label>
+        </div>
+    </div>
+    <div id="loader" style="position: fixed;top:50% ;left: 35%;display: none;">
+        <%-include('_loader')%>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 76%;">
+            <div style="overflow-y: auto; height: 500px;">
+                <div>
+                    <label style="font-size: 25px; font-weight: 600;margin-left: 1%;">Prescriptions</label>
+                    <label style="margin-left: 70%;">Total: <span id="total">0</span></label>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Medicine</th>
+                            <th>Duration</th>
+                            <th>Price</th>
+                            <th>Qty</th>
+                            <th>Batch No</th>
+                            <th>Exp. Date</th>
+                            <th>Notes</th>
+                            <th>Current Quantity</th>
+                            <th>Del.</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prescriptionTableBody">
+                        <%for(let i=0;i<0;i++){%>
+                            <tr>
+                                <td>${++itemsCount}</td>
+                                <td>${medicine}</td>
+                                <td>${duration}</td>
+                                <td>${price}</td>
+                                <td>${qty}</td>
+                                <td>${batch}</td>
+                                <td>${Exp}</td>
+                                <td>${notes is a big line of comment and check whether its very long}</td>
+                            </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button onclick="savePrescriptionsExternal()" style="width: 30%;" class="btn btn-success" id="savePrescriptions">Save & Print</button>
+            </div>
+            
+        </div>
+        
+        <div class="prescription-form">
+            <h4 style="text-align: center; font-weight: bold;">Add Prescriptions</h4>
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Medicine</span>
+                </div>
+                <input type="text" id="Medicine" class="form-control" list="medicineList">
+                <datalist id="medicineList">
+                    <%for(let i=0;i<inventory.length;i++){%>
+                        <option value="<%=inventory[i]%>"></option>
+                    <%}%>
+                </datalist>
+            </div>
+
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Dosage</span>
+                </div>
+                <input type="text" id="Dosage" class="form-control"  list="dosageList">
+                <datalist id="dosageList">
+                    <option value="1-0-0"></option>
+                    <option value="0-1-0"></option>
+                    <option value="0-0-1"></option>
+                    <option value="1-0-1"></option>
+                    <option value="0-1-0"></option>
+                    <option value="1-1-1"></option>
+                    <option value="early-morning"></option>
+                    <option value="before-sleep"></option>
+                </datalist>
+            </div>
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">When</span>
+                </div>
+                <input type="text" id="When" class="form-control" list="whenList">
+                <datalist id="whenList">
+                      <option value="After Food"></option>
+                      <option value="Before Food"></option>
+                      <option value="After Breakfast"></option>
+                      <option value=""></option>
+                </datalist>
+            </div>
+            
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Frequency</span>
+                </div>
+                <input type="text" id="Frequency" class="form-control" list="freqList">
+                <datalist id="freqList">
+                    <option value="Daily"></option>
+                    <option value="Weekly"></option>
+                    <option value="Alternate-Day"></option>
+                </datalist>
+            </div>
+
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Duration</span>
+                </div>
+                <input type="text" id="Duration" class="form-control" list="durationList">
+                <datalist id="durationList">
+                      <option value="7 days"></option>
+                      <option value="5 days"></option>
+                      <option value="10 days"></option>
+                      <option value="15 days"></option>
+                      <option value="1 month"></option>
+                      <option value="2 Months"></option>
+                      <option value="3 Months"></option>
+                      <option value="6 Monts"></option>
+                </datalist>
+            </div>
+            
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Qty</span>
+                </div>
+                <input type="number" id="Qty" class="form-control" >
+            </div>
+            
+            
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Notes</span>
+                </div>
+                <input type="" id="Notes" class="form-control" >
+            </div>
+            <div style="width: 100%; margin-top: 10%;">
+                <button style="width: 60%; margin-left: 21%; margin-right: 19%;" class="btn btn-success" onclick="addMedications(false,null)">Add</button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/medications.js"></script>
+</body>
+</html>
