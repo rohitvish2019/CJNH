@@ -23,25 +23,18 @@
       
       <div id="registrationForm">
         <div class="input-group mb-2" style="width: 95%;">
-            <input style="padding-left: 1%;" type="text" id="patientID" class="form-control" placeholder="Search with Id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input style="padding-left: 1%;" type="text" id="patientID" class="form-control" placeholder="Search with Mobile or Id" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button" style="height: 97%;border-top-left-radius:0; border-bottom-left-radius: 0;" onclick="searchById()">Search</button>
             </div>
-            <input style="padding-left: 1%;margin-left: 2%;" value="Dr Navin Soni" type="text" id="doctorName" class="form-control" placeholder="Doctor" aria-label="Recipient's username" aria-describedby="basic-addon2" list="docLists">
-            <datalist id="docLists">
-              <option value="Dr Anuj Jain"></option>
-              <option value="Dr Swati Jain"></option>
-            </datalist>
+            <select class="form-select" id="Doctor" aria-label="Floating label select example">
+              <option selected disabled value="">--Select Doctor--</option>
+              <option value="Dr Anuj Jain">Dr Anuj Jain</option>
+              <option value="Dr Swati Jain">Dr Swati Jain</option>
+            </select>
         </div>
 
-        <div class="form-floating" style="margin-bottom: 2%; width: 95%;">
-          <select class="form-select" id="RegType" aria-label="Floating label select example">
-            <option selected disabled value="">--Select--</option>
-            <option value="Male">OPD</option>
-            <option value="Female">IPD</option>
-          </select>
-          <label for="Gender">Registration Type <span>*</span></label>
-        </div>
+        
 
         <div class="form-floating mb-2">
             <input type="text" class="form-control" id="Name" placeholder="name@example.com">
@@ -67,19 +60,14 @@
             <label for="Address">Address <span>*</span></label>
         </div>
         <div class="form-floating mb-2">
-            <input type="text" class="form-control" id="Mobile" placeholder="name@example.com">
-            <label for="Mobile">Mobile No</label>
+            <input type="text" class="form-control mb2" id="Mobile" placeholder="name@example.com">
+            <label for="Mobile">Mobile No<span>*</span></label>
         </div>
         <div class="form-floating mb-2">
           <input type="number" class="form-control" id="Fees" placeholder="name@example.com">
-          <label for="Mobile">Fees</label>
+          <label for="Mobile">Fees<span>*</span></label>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-            <label class="form-check-label" for="flexCheckChecked">
-              Book apponitment for today
-            </label>
-        </div>
+        
         <button id="register" class="btn btn-success" style="width: 47.5%;" type="submit" value="" onclick="registerPatient()">Register</button>
         <button id="bookAppointment" disabled class="btn btn-success" style="width: 47.5%;" type="submit" onclick="bookAppointmentWithId()">Book Appointment</button>
       </div>

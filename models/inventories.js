@@ -4,6 +4,7 @@ const Inventories = new mongoose.Schema({
     Price:Number,
     AvailableQuantity:Number,
     Expirydate:Date,
+    Batch:String,
     AlertQuantity:{
         type:Number,
         default:10000

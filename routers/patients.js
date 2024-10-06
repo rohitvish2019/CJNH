@@ -7,4 +7,6 @@ Router.get('/getAppointments/today', PatientsController.getAppointmentsToday);
 Router.get('/getAppointments/old', PatientsController.oldAppointmentsHome);
 Router.get('/getAppointmentsByDate', PatientsController.getAppointmentsByDate);
 Router.get('/new', PatientsController.patientRegistartionHome)
+Router.get('/get/:id', PatientsController.getPatientById);
+Router.post('/visits/bookToday', PatientsController.bookVisitToday)
 module.exports = Router;

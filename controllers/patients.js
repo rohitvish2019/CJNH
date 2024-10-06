@@ -37,6 +37,7 @@ module.exports.addVisitAndPatient = async function(req, res){
                     message:'Invalid Patient'
                 })
             }
+
         }else{
             tracker = await Tracker.findOne({});
             newPatientId = tracker.patientId+1
@@ -122,6 +123,68 @@ module.exports.getAppointmentsByDate = async function(req, res){
         console.log(err)
         return res.status(500).json({
             message:'Internal server error : Unable to find visits for today'
+        })
+    }
+}
+
+
+module.exports.getPatientById = async function(req, res){
+    try{
+        console.log(req.params)
+          let patient = await PatientData.find({
+            $or: [
+                {Id:req.params.id},
+                {Mobile:req.params.id},
+                
+            ],
+            isCancelled:false, isValid:true
+        }).sort({"createdAt": -1}).limit(1);
+          if(patient.length > 0){
+                return res.status(200).json({
+                      patient
+                })
+          }else{
+                return res.status(404).json({
+                      message:'No patient found'
+                })
+          }
+          
+    }catch(err){
+          console.log(err);
+          return res.status(500).json({
+                message:'Error 500 : Unable to find patient'
+          })
+    }   
+}
+
+
+module.exports.bookVisitToday = async function(req, res){
+    let patient = await PatientData.findOne({
+        $or: [
+            {Id:req.body.PatientId},
+            {Mobile:req.body.PatientId},
+            
+        ],
+        isCancelled:false, isValid:true
+        
+    })
+    
+    try{
+        let visit = await VisitData.create({
+            Patient:patient._id,
+            Type:req.body.Type,
+            Fees:req.body.Fees,
+            Doctor:req.body.Doctor,
+            Visit_date:new Date().toISOString().split('T')[0],
+            Outside_docs:req.body.Outside_docs
+        });
+        return res.status(200).json({
+            message:'Visit Scheduled'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error : Unable to add visit'
         })
     }
 }

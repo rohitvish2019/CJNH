@@ -6,6 +6,10 @@ const Patients = new mongoose.Schema({
     Mobile:String,
     Id:Number,
     Doctor:String,
+    Gender:{
+        type:String,
+        enum:['Male','Female']
+    },
     isValid:{
         type:Boolean,
         default:true

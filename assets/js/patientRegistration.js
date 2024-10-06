@@ -1,11 +1,10 @@
-let inputData = ['Name','Gender','Age','Address','Mobile','Fees'];
+let inputData = ['Name','Gender','Age','Address','Mobile','Fees', 'Doctor'];
 function registerPatient(){
-    console.log("Registering patient");
     let data = {}
     data['bookAppointment'] = document.getElementById('flexCheckChecked').checked; 
     for(let i=0;i<inputData.length;i++){
         data[inputData[i]] = document.getElementById(inputData[i]).value;
-        if(i != 4 && (document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' )){
+        if(document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' ){
             new Noty({
                 theme: 'relax',
                 text: inputData[i] + ' is mandatory',
@@ -17,7 +16,7 @@ function registerPatient(){
         }
     }
     $.ajax({
-        url:'/patients/register',
+        url:'/patients/addVisit',
         type:'POST',
         data:data,
         success:function(data){
@@ -41,7 +40,6 @@ function registerPatient(){
 
 function searchById(){
     let id = document.getElementById('patientID').value;
-    
     $.ajax({
         url:'/patients/get/'+id,
         type:'Get',
@@ -55,7 +53,7 @@ function searchById(){
             }).show();
             for(let i=0;i<inputData.length;i++){
                 if(document.getElementById(inputData[i])){
-                    document.getElementById(inputData[i]).value = data.patient[0].PatientId[inputData[i]];
+                    document.getElementById(inputData[i]).value = data.patient[0][inputData[i]];
                 }
             }
             let visitDate = data.patient[0].createdAt.toString().split('T')[0].split('-');
@@ -101,12 +99,13 @@ function bookAppointmentWithId(){
         return
     }
     $.ajax({
-        url:'/appointments/bookToday',
+        url:'/patients/visits/bookToday',
         type:'Post',
         data:{
             PatientId:document.getElementById('patientID').value,
             date:null,
-            Fees: document.getElementById('Fees').value
+            Fees: document.getElementById('Fees').value,
+            Doctor: document.getElementById('Doctor').value,
         },
         success:function(data){
             new Noty({
@@ -122,7 +121,7 @@ function bookAppointmentWithId(){
         error: function(err){
             new Noty({
                 theme: 'relax',
-                text: JSON.parse(err.responseText).message,
+                text: 'Unable to add visit',
                 type: 'error',
                 layout: 'topRight',
                 timeout: 1500
