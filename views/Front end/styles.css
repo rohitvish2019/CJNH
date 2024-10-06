@@ -12,7 +12,7 @@ header {
 }
 
 .doctor-icon {
-    margin-right: 10px;
+    margin-right: 20px;
 }
 
 .patient-info p {
@@ -47,4 +47,13 @@ input.form-control {
     display: inline-block;
     width: auto;
     margin-left: 10px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: left;
 }
