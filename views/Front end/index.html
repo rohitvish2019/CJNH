@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient History</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-dark text-center text-white py-4 d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Patient History</h2>
+        <div class="doctor-icon">
+            <i class="fas fa-user-md fa-2x"></i>
+        </div>
+    </header>
+    <div class="patient-info text-center mt-3">
+        <p><i class="fas fa-user"></i> <strong>Name:</strong> John Doe</p>
+        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> 123 Main St, Springfield</p>
+        <p><i class="fas fa-phone"></i> <strong>Mobile:</strong> +1234567890</p>
+    </div>
+    <main class="container my-4">
+        <button id="add-visit" class="btn btn-success mb-4"><i class="fas fa-plus"></i> Add Visit</button>
+        <div id="visit-container">
+            <div class="card mb-4">
+                <div class="card-header text-white">
+                    <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: 2024-10-01</h2>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-stethoscope"></i> <strong>Complaint:</strong> Headache</p>
+        
+                    <div class="table-responsive">
+                        <h5>Test Results</h5>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Test Name</th>
+                                    <th>Test Results</th>
+                                    <th>Reference Range</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Blood Test</td>
+                                    <td>Normal</td>
+                                    <td>4.5-5.5 million cells/mcL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table">
+                        <h5>Prescribed Medicines</h5>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Duration</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Paracetamol</td>
+                                    <td>5 days</td>
+                                    <td>Take after meals</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><i class="fas fa-notes-medical"></i> <strong>Doctor's Advice:</strong> Rest and hydration</p>
+                </div>
+            </div>
+            <!-- New visit blocks will be added here -->
+        </div>
+    </main>
+    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

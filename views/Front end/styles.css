@@ -1,0 +1,59 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F8F9FA; /* Light Grey */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.doctor-icon {
+    margin-right: 20px;
+}
+
+.patient-info p {
+    margin: 5px 0;
+}
+
+main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background: #025E73;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body p {
+    margin: 10px 0;
+}
+
+.card-body strong {
+    color: #F2A71B; /* Yellow */
+}
+
+input.form-control {
+    display: inline-block;
+    width: auto;
+    margin-left: 10px;
+}
+
+.table-responsive {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: left;
+}
