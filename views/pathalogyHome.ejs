@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathalogyHome</title>
+    <link rel="stylesheet" href="/css/PathalogyHome.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div class="main-body">
+        <div class="left">
+            <div class="patient-container">
+                <div class="patient-data">
+                    <label class="patient-data-heading">Name</label>
+                    <input class="patient-data-value" id="patName">
+                </div>
+                <div class="patient-data">
+                    <label class="patient-data-heading">Age</label>
+                    <input class="patient-data-value" id="age">
+                </div>
+                <div class="patient-data">
+                    <label class="patient-data-heading">Gender</label>
+                    <input class="patient-data-value" id="gender">
+                </div>
+                <div class="patient-data">
+                    <label class="patient-data-heading">Address</label>
+                    <input class="patient-data-value" id="address">
+                </div>
+                <div class="patient-data">
+                    <label class="patient-data-heading">Mobile</label>
+                    <input class="patient-data-value" id="mobile">
+                </div>
+                <div class="patient-data">
+                    <label class="patient-data-heading">Referred By</label>
+                    <input class="patient-data-value" id="docName">
+                </div>
+
+                <div class="patient-data" style="width: 23%;border-left: 1px solid black;padding-left: 1%;padding-top: 1%;">
+                    <input style="width:40%;font-size: larger;" type="text" name="" id="patientId" placeholder="Patient Id">
+                    <button class="btn btn-success" onclick="autoFillPatients()">Autofill</button>
+                </div>
+            </div>
+            <div class="addedTests">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Test Name</th>
+                            <th>Reference Range</th>
+                            <th>Result</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testsBody">
+                        
+                    </tbody>
+                </table>
+                
+            </div>
+            <button style="width: 50%;margin-left: 25%;" onclick="saveTests()" class="btn btn-success">Save & Print</button>
+        </div>
+        <div class="right">
+            <h2 style="text-align: center;">Add new test</h2>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Test Name</span>
+                <input id="testName" type="text" class="form-control" placeholder="" aria-label="Test Name" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Test Result</span>
+                <input id="testResult" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">Reference Range</span>
+                <input id="refRange" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div>
+                <button style="width: 98%;margin-left: 1%;" class="btn btn-success" onclick="addTest()">Add</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/js/pathalogyHome.js"></script>
+</html>

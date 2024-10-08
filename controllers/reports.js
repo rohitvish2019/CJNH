@@ -1,7 +1,17 @@
 const PatientData = require('../models/patients');
 const ReportsData = require('../models/reports');
 const Tracker = require('../models/tracker');
-const Tracker = require('../models/tracker')
+
+
+module.exports.PathalogyHome = async function(req, res){
+    try{
+        let patient = await PatientData.findById(req.params.id);
+        return res.render('pathalogyHome', {patient})
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
+    }
+}
 module.exports.saveReport = async function(req, res){
     //Items will be an array of string where each element will be in below format
     //Itemname$price$category$result
