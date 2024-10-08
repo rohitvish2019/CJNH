@@ -38,7 +38,7 @@
             <th class="bg" scope="col">Address</th>
             <th class="bg" scope="col">Fees</th>
             <th class="bg">Open</th>
-            <th class="bg">Medications</th>
+            <th class="bg">Pathalogy</th>
             <th class="bg" style="text-align: center;">Action</th>
           </tr>
         </thead>
@@ -52,13 +52,12 @@
                     <td><%=visits[i].Patient.Address%></td>
                     <td><%=visits[i].Fees%></td>
                     <td><a href="/patients/newVisit/<%=visits[i].Patient._id%>">Open Visit</a></td>
-                    <td><a href="/patients/medications/<%=visits[i].Patient._id%>">Medications</a></td>
+                    <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>
                     <td style="display: flex; justify-content: center;">
                       <button class="btn btn-warning" id="<%=visits[i]._id%>_koh" onclick="keepOnHold('<%=visits[i]._id%>')">Hold</button>
                       <button style="display: none;" class="btn btn-success" id="<%=visits[i]._id%>_rea" onclick="reActivate('<%=visits[i]._id%>')">Activate</button>
                     </td>
                 </tr>
-                
             <%}%>
         </tbody>
       </table>

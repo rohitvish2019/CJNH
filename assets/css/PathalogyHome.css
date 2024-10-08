@@ -1,0 +1,64 @@
+.main-body{
+    height: 88vh;
+    display: flex;
+}
+
+.left{
+    width: 78%;
+    height: 100%;
+    border-right: 1px solid black;
+}
+.addedTests{
+    height: 78%;
+    overflow: auto;
+}
+tbody{
+    max-height: 500px;
+    overflow: auto;
+}
+.right{
+    width: 22%;
+    height: 100%;
+    padding-left: 1%;
+}
+table{
+    border: 1px solid black;
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 1%;
+    font-size: large;
+    overflow: auto;
+}
+
+th{
+    background-color: rgb(226, 222, 217);
+}
+
+td, th{
+    border: 0.5px solid rgb(95, 93, 93) !important;
+}
+.input-group-text{
+    width: 33%;
+}
+
+.patient-data{
+    margin-left: 0.5%;
+    width: 13%;
+}
+.patient-data input{
+    width: 98%;
+}
+.patient-data-heading{
+    
+    display: block;
+    font-size: medium;
+}
+.patient-data-value{
+    font-size: larger;
+    font-weight: 500;   
+}
+.patient-container{
+    display: flex;
+    border-bottom: 1px dashed black;
+    padding-bottom: 1%;
+}

@@ -1,7 +1,7 @@
 let inputData = ['Name','Gender','Age','Address','Mobile','Fees', 'Doctor'];
 function registerPatient(){
     let data = {}
-    data['bookAppointment'] = document.getElementById('flexCheckChecked').checked; 
+     
     for(let i=0;i<inputData.length;i++){
         data[inputData[i]] = document.getElementById(inputData[i]).value;
         if(document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' ){

@@ -47,7 +47,8 @@ module.exports.addVisitAndPatient = async function(req, res){
                 Address:req.body.Address,
                 Mobile:req.body.Mobile,
                 Doctor:req.body.Doctor,
-                Id:newPatientId
+                Id:newPatientId,
+                Gender:req.body.Gender
             });
             await tracker.updateOne({patientId:newPatientId})
         }
@@ -168,7 +169,11 @@ module.exports.bookVisitToday = async function(req, res){
         isCancelled:false, isValid:true
         
     })
-    
+    if(!patient || patient == null){
+        return res.status(404).json({
+            message:'Invalid Patient Id'
+        })
+    }
     try{
         let visit = await VisitData.create({
             Patient:patient._id,
@@ -178,6 +183,8 @@ module.exports.bookVisitToday = async function(req, res){
             Visit_date:new Date().toISOString().split('T')[0],
             Outside_docs:req.body.Outside_docs
         });
+        patient.Visits.push(visit._id);
+        await patient.save();
         return res.status(200).json({
             message:'Visit Scheduled'
         })
