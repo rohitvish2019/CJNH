@@ -2,22 +2,28 @@ ul{
     list-style: none;
   }
   .btn{
+    color: white;
     font-weight: bold;
   }
+  
   .menu-items{
     display: flex;
     justify-content: flex-start;
   }
   header{
-    height: 90px;
-    border-bottom: 1px dotted black;
-    padding-bottom: 1%;
+    height: 160px;
+    background-color:#343a40!important;
+    border-bottom: 2px dotted #BFB78F;
+  }
+  .dropdown{
+    margin-right: .5%; 
+    margin-left: .5%;
   }
   .dropdown-menu.show{
     background-color: rgb(235, 238, 238);
   }
+ 
   .logo{
     height: 90px;
     width: 120px !important;
   }
-  
