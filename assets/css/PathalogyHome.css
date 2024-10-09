@@ -55,7 +55,7 @@ td, th{
 }
 .patient-data-value{
     font-size: larger;
-    font-weight: 500;   
+    font-weight: 400;   
 }
 .patient-container{
     display: flex;

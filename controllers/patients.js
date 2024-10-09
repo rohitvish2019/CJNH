@@ -132,23 +132,25 @@ module.exports.getAppointmentsByDate = async function(req, res){
 module.exports.getPatientById = async function(req, res){
     try{
         console.log(req.params)
-          let patient = await PatientData.find({
+          let patient = await PatientData.findOne({
             $or: [
                 {Id:req.params.id},
                 {Mobile:req.params.id},
                 
             ],
             isCancelled:false, isValid:true
-        }).sort({"createdAt": -1}).limit(1);
-          if(patient.length > 0){
-                return res.status(200).json({
-                      patient
-                })
-          }else{
-                return res.status(404).json({
-                      message:'No patient found'
-                })
-          }
+        })
+        let visit = await VisitData.find({Patient:patient._id},'Fees createdAt').sort({"createdAt": -1}).limit(1);
+        if(patient){
+            return res.status(200).json({
+                patient,
+                visit
+            })
+        }else{
+            return res.status(404).json({
+                message:'No patient found'
+            })
+        }
           
     }catch(err){
           console.log(err);
@@ -195,3 +197,25 @@ module.exports.bookVisitToday = async function(req, res){
         })
     }
 }
+/*
+duplicate methode, need to remove
+module.exports.getPatientById = async function(req, res){
+    try{
+        let patient = await PatientData.findOne({Id:req.params.id});
+        if(patient){
+            return res.status(200).json({
+                patient
+            })
+        }else{
+            return res.status(404).json({
+                message:'No Patient found'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find patient'
+        })
+    }
+}
+    */

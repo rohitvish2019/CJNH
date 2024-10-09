@@ -19,7 +19,7 @@ module.exports.saveReport = async function(req, res){
         let patient=null
         let Name, Age, Address, Mobile, Id;
         if(req.body.id){
-            patient = await PatientData.findById(req.body.id);
+            patient = await PatientData.findOne({Id:req.body.id});
             if(!patient || patient == null){
                 return res.status(400).json({
                     message:'Invalid Patient'
@@ -31,10 +31,10 @@ module.exports.saveReport = async function(req, res){
             Mobile = patient.Mobile
             Id = patient._id
         }else{
-            Name = req.body.Name
-            Age = req.body.Age
-            Address = req.body.Address
-            Mobile = req.body.Mobile
+            Name = req.body.patient.Name
+            Age = req.body.patient.Age
+            Address = req.body.patient.Address
+            Mobile = req.body.patient.Mobile,
             Id = null
         }
         let tracker = await Tracker.findOne({});
@@ -46,12 +46,17 @@ module.exports.saveReport = async function(req, res){
             Address:Address,
             Mobile:Mobile,
             ReportNo:newReportNo,
-            Items: req.body.Items,
-            Doctor:req.body.Doctor,
-            User:req.user._id,
-            Username:req.user.Name
+            Items: req.body.tests,
+            Doctor:req.body.patient.Doctor,
+            //User:req.user._id,   Need to save this id after login setup
+            //Username:req.user.Name   Need to save this id after login setup
         });
+        
         await tracker.updateOne({ReportNo:newReportNo});
+        if(patient){
+            patient.Reports.push(report._id);
+            await patient.save()
+        }
         return res.status(200).json({
             message:'Report saved',
             report_id : report._id
@@ -86,6 +91,9 @@ module.exports.cancelSale = async function(req,res){
     }
 }
 
+/*
+Unused function need to delete before go live
+
 module.exports.getReportById = async function(req, res){
     let report 
     try{
@@ -108,6 +116,7 @@ module.exports.getReportById = async function(req, res){
         })
     }
 }
+*/
 
 module.exports.getAllReportsByPatient = async function(req, res){
     try{
@@ -127,5 +136,14 @@ module.exports.getAllReportsByPatient = async function(req, res){
         return res.status(500).json({
             message:'Internal Server Error : Unable to find bill by patient id'
         })
+    }
+}
+
+module.exports.viewReport = function(req, res){
+    try{
+        return res.render('pathalogyReportTemplate');
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
     }
 }
