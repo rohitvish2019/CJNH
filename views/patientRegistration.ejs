@@ -24,11 +24,11 @@
     
     <section class="main-content">
       
-      <div id="registrationForm">
-        <div class="input-group mb-2" style="width: 95%;">
-            <input style="padding-left: 1%;" type="text" id="patientID" class="form-control" placeholder="Search with Mobile or Id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <div id="registrationForm" class="text-center">
+        <div class="input-group mb-2" >
+            <input type="text" id="patientID" style="margin-right: 8px;" class="form-control" placeholder="Search with Mobile or Id" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" style=" background-color:#025E73; width: 97%;border-top-left-radius:0; border-bottom-left-radius: 0;" onclick="searchById()"><i class="fas fa-search"></i>Search</button>
+              <button class="btn" style="margin-right:8px; background-color:#025E73" type="button" onclick="searchById()"><i class="fas fa-search"></i> Search</button>
             </div>
             <select class="form-select" id="Doctor" aria-label="Floating label select example">
               <option selected disabled value="">--Select Doctor--</option>
@@ -41,17 +41,17 @@
 
         <div class="form-floating mb-2">
             <input type="text" class="form-control" id="Name" placeholder="name@example.com">
-            <label for="Name">Full Name <span>*</span></label>
+            <label for="Name"><i class="fas fa-user"></i> Full Name <span>*</span></label>
         </div>
 
-        <div class="form-floating" style="margin-bottom: 2%; width: 95%;">
+        <div class="form-floating mb-2">
             <select class="form-select" id="Gender" aria-label="Floating label select example">
               <option selected disabled value="">--Select--</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="Male"><i class="fa-solid fa-mars"></i> ♂️ Male</option>
+              <option value="Female">♀️ Female</option>
+              <option value="Other">⚧︎ Other</option>
             </select>
-            <label for="Gender">Gender <span>*</span></label>
+            <label for="Gender"> Gender <span>*</span></label>
         </div>
 
         <div class="form-floating mb-2">
@@ -60,31 +60,32 @@
         </div>
         <div class="form-floating mb-2">
             <input type="text" class="form-control" id="Address" placeholder="name@example.com">
-            <label for="Address">Address <span>*</span></label>
+            <label for="Address"><i class="fas fa-map-marker-alt"></i> Address <span>*</span></label>
         </div>
         <div class="form-floating mb-2">
             <input type="text" class="form-control mb2" id="Mobile" placeholder="name@example.com">
-            <label for="Mobile">Mobile No<span>*</span></label>
+            <label for="Mobile"><i class="fas fa-phone"></i> Mobile No<span>*</span></label>
         </div>
         <div class="form-floating mb-2">
           <input type="number" class="form-control" id="Fees" placeholder="name@example.com">
-          <label for="Mobile">Fees<span>*</span></label>
+          <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
         </div>
         
-        <button id="register" class="btn" style="background-color:#025E73; width:25%;" type="submit" value="" onclick="registerPatient()"><i class="fas fa-user-plus"></i> Register</button>
-        <button id="bookAppointment" disabled class="btn btn-success" style="width:47.5%;" type="submit" onclick="bookAppointmentWithId()"><i class="fas fa-calendar-check"></i> Book Appointment</button>
+        <button id="register" class="btn" style="background-color:#025E73;width:30%;" type="submit" value="" onclick="registerPatient()"><i class="fas fa-user-plus"></i> Register</button>
+        <button id="bookAppointment" disabled class="btn btn-success" style="width:30%;" type="submit" onclick="bookAppointmentWithId()"><i class="fas fa-calendar-check"></i> Book Appointment</button>
       </div>
     </section>
+
     <div style="display: block;position: fixed;top: 23%; left: 80%;">
       Last visit date : <span id="lastVisitDate">NA</span>
       <br>
       Last fees paid : <span id="lastFeesPaid">NA</span>
-    </div>
-    <div style="display: block;position: fixed;top: 15%; left: 80%;"></div>
+      </div>
       
-    </div>
+    </body>
     <footer>
-      
+      <div class="text-white text-center"style="background-color: #343a40; padding: 1%;">
+        <h2>The Footer Data will go here</h2>
+      </div>
     </footer>
-</body>
 </html>
