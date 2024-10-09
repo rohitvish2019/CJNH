@@ -195,3 +195,23 @@ module.exports.bookVisitToday = async function(req, res){
         })
     }
 }
+
+module.exports.getPatientById = async function(req, res){
+    try{
+        let patient = await PatientData.findOne({Id:req.params.id});
+        if(patient){
+            return res.status(200).json({
+                patient
+            })
+        }else{
+            return res.status(404).json({
+                message:'No Patient found'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find patient'
+        })
+    }
+}
