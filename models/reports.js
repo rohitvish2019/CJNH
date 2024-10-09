@@ -8,6 +8,7 @@ const Reports = new mongoose.Schema({
     Age:String,
     Address:String,
     Mobile:String,
+    Date:String,
     User:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'

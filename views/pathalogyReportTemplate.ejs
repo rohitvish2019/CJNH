@@ -13,34 +13,18 @@
         .header{
             height: 10%;
             text-align: center;
+            border-bottom: 1px dotted rgb(198, 172, 172);
         }
         .patient-data{
             height: 13%;
-            border: 1px solid blue;
+            
         }
-        .heamatology{
-            height: 27%;
-            border: 1px solid blue;
-        }
-        .biochemisrty{
-            height: 7%;
-            border: 1px solid blue;
-        }
-        .urine-exam{
-            height: 13%;
-            border: 1px solid blue;
-        }
-        .serology{
-            height: 13%;
-            border: 1px solid blue;
-        }
+        
         .notes{
             height: 8%;
-            border: 1px solid blue;
+            
         }
-        .report-div{
-            margin-bottom: 1%;
-        }
+        
         .div3{
             width: 33%;
             height: 60%;
@@ -54,6 +38,41 @@
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 2%;
+        }
+        table{
+            width: 100%;
+            border: 1px solid black;
+            border-collapse: collapse;
+            font-size: large;
+            margin-bottom: 30px;
+        }
+        th, td{
+            text-align: center !important;
+            border: 1px solid black;
+            padding: 3px;
+        }
+        .report-div{
+            margin: 0;
+        }
+        .patient-data{
+            display: flex;
+            margin-top: 5px;
+        }
+        .patient-data div{
+            width: 100%;
+            margin-left: 2px;
+
+        }
+        .patient-heading{
+            display: inline-block;
+            font-weight: bold;
+            width: 130px !important;
+            font-size: large;
+            margin-top: 3px;
+        }
+        .patient-value{
+            font-size: large;
+            margin-top: 3px;
         }
     </style>
 </head>
@@ -73,12 +92,123 @@
                 <div class="div3"></div>
             </div>
         </div>
-        <div class="patient-data report-div"></div>
-        <div class="heamatology report-div">
+        <div class="patient-data report-div">
+            <div>
+                <div>
+                    <label class="patient-heading">Patient ID</label>
+                    <span class="patient-value">Rohit Vishwakarma</span>
+                </div>
+                <div>
+                    <label class="patient-heading">Name</label>
+                    <span class="patient-value">Rohit Vishwakarma</span>
+                </div>
+                <div>
+                    <label class="patient-heading">Age , Gender</label>
+                    <span class="patient-value">Rohit Vishwakarma</span>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label class="patient-heading">Date</label>
+                    <span class="patient-value">Rohit Vishwakarma</span>
+                </div>
+                <div>
+                    <label class="patient-heading">Mobile</label>
+                    <span class="patient-value">Rohit Vishwakarma</span>
+                </div>
+                <div>
+                    <label class="patient-heading">Referred By</label>
+                    <span class="patient-value">Rohit Vishwakarma</span>
+                </div>
+            </div>
+            
         </div>
-        <div class="biochemisrty report-div"></div>
-        <div class="urine-exam report-div"></div>
-        <div class="serology report-div"></div>
+        <div class="heamatology report-div">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">HEAMATOLOGY REPORT</td>
+                    </tr>
+                    <tr>
+                        <th>Test</th>
+                        <th>Result</th>
+                        <th>Normal Range</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i=0;i<8;i++){%>
+                        <tr>
+                            <td>Haemoglobin</td>
+                            <td>11gms</td>
+                            <td>14-18gms%</td>
+                        </tr>
+                    <%}%>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="biochemisrty report-div">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">BIOCHEMISTRY REPORT</td>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Haemoglobin</td>
+                        <td>11gms</td>
+                        <td>14-18gms%</td>
+                    </tr>
+                    <tr>
+                        <td>Haemoglobin</td>
+                        <td>11gms</td>
+                        <td>14-18gms%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="urine-exam report-div">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">URINE EXAMINATION REPORT</td>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <%for(let i=0;i<4;i++){%>
+                        <tr>
+                            <td>Haemoglobin</td>
+                            <td>11gms</td>
+                            <td>14-18gms%</td>
+                        </tr>
+                    <%}%>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="serology report-div">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="3">SEROLOGY REPORT</td>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <%for(let i=0;i<4;i++){%>
+                        <tr>
+                            <td>Haemoglobin</td>
+                            <td>11gms</td>
+                            <td>14-18gms%</td>
+                        </tr>
+                    <%}%>
+                    
+                </tbody>
+            </table>
+        </div>
         <div class="notes report-div"></div>
     </div>
 </body>
