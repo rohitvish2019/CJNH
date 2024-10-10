@@ -1,5 +1,6 @@
 let tests = new Array();
 let counter = 1
+let services = new Array();
 function addTest(){
     let container = document.getElementById('testsBody');
     let rowItem = document.createElement('tr');
@@ -39,7 +40,9 @@ function saveTests(){
             patient
         },  
         type:'Post',
-        success:function(data){},
+        success:function(data){
+            window.location.href='/reports/view/'+data.report_id
+        },
         error:function(err){}
     })
 }
@@ -83,4 +86,27 @@ function autoFillPatients(){
         }
     })
 }
+
+function setRefRange(){
+    let name = document.getElementById('testName').value;
+    getServiceByName(name)
+    
+}
+
+function getServiceByName(name){
+    $.ajax({
+        url:'/reports/getServiceByName/',
+        type:'Get',
+        data:{
+            name
+        },
+        success:function(data){
+            document.getElementById('refRange').value = data.service.RefRange;
+            document.getElementById('category').value = data.service.Category;
+            document.getElementById('testResult').value = ''
+        },
+        error:function(err){}
+    })
+}
+
 

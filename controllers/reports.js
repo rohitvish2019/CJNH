@@ -1,15 +1,35 @@
 const PatientData = require('../models/patients');
 const ReportsData = require('../models/reports');
 const Tracker = require('../models/tracker');
-
+const ServicesData = require('../models/servicesAndCharges')
 
 module.exports.PathalogyHome = async function(req, res){
     try{
         let patient = await PatientData.findById(req.params.id);
-        return res.render('pathalogyHome', {patient})
+        let services = await ServicesData.find({});
+        return res.render('pathalogyHome', {patient, services})
     }catch(err){
         console.log(err);
         return res.render('Error_500')
+    }
+}
+module.exports.addServicesData = async function(req, res){
+    try{
+        let service = await ServicesData.create({
+            Name:req.body.testname,
+            Price:req.body.price,
+            Category:req.body.category,
+            RefRange:req.body.refRange,
+
+        })
+        return res.status(200).json({
+            message:'Test added successfully'
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to add in tests'
+        })
     }
 }
 module.exports.saveReport = async function(req, res){
@@ -17,7 +37,7 @@ module.exports.saveReport = async function(req, res){
     //Itemname$price$category$result
     try{
         let patient=null
-        let Name, Age, Address, Mobile, Id;
+        let Name, Age, Address, Mobile, Id, Gender;
         if(req.body.id){
             patient = await PatientData.findOne({Id:req.body.id});
             if(!patient || patient == null){
@@ -30,11 +50,13 @@ module.exports.saveReport = async function(req, res){
             Address = patient.Address
             Mobile = patient.Mobile
             Id = patient._id
+            Gender = patient.Gender
         }else{
             Name = req.body.patient.Name
             Age = req.body.patient.Age
             Address = req.body.patient.Address
             Mobile = req.body.patient.Mobile,
+            Gender = Gender
             Id = null
         }
         let tracker = await Tracker.findOne({});
@@ -43,6 +65,7 @@ module.exports.saveReport = async function(req, res){
             Patient:Id,
             Name:Name,
             Age:Age,
+            Gender:Gender,
             Address:Address,
             Mobile:Mobile,
             ReportNo:newReportNo,
@@ -72,7 +95,7 @@ module.exports.saveReport = async function(req, res){
 }
 
 
-module.exports.cancelSale = async function(req,res){
+module.exports.cancelReport = async function(req,res){
     try{
         let report = await ReportsData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
         if(report){
@@ -140,9 +163,10 @@ module.exports.getAllReportsByPatient = async function(req, res){
     }
 }
 
-module.exports.viewReport = function(req, res){
+module.exports.viewReport = async function(req, res){
     try{
-        return res.render('pathalogyReportTemplate');
+        let report = await ReportsData.findById(req.params.pid);
+        return res.render('pathalogyReportTemplate', {report});
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -202,6 +226,32 @@ module.exports.getHistoryByDate = async function(req, res){
         console.log(err);
         return res.status(500).json({
             message:'Internal Server Error : Unable to find receipts'
+        })
+    }
+}
+
+module.exports.getAllServices = async function(req, res){
+    try{    
+        let services = await ServicesData.find({});
+        return res.status(200).json({
+            services,
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal server error : Unable to find services'
+        })
+    }
+}
+
+module.exports.getServiceByName = async function(req, res){
+    try{    
+        let service = await ServicesData.findOne({Name:req.query.name});
+        return res.status(200).json({
+            service,
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal server error : Unable to find services'
         })
     }
 }
