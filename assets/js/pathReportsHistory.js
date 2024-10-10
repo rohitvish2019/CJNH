@@ -64,28 +64,20 @@ function getSalesHistoryRange(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.sales.length < 1){
-                document.getElementById("historyBody").innerHTML=
-                `
-                <tr>
-                    <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
-                </tr>
-                `
-                document.getElementById('pagination').innerHTML=``
-                return
-            }
-            if(BillType == 'Medical Bill Ext'){
-                setHistoryOnUiExtMed(data.sales)
-            }else if(BillType == 'Medical Bill'){
-                setHistoryOnUiIntMed(data.sales,data.hostname, data.port, data.protocol)
-            }
-            else{
-                setHistoryOnUi(data.sales,data.hostname, data.port, data.protocol)
-            }
+            showReportOnUI(data.reportsList)
         },
         error:function(err){
             document.getElementById('loader').style.display='none'
-            console.log(err)}
+            console.log(err)
+            document.getElementById("historyBody").innerHTML=
+            `
+            <tr>
+                <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+            </tr>
+            `
+            
+            return
+        }
     })
 }
 function getSalesHistoryDate(){
@@ -109,30 +101,24 @@ function getSalesHistoryDate(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.sales.length < 1){
-                document.getElementById("historyBody").innerHTML=
-                `
-                <tr>
-                    <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
-                </tr>
-                `
-                document.getElementById('tvalue').innerText='Total Amount : 0'
-                document.getElementById('pagination').innerHTML=``
-                return
+            if(data.reportsList.length < 1){
+                
             }
-            if(BillType == 'Medical Bill Ext'){
-                setHistoryOnUiExtMed(data.sales)
-            }else if(BillType == 'Medical Bill'){
-                setHistoryOnUiIntMed(data.sales,data.hostname, data.port, data.protocol)
-            }
-            else{
-                setHistoryOnUi(data.sales,data.hostname, data.port, data.protocol)
-            }
-            
+            showReportOnUI(data.reportsList)    
         },
         error:function(err){
+            console.log(err)
             document.getElementById('loader').style.display='none'
-            console.log(err)}
+            document.getElementById("historyBody").innerHTML=
+            `
+            <tr>
+                <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+            </tr>
+            `
+            
+            return
+            
+        }
     })
 }
 
@@ -145,5 +131,23 @@ function getReportsHistory(){
         getSalesHistoryDate()
     }else if (value == 'byDateRange'){
         getSalesHistoryRange()
+    }
+}
+
+function showReportOnUI(reports){
+    console.log(reports)
+    let i = 0
+    let container = document.getElementById('historyBody');
+    container.innerHTML=``
+    for(let i=0;i<reports.length;i++){
+        let rowItem = document.createElement('tr');
+        rowItem.innerHTML=
+        `
+            <td>${i+1}</td>
+            <td>${reports[i].Name}</td>
+            <td><a target='_blank' href='/reports/view/${reports[i]._id}'>${reports[i].ReportNo}</a></td>
+            <td>${reports[i].Date}</td>
+            `
+        container.appendChild(rowItem)
     }
 }
