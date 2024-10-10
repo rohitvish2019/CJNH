@@ -1,24 +1,30 @@
-.doctor-icon {
-  margin-right: 20px;
+header{
+  height: 100px;
+  text-align: center;
+  background-color:#343a40!important;
+  border-bottom: 2px dotted #BFB78F;
+}
+
+.logo{
+  height: 90px;
+  width: 10%;
 }
 
 ul{
     list-style: none;
   }
+
   .btn{
     color: white;
     font-weight: bold;
+    font-size: small;
   }
   
   .menu-items{
     display: flex;
     justify-content: flex-start;
   }
-  header{
-    height: 140px;
-    background-color:#343a40!important;
-    border-bottom: 2px dotted #BFB78F;
-  }
+
   .dropdown{
     margin-right: .5%; 
     margin-left: .5%;
@@ -26,8 +32,12 @@ ul{
   .dropdown-menu.show{
     background-color: rgb(235, 238, 238);
   }
- 
-  .logo{
-    height: 90px;
-    width: 120px !important;
+  
+  .logout-btn{
+  margin-left: 10%;
   }
+
+  .doctor-icon {
+    margin-right: 20px;
+  }
+  

@@ -1,64 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments</title>
+  <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    td button{
+    td button {
       width: 100px;
     }
-    
-    tr td, tr th{
-      border: 1px dotted rebeccapurple;
+
+    tr td,
+    tr th {
+      text-align: center;
+      border: 1px dotted;
       border-top: none;
     }
-    .bg{
-      background-color: #374752 !important;
+
+    .bg {
+      background-color: #025E73 !important;
       border-right: 1px dotted black;
       color: white !important;
     }
-    tbody{
+
+    tbody {
       overflow: auto;
     }
   </style>
 </head>
+
 <body>
-    <header>
-      <%-include('_header')%>
-    </header>
-    <table class="table">
-        <thead>
-          <tr>
-            <th class="bg" scope="col">#</th>
-            <th class="bg" scope="col">Name</th>
-            <th class="bg" scope="col">Age</th>
-            <th class="bg" scope="col">Gender</th>
-            <th class="bg" scope="col">Address</th>
-            <th class="bg" scope="col">Fees</th>
-            <th class="bg">Open</th>
-            <th class="bg">Pathalogy</th>
-            <th class="bg" style="text-align: center;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-            <%for(let i=0;i<visits.length;i++){%>
-                <tr id="<%=visits[i]._id%>" >
-                    <th scope="row"><%=i+1%></th>
-                    <td><%=visits[i].Patient.Name%></td>
-                    <td><%=visits[i].Patient.Age%></td>
-                    <td><%=visits[i].Patient.Gender%></td>
-                    <td><%=visits[i].Patient.Address%></td>
-                    <td><%=visits[i].Fees%></td>
-                    <td><a href="/patients/newVisit/<%=visits[i].Patient._id%>">Open Visit</a></td>
-                    <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>
-                    <td style="display: flex; justify-content: center;">
-                      <button class="btn btn-warning" id="<%=visits[i]._id%>_koh" onclick="keepOnHold('<%=visits[i]._id%>')">Hold</button>
-                      <button style="display: none;" class="btn btn-success" id="<%=visits[i]._id%>_rea" onclick="reActivate('<%=visits[i]._id%>')">Activate</button>
-                    </td>
-                </tr>
-            <%}%>
+  <header>
+    <%-include('_header')%>
+  </header>
+  <table class="table table-hover ">
+    <caption> List of Appointments</caption>
+    <thead>
+      <tr>
+        <th class="bg" scope="col">#</th>
+        <th class="bg" scope="col"><i class="fas fa-user"></i> Name</th>
+        <th class="bg" scope="col">Age</th>
+        <th class="bg" scope="col"><i class="fa-solid fa-venus-mars"></i> Gender</th>
+        <th class="bg" scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
+        <th class="bg" scope="col">₹ Fees</th>
+        <th class="bg"><i class="fa-solid fa-calendar-plus"></i> Open</th>
+        <th class="bg"><i class="fa-solid fa-syringe"></i> Pathalogy</th>
+        <th class="bg">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%for(let i=0;i<visits.length;i++){%>
+      <tr id="<%=visits[i]._id%>">
+        <th scope="row"><%=i+1%></th>
+        <td><%=visits[i].Patient.Name%></td>
+        <td><%=visits[i].Patient.Age%></td>
+        <td><%=visits[i].Patient.Gender%></td>
+        <td><%=visits[i].Patient.Address%></td>
+        <td><%=visits[i].Fees%></td>
+        <td><a href="/patients/newVisit/<%=visits[i].Patient._id%>">Open Visit</a></td>
+        <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>
+        <td>
+          <button class="btn btn-danger" id="<%=visits[i]._id%>_koh"
+            onclick="keepOnHold('<%=visits[i]._id%>')">Hold</button>
+          <button style="display: none;" class="btn btn-success" id="<%=visits[i]._id%>_rea"
+            onclick="reActivate('<%=visits[i]._id%>')">Activate</button>
+        </td>
+      </tr>
+      <%}%>
         </tbody>
       </table>
       

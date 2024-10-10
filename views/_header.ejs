@@ -1,26 +1,34 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js" integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+    integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+    integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"
+    integrity="sha512-TPh2Oxlg1zp+kz3nFA0C5vVC6leG/6mm1z9+mA81MI5eaUVqasPLO8Cuk4gMF4gUfP5etR73rgU/8PNMsSesoQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="/css/header.css">
 </head>
 <style>
-  li a{
+  li a {
     font-weight: bold !important;
     color: rgb(11, 80, 42) !important;
   }
 </style>
 <header>
-  <div class="text-center text-white py-4 d-flex justify-content-between align-items-center">
-  
+  <div class="text-center text-white py-1 d-flex justify-content-between align-items-center ">
+
     <div class="logo">
       <img src="/images/logo-og-wbg.png" alt="" srcset="" height="100%" width="100%">
     </div>
 
     <div>
-      <h2 style="font-weight: bolder !important;text-align: center;color: rgb(255, 255, 255); ">Dr. Chanda Jain Nursing Home</h2>
+      <h4 style="font-weight: bolder !important;text-align: center;color: rgb(255, 255, 255); ">Dr. Chanda Jain Nursing
+        Home</h4>
       <div class="menu-items">
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -34,20 +42,20 @@
             <li><a class="dropdown-item" href="/patients/admitted/active">Show Admitted</a></li>
           </ul>
         </div>
-        
-        
-          <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Purchases
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/purchases/home">New Purchase</a></li>
-              <li><a class="dropdown-item" href="/purchases/history">Purchase History</a></li>
-              <li></li>
-            </ul>
-          </div>
-        
-        
+
+
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Purchases
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/purchases/home">New Purchase</a></li>
+            <li><a class="dropdown-item" href="/purchases/history">Purchase History</a></li>
+            <li></li>
+          </ul>
+        </div>
+
+
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Receipts
@@ -56,42 +64,45 @@
             <li><a class="dropdown-item" href="/receipts/newMedBill">New Medical bill</a></li>
             <li><a class="dropdown-item" href="/receipts/home">Generate Other Receipts</a></li>
             <li><a class="dropdown-item" href="/reports/home">Generate Pathalogy Report</a></li>
-            <li><a class="dropdown-item" target="_blank" href="/static/discharge_sheet.pdf">Discharge Sheet(Blank)</a></li>
+            <li><a class="dropdown-item" target="_blank" href="/static/discharge_sheet.pdf">Discharge Sheet(Blank)</a>
+            </li>
           </ul>
         </div>
-        
-          <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Inventories
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="/purchases/invetoryManager">Inventory Manager</a></li>
-              <li><a class="dropdown-item" href="/sales/History/home">Sales History</a></li>
-            </ul>
-          </div>
-        
-          
+
+        <div class="dropdown">
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Inventories
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/purchases/invetoryManager">Inventory Manager</a></li>
+            <li><a class="dropdown-item" href="/sales/History/home">Sales History</a></li>
+          </ul>
+        </div>
+
+
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Users
           </button>
           <ul class="dropdown-menu">
-            
+
             <li><a class="dropdown-item" href="/user/showAll">Manage Users</a></li>
-            
-            <li><a class="dropdown-item" href="/user/myprofile">Change password</a></li>          
+
+            <li><a class="dropdown-item" href="/user/myprofile">Change password</a></li>
           </ul>
         </div>
-        
+
         <div class="logout-btn">
-          <a href="/user/logout" class="btn btn-warning ">Logout</a>
+          <a href="/user/logout" class="btn btn-danger">Logout</a>
         </div>
+
       </div>
     </div>
     <div class="doctor-icon">
-      <i class="fas fa-user-md fa-3x"></i>
-  </div>
+      <i class="fas fa-user-md fa-2x"></i>
+    </div>
   </div>
 </header>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>

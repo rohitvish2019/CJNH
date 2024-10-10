@@ -1,10 +1,11 @@
-let inputData = ['Name','Gender','Age','Address','Mobile','Fees', 'Doctor'];
-function registerPatient(){
+let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor'];
+
+function registerPatient() {
     let data = {}
-     
-    for(let i=0;i<inputData.length;i++){
+
+    for (let i = 0; i < inputData.length; i++) {
         data[inputData[i]] = document.getElementById(inputData[i]).value;
-        if(document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' ){
+        if (document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '') {
             new Noty({
                 theme: 'relax',
                 text: inputData[i] + ' is mandatory',
@@ -16,10 +17,10 @@ function registerPatient(){
         }
     }
     $.ajax({
-        url:'/patients/addVisit',
-        type:'POST',
-        data:data,
-        success:function(data){
+        url: '/patients/addVisit',
+        type: 'POST',
+        data: data,
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: data.message,
@@ -27,23 +28,26 @@ function registerPatient(){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            for(let i=0;i<inputData.length;i++){
-                document.getElementById(inputData[i]).value=''
+            for (let i = 0; i < inputData.length; i++) {
+                document.getElementById(inputData[i]).value = ''
             }
-            window.open('/appointments/receipt/'+data.appointment._id)
-            window.location.href='/patients/new'
+
+            window.open('/appointments/receipt/' + data.appointment._id)
+            window.location.href = '/patients/new'
         },
-        error:function(err){console.log(err.responseText)}
+        error: function (err) {
+            console.log(err.responseText)
+        }
     });
 }
 
 
-function searchById(){
+function searchById() {
     let id = document.getElementById('patientID').value;
     $.ajax({
-        url:'/patients/get/'+id,
-        type:'Get',
-        success:function(data){
+        url: '/patients/get/' + id,
+        type: 'Get',
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: 'Patient data setup done',
@@ -51,19 +55,19 @@ function searchById(){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            for(let i=0;i<inputData.length;i++){
-                if(document.getElementById(inputData[i])){
+            for (let i = 0; i < inputData.length; i++) {
+                if (document.getElementById(inputData[i])) {
                     document.getElementById(inputData[i]).value = data.patient[inputData[i]];
                 }
             }
             let visitDate = data.visit[0].createdAt.toString().split('T')[0].split('-');
-            
-            document.getElementById('lastFeesPaid').innerText=data.visit[0].Fees
-            document.getElementById('lastVisitDate').innerText=visitDate[2]+'-'+visitDate[1]+'-'+visitDate[0]
-            document.getElementById('register').setAttribute('disabled','true');
+
+            document.getElementById('lastFeesPaid').innerText = data.visit[0].Fees
+            document.getElementById('lastVisitDate').innerText = visitDate[2] + '-' + visitDate[1] + '-' + visitDate[0]
+            document.getElementById('register').setAttribute('disabled', 'true');
             document.getElementById('bookAppointment').removeAttribute('disabled')
         },
-        error:function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: 'No pateint found, Please check again or register new',
@@ -71,24 +75,25 @@ function searchById(){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            for(let i=0;i<inputData.length;i++){
-                if(document.getElementById(inputData[i])){
+            for (let i = 0; i < inputData.length; i++) {
+                if (document.getElementById(inputData[i])) {
                     document.getElementById(inputData[i]).value = '';
                 }
             }
-            document.getElementById('lastFeesPaid').innerText='NA'
-            document.getElementById('lastVisitDate').innerText='NA'
-            
-            document.getElementById('bookAppointment').setAttribute('disabled','true');
+            document.getElementById('patientID').value ='';
+            document.getElementById('lastFeesPaid').innerText = 'NA'
+            document.getElementById('lastVisitDate').innerText = 'NA'
+
+            document.getElementById('bookAppointment').setAttribute('disabled', 'true');
             document.getElementById('register').removeAttribute('disabled');
         }
     })
 }
 
 
-function bookAppointmentWithId(){
+function bookAppointmentWithId() {
     let fees = document.getElementById('Fees').value;
-    if(!fees || fees == ''){
+    if (!fees || fees == '') {
         new Noty({
             theme: 'relax',
             text: 'Fees is mandatory',
@@ -99,15 +104,15 @@ function bookAppointmentWithId(){
         return
     }
     $.ajax({
-        url:'/patients/visits/bookToday',
-        type:'Post',
-        data:{
-            PatientId:document.getElementById('patientID').value,
-            date:null,
+        url: '/patients/visits/bookToday',
+        type: 'Post',
+        data: {
+            PatientId: document.getElementById('patientID').value,
+            date: null,
             Fees: document.getElementById('Fees').value,
             Doctor: document.getElementById('Doctor').value,
         },
-        success:function(data){
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: data.message,
@@ -115,10 +120,17 @@ function bookAppointmentWithId(){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            window.open('/appointments/receipt/'+data.appointment._id)
-            window.location.href='/patients/new'
+            for (let i = 0; i < inputData.length; i++) {
+                if (document.getElementById(inputData[i])) {
+                    document.getElementById(inputData[i]).value = '';
+                }
+            }
+            document.getElementById('patientID').value ='';
+
+            window.open('/appointments/receipt/' + data.appointment._id)
+            window.location.href = '/patients/new'
         },
-        error: function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: 'Unable to add visit',
