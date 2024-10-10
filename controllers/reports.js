@@ -48,6 +48,7 @@ module.exports.saveReport = async function(req, res){
             ReportNo:newReportNo,
             Items: req.body.tests,
             Doctor:req.body.patient.Doctor,
+            Date:new Date().toISOString().split('T')[0]
             //User:req.user._id,   Need to save this id after login setup
             //Username:req.user.Name   Need to save this id after login setup
         });
@@ -145,5 +146,62 @@ module.exports.viewReport = function(req, res){
     }catch(err){
         console.log(err);
         return res.render('Error_500')
+    }
+}
+
+module.exports.pathologyHistoryHome = function(req, res){
+    try{
+        return res.render('pathReportsHistory')
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
+
+module.exports.getHistoryByRange = async function(req, res){
+    try{
+        let reportsList = await ReportsData.find({
+            $and: [
+                {createdAt:{$gte :new Date(req.query.startDate)}},
+                {createdAt: {$lte : new Date(req.query.endDate)}},
+            ]
+        }).populate('Patient').sort("createdAt");
+        if(reportsList.length > 0){
+            return res.status(200).json({
+                message:reportsList.length+' reports found',
+                reportsList
+            })
+        }else{
+            return res.status(404).json({
+                message:'No reports found'
+            })
+        }
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find receipts'
+        })
+    }
+}
+
+module.exports.getHistoryByDate = async function(req, res){
+    try{
+        let reportsList = await ReportsData.find({
+            Date:req.query.selectedDate
+        }).populate('Patient').sort("createdAt");
+        if(reportsList.length > 0){
+            return res.status(200).json({
+                message:reportsList.length+' reports found',
+                reportsList
+            })
+        }else{
+            return res.status(404).json({
+                message:'No reports found'
+            })
+        }
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find receipts'
+        })
     }
 }

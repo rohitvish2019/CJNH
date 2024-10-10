@@ -3,16 +3,18 @@ let counter = 1
 function addTest(){
     let container = document.getElementById('testsBody');
     let rowItem = document.createElement('tr');
-    let testName, testResult, refRange;
+    let testName, testResult, refRange,testCategory;
     testName = document.getElementById('testName').value
     testResult = document.getElementById('testResult').value
     refRange = document.getElementById('refRange').value
-    tests.push(testName+'$'+testResult+'$'+refRange);
+    testCategory = document.getElementById('category').value
+    tests.push(testName+'$'+testResult+'$'+refRange+'$'+testCategory);
     rowItem.innerHTML=
     `   <td>${counter}</td>
         <td>${testName}</td>
         <td>${refRange}</td>
         <td>${testResult}</td>
+        <td>${testCategory}</td>
         <td>delete</td>
     `
     container.appendChild(rowItem);
