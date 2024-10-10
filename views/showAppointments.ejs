@@ -12,7 +12,6 @@
     td button {
       width: 100px;
     }
-
     tr td,
     tr th {
       text-align: center;
@@ -29,13 +28,24 @@
     tbody {
       overflow: auto;
     }
+    .loader{
+      position: fixed;
+      top: 35%;
+      left: 48%;
+      display: none;
+    }
   </style>
 </head>
 
 <body>
   <header>
     <%-include('_header')%>
+    <%-include('_loader')%>
   </header>
+  <div style="display: flex;justify-content: flex-end; padding-right: 5%;">
+    <input type="checkbox" name="" id="ShowHideDisabled" onchange="getAppointmentsToday()">&nbsp;&nbsp; Show Disabled
+  </div>
+  
   <table class="table table-hover ">
     <caption> List of Appointments</caption>
     <thead>
@@ -48,10 +58,11 @@
         <th class="bg" scope="col">₹ Fees</th>
         <th class="bg"><i class="fa-solid fa-calendar-plus"></i> Open</th>
         <th class="bg"><i class="fa-solid fa-syringe"></i> Pathalogy</th>
+        <th class="bg"><i class="fa-solid"></i>Disable</th>
         <th class="bg">Action</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="tableBody">
       <%for(let i=0;i<visits.length;i++){%>
       <tr id="<%=visits[i]._id%>">
         <th scope="row"><%=i+1%></th>
@@ -63,6 +74,11 @@
         <td><a href="/patients/newVisit/<%=visits[i].Patient._id%>">Open Visit</a></td>
         <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>
         <td>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('<%=visits[i]._id%>')" role="switch" id="checkbox_<%=visits[i]._id%>" checked>
+          </div>
+        </td>
+        <td>
           <button class="btn btn-danger" id="<%=visits[i]._id%>_koh"
             onclick="keepOnHold('<%=visits[i]._id%>')">Hold</button>
           <button style="display: none;" class="btn btn-success" id="<%=visits[i]._id%>_rea"
@@ -72,18 +88,6 @@
       <%}%>
         </tbody>
       </table>
-      
-      <script>
-        function keepOnHold(id){
-          document.getElementById(id +'_rea').style.display='block'
-          document.getElementById(id+'_koh').style.display='none'
-        }
-        
-        function reActivate(id){
-          console.log("Activating "+ id)
-          document.getElementById(id+'_rea').style.display='none'
-          document.getElementById(id +'_koh').style.display='block'
-        }
-      </script>
+      <script src="/js/showAppointments.js"></script>
 </body>
 </html>

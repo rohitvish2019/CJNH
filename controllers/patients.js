@@ -76,8 +76,23 @@ module.exports.addVisitAndPatient = async function(req, res){
 module.exports.getAppointmentsToday = async function(req, res){
     try{
         let date = new Date().toISOString().split('T')[0];
-        let visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true}).populate('Patient');
-        return res.render('showAppointments',{visits});
+        let visits;
+        console.log(req.query);
+        if(req.query.status == 'true'){
+            visits = await VisitData.find({Visit_date:date, isCancelled:false}).populate('Patient');
+        }else{
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true}).populate('Patient');
+        }
+            
+        if(req.xhr){
+            console.log('Its an xhr request')
+            return res.status(200).json({
+                visits
+            })
+        }else{
+            return res.render('showAppointments',{visits});
+        }
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -115,7 +130,12 @@ module.exports.getAppointmentsByDate = async function(req, res){
     try{
         //Date formart to be fixed to handle all types of formats
         let date = req.query.date;
-        let visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true}).populate('Patient');
+        let visits;
+        if(req.query.status == 'true'){
+            visits = await VisitData.find({Visit_date:date,isCancelled:false}).populate('Patient');
+        }else{
+            visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true}).populate('Patient');
+        }
         return res.status(200).json({
             message: visits.length + ' Visits fetched',
             visits
@@ -194,6 +214,20 @@ module.exports.bookVisitToday = async function(req, res){
         console.log(err);
         return res.status(500).json({
             message:'Internal server error : Unable to add visit'
+        })
+    }
+}
+
+module.exports.changeVisitStatus = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
+        return res.status(200).json({
+            message:'Status changed'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server Error : Unable to change status'
         })
     }
 }

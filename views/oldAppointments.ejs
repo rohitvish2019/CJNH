@@ -27,7 +27,8 @@
   <div class="search-div">
     <input id="selectedDate" range style="width: 15%; height: 75%; font-size: larger; margin-top: .3%" type="date"
       name="" id="">
-    <button onclick="getAppointments()" class="btn" style="background-color:#025E73; width:15%;"><i class="fas fa-search"></i> Search</button>
+    <button onclick="getAppointments()" class="btn" style="background-color:#025E73; width:15%;margin-right: 25px;"><i class="fas fa-search"></i> Search</button>
+    <input type="checkbox" name="" id="ShowHideDisabled" onchange="getAppointments()" style="margin-right: 5px;">Show Disabled
   </div>
   <table class="table">
     <thead>
@@ -38,6 +39,7 @@
         <th scope="col">Gender</th>
         <th scope="col">Address</th>
         <th>Fees</th>
+        <th>Status</th>
         <th>Prescription</th>
         <th>Medical Bill</th>
       </tr>
