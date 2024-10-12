@@ -62,7 +62,7 @@
                             <th>Item name</th>
                             <th>Price</th>
                             <th>Quantity</th>
-                            <th>Total Price</th>
+                            <th>Notes</th>
                             <th>Delete</th>
                             <!--
                             <th>Del.</th>
@@ -86,7 +86,7 @@
                 <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm" >Item Name</span>
                 </div>
-                <input style="text-transform: uppercase;" type="text" id="Item" class="form-control" list="medicineList" onchange="setPrice()">
+                <input style="text-transform: uppercase;" type="text" id="Item" class="form-control" list="medicineList" onchange="setPriceAndNotes()">
                 <datalist id="medicineList">
                     <%for(let i=0;i<services.length;i++){%>
                         <option value="<%=services[i].Name%>"><%=services[i].Name%></option>
@@ -104,6 +104,12 @@
                   <span class="input-group-text" id="inputGroup-sizing-sm">Quantity</span>
                 </div>
                 <input type="number" id="Quantity" class="form-control" value="1">
+            </div>
+            <div class="input-group input-group-sm mb-1">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Notes</span>
+                </div>
+                <input type="text" id="Notes" class="form-control" >
             </div>
             <div style="width: 100%; margin-top: 10%;">
                 <button style="width: 60%; margin-left: 21%; margin-right: 19%;" class="btn btn-success" onclick="addItems()">Add</button>

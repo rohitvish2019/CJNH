@@ -61,7 +61,7 @@ module.exports.addSales = async function(req, res){
             Gender:Gender,
             Address:Address,
             PatiendID:Id,
-            type:'PathologyBill',
+            type:'Pathology',
             ReportNo:"PATH"+PathologyBillNo,
             Patient:Patient,
             //UserName:req.user.Name,
@@ -87,10 +87,22 @@ module.exports.addSales = async function(req, res){
 module.exports.getBillById = async function(req, res){
     let bill 
     try{
-        bill = await SalesData.findById(req.params.id);
-        if(bill){
+        console.log(req.params.id);
+        bill = await SalesData.findOne({_id:req.params.id});
+        
+        if(bill && req.xhr){
+            return res.status(200).json({
+                bill
+            })
+        }else if(bill && !req.xhr){
             return res.render('billTemplate',{bill})
-        }else{
+        }
+        else if(req.xhr && (!bill || bill == null)){
+            return res.status(404).json({
+                message:'No bill found'
+            })
+        }
+        else{
             return res.render('Error_404')
         } 
     }catch(err){
@@ -127,8 +139,9 @@ module.exports.cancelSale = async function(req,res){
 module.exports.getBillsByDate = async function(req, res){
     try{
         //date to be fixed to handle all date formats
-        let date = req.body.date;
-        let billsList = await SalesData.find({BillDate:date, isCancelled:false, isValid:true});
+        let date = req.query.selectedDate;
+        console.log(req.query)
+        let billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
         if(billsList.length > 0){
             return res.status(200).json({
                 message:'Bills fetched',
@@ -153,7 +166,7 @@ module.exports.getBillsByDateRange = async function(req, res){
             $and: [
                 {createdAt:{$gte :new Date(req.query.startDate)}},
                 {createdAt: {$lte : new Date(req.query.endDate)}},
-                {isCancelled:false, isValid:true}
+                {type:req.query.BillType,isCancelled:false, isValid:true}
             ]
         })
         if(billsList.length > 0){

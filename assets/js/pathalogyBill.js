@@ -1,4 +1,4 @@
-function setPrice(){
+function setPriceAndNotes(){
     let name = document.getElementById('Item').value;
     $.ajax({
         url:'/reports/getServiceByName/',
@@ -8,6 +8,7 @@ function setPrice(){
         },
         success:function(data){
             document.getElementById('Price').value = data.service.Price == undefined ?'':data.service.Price
+            document.getElementById('Notes').value = data.service.Price == undefined ?'':data.service.Notes
         },
         error:function(err){}
     }) 
@@ -20,7 +21,7 @@ function addItems(){
     let itemName = document.getElementById('Item').value
     let itemPrice = document.getElementById('Price').value
     let quantity = document.getElementById('Quantity').value
-    let totalPrice = +itemPrice * +quantity
+    let Notes = document.getElementById('Notes').value == undefined ? '':document.getElementById('Notes').value
     let rowItem = document.createElement('tr');
     rowItem.innerHTML=
     `
@@ -29,12 +30,12 @@ function addItems(){
             <td>${itemName}</td>
             <td>${itemPrice}</td>
             <td>${quantity}</td>
-            <td>${totalPrice}</td>
+            <td>${Notes}</td>
             <td>delete</td>
         </tr>
     `
     container.appendChild(rowItem)
-    Items.push(itemName+'$'+quantity+'$'+itemPrice);
+    Items.push(itemName+'$'+quantity+'$'+itemPrice+'$'+Notes);
     document.getElementById('Item').value=''
     document.getElementById('Price').value=''
 }

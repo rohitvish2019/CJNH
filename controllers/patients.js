@@ -205,6 +205,7 @@ module.exports.bookVisitToday = async function(req, res){
         
     })
     let tracker = await Tracker.findOne({});
+    
     if(!patient || patient == null){
         return res.status(404).json({
             message:'Invalid Patient Id'

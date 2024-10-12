@@ -13,6 +13,7 @@ function changeInputs(){
 function getSalesHistoryRange(){
     let startDate = document.getElementById('startDate').value
     let endDate = document.getElementById('endDate').value
+    let status = document.getElementById('status').value
     if(!startDate || startDate == null || startDate == ''){
         new Noty({
             theme: 'relax',
@@ -61,10 +62,15 @@ function getSalesHistoryRange(){
         data:{
             startDate,
             endDate,
+            status
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            showReportOnUI(data.reportsList)
+            if(status == 'pending'){
+                showReportOnUIPending(data.reportsList)
+            }else{
+                showReportOnUI(data.reportsList) 
+            }
         },
         error:function(err){
             document.getElementById('loader').style.display='none'
@@ -82,6 +88,7 @@ function getSalesHistoryRange(){
 }
 function getSalesHistoryDate(){
     let selectedDate = document.getElementById('selectedDate').value
+    let status = document.getElementById('status').value
     if(!selectedDate || selectedDate == null || selectedDate == ''){
         new Noty({
             theme: 'relax',
@@ -98,13 +105,20 @@ function getSalesHistoryDate(){
         type:'Get',
         data:{
             selectedDate,
+            status
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
             if(data.reportsList.length < 1){
                 
             }
-            showReportOnUI(data.reportsList)    
+            if(status == 'pending'){
+                showReportOnUIPending(data.reportsList)
+            }else{
+                showReportOnUI(data.reportsList) 
+            }
+              
+             
         },
         error:function(err){
             console.log(err)
@@ -115,9 +129,7 @@ function getSalesHistoryDate(){
                 <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
             </tr>
             `
-            
             return
-            
         }
     })
 }
@@ -146,6 +158,23 @@ function showReportOnUI(reports){
             <td>${i+1}</td>
             <td>${reports[i].Name}</td>
             <td><a target='_blank' href='/reports/view/${reports[i]._id}'>${reports[i].ReportNo}</a></td>
+            <td>${reports[i].Date}</td>
+            `
+        container.appendChild(rowItem)
+    }
+}
+
+function showReportOnUIPending(reports){
+    let i = 0
+    let container = document.getElementById('historyBody');
+    container.innerHTML=``
+    for(let i=0;i<reports.length;i++){
+        let rowItem = document.createElement('tr');
+        rowItem.innerHTML=
+        `
+            <td>${i+1}</td>
+            <td>${reports[i].Name}</td>
+            <td><a target='_blank' href='/reports/home/${reports[i].Patient}/?bill=${reports[i]._id}'>${reports[i].ReportNo}</a></td>
             <td>${reports[i].Date}</td>
             `
         container.appendChild(rowItem)

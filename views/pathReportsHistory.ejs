@@ -47,18 +47,18 @@
                 <label for=""><b>Report Date : </b>&nbsp;</label>
                 <input type="date" name="" id="selectedDate">
             </div>
-
+            <div style="margin-top: 2px;margin-right: 2%;">
+                <label for=""><b>Billing Status : </b>&nbsp;</label>
+                <select name="Billing Status" id="status" style="height: 70%;">
+                    <option value="generated" selected>Generated</option>
+                    <option value="pending">Not Generated</option>
+                </select>
+            </div>
             <button class="btn btn-success"
                 onclick="getReportsHistory()">Search</button>
             <b style="margin-left: 3%;" id="tvalue"></b>
             
-            <div style="margin-top: 2px;">
-                <label for=""><b>Billing Status : </b>&nbsp;</label>
-                <select name="Billing Status" id="filterType" onchange="changeInputs()" style="height: 70%;">
-                    <option value="byBillGenerated" selected>Generated</option>
-                    <option value="byBillNotGenerated">Not Generated</option>
-                </select>
-            </div>
+            
             
             <div>
                 <b id="tvalue"></b>

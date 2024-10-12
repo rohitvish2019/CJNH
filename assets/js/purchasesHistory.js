@@ -28,7 +28,7 @@ function showPurchaseHistory(purchases){
             <td>${purchases[i].Batch}</td>
             <td>${purchases[i].Price}</td>
             <td>${purchases[i].Quantity}</td>
-            <td>Entry Date</td>
+            <td>${purchases[i].Bought_Date}</td>
         `
         container.appendChild(rowItem);
     }

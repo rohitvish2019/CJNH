@@ -20,20 +20,20 @@ module.exports.savePurchase = async function(req, res){
         let purchases = req.body.purchases;
         for(let i=0;i<purchases.length;i++){
             let item = purchases[i].split('$');
+            let expDate = item[3];
+            if(expDate == '')
             await InventoriesData.create({
                 Name:item[0],
                 Batch:item[1],
                 Price:item[2],
-                Expirydate:new Date(item[3]),
-                AvailableQuantity:item[4]
+                AvailableQuantity:item[3]
             });
 
             await PurchaseData.create({
                 Name:item[0],
                 Batch:item[1],
                 Price:item[2],
-                Expirydate:new Date(item[3]),
-                Quantity:item[4],
+                Quantity:item[3],
                 Bought_Date:new Date().toISOString().split('T')[0]
             })
         }

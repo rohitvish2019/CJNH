@@ -1,2 +1,12 @@
 Entry date is not showing in purchase history page.
 Pathology history showing no data
+
+
+//bill types to setup
+
+{ selectedDate: '2024-10-12', BillType: 'Registration' }
+{ selectedDate: '2024-10-12', BillType: 'Pathology' }
+{ selectedDate: '2024-10-12', BillType: 'Medical' }
+{ selectedDate: '2024-10-12', BillType: 'operation' }
+{ selectedDate: '2024-10-12', BillType: 'hospital' }
+{ selectedDate: '2024-10-12', BillType: 'other' }

@@ -11,6 +11,7 @@ function keepOnHold(id){
     document.getElementById(id +'_koh').style.display='block'
   }
   function enableDisableAppointMent(id){
+    document.getElementById('ShowHideDisabled').setAttribute('checked', 'true')
     let status = document.getElementById('checkbox_'+id).checked;
     document.getElementById('loader').style.display='block'
     $.ajax({

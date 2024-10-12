@@ -8,7 +8,7 @@ module.exports.PathalogyHome = async function(req, res){
     try{
         let patient = await PatientData.findById(req.params.id);
         let services = await ServicesData.find({});
-        return res.render('pathalogyHome', {patient, services})
+        return res.render('pathalogyHome', {patient, services, billId:req.query.bill});
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -197,6 +197,7 @@ module.exports.getHistoryByRange = async function(req, res){
     try{
         let status = req.query.status;
         let reportsList;
+        console.log(req.query.status)
         if(status == 'generated'){
             reportsList = await ReportsData.find({
                 $and: [
@@ -219,6 +220,7 @@ module.exports.getHistoryByRange = async function(req, res){
                 $and: [
                     {createdAt:{$gte :new Date(req.query.startDate)}},
                     {createdAt: {$lte : new Date(req.query.endDate)}},
+                    {type:'Pathology'}
                 ]
             }).populate('Patient').sort("createdAt");
             if(reportsList.length > 0){
@@ -247,6 +249,7 @@ module.exports.getHistoryByRange = async function(req, res){
 
 module.exports.getHistoryByDate = async function(req, res){
     let status = req.query.status
+    console.log(req.body.status)
     try{
         let reportsList
         if(status == 'generated'){
@@ -265,7 +268,8 @@ module.exports.getHistoryByDate = async function(req, res){
             }
         }else if(status == 'pending'){
             reportsList = await SalesData.find({
-                Date:req.query.selectedDate
+                BillDate:req.query.selectedDate,
+                type:'Pathology'
             }).populate('Patient').sort("createdAt");
             if(reportsList.length > 0){
                 return res.status(200).json({

@@ -39,6 +39,29 @@ function saveTests(){
         Mobile : document.getElementById('mobile').value,
         Doctor : document.getElementById('docName').value,
     }
+    
+    console.log('TEST')
+    console.log(patient)
+    if(patient.Name == '' || patient.Age == '' || patient.Gender == '' || patient.Address == '' || patient.Mobile == '' || patient.Doctor == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'All Patient details are mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if(tests.length < 1){
+        new Noty({
+            theme: 'relax',
+            text: 'Can not save empty report',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
     $.ajax({
         url:'/reports/save',
         data:{
@@ -48,7 +71,8 @@ function saveTests(){
         },  
         type:'Post',
         success:function(data){
-            window.open('/reports/view/'+data.report_id)
+            //window.open('/reports/view/'+data.report_id);
+            //window.location.href='/reports/new/home'
     
         },
         error:function(err){}
@@ -116,5 +140,36 @@ function getServiceByName(name){
         error:function(err){}
     })
 }
+/*
+its too complicated
 
+function setSavedItems(){
+    let id = document.getElementById('billId').value;
+    $.ajax({
+        url:'/sales/bill/view/'+id,
+        type:'GET',
+        success:function(data){
+            tests = data.bill.Items;
+            let container = document.getElementById('testsBody');
+            container.innerHTML=``;
+            for(let i=0;i<tests.length;i++){
+                let rowItem = document.createElement('tr');
+                let item = items[i].split('$')
+                rowItem.innerHTML=
+                `
+                    <td>${i+1}</td>
+                    <td>${item[0]}</td>
+                    <td>${item[0]}</td>
+                    <td>${item[0]}</td>
+                    <td>${item[0]}</td>
+                    <td>${item[0]}</td>
+                `
+            }
+        },
+        error:function(err){console.log(err)}
+    })
+}
+
+setSavedItems()
+*/
 

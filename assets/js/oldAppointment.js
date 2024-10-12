@@ -41,13 +41,13 @@ function setAppointmentsOnUi(appointments){
                 </div>
             </td>
             <td><a target="_blank" href="/patients/getOldPrescription/${appointments[i].Patient._id}?date=${date}">Prescription</a></td>
-            <td><a target="_blank" href="/visits/oldMedBill/${appointments[i].Patient._id}?date=${date}">Medical Bill</a></td>
         `
         parent.appendChild(child);
     }
 }
 
 function enableDisableAppointMent(id){
+    document.getElementById('ShowHideDisabled').setAttribute('checked', 'true')
     let status = document.getElementById('checkbox_'+id).checked;
     document.getElementById('loader').style.display='block'
     $.ajax({

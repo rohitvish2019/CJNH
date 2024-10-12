@@ -5,7 +5,8 @@ const Services = new mongoose.Schema({
     RefRange:String,
     Category:String,
     Type:String,
-    PaidTo:String
+    PaidTo:String,
+    Notes:String
 },
 {
     timestamps:true
