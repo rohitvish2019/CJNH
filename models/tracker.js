@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Trackers = new mongoose.Schema({
     patientId:Number,
-    ReportNo:Number
+    ReportNo:Number,
+    PathologyBillNo:Number
 },
 {
     timestamps:true

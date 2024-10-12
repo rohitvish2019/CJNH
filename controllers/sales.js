@@ -1,17 +1,35 @@
-const BillsData = require('../models/bills')
+const ServicesData = require('../models/servicesAndCharges');
+const SalesData = require('../models/sales')
 const PatientData = require('../models/patients');
-const UsersData = require('../models/users')
-
+const Tracker = require('../models/tracker')
 module.exports.salesHistoryHome = function(req, res){
-    return res.render('salesHistory');
+    try{
+        return res.render('salesHistory');
+    }catch(err){
+        return res.render('Error_500')
+    }
+    
 }
+
+module.exports.newPathologyBill = async function(req, res){
+    try{
+        let services = await ServicesData.find({}, 'Name');
+        return res.render('pathologyBill', {services})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
+
+
+
 module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
-    //ItemName$Price$Quantity$Notes
+    //ItemName$Quantity$Price$Notes
     try{
-        let Name, Age, Address, Mobile, Id
-        if(req.body.PatientId){
-            let patient = await PatientData.findById(req.body.PatientId);
+        console.log(req.body.Items)
+        let Name, Age, Address, Mobile, Id, Gender
+        if(req.body.id){
+            let patient = await PatientData.findOne({Id:req.body.id});
             if(!patient || patient == null){
                 return res.status(400).json({
                     message:'Invalid patient details'
@@ -21,30 +39,38 @@ module.exports.addSales = async function(req, res){
             Age = patient.Age,
             Address = patient.Address,
             Mobile = patient.Mobile,
-            Id = patient._id
+            Id = patient.Id
+            Gender = patient.Gender
         }else{
             Name = req.body.Name,
             Age = req.body.Age,
             Address = req.body.Address,
             Mobile = req.body.Mobile,
+            Gender = req.body.Gender
             Id = null
         }
-        let bill = await BillsData.create({
-            Type:req.body.Type,
+        let tracker = await Tracker.findOne({});
+        let PathologyBillNo = +tracker.PathologyBillNo + 1
+        let sale = await SalesData.create({
             Patient:Id,
             Name:Name,
             Age:Age,
             Mobile:Mobile,
+            Gender:Gender,
             Address:Address,
-            UserName:req.user.Name,
-            User:req.user._id,
+            PatiendID:Id,
+            type:'PathologyBill',
+            ReportNo:"PATH"+PathologyBillNo,
+            //UserName:req.user.Name,
+            //User:req.user._id,
             BillDate:new Date().toISOString().split('T')[0],
             Total:req.body.Total,
-            Items:req.body.Items
+            Items:req.body.Items,
         })
+        await tracker.updateOne({PathologyBillNo:PathologyBillNo});
     return res.status(200).json({
         message:'Bill created successfully',
-        Bill_id : bill._id
+        Bill_id : sale._id
     })
     }catch(err){
         console.log(err)
@@ -53,6 +79,24 @@ module.exports.addSales = async function(req, res){
         })
     }
 }
+
+
+module.exports.getBillById = async function(req, res){
+    let bill 
+    try{
+        bill = await SalesData.findById(req.params.id);
+        if(bill){
+            return res.render('billTemplate',{bill})
+        }else{
+            return res.render('Error_404')
+        } 
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
+/*
+Unused functions
 
 module.exports.cancelSale = async function(req,res){
     try{
@@ -74,28 +118,7 @@ module.exports.cancelSale = async function(req,res){
     }
 }
 
-module.exports.getBillById = async function(req, res){
-    let bill 
-    try{
-        bill = await BillsData.findById(req.body.id);
-        if(bill){
-            return res.status(200).json({
-                message:'Bill fetched successfully',
-                bill,
-            })
-        }else{
-            return res.status(404).json({
-                message:'No bill found by id',
-                bill,
-            })
-        } 
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to fetch bill',
-        })
-    }
-}
+
 
 
 module.exports.getBillsByDate = async function(req, res){
@@ -173,3 +196,5 @@ module.exports.getAllBillsByUser = async function(req, res){
         })
     }
 }
+
+*/

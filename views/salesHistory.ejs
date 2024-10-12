@@ -39,19 +39,17 @@
                 <div>
                     <label for=""><b>Bill type : </b>&nbsp;</label>
                     <select name="" id="billType" onchange="changeInputs()" style="height: 70%;">
-                        <option value="Medical Bill" selected>Medical Bill</option>
-                        <option value="Registration Fees">Registration Fees</option>
-                        <option value="Generated Receipt">Other Receipts</option>
+                        <option value="Registration Fees" selected>Appointment Fees</option>
+                        <option value="Generated Receipt"> Pathology Bill</option>
+                        <option value="Medical Bill">Medical Bill</option>
                         <option value="Medical Bill Ext">Medical Bill (External)</option>
                     </select>
                 </div>
                 <button style="height: 80%;margin-left: 2%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>
                 <b style="margin-left: 3%;" id="tvalue"></b>
-            
             <div>
                 <b id="tvalue"></b>
             </div>
-            
         </div>
         <div class="table-body" style="overflow: auto;">
             <table>
@@ -69,67 +67,14 @@
                 <%-include('_loader')%>
                 <tbody id="historyBody">
                     <!-- Table rows will be populated dynamically -->
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
                 </tbody>
             </table>
         </div>
-        <div id="returnsPopup" style="height: 80%;width: 60%;border: 1px solid green; position: fixed;top: 15%;left: 20%; background-color: antiquewhite;display: none;">
-            <div class="popup-head" style="height: 8%; border: 1px solid red;"></div>
-            <div class="popup-content" style="height: 84%; border: 1px solid red;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Medicine</th>
-                            <th>Price</th>
-                            <th>Max Qty</th>
-                            <th>Return Qty</th>
-                        </tr>
-                    </thead>
-                    <tbody id="returnsTable">
-                        <tr>
-                            
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="popup-foot" style="height: 8%;display: flex;justify-content: center;">
-                <button class="btn btn-danger" style="margin-left: 5%; margin-right: 5%;width: 15%;" onclick="closePopup()">Cancel</button>
-                <button class="btn btn-success" style="margin-left: 5%; margin-right: 5%; width: 15%;">Save</button>
-            </div>
-        </div>
-        <div id="cancellationPopup" style="padding-left: 1%;padding-right: 1%;">
-            <div style="height: 15%;width: 100%;display: flex;justify-content: flex-end;">
-                <button class="btn" style="background-color: transparent;" onclick="closeCancellationPopup()">
-                    <img src="/images/cross.svg" height="100%" width="100%" alt="">
-                </button>
-            </div>
-            <div>
-                <label for="" style="margin-top: .5%;" id="cancelInfo">Cancelling amount 300 for Karuna</label>
-                <label for="" style="margin-top: 2%;">Please enter cancellation reason below</label>
-                <input hidden type="text" id="cancellationID">
-                <textarea style="margin-top: 5%;" rows="2" cols="43" name="" id="cancellationReason"></textarea>
-            </div>
-            <div>
-                <button class="btn btn-danger" style="width: 95%;margin-top: 2%;" onclick="cancelSales()">Cancel Now</button>
-            </div>
-        </div>
-        <div class="pagination-box">
-            <ul class="pagination" id="pagination">
-                <!-- Pagination buttons will be populated dynamically -->
-            </ul>
-        </div>
+        
+        
+        
     </div>
     
-<script src="/js/sales.js"></script>
+<script src="/js/salesHistory.js"></script>
 </body>
 </html>

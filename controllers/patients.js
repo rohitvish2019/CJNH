@@ -1,6 +1,7 @@
 const PatientData = require('../models/patients');
 const VisitData = require('../models/visits');
-const Tracker = require('../models/tracker')
+const Tracker = require('../models/tracker');
+const Sales = require('../models/sales');
 module.exports.test= function(req, res){
     return res.render('test');
 }
@@ -27,7 +28,7 @@ module.exports.oldAppointmentsHome = function(req, res){
 module.exports.addVisitAndPatient = async function(req, res){
     try{
         let patient;
-        let tracker;
+        let tracker = await Tracker.findOne({});
         let newPatientId = -1 
         if(req.body.id){
             patient = await PatientData.findById(req.body.id);
@@ -39,7 +40,6 @@ module.exports.addVisitAndPatient = async function(req, res){
             }
 
         }else{
-            tracker = await Tracker.findOne({});
             newPatientId = tracker.patientId+1
             patient = await PatientData.create({
                 Name:req.body.Name,
@@ -62,6 +62,19 @@ module.exports.addVisitAndPatient = async function(req, res){
         });
         
         await patient.updateOne({$push:{Visits:visit._id}});
+        await Sales.create({
+            ReportNo:'APMT'+tracker.AppointmentNumber,
+            Name:req.body.Name,
+            Age:req.body.Age,
+            Address:req.body.Address,
+            Mobile:req.body.Mobile,
+            Doctor:req.body.Doctor,
+            Gender:req.body.Gender,
+            PatiendID:newPatientId,
+            Items:['Appointment$1$'+req.body.Fees],
+            type:'Appointment'
+
+        })
         return res.status(200).json({
             message:'Patient added'
         })
@@ -191,6 +204,7 @@ module.exports.bookVisitToday = async function(req, res){
         isCancelled:false, isValid:true
         
     })
+    let tracker = await Tracker.findOne({});
     if(!patient || patient == null){
         return res.status(404).json({
             message:'Invalid Patient Id'
@@ -207,6 +221,18 @@ module.exports.bookVisitToday = async function(req, res){
         });
         patient.Visits.push(visit._id);
         await patient.save();
+        await Sales.create({
+            ReportNo:'APMT'+tracker.AppointmentNumber,
+            Name:patient.Name,
+            Age:patient.Age,
+            Address:patient.Address,
+            Mobile:patient.Mobile,
+            Doctor:patient.Doctor,
+            Gender:patient.Gender,
+            PatiendID:patient.Id,
+            Items:['Appointment$1$'+req.body.Fees],
+            type:'Appointment'
+        })
         return res.status(200).json({
             message:'Visit Scheduled'
         })

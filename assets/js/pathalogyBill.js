@@ -1,35 +1,46 @@
-let tests = new Array();
-let counter = 1
-let services = new Array();
-function addTest(){
-    let container = document.getElementById('testsBody');
+function setPrice(){
+    let name = document.getElementById('Item').value;
+    $.ajax({
+        url:'/reports/getServiceByName/',
+        type:'Get',
+        data:{
+            name
+        },
+        success:function(data){
+            document.getElementById('Price').value = data.service.Price == undefined ?'':data.service.Price
+        },
+        error:function(err){}
+    }) 
+}
+let Items = new Array();
+let counter = 0
+function addItems(){
+    
+    let container = document.getElementById('itemsTableBody');
+    let itemName = document.getElementById('Item').value
+    let itemPrice = document.getElementById('Price').value
+    let quantity = document.getElementById('Quantity').value
+    let totalPrice = +itemPrice * +quantity
     let rowItem = document.createElement('tr');
-    let testName
-    let testResult = ''
-    let refRange = ''
-    let testCategory = 'Others';
-    testName = document.getElementById('testName').value
-    testResult = document.getElementById('testResult').value
-    refRange = document.getElementById('refRange').value
-    testCategory = document.getElementById('category').value
-    tests.push(testName+'$'+testResult+'$'+refRange+'$'+testCategory);
     rowItem.innerHTML=
-    `   <td>${counter}</td>
-        <td>${testName}</td>
-        <td>${refRange}</td>
-        <td>${testResult}</td>
-        <td>${testCategory}</td>
-        <td>delete</td>
     `
-    container.appendChild(rowItem);
-    counter++;
-    document.getElementById('testName').value=''
-    document.getElementById('testResult').value=''
-    document.getElementById('refRange').value=''
-    document.getElementById('category').value=''
+        <tr>
+            <td>${++counter}</td>
+            <td>${itemName}</td>
+            <td>${itemPrice}</td>
+            <td>${quantity}</td>
+            <td>${totalPrice}</td>
+            <td>delete</td>
+        </tr>
+    `
+    container.appendChild(rowItem)
+    Items.push(itemName+'$'+quantity+'$'+itemPrice);
+    document.getElementById('Item').value=''
+    document.getElementById('Price').value=''
 }
 
-function saveTests(){
+
+function saveBill(){
     let id = document.getElementById('patientId').value;
     let patient = {
         Name : document.getElementById('patName').value,
@@ -40,15 +51,15 @@ function saveTests(){
         Doctor : document.getElementById('docName').value,
     }
     $.ajax({
-        url:'/reports/save',
-        data:{
-            tests,
-            id,
-            patient
-        },  
+        url:'/sales/saveBill',
         type:'Post',
+        data:{
+            Items,
+            patient,
+            id
+        },
         success:function(data){
-            window.location.href='/reports/view/'+data.report_id
+            window.location.href='/sales/bill/view/'+data.Bill_id
         },
         error:function(err){}
     })
@@ -93,27 +104,3 @@ function autoFillPatients(){
         }
     })
 }
-
-function setRefRange(){
-    let name = document.getElementById('testName').value;
-    getServiceByName(name)
-    
-}
-
-function getServiceByName(name){
-    $.ajax({
-        url:'/reports/getServiceByName/',
-        type:'Get',
-        data:{
-            name
-        },
-        success:function(data){
-            document.getElementById('refRange').value = data.service.RefRange == undefined ?'':data.service.RefRange
-            document.getElementById('category').value = data.service.Category == undefined ? '':data.service.Category;
-            document.getElementById('testResult').value = ''
-        },
-        error:function(err){}
-    })
-}
-
-

@@ -86,7 +86,7 @@ module.exports.updateMyPassword = async function(req, res){
     }
 }
 
-module.exports.updateMyProfile = async function(req, res){
+module.exports.updateProfile = async function(req, res){
     try{
         let user = await Users.findByIdAndUpdate(req.body.id,{
             Name:req.body.Name,

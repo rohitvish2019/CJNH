@@ -13,6 +13,16 @@ module.exports.PathalogyHome = async function(req, res){
         return res.render('Error_500')
     }
 }
+
+module.exports.PathalogyHomeEmpty = async function(req, res){
+    try{
+        let services = await ServicesData.find({});
+        return res.render('pathalogyHomeEmpty', {services})
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
+    }
+}
 module.exports.addServicesData = async function(req, res){
     try{
         let service = await ServicesData.create({

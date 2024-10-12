@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.bill-container {
+    width: 730px;
+    height: 532px;
+}
+
+.patient-info{
+    display: flex;
+}
+
+.patient-info table{
+    width: 360px;
+}
+.patient-info td, .patient-info th{
+    text-align: left;
+    padding-left: 6%;
+}
+header {
+    text-align: center;
+}
+.heading{
+    font-size: 26px;
+    font-weight: bolder;
+    display: block;
+    margin-bottom: 8px;
+}
+.sub-heading{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+h1 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #dddddda5;
+}
+
+th, td {
+    padding: 3px;
+    text-align: left;
+}
+
+.total-section {
+    text-align: right;
+    margin-top: 20px;
+}
+
