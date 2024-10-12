@@ -27,7 +27,7 @@ module.exports.addSales = async function(req, res){
     //ItemName$Quantity$Price$Notes
     try{
         console.log(req.body.Items)
-        let Name, Age, Address, Mobile, Id, Gender
+        let Name, Age, Address, Mobile, Id, Gender, Patient
         if(req.body.id){
             let patient = await PatientData.findOne({Id:req.body.id});
             if(!patient || patient == null){
@@ -41,13 +41,15 @@ module.exports.addSales = async function(req, res){
             Mobile = patient.Mobile,
             Id = patient.Id
             Gender = patient.Gender
+            Patient = patient._id
         }else{
             Name = req.body.Name,
             Age = req.body.Age,
             Address = req.body.Address,
             Mobile = req.body.Mobile,
             Gender = req.body.Gender
-            Id = null
+            Id = null,
+            Patient = null
         }
         let tracker = await Tracker.findOne({});
         let PathologyBillNo = +tracker.PathologyBillNo + 1
@@ -61,6 +63,7 @@ module.exports.addSales = async function(req, res){
             PatiendID:Id,
             type:'PathologyBill',
             ReportNo:"PATH"+PathologyBillNo,
+            Patient:Patient,
             //UserName:req.user.Name,
             //User:req.user._id,
             BillDate:new Date().toISOString().split('T')[0],
@@ -118,14 +121,14 @@ module.exports.cancelSale = async function(req,res){
     }
 }
 
-
+*/
 
 
 module.exports.getBillsByDate = async function(req, res){
     try{
         //date to be fixed to handle all date formats
         let date = req.body.date;
-        let billsList = await BillsData.find({BillDate:date, isCancelled:false, isValid:true});
+        let billsList = await SalesData.find({BillDate:date, isCancelled:false, isValid:true});
         if(billsList.length > 0){
             return res.status(200).json({
                 message:'Bills fetched',
@@ -137,6 +140,7 @@ module.exports.getBillsByDate = async function(req, res){
             })
         }
     }catch(err){
+        console.log(err)
         return res.status(500).json({
             message:'Internal Server Error : unable to find bills on specific date'
         })
@@ -144,15 +148,33 @@ module.exports.getBillsByDate = async function(req, res){
 }
 
 module.exports.getBillsByDateRange = async function(req, res){
-    let bills = await BillsData.find({
-        $and: [
-            {createdAt:{$gte :new Date(req.query.startDate)}},
-            {createdAt: {$lte : new Date(req.query.endDate)}},
-            {isCancelled:false, isValid:true}
-        ]
-    })
+    try{
+        let billsList = await SalesData.find({
+            $and: [
+                {createdAt:{$gte :new Date(req.query.startDate)}},
+                {createdAt: {$lte : new Date(req.query.endDate)}},
+                {isCancelled:false, isValid:true}
+            ]
+        })
+        if(billsList.length > 0){
+            return res.status(200).json({
+                message:'Bills fetched',
+                billsList
+            })
+        }else{
+            return res.status(404).json({
+                message:'No bills found on specified dates'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : unable to find bills on specific dates'
+        })
+    }
 }
 
+/*
 module.exports.getAllBillsByPatient = async function(req, res){
     try{
         let bills = await BillsData.find({Patient:req.body.PatientId});

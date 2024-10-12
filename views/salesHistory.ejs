@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medicine Inventory</title>
+<title>Sales History</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,10 +39,12 @@
                 <div>
                     <label for=""><b>Bill type : </b>&nbsp;</label>
                     <select name="" id="billType" onchange="changeInputs()" style="height: 70%;">
-                        <option value="Registration Fees" selected>Appointment Fees</option>
-                        <option value="Generated Receipt"> Pathology Bill</option>
-                        <option value="Medical Bill">Medical Bill</option>
-                        <option value="Medical Bill Ext">Medical Bill (External)</option>
+                        <option value="Registration" selected>Appointment Fees</option>
+                        <option value="Pathology"> Pathology Bill</option>
+                        <option value="Medical">Medical Bill</option>
+                        <option value="operation">Operation Charges</option>
+                        <option value="hospital">Hospital Charges</option>
+                        <option value="other">Others</option>
                     </select>
                 </div>
                 <button style="height: 80%;margin-left: 2%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>
@@ -52,27 +54,25 @@
             </div>
         </div>
         <div class="table-body" style="overflow: auto;">
-            <table>
+            <table class="table table-striped table-bordered table-dark">
                 <thead>
-                    <tr>
+                    <tr class="bg">
                         <th>#</th>
-                        <th>Registered Patient</th>
-                        <th>Bill Type</th>
+                        <th>Patient</th>
                         <th>Amount</th>
                         <th>Entry Date</th>
                         <th>Open Bill</th>
+                        <th>Doctor</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <%-include('_loader')%>
                 <tbody id="historyBody">
                     <!-- Table rows will be populated dynamically -->
+                     
                 </tbody>
             </table>
         </div>
-        
-        
-        
     </div>
     
 <script src="/js/salesHistory.js"></script>

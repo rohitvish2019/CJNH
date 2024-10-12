@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Sales = new mongoose.Schema({
+    Patient:mongoose.Schema.Types.ObjectId,
     Name:String,
     Age:Number,
     Address:String,

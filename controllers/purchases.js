@@ -1,3 +1,4 @@
+const { json } = require('express');
 const InventoriesData = require('../models/inventories');
 const PurchaseData = require('../models/purchases');
 module.exports.home = async function(req, res){
@@ -15,26 +16,37 @@ module.exports.purchaseHistoryHome = function(req, res){
 }
 
 module.exports.savePurchase = async function(req, res){
-    let purchases = req.body.purchases;
-    for(let i=0;i<purchases.length;i++){
-        let item = purchases[i].split('$');
-        await InventoriesData.create({
-            Name:item[0],
-            Batch:item[1],
-            Price:item[2],
-            Expirydate:new Date(item[3]),
-            AvailableQuantity:item[4]
-        });
+    try{
+        let purchases = req.body.purchases;
+        for(let i=0;i<purchases.length;i++){
+            let item = purchases[i].split('$');
+            await InventoriesData.create({
+                Name:item[0],
+                Batch:item[1],
+                Price:item[2],
+                Expirydate:new Date(item[3]),
+                AvailableQuantity:item[4]
+            });
 
-        await PurchaseData.create({
-            Name:item[0],
-            Batch:item[1],
-            Price:item[2],
-            Expirydate:new Date(item[3]),
-            Quantity:item[4],
-            Bought_Date:new Date().toISOString().split('T')[0]
+            await PurchaseData.create({
+                Name:item[0],
+                Batch:item[1],
+                Price:item[2],
+                Expirydate:new Date(item[3]),
+                Quantity:item[4],
+                Bought_Date:new Date().toISOString().split('T')[0]
+            })
+        }
+        return res.status(200).json({
+            message:'Purchase added'
         })
-    } 
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to add purchase'
+        })
+    }
+     
 }
 
 module.exports.getPurchaseHistory = async function(req, res){

@@ -1,7 +1,8 @@
 const PatientData = require('../models/patients');
 const ReportsData = require('../models/reports');
 const Tracker = require('../models/tracker');
-const ServicesData = require('../models/servicesAndCharges')
+const ServicesData = require('../models/servicesAndCharges');
+const SalesData = require('../models/sales')
 
 module.exports.PathalogyHome = async function(req, res){
     try{
@@ -151,7 +152,8 @@ module.exports.getReportById = async function(req, res){
     }
 }
 */
-
+/*
+Unused
 module.exports.getAllReportsByPatient = async function(req, res){
     try{
         let reports = await ReportsData.find({Patient:req.body.PatientId});
@@ -172,7 +174,7 @@ module.exports.getAllReportsByPatient = async function(req, res){
         })
     }
 }
-
+*/
 module.exports.viewReport = async function(req, res){
     try{
         let report = await ReportsData.findById(req.params.pid);
@@ -193,22 +195,48 @@ module.exports.pathologyHistoryHome = function(req, res){
 
 module.exports.getHistoryByRange = async function(req, res){
     try{
-        let reportsList = await ReportsData.find({
-            $and: [
-                {createdAt:{$gte :new Date(req.query.startDate)}},
-                {createdAt: {$lte : new Date(req.query.endDate)}},
-            ]
-        }).populate('Patient').sort("createdAt");
-        if(reportsList.length > 0){
-            return res.status(200).json({
-                message:reportsList.length+' reports found',
-                reportsList
-            })
+        let status = req.query.status;
+        let reportsList;
+        if(status == 'generated'){
+            reportsList = await ReportsData.find({
+                $and: [
+                    {createdAt:{$gte :new Date(req.query.startDate)}},
+                    {createdAt: {$lte : new Date(req.query.endDate)}},
+                ]
+            }).populate('Patient').sort("createdAt");
+            if(reportsList.length > 0){
+                return res.status(200).json({
+                    message:reportsList.length+' reports found',
+                    reportsList
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No reports found'
+                })
+            }
+        }else if(status == 'pending'){
+            reportsList = await SalesData.find({
+                $and: [
+                    {createdAt:{$gte :new Date(req.query.startDate)}},
+                    {createdAt: {$lte : new Date(req.query.endDate)}},
+                ]
+            }).populate('Patient').sort("createdAt");
+            if(reportsList.length > 0){
+                return res.status(200).json({
+                    message:reportsList.length+' reports found',
+                    reportsList
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No reports found'
+                })
+            }
         }else{
             return res.status(404).json({
                 message:'No reports found'
             })
         }
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -218,15 +246,37 @@ module.exports.getHistoryByRange = async function(req, res){
 }
 
 module.exports.getHistoryByDate = async function(req, res){
+    let status = req.query.status
     try{
-        let reportsList = await ReportsData.find({
-            Date:req.query.selectedDate
-        }).populate('Patient').sort("createdAt");
-        if(reportsList.length > 0){
-            return res.status(200).json({
-                message:reportsList.length+' reports found',
-                reportsList
-            })
+        let reportsList
+        if(status == 'generated'){
+            reportsList = await ReportsData.find({
+                Date:req.query.selectedDate
+            }).populate('Patient').sort("createdAt");
+            if(reportsList.length > 0){
+                return res.status(200).json({
+                    message:reportsList.length+' reports found',
+                    reportsList
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No reports found'
+                })
+            }
+        }else if(status == 'pending'){
+            reportsList = await SalesData.find({
+                Date:req.query.selectedDate
+            }).populate('Patient').sort("createdAt");
+            if(reportsList.length > 0){
+                return res.status(200).json({
+                    message:reportsList.length+' reports found',
+                    reportsList
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No reports found'
+                })
+            }
         }else{
             return res.status(404).json({
                 message:'No reports found'

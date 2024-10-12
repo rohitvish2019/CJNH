@@ -33,7 +33,7 @@ function getSalesHistoryDate(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.sales.length < 1){
+            if(data.billsList.length < 1){
                 document.getElementById("historyBody").innerHTML=
                 `
                 <tr>
@@ -44,15 +44,8 @@ function getSalesHistoryDate(){
                 document.getElementById('pagination').innerHTML=``
                 return
             }
-            if(BillType == 'Medical Bill Ext'){
-                setHistoryOnUiExtMed(data.sales)
-            }else if(BillType == 'Medical Bill'){
-                setHistoryOnUiIntMed(data.sales,data.hostname, data.port, data.protocol)
-            }
-            else{
-                setHistoryOnUi(data.sales,data.hostname, data.port, data.protocol)
-            }
-            
+            showHistory(data.billsList)
+
         },
         error:function(err){
             document.getElementById('loader').style.display='none'
@@ -125,7 +118,7 @@ function getSalesHistoryRange(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.sales.length < 1){
+            if(data.billsList.length < 1){
                 document.getElementById("historyBody").innerHTML=
                 `
                 <tr>
@@ -135,17 +128,29 @@ function getSalesHistoryRange(){
                 document.getElementById('pagination').innerHTML=``
                 return
             }
-            if(BillType == 'Medical Bill Ext'){
-                setHistoryOnUiExtMed(data.sales)
-            }else if(BillType == 'Medical Bill'){
-                setHistoryOnUiIntMed(data.sales,data.hostname, data.port, data.protocol)
-            }
-            else{
-                setHistoryOnUi(data.sales,data.hostname, data.port, data.protocol)
-            }
+            showHistory(data.billsList)
         },
         error:function(err){
             document.getElementById('loader').style.display='none'
             console.log(err)}
     })
+}
+
+function showHistory(items){
+    let container = document.getElementById('historyBody');
+    container.innerHTML=``;
+    for(let i=0;i<items.length;i++){
+        let rowItem = document.createElement('tr');
+        rowItem.innerHTML=
+        `
+            <td>${i+1}</td>
+            <td>${items[i].Name}</td>
+            <td></td>
+            <td>${items[i].BillDate}</td>
+            <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
+            <td>${items[i].Doctor}</td>
+            <td>Cancel</td>
+        `
+        container.appendChild(rowItem);
+    }
 }
