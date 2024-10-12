@@ -1,10 +1,5 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #F8F9FA; /* Light Grey */
-    color: #333;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
 }
 
 
@@ -13,16 +8,12 @@ body {
     text-align: center;
 }
 
-h6 {
-    margin-bottom: 5px;
-    text-align: center;
-    color: #333;
-}
 span{
     color: red;
     font-weight: bold;
 }
 #registrationForm {
+    font-size: small;
     max-width: 600px;
     margin: auto;
     background-color:#011F26;
@@ -31,6 +22,8 @@ span{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
     overflow-y: auto;
     margin-top: 2%;
+    max-height: fit-content;
+    max-width: fit-content;
 }
 
 
@@ -41,6 +34,7 @@ label {
 
 input[type="text"], select, input[type="number"], textarea {
     padding-left: 10px;
+    font-size: small;
     box-sizing: border-box;
     font-size: 15px;
 }
@@ -52,7 +46,7 @@ input[type="submit"] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: small;
 }
 
 input[type="submit"]:hover {
@@ -75,6 +69,4 @@ input[type="submit"]:hover {
     }
 }
 
-footer{
-    height: 5%;
-}
+

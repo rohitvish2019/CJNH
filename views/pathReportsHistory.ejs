@@ -6,6 +6,9 @@
 <title>Pathalogy History</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <link rel="stylesheet" href="/css/purchasesHistory.css">
@@ -45,14 +48,15 @@
             </div>
             
         </div>
+   
         <div class="table-body" style="overflow: auto;">
-            <table>
+            <table class="table table-striped table-bordered table-dark text-center">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Patient Name</th>
-                        <th>Report</th>
-                        <th>Date</th>
+                        <th><i class="fas fa-user"></i> Patient Name</th>
+                        <th><i class="fa-solid fa-book-medical"></i> Report</th>
+                        <th><i class="fa-regular fa-calendar"></i> Date</th>
                     </tr>
                 </thead>
                 <%-include('_loader')%>
@@ -62,7 +66,10 @@
             </table>
         </div>
         
+        <style>
         
+        </style>
+
         <div class="pagination-box">
             <ul class="pagination" id="pagination">
                 <!-- Pagination buttons will be populated dynamically -->
