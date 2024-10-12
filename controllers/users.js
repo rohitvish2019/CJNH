@@ -1,4 +1,38 @@
 const Users = require("../models/users")
+module.exports.loginHome = function(req, res){
+    if(req.isAuthenticated()){
+        console.log('You have logged in')
+        return res.redirect('/patients/new')
+    }
+    else{
+        console.log('Unable to authenticate')
+        return res.render('login');
+    }
+    
+}
+module.exports.createSession = async function(req, res){
+    try{
+        return res.redirect('/patients/new');
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
+
+module.exports.logout = function(req, res){
+    try{
+        req.logout(function(err){
+            if(err){
+                console.log(err)
+            return res.redirect('back');
+            }
+        });
+        return res.redirect('/user/login');
+    }catch(err){
+        console.log(err)
+        return res.redirect('back');
+    }
+}
 
 module.exports.addUser = async function(req, res){
     try{

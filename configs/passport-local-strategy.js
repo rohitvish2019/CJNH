@@ -9,9 +9,10 @@ passport.use(new LocalStrategy({
     usernameField: 'email'
     },
     async function(email, password, done){
+        console.log(email+'      '+password)
         console.log('Authenticating the user')
         try{
-            let user = await User.findOne({email: email, isValid:true, isCancelled:false});
+            let user = await User.findOne({email: email, isValid:true});
             if (!user || user.password != password){
                 console.log('Invalid Username/Password');
                 return done(null, false);
