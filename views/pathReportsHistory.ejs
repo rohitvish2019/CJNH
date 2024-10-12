@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pathalogy History</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<link rel="stylesheet" href="/css/purchasesHistory.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathalogy History</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+        integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="/css/purchasesHistory.css">
 </head>
+
 <body>
     <header>
         <%-include('_header')%>
@@ -21,38 +29,47 @@
         <div class="heading">
             <h2>Pathology History</h2>
         </div>
-        <div class="searchElements" style="display: flex; justify-content:flex-start;margin-right: 2%;margin-top: 2%;">
-                <div style="margin-right: 2%;">
-                    <label for=""><b>Filter type : </b>&nbsp;</label>
-                    <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
-                        <option value="byDate" selected>Exact Date</option>
-                        <option value="byDateRange">Date Range</option>
-                    </select>
-                </div>
-                
-                <div id="dateRangeInputs" style="margin-right: 2%;">
-                    <label for=""><b>Report Date Range : </b>&nbsp;</label>
-                    <input type="date" name="" id="startDate">
-                    <input type="date" name="" id="endDate">
-                </div>
-                <div id="dateInput" style="margin-right: 2%;">
-                    <label for=""><b>Report Date : </b>&nbsp;</label>
-                    <input type="date" name="" id="selectedDate">
-                </div>
-                
-                <button style="height: 80%;margin-left: 2%;" class="btn btn-success" onclick="getReportsHistory()">Search</button>
-                <b style="margin-left: 3%;" id="tvalue"></b>
+        <div class="searchElements text-center py-1 d-flex align-items-center">
+            <div style="margin-right: 2%;margin-top: 2px;">
+                <label for=""><b>Filter type : </b>&nbsp;</label>
+                <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
+                    <option value="byDate" selected>Exact Date</option>
+                    <option value="byDateRange">Date Range</option>
+                </select>
+            </div>
+
+            <div id="dateRangeInputs" style="margin-right: 2%;margin-top: 2px;">
+                <label for=""><b>Report Date Range : </b>&nbsp;</label>
+                <input type="date" name="" id="startDate">
+                <input type="date" name="" id="endDate">
+            </div>
+            <div id="dateInput" style="margin-right: 2%; margin-top: 2px;">
+                <label for=""><b>Report Date : </b>&nbsp;</label>
+                <input type="date" name="" id="selectedDate">
+            </div>
+
+            <button class="btn btn-success"
+                onclick="getReportsHistory()">Search</button>
+            <b style="margin-left: 3%;" id="tvalue"></b>
+            
+            <div style="margin-top: 2px;">
+                <label for=""><b>Billing Status : </b>&nbsp;</label>
+                <select name="Billing Status" id="filterType" onchange="changeInputs()" style="height: 70%;">
+                    <option value="byBillGenerated" selected>Generated</option>
+                    <option value="byBillNotGenerated">Not Generated</option>
+                </select>
+            </div>
             
             <div>
                 <b id="tvalue"></b>
             </div>
-            
+
         </div>
-   
+
         <div class="table-body" style="overflow: auto;">
-            <table class="table table-striped table-bordered table-dark text-center">
+            <table class="table table-striped table-bordered text-center">
                 <thead>
-                    <tr>
+                    <tr class="bg">
                         <th>#</th>
                         <th><i class="fas fa-user"></i> Patient Name</th>
                         <th><i class="fa-solid fa-book-medical"></i> Report</th>
@@ -65,9 +82,9 @@
                 </tbody>
             </table>
         </div>
-        
+
         <style>
-        
+
         </style>
 
         <div class="pagination-box">
@@ -76,7 +93,8 @@
             </ul>
         </div>
     </div>
-    
-<script src="/js/pathReportsHistory.js"></script>
+
+    <script src="/js/pathReportsHistory.js"></script>
 </body>
+
 </html>

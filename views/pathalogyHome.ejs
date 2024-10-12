@@ -15,7 +15,7 @@
     </header>
     <div class="main-body">
         <div class="left">
-            <div class="patient-container">
+            <div class="patient-container text-center text-align-center text-white" style=" border:2px solid white; background-color:#343a40;">
                 <div class="patient-data">
                     <label class="patient-data-heading">Name</label>
                     <input class="patient-data-value" id="patName" value="<%=patient.Name%>">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="patient-data">
                     <label class="patient-data-heading">Address</label>
-                    <input class="patient-data-value" id="address" value="<%=patient.Address%>">
+                    <input class="patient-data-value" style="width: auto;height: auto;" id="address" value="<%=patient.Address%>">
                 </div>
                 <div class="patient-data">
                     <label class="patient-data-heading">Mobile</label>
@@ -41,15 +41,15 @@
                     <input class="patient-data-value" id="docName" value="<%=patient.Doctor%>">
                 </div>
 
-                <div class="patient-data" style="width: 23%;border-left: 1px solid black;padding-left: 1%;padding-top: 1%;">
-                    <input style="width:40%;font-size: larger;" type="text" name="" id="patientId" placeholder="Patient Id" value="<%=patient.Id%>">
+                <div class="patient-data-autofill">
+                    <input type="text" name="" id="patientId" placeholder="Patient Id" value="<%=patient.Id%>">
                     <button class="btn btn-success" onclick="autoFillPatients()">Autofill</button>
                 </div>
             </div>
             <div class="addedTests">
                 <table>
                     <thead>
-                        <tr>
+                        <tr class="bg">
                             <th>#</th>
                             <th>Test Name</th>
                             <th>Reference Range</th>
@@ -64,7 +64,7 @@
                 </table>
                 
             </div>
-            <button style="width: 50%;margin-left: 25%;" onclick="saveTests()" class="btn btn-success">Save & Print</button>
+            <button style="margin:20px; width: 50%;margin-left: 25%;" onclick="saveTests()" class="btn btn-success">Save & Print</button>
         </div>
         <div class="right">
             <h2 style="text-align: center;">Add new test</h2>

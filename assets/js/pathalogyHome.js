@@ -48,7 +48,8 @@ function saveTests(){
         },  
         type:'Post',
         success:function(data){
-            window.location.href='/reports/view/'+data.report_id
+            window.open('/reports/view/'+data.report_id)
+    
         },
         error:function(err){}
     })

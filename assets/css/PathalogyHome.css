@@ -11,7 +11,9 @@
 .addedTests{
     height: 78%;
     overflow: auto;
+
 }
+
 tbody{
     max-height: 500px;
     overflow: auto;
@@ -42,16 +44,37 @@ td, th{
 }
 
 .patient-data{
+    margin-top: 10px;
     margin-left: 0.5%;
-    width: 13%;
+    width: auto;
 }
 .patient-data input{
     width: 98%;
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
 }
 .patient-data-heading{
     display: block;
+    font-weight: bold;
     font-size: medium;
 }
+
+.patient-data-autofill{
+    align-items: center;
+    width: auto;
+}
+.patient-data-autofill input{
+    width: 20%; 
+    margin-top: 40px; 
+    text-align: center;
+}
+
+.patient-data-autofill button{
+    margin-bottom: 5px;
+    margin-left: 4px;
+}
+
 .patient-data-value{
     font-size: larger;
     font-weight: 400;   
@@ -60,4 +83,9 @@ td, th{
     display: flex;
     border-bottom: 1px dashed black;
     padding-bottom: 1%;
+}
+.bg th{
+    text-align: center;
+    color: white;
+    background-color:  #025E73;
 }
