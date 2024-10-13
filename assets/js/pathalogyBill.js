@@ -60,6 +60,7 @@ function saveBill(){
             id
         },
         success:function(data){
+            window.open('/sales/bill/pathology')
             window.location.href='/sales/bill/view/'+data.Bill_id
         },
         error:function(err){}

@@ -10,3 +10,7 @@ Pathology history showing no data
 { selectedDate: '2024-10-12', BillType: 'operation' }
 { selectedDate: '2024-10-12', BillType: 'hospital' }
 { selectedDate: '2024-10-12', BillType: 'other' }
+
+AdmissionBill generation
+
+need to add report number on report

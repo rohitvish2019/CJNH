@@ -71,8 +71,8 @@ function saveTests(){
         },  
         type:'Post',
         success:function(data){
-            //window.open('/reports/view/'+data.report_id);
-            //window.location.href='/reports/new/home'
+            window.open('/reports/view/'+data.report_id);
+            window.location.href='/reports/new/home'
     
         },
         error:function(err){}

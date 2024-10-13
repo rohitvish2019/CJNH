@@ -79,7 +79,7 @@ module.exports.saveReport = async function(req, res){
             Gender:Gender,
             Address:Address,
             Mobile:Mobile,
-            ReportNo:newReportNo,
+            ReportNo:'RPT'+newReportNo,
             Items: req.body.tests,
             Doctor:req.body.patient.Doctor,
             Date:new Date().toISOString().split('T')[0]
@@ -185,6 +185,25 @@ module.exports.viewReport = async function(req, res){
     }
 }
 
+
+module.exports.getReportByNumber = async function(req, res){
+    try{
+        let report = await ReportsData.findOne({ReportNo:req.query.reportNo});
+        if(report){
+            return res.status(200).json({
+                report
+            })
+        }else{
+            return res.status(404).json({
+                message:'No report found'
+            })
+        }
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch report'
+        })
+    }
+}
 module.exports.pathologyHistoryHome = function(req, res){
     try{
         return res.render('pathReportsHistory')

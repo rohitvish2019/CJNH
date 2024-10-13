@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Patient = require('./patients');
 const Reports = new mongoose.Schema({
-    ReportNo:Number,
+    ReportNo:String,
     Patient:mongoose.Schema.Types.ObjectId,
     Doctor:String,
     Name:String,

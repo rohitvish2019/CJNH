@@ -1,0 +1,31 @@
+table{
+    width: 50%;
+    border: 1px solid black;
+    display: block;
+}
+textarea{
+    display: block;
+    margin-top: 1% !important;
+}
+
+h4{
+    margin-top: 2% !important;
+    margin-bottom: 1% !important;
+}
+th, td{
+    border: 1px solid black !important;
+    width: 25%;
+    
+}
+td input, th input{
+    border: none !important;
+}
+.treatment-given{
+    display: flex;
+    flex-direction: column;
+}
+
+.treatment-given input{
+    width: 20%;
+    margin-bottom: 10px;
+}

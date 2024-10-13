@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <link rel="stylesheet" href="/css/admittedPatietProfiles.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div class="main-body">
+        <textarea name="" id="" rows="4" cols="50" placeholder="Condition on Admission"></textarea>
+        <textarea name="" id="" rows="4" cols="50"  placeholder="Condition on Discharge"></textarea>
+        <div style="display: flex;">
+            <div>
+                <h4 style="margin-top: 2%;">Tests & Investigation</h4>
+            </div>
+            <input type="text" name="" id="reportNo" placeholder="report number">
+            <button onclick="loadTests()">Load by report number</button>
+            <button>Load defaults</button>
+        </div>
+        
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Test</th>
+                    <th>Normal Range</th>
+                    <th>Result</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%let tests = ['Hb%','Bl gr & Rh','RBS','HIV','HBsAg','TSH','Others']%>
+                <% refRanges = ['12-15','25-55%','1.2mg-5.5mg','','2.5-25%','','']%>
+                <%results = ['11','35%','1.9mg','Negative','25%','','Positive']%>
+                <%for(let i=0;i<7;i++){%>
+                    <tr>
+                        <th><input type="text" value="<%=tests[i]%>"></th>
+                        <td><input type="text" value="<%=refRanges[i]%>"></td>
+                        <td><input type="text" name="" id="" value="<%=results[i]%>"></td>
+                        <td><input type="text" name="" id=""></td>
+                    </tr>
+                <%}%>
+                
+            </tbody>
+        </table>
+        <div style="display: flex;">
+            <div>
+                <h4 style="margin-top: 2%;">Treatment given</h4>
+            </div>
+            <button>Load Defaults</button>
+        </div>
+        
+        <div class="treatment-given" style="margin-top: 1%;">
+            <input type="text" name="" id="" value="I.V Fluids">
+            <input type="text" name="" id="" value="I.V Antibiotic XL 1.5gm iv. 12 hrly">
+            <input type="text" name="" id="" value="I.M Aquagesic 75mg im 8 hrly">
+            <input type="text" name="" id="" value="Tab. Mahacef XL BD x 5 days">
+            <input type="text" name="" id="" value="Tab Camrox D BD x 5 days">
+            <input type="text" name="" id="" value="Symptomatic t/t">
+        </div>
+        <textarea name="" id="" rows="4" cols="50" placeholder="Operative notes"></textarea>
+        <textarea name="" id="" rows="4" cols="50"  placeholder="Baby Notes"></textarea>
+    </div>
+    <div style="display: flex;">
+        <div>
+            <h4 style="margin-top: 2%;">Discharge Prescription</h4>
+        </div>
+        <button>Load Defaults</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Medicine</th>
+                <th>Duration</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%let meds = ['Tab Hepataglobin / Anofer SP','Tab. Maxical / Caly ZM','Tab Limcee / Vit C','Tab Camrox (Pain Reliever)','Cap Alamine M Forte / Amino Rich','Syp. Evict / Eva Q','Powder Prod RD', 'Oint Drez-S']%>
+            <% let durations = ['6 Months','6 Months','15 Days','5 days','15 Days','','','']%>
+            <% let notes = ['1 Tab in Night','1 Tab in afternoon','1 Tab each Morning & Evening','1 Tab each Morning & Evening','1 Tab each Morning & Evening','2 tablespoon in night','1 tablespoon in night with 1 cup milk']%>
+            <%for(let i=0;i<7;i++){%>
+                <tr>
+                    <th><input type="text" value="<%=meds[i]%>"></th>
+                    <td><input type="text" value="<%=durations[i]%>"></td>
+                    <td><input style="width: 100%;" type="text" name="" id="" value="<%=notes[i]%>"></td>
+                </tr>
+            <%}%>
+            
+        </tbody>
+        
+    </table>
+    <textarea name="" id="" rows="4" cols="50"  placeholder="Discharge Advice & Notes"></textarea>
+    <script src="/js/admittedPatientProfile.js"></script>
+</body>
+</html>

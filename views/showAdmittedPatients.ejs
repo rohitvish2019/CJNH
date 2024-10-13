@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+  <style>
+    td button{
+      width: 100px;
+    }
+    
+    tr td, tr th{
+      border: 1px dotted rebeccapurple;
+      border-top: none;
+      font-size: medium;
+    }
+    .bg{
+      background-color: #374752 !important;
+      border-right: 1px dotted black;
+      color: white !important;
+    }
+    tbody{
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+    <header>
+      <%-include('_header')%>
+    </header>
+    <table class="table">
+        <thead style="position: sticky;top: 0;">
+          <tr>
+            <th class="bg" scope="col">#</th>
+            <th class="bg" scope="col">Name</th>
+            <th class="bg" scope="col">Age</th>
+            <th class="bg" scope="col">Gender</th>
+            <th class="bg" scope="col">Address</th>
+            <th class="bg">Mobile</th>
+            <th class="bg">Admission date</th>
+            <th class="bg">Patient Profile</th>
+            <th class="bg">Bill</th>
+            <th class="bg">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <%for(let i=0;i<patients.length;i++){%>
+                <tr id="<%=patients[i]._id%>">
+                  <%if(false){%>
+                    <th style="width: 2%;background-color: #1bdf7359;" scope="row"><%=i+1%></th>
+                    <td style="width: 9%;background-color: #1bdf7359;"><%=patients[i].Name%></td>
+                    <td style="width: 2%;background-color: #1bdf7359;"><%=patients[i].Age%></td>
+                    <td style="width: 3%;background-color: #1bdf7359;"><%=patients[i].Gender%></td>
+                    <td style="width: 10%;background-color: #1bdf7359;"><%=patients[i].Address%></td>
+                    <td style="width: 10%;background-color: #1bdf7359;"><input type="date" name="" id="opdate_<%=patients[i]._id%>" value="<%=patients[i].OperationDate%>"></td>
+                    <td style="padding: 0.2% !important;margin: 0;width: 20%;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="cnh_<%=patients[i]._id%>" rows="8" cols="30"><%=patients[i].Complaint%></textarea></td>
+                    <td style="padding: 0.2% !important;margin: 0;width: 20%;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="opdesc_<%=patients[i]._id%>" rows="8" cols="30"><%=patients[i].OperationDescription%></textarea></td>
+                    <td style="padding: 0.2% !important;margin: 0;width:15% ;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="remarks_<%=patients[i]._id%>" rows="8" cols="18"><%=patients[i].Remarks%></textarea></td>
+                    <td style="width: 9%;background-color: #1bdf7359;" id="<%=patients[i]._id%>">
+                      <button class="btn btn-success" style="margin-top: 3%;" onclick="Save('<%=patients[i]._id%>')">Save</button>
+                      <a href="/patients/dischargeSheet/<%=patients[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+                    </td>
+                    <%}else{%>
+                      <th style="width: 2%;" scope="row"><%=i+1%></th>
+                      <td style="width: 9%;"><%=patients[i].Name%></td>
+                      <td style="width: 2%;"><%=patients[i].Age%></td>
+                      <td style="width: 3%;"><%=patients[i].Gender%></td>
+                      <td style="width: 10%;"><%=patients[i].Address%></td>
+                      <td style="width: 10%;"><%=patients[i].Mobile%></td>
+                      <td style="width: 10%;"><%=String(patients[i].AdmissionDate).substr(4,11)%></td>
+                      <td style="width: 10%;"><a href="/patients/viewAdmitted/<%=patients[i]._id%>">Info</a></td>
+                      <td style="width: 10%;">Admission Bill</td>
+                      <td style="width: 9%;" id="<%=patients[i]._id%>">
+                        <button class="btn btn-primary" style="margin-top: 3%;margin-bottom: 31%;display: none;" onclick="Discharge('<%=patients[i]._id%>')">Discharge</button>
+                        <a href="/patients/dischargeSheet/<%=patients[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+                      </td>
+                    <%}%>
+                    
+                </tr>
+                
+            <%}%>
+        </tbody>
+      </table>
+      
+      <script>
+        function Save(id){
+          let cnh,opdate,opdesc,remarks;
+          cnh = document.getElementById('cnh_'+id).value
+          opdate = document.getElementById('opdate_'+id).value
+          opdesc = document.getElementById('opdesc_'+id).value
+          remarks = document.getElementById('remarks_'+id).value
+          $.ajax({
+              url:'/patients/save/admissionData',
+              data:{id,cnh,opdate,opdesc,remarks},
+              type:'Post',
+              success:function(data){
+                console.log(data)
+                new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+              },
+              error:function(err){console.log(err.responseText)}
+          })
+        }
+        
+        function Discharge(id){
+          let cnh,opdate,opdesc,remarks;
+          cnh = document.getElementById('cnh_'+id).value
+          opdate = document.getElementById('opdate_'+id).value
+          opdesc = document.getElementById('opdesc_'+id).value
+          remarks = document.getElementById('remarks_'+id).value
+          $.ajax({
+              url:'/patients/discharge/',
+              data:{id},
+              type:'Post',
+              success:function(data){
+                new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+              },
+              error:function(err){console.log(err.responseText)}
+          })
+        }
+      </script>
+</body>
+</html>

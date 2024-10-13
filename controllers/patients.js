@@ -2,6 +2,7 @@ const PatientData = require('../models/patients');
 const VisitData = require('../models/visits');
 const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
+const AdmittedPatients = require('../models/admittedPatients')
 module.exports.test= function(req, res){
     return res.render('test');
 }
@@ -258,25 +259,71 @@ module.exports.changeVisitStatus = async function(req, res){
         })
     }
 }
-/*
-duplicate methode, need to remove
-module.exports.getPatientById = async function(req, res){
+
+module.exports.IPDpatientRegistration = function(req, res){
     try{
-        let patient = await PatientData.findOne({Id:req.params.id});
-        if(patient){
-            return res.status(200).json({
-                patient
-            })
-        }else{
-            return res.status(404).json({
-                message:'No Patient found'
-            })
-        }
+        return res.render('IPDRegistration');
     }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to find patient'
-        })
+        return res.render('Error_500');
+    }
+    
+}
+
+module.exports.admitPatient = async function(req, res){
+    let id;
+    try{
+          id = await Tracker.findOne({});
+    }catch(err){
+          return res.status(500).json({
+                message:'Unable to generate patient ID'
+          })
+    }
+    try{
+          let patient = await AdmittedPatients.create(req.body);
+          let newId = Number(id.AdmissionNo) + 1
+          await id.updateOne({AdmissionNo:newId})
+          await patient.updateOne({AdmissionNo:newId});
+          return res.status(200).json({
+                message:'Patient Admitted'
+          })
+    }catch(err){
+          console.log(err)
+          return res.status(500).json({
+                message:'Unable to admit patient'
+          })
     }
 }
-    */
+
+module.exports.showAdmitted = async function(req, res){
+    try{
+          let patients = await AdmittedPatients.find({}).sort([['createdAt',-1]]);
+          return res.render('showAdmittedPatients',{patients})
+    }catch(err){
+          console.log(err)
+          return res.render('Error_500')
+    }
+    
+}
+
+module.exports.admittedPatientProfile = function(req, res){
+    try{
+        return res.render('admittedPatientProfile')
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
+function getSixHourTimeframes(startDate, startTime, endDate, endTime) {
+    // Combine the date and time into full Date objects
+    const startDateTime = new Date(`${startDate}T${startTime}`);
+    const endDateTime = new Date(`${endDate}T${endTime}`);
+    console.log(startDateTime)
+    console.log(endDateTime)
+    // Calculate the total difference in milliseconds
+    const timeDiff = endDateTime - startDateTime;
+    
+    // Convert the difference to hours (1 hour = 3,600,000 milliseconds)
+    const hoursDiff = timeDiff / (1000 * 60 * 60);
+    
+    // Return the number of 6-hour timeframes (rounding down)
+    return Math.floor(hoursDiff / 6);
+}
