@@ -1,15 +1,15 @@
 const express = require('express');
 const Router = express.Router();
 const reportsController = require('../controllers/reports');
-Router.get('/home/:id', reportsController.PathalogyHome);
-Router.get('/new/home', reportsController.PathalogyHomeEmpty)
-Router.post('/save', reportsController.saveReport);
-Router.get('/view/:pid', reportsController.viewReport);
-Router.get('/history/home', reportsController.pathologyHistoryHome);
-Router.get('/getHistoryByRange', reportsController.getHistoryByRange);
-Router.get('/getHistoryByDate', reportsController.getHistoryByDate);
-Router.get('/getAllServices', reportsController.getAllServices);
-Router.get('/getServiceByName', reportsController.getServiceByName);
-Router.get('/getByReportNumber', reportsController.getReportByNumber);
-
+const passport = require('../configs/passport-local-strategy')
+Router.get('/home/:id', passport.checkAuthentication, reportsController.PathalogyHome);
+Router.get('/new/home', passport.checkAuthentication, reportsController.PathalogyHomeEmpty)
+Router.post('/save', passport.checkAuthentication, reportsController.saveReport);
+Router.get('/view/:pid', passport.checkAuthentication, reportsController.viewReport);
+Router.get('/history/home', passport.checkAuthentication, reportsController.pathologyHistoryHome);
+Router.get('/getHistoryByRange', passport.checkAuthentication, reportsController.getHistoryByRange);
+Router.get('/getHistoryByDate', passport.checkAuthentication, reportsController.getHistoryByDate);
+Router.get('/getAllServices', passport.checkAuthentication, reportsController.getAllServices);
+Router.get('/getServiceByName', passport.checkAuthentication, reportsController.getServiceByName);
+Router.get('/getByReportNumber', passport.checkAuthentication,reportsController.getReportByNumber);
 module.exports = Router;
