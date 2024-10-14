@@ -1,0 +1,23 @@
+
+.table{
+    font-size: small;
+
+}
+.tr, td, tr, th{
+    text-align: center;
+    border: 1px dotted;
+    border-top: none;
+  }
+
+.bg th{
+    font-size: 15px;
+    align-items: center;
+    background-color: #025E73 !important;
+    border-right: 1px dotted black;
+    color: white !important;
+  }
+
+
+.tbody {
+    overflow: auto;
+}
