@@ -12,9 +12,13 @@ body {
 }
 
 #sidebar-wrapper {
-    min-height: 100vh;
+    min-height: 87.5vh;
     margin-left: -15rem;
     transition: margin 0.25s ease-out;
+}
+
+.input-group-value{
+    width: 10% !important;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -48,6 +52,17 @@ body {
 .card-text {
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+#users, #settings, #profile{
+    display: none;
+}
+
+
+
+table{
+    width: 100%;
+    border: 1px solid black;
 }
 
 @media (min-width: 768px) {

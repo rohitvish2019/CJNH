@@ -151,3 +151,35 @@ module.exports.adminHome = async function(req, res){
         return res.render('Error_500')
     }
 }
+
+module.exports.getUsers = async function(req, res){
+    try{
+        let usersList = await Users.find({},'email Name Role isValid Mobile');
+        return res.status(200).json({
+            usersList
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error : Unable to fetch users list'
+        })
+    }
+}
+
+module.exports.changeUserData = async function(req, res){
+    try{
+        if(req.body.user == req.user._id){
+            return res.status(400).json({
+                message:'Self disbale in not allowed'
+            })
+        }
+        await Users.findByIdAndUpdate(req.body.user, {isValid:req.body.status});
+        return res.status(200).json({
+            message:'User status changed'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message :'Unabale to change status'
+        })
+    }
+}
