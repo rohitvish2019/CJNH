@@ -143,3 +143,11 @@ module.exports.updateProfile = async function(req, res){
         })
     }
 }
+module.exports.adminHome = async function(req, res){
+    try{
+        return res.render('Admin');
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
