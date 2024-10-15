@@ -7,6 +7,15 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
+
+.bg th{
+    font-size: 15px;
+    align-items: center;
+    background-color: #025E73 !important;
+    border-right: 1px dotted black;
+    color: white !important;
+  }
+  
 thead,th{
     position: sticky;
     top: 0;

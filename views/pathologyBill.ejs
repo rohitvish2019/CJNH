@@ -18,8 +18,8 @@
     <div id="loader" style="position: fixed;top:50% ;left: 35%;display: none;">
         <%-include('_loader')%>
     </div>
-    <div style="height: 100px;width: 100%;border: 1px solid red;">
-        <div class="patient-container">
+    <div style="height: 100px;width: 100%;border: 1px solid white;">
+        <div class="patient-container text-center" style="padding: 1%; color: white; background-color:#343a40 ;">
             <div class="patient-data">
                 <label class="patient-data-heading">Name</label>
                 <input class="patient-data-value" id="patName">
@@ -45,9 +45,9 @@
                 <input class="patient-data-value" id="docName">
             </div>
 
-            <div class="patient-data" style="width: 23%;border-left: 1px solid black;padding-left: 1%;padding-top: 1%;">
-                <input style="width:40%;font-size: larger;" type="text" name="" id="patientId" placeholder="Patient Id">
-                <button class="btn btn-success" onclick="autoFillPatients()">Autofill</button>
+            <div class="patient-data" style="width: 23%;border-left: 1px solid white;padding-left: 1%;padding-top: 2%;">
+                <input style="width:40%;" type="text" name="" id="patientId" placeholder="Patient Id">
+                <button class="btn btn-success" style="margin-bottom: 2%;" onclick="autoFillPatients()">Autofill</button>
             </div>
         </div>
     </div>
@@ -74,7 +74,7 @@
                     </tbody>
                 </table>
             </div>
-            <div style="display: flex; justify-content: center;">
+            <div style="display: flex; justify-content: center; margin: 2%;">
                 <button onclick="saveBill()" style="width: 30%;" class="btn btn-success">Save</button>
             </div>
             

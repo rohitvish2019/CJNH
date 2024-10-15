@@ -5,6 +5,7 @@ const passport = require('passport');
 const passportLocal = require('passport-local').Strategy;
 const LocalStrategy = require('../configs/passport-local-strategy');
 Router.get('/login', UsersController.loginHome)
+Router.get('/Admin', UsersController.adminHome)
 Router.post('/authenticate', passport.authenticate(
     'local',
     {failureRedirect: '/user/login'},

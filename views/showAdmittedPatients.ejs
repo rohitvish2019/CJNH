@@ -3,48 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admitted Patients</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/css/showAdmittedPatients.css">
 
     
-  <style>
-    td button{
-      width: 100px;
-    }
-    
-    tr td, tr th{
-      border: 1px dotted rebeccapurple;
-      border-top: none;
-      font-size: medium;
-    }
-    .bg{
-      background-color: #374752 !important;
-      border-right: 1px dotted black;
-      color: white !important;
-    }
-    tbody{
-      overflow: auto;
-    }
-  </style>
+  
 </head>
 <body>
     <header>
       <%-include('_header')%>
     </header>
-    <table class="table">
-        <thead style="position: sticky;top: 0;">
-          <tr>
-            <th class="bg" scope="col">#</th>
-            <th class="bg" scope="col">Name</th>
-            <th class="bg" scope="col">Age</th>
-            <th class="bg" scope="col">Gender</th>
-            <th class="bg" scope="col">Address</th>
-            <th class="bg">Mobile</th>
-            <th class="bg">Admission date</th>
-            <th class="bg">Patient Profile</th>
-            <th class="bg">Bill</th>
-            <th class="bg">Action</th>
+    <table class="table table-striped table-bordered text-center align-items-center" style="margin: 8px 0px;">
+      <caption> List of Admitted Patients</caption>
+        <thead>
+          <tr class="bg">
+            <th scope="col">#</th>
+            <th scope="col"><i class="fas fa-user"></i> Name</th>
+            <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
+            <th scope="col"><i class="fa-solid fa-venus-mars"></i> Gender</th>
+            <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
+            <th scope="col"><i class="fas fa-phone"></i> Mobile</th>
+            <th scope="col"><i class="fa-solid fa-calendar"></i> Admission Date</th>
+            <th scope="col"><i class="fas fa-user"></i> Patient Profile</th>
+            <th scope="col"><i class="fa-solid fa-file"></i> Bill</th>
+            <th scope="col"><i class="fa-solid fa-hand-pointer"></i> Action</th>
           </tr>
         </thead>
         <tbody>

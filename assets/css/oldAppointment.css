@@ -14,9 +14,11 @@ body{
 }
 
 .bg th{
+
     background-color:#025E73  !important;
     color: white !important;
-    text-align: center;
+
+  
 }
 
 .loader{

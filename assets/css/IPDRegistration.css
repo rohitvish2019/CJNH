@@ -1,50 +1,30 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f4;
-    height: 100vh;
+    padding-bottom: 3%;
 }
 
-header{
-    height: 10%;
-}
-footer{
-    height: 5%;
-}
-
-.main-content{
-    height: 84%;
-}
-
-h6 {
-    margin-bottom: 5px;
-    text-align: center;
-    color: #333;
-}
 span{
     color: red;
     font-weight: bold;
 }
+
 #registrationForm {
-    max-width: 700px;
+    font-size: small;
+    max-width: 600px;
     margin: auto;
-    background-color: #fff;
-    padding: 5px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 2);
-    height: 100%;
+    background-color:#011F26;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
     overflow-y: auto;
-    margin-top: 1%;
-    display: flex;
-    flex-direction: column;
+    margin-top: 2%;
 }
-.heading{
-    height: 6%;
-    width: 100%;
-}
+
 .patient-form{
     height: 86%;
     display: flex;
+    align-items: center;
 }
 .action-bttons{
     height: 7%;
@@ -60,12 +40,10 @@ label {
 
 input[type="text"], select, input[type="number"], textarea {
     width: calc(100% - 22px);
-    padding: 2px;
-    margin-bottom: 1px;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: small;
 }
 
 input[type="submit"] {
