@@ -26,9 +26,9 @@ module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
     //ItemName$Quantity$Price$Notes
     try{
-        console.log(req.body.Items)
         let Name, Age, Address, Mobile, Id, Gender, Patient
         if(req.body.id){
+            console.log('Getting by id')
             let patient = await PatientData.findOne({Id:req.body.id});
             if(!patient || patient == null){
                 return res.status(400).json({
@@ -43,14 +43,17 @@ module.exports.addSales = async function(req, res){
             Gender = patient.Gender
             Patient = patient._id
         }else{
-            Name = req.body.Name,
-            Age = req.body.Age,
-            Address = req.body.Address,
-            Mobile = req.body.Mobile,
-            Gender = req.body.Gender
+            console.log('Getting by req body')
+            console.log(req.body)
+            Name = req.body.patient.Name,
+            Age = req.body.patient.Age,
+            Address = req.body.patient.Address,
+            Mobile = req.body.patient.Mobile,
+            Gender = req.body.patient.Gender
             Id = null,
             Patient = null
         }
+
         let tracker = await Tracker.findOne({});
         let PathologyBillNo = +tracker.PathologyBillNo + 1
         let sale = await SalesData.create({

@@ -16,9 +16,9 @@
                 <img src="/images/logo-og-wbg.png" alt="" srcset="" height="130%" width="130%">
             </div>
             <div class="name">
-                <label style="font-size: 35px;font-weight: bolder; color: rgb(201, 8, 8);">ओम &nbsp;&nbsp;फ्रैक्चर  &nbsp;&nbsp;एवं  &nbsp; ट्रामा   &nbsp;&nbsp;हॉस्पिटल</label>
-                <label  style="font-size: 20px; font-weight: 500;margin-top: 0.3%;">तीन गुल्ली स्टेशन रोड, दमोह</label>
-                <label style="font-size: 17px;">Mob: 8103242475</label>
+                <label style="font-size: 35px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन &nbsp;नर्सिंग &nbsp;होम</label>
+                <label  style="font-size: 20px; font-weight: 500;margin-top: 0.3%;">सिविल वार्ड नंबर 7 दमोह (म. प्र.)</label>
+                <label style="font-size: 17px;">Mob: 6263169195, Ph No: 07812-222441</label>
             </div>
             <div class="logo" style="padding: 1%;">
                 <img src="/images/logo.jpg" alt="" srcset="" height="100%" width="100%">
@@ -26,92 +26,62 @@
         </div>
         <div class="doctors-info">
             <div class="doc-info-left">
-                <label class="doc-name">Dr. Navin Soni</label>
-                <label style="font-weight: bold;margin-bottom: 2%;">हड्डी एवं जोड़ रोग विशेषज्ञ</label>
-                <label class="old-info">भूतपूर्व रजिस्ट्रार हिंदुजा हॉस्पिटल, मुंबई</label>
-                <label class="old-info">भूतपूर्व होलिस्प्रिट हॉस्पिटल मुंबई</label>
-                <label class="old-info">भूतपूर्व रजिस्ट्रार सिदार्थ म्युनिसिपल हॉस्पिटल मुंबई</label>
-                <label class="old-info">मेंबर ऑफ इंडियन आर्थोस्कोपी</label>
-                <label class="old-info">बॉम्बे ऑर्थोपेडिक सोसाइटी एवं ट्रामा सोसाइटी ऑफ इंडिया</label>
+                <label class="doc-name">डॉ. अनुज जैन</label>
+                <label style="font-weight: bold;margin-bottom: 2%;">MBBS, DGO</label>
+                <label class="old-info">स्त्री रोग विशेषज्ञ</label>
+                <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
+                <label class="old-info">मिलने का समय</label>
+                <label class="old-info">सुबह 10 बजे से शाम 5 बजे तक</label>
+                
             </div>
-            <div class="hospital-photo"></div>
+            <div class="hospital-photo">
+                
+            </div>
             <div class="doc-info-right">
-                <label class="doc-name">Dr. Alka Soni</label>
-                <label style="font-weight: bold;margin-bottom: 2%;">निश्चेतना विशेषज्ञ</label>
-
-                <label class="old-info">पेन क्लिनिक एवं जनरल फिजिशियन</label>
-                <label class="old-info">भूतपूर्व रजिस्ट्रार के. ई. एम. मेडीकल कॉलेज मुंबई</label>
-                <label class="old-info">भूतपूर्व रजिस्ट्रार मिशन मेडिकल कॉलेज, मिरज</label>
-                <label class="old-info">हॉस्पिटल : दमोह हॉस्पिटल के बाजू में</label>
+                <label class="doc-name">डॉ. स्वाति जैन</label>
+                <label style="font-weight: bold;margin-bottom: 2%;">MBBS, DGO</label>
+                <label class="old-info">स्त्री रोग विशेषज्ञ</label>
+                <label class="old-info">CF. SR. No. Addl./MPMC-6978</label>
+                <label class="old-info">मिलने का समय</label>
+                <label class="old-info">सुबह 11बजे से 1 बजे तक, 1:30 से शाम 3 बजे तक</label>
                 
             </div>
         </div>
         <div class="patient-info">
-            <label hidden for="" id="patientId"><%=patient._id%></label>
+            <label hidden for="" id="visitId"><%=visit._id%></label>
             <div class="patient-data">
                 <small for=""><b>ID</b></small>
-                <label for="" id=""><%=patient.PatientId%></label>
+                <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
             <div class="patient-data">
                 <small for=""><b>Name</b></small>
-                <label for=""><%=patient.Name%></label>
+                <label for=""><%=visit.Patient.Name%></label>
             </div>
             <div class="patient-data">
                 <small for=""><b>Gender</b></small>
-                <label for=""><%=patient.Gender%></label>
+                <label for=""><%=visit.Patient.Gender%></label>
             </div>
             <div class="patient-data">
                 <small for=""><b>Age</b></small>
-                <label for=""><%=patient.Age%></label>
+                <label for=""><%=visit.Patient.Age%></label>
             </div>
             <div class="patient-address">
                 <small for=""><b>Address</b></small>
-                <label for=""><%=patient.Address%></label>
+                <label for=""><%=visit.Patient.Address%></label>
             </div>
             <div class="patient-data">
                 <small for=""><b>Date</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
-                <label style="font-size: small;" for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
+                <label for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
             </div>
         </div>
         <div class="data-body">
-            <div class="special-services">
-                <h6 style="text-align: center; border-bottom: 2px dotted black; font-weight: bold; padding-bottom: 2%; padding-top: 2%;">विशेष सुविधाएं</h6>
-                <ul class="special-services-list">
-                    <li>कमर एवं घुटने के दर्द का इलाज</li>
-                    <li>हैंड इंज्यूरी</li>
-                    <li>बच्चों की सभी प्रकार की टूटी हड्डियों का इलाज</li>
-                    <li>प्लास्टर सुविधा</li>
-                    <li>विकृत हड्डियों को सीधा करना</li>
-                    <li>स्पोर्ट्स इंज्यूरी</li>
-                    <li>कूल्हे के जोड़ बदलना</li>
-                    <li>पैरो में रॉड डालना</li>
-                    <li>पेन क्लिनिक</li>
-                    <li>डिजिटल एक्स रे</li>
-                    <li>ECG सुविधा</li>
-                    <li>फिजियोथेरेपी सुविधा</li>
-                    <li>हड्डियों के ऑपरेशन और भर्ती सुविधा</li>
-                    <li>टीवी स्क्रीन में देखकर हड्डियां बिठाने की सुविधा</li>
-                </ul>
-                <p>
-                    प्लास्टर के बाद यदि सूजन, शून्यपन, गीलापन अथवा टूटता है तो तुरंत डॉक्टर से संपर्क करें
-                </p>
-                <p>
-                    नोट: कृपया पुरानी पर्ची, जांच, एक्स रे साथ लाए
-                </p>
-                <p>
-                    समय : प्रतिदिन सुबह 11 से 7:30 बजे तक (रविवार अवकाश)
-                </p>
-            </div>
+            
             <div class="tests">
-                <div id="complaint" style="margin-bottom: 2%;padding-bottom: 2%; border-bottom: 2px dotted black; font-size: small;">
-                    
-                </div>
-                <div id="OEs" style="margin-bottom: 5%;border-bottom: 2px dotted black; font-size: small;"></div>
-                <div id="tests" style="font-size: small;"></div>
+                <h5 style="text-align: center; border-bottom: 2px dotted black; font-weight: bold;">Invt. Adv</h5>
             </div>
             <div class="prescriptions" id="prescriptions">
-                <h4 style="text-align: center; border-bottom: 2px dotted black; font-weight: bold;">Prescriptions</h4>
+                <h5 style="text-align: center; border-bottom: 2px dotted black; font-weight: bold;">Prescriptions</h5>
                 
             </div>
         </div>

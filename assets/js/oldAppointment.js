@@ -40,7 +40,7 @@ function setAppointmentsOnUi(appointments){
                     <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('${appointments[i]._id}')" role="switch" id="checkbox_${appointments[i]._id}" ${checkStatus}>
                 </div>
             </td>
-            <td><a target="_blank" href="/patients/getOldPrescription/${appointments[i].Patient._id}?date=${date}">Prescription</a></td>
+            <td hidden><a target="_blank" href="/patients/getPrescription/${appointments[i]._id}">Prescription</a></td>
         `
         parent.appendChild(child);
     }

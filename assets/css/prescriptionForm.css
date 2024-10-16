@@ -1,0 +1,139 @@
+body{
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    width: 99%;
+}
+
+.main-body{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(7, 6, 6);
+    width: 730px;
+    height: 1040px;
+    overflow-x: hidden;
+}
+
+.header{
+    height: 9%;
+    width: 99.9%;
+    display: flex;
+}
+
+.doctors-info{
+    height: 17%;
+    width: 99.9%;
+    display: flex;
+}
+.patient-info{
+    height: 10%;
+    border-top: 2px dotted rgb(20, 19, 19);
+    border-bottom: 2px dotted rgb(20, 19, 19);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.data-body{
+    height: 67%;
+    width: 99.9%;
+    display: flex;
+    border-bottom: 1px dotted black;
+}
+
+.doc-info-left{
+    width: 33%;
+    text-align: left;
+    margin-left: 1%;
+}
+
+.doc-info-right{
+    width: 33%;
+    text-align: right;
+    margin-right: 1%;
+}
+.doc-info-left label, .doc-info-right label{
+    display: block;
+}
+.hospital-photo{
+    width: 34%;
+}
+
+.old-info{
+    font-size: 11px;
+    margin-bottom: 0.3%;
+}
+
+.name label{
+    text-align: center;
+    display: block;
+}
+.doc-name{
+    font-weight: bold;
+    font-size: 23px;
+    margin-bottom: 1%;
+    margin-top: 2%;
+}
+
+.tests{
+    width: 27%;
+    border-right: 1px dotted black;
+    height: 100%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+.prescriptions{
+    width: 73%;
+    height: 100%;
+}
+.logo{
+    width: 12%;
+    height: 70%;
+}
+
+.name{
+    width: 80%;
+}
+
+
+.footer{
+    height: 5%;
+    width: 99.9%;
+}
+
+
+.patient-data{
+    width: 15%;
+}
+.patient-data label{
+    display: block;
+    font-size: medium;
+    padding: 1%;
+}
+
+.patient-address label{
+    display: block;
+    font-size: medium;
+    padding: 1%;
+}
+
+.patient-data small{
+    padding: 1%;
+}
+.patient-address small{
+    padding: 1%;
+}
+.patient-address{
+    width: 40%;
+}
+.special-services-list li{
+    margin-bottom: 2%;
+    font-size: 12px;
+}
+p{
+    font-size: 12px;
+    padding-left: 5%;
+    padding-right: 5%;
+}

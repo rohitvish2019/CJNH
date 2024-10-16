@@ -333,3 +333,13 @@ function getSixHourTimeframes(startDate, startTime, endDate, endTime) {
     // Return the number of 6-hour timeframes (rounding down)
     return Math.floor(hoursDiff / 6);
 }
+
+
+module.exports.showPrescription = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        return res.render('prescriptionForm', {visit})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}

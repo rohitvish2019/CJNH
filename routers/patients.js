@@ -14,5 +14,6 @@ Router.post('/visits/changeStatus', passport.checkAuthentication, PatientsContro
 Router.get('/IPD/new', passport.checkAuthentication, PatientsController.IPDpatientRegistration);
 Router.post('/admit', passport.checkAuthentication, PatientsController.admitPatient);
 Router.get('/showAdmitted', passport.checkAuthentication, PatientsController.showAdmitted);
-Router.get('/viewAdmitted/:id', passport.checkAuthentication, PatientsController.admittedPatientProfile)
+Router.get('/viewAdmitted/:id', passport.checkAuthentication, PatientsController.admittedPatientProfile);
+Router.get('/getPrescription/:visitId', passport.checkAuthentication, PatientsController.showPrescription)
 module.exports = Router;

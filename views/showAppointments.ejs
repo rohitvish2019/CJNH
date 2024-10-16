@@ -31,9 +31,11 @@
         <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
         <th scope="col">₹ Fees</th>
         <th> <i class="fa-solid fa-calendar-plus"></i> Open</th>
+        <!--
         <th> <i class="fa-solid fa-syringe"></i> Pathalogy</th>
+        -->
         <th> <i class="fa-solid fa-eye-slash"></i> Disable</th>
-        <th><i class="fa-solid fa-hand-pointer"></i> Action</th>
+        
       </tr>
     </thead>
     <tbody id="tableBody">
@@ -45,19 +47,16 @@
         <td><%=visits[i].Patient.Gender%></td>
         <td><%=visits[i].Patient.Address%></td>
         <td><%=visits[i].Fees%></td>
-        <td><a href="/patients/newVisit/<%=visits[i].Patient._id%>">Open Visit</a></td>
+        <td><a target="_blank" href="/patients/getPrescription/<%=visits[i]._id%>">Prescription</a></td>
+        <!--
         <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>
+        -->
         <td>
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('<%=visits[i]._id%>')" role="switch" id="checkbox_<%=visits[i]._id%>" checked>
           </div>
         </td>
-        <td>
-          <button class="btn btn-danger" id="<%=visits[i]._id%>_koh"
-            onclick="keepOnHold('<%=visits[i]._id%>')">Hold</button>
-          <button style="display: none;" class="btn btn-success" id="<%=visits[i]._id%>_rea"
-            onclick="reActivate('<%=visits[i]._id%>')">Activate</button>
-        </td>
+        
       </tr>
       <%}%>
         </tbody>
