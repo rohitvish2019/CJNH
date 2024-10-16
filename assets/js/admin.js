@@ -2,12 +2,13 @@ $("#menu-toggle").click(function(e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
-
+openDashboard()
 function openDashboard(){
     document.getElementById('users').style.display='none'
     document.getElementById('settings').style.display='none'
     document.getElementById('profile').style.display='none'
     document.getElementById('dashboard').style.display='block'
+    getDashboardData()
 }
 function openUsers(){
     document.getElementById('users').style.display='block'
@@ -28,9 +29,24 @@ function openProfile(){
     document.getElementById('settings').style.display='none'
     document.getElementById('profile').style.display='block'
     document.getElementById('dashboard').style.display='none'
+    getMyProfile()
 }
 
-openSettings()
+function getDashboardData(){
+    $.ajax({
+        url:'/reports/getDashboardData',
+        type:'Get',
+        success:function(data){
+            document.getElementById('canAptcount').innerHTML = data.cancelledApt
+            document.getElementById('canPathcount').innerHTML = data.cancelledPath
+            document.getElementById('pathcount').innerHTML = data.pathBills
+            document.getElementById('aptcount').innerHTML = data.appointments
+        },
+        error:function(err){
+
+        }
+    })
+}
 
 function getUsers(){
     $.ajax({
@@ -225,6 +241,65 @@ function enableDisableUser(user){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
+        }
+    })
+}
+
+
+function getMyProfile(){
+    $.ajax({
+        url:'/user/profile',
+        success:function(data){
+            document.getElementById('profileName').value = data.user.Name
+            document.getElementById('profileMobile').value = data.user.Mobile
+            document.getElementById('profileUsername').value = data.user.email
+            document.getElementById('profileRole').value = data.user.Role
+        },
+        error:function(err){}
+    })
+}
+
+function updateProfile(){
+    let Name = document.getElementById('profileName').value
+    let Mobile = document.getElementById('profileMobile').value
+    let email = document.getElementById('profileUsername').value
+    if(Name == '' || Mobile == '' || email == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Empty values not allowed',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    $.ajax({
+        url:'/user/updateProfile',
+        type:'POST',
+        data : {
+            Name,
+            Mobile,
+            email
+        },
+        success:function(data){
+            new Noty({
+                theme: 'relax',
+                text: 'Profile updated',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
+        },
+        error:function(err){
+            new Noty({
+                theme: 'relax',
+                text: JSON.parse(err.responseText)['message'],
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
         }
     })
 }

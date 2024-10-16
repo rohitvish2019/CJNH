@@ -61,9 +61,9 @@ module.exports.addVisitAndPatient = async function(req, res){
             Visit_date:new Date().toISOString().split('T')[0],
             Outside_docs:req.body.Outside_docs
         });
-        
+        let updatedReportNo = +tracker.AppointmentNumber + 1
         await patient.updateOne({$push:{Visits:visit._id}});
-        await Sales.create({
+        let sale = await Sales.create({
             ReportNo:'APMT'+tracker.AppointmentNumber,
             Name:req.body.Name,
             Age:req.body.Age,
@@ -76,6 +76,8 @@ module.exports.addVisitAndPatient = async function(req, res){
             type:'Appointment'
 
         })
+        await visit.updateOne({SaleId:sale._id})
+        await tracker.updateOne({AppointmentNumber:updatedReportNo})
         return res.status(200).json({
             message:'Patient added'
         })
@@ -223,7 +225,8 @@ module.exports.bookVisitToday = async function(req, res){
         });
         patient.Visits.push(visit._id);
         await patient.save();
-        await Sales.create({
+        let updatedReportNo = +tracker.AppointmentNumber + 1
+        let sale = await Sales.create({
             ReportNo:'APMT'+tracker.AppointmentNumber,
             Name:patient.Name,
             Age:patient.Age,
@@ -235,6 +238,8 @@ module.exports.bookVisitToday = async function(req, res){
             Items:['Appointment$1$'+req.body.Fees],
             type:'Appointment'
         })
+        await tracker.updateOne({AppointmentNumber:updatedReportNo})
+        await visit.updateOne({SaleId:sale._id})
         return res.status(200).json({
             message:'Visit Scheduled'
         })
@@ -248,7 +253,8 @@ module.exports.bookVisitToday = async function(req, res){
 
 module.exports.changeVisitStatus = async function(req, res){
     try{
-        await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
+        let visit = await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
+        await Sales.findByIdAndUpdate(visit.SaleId,{isValid:req.body.status})
         return res.status(200).json({
             message:'Status changed'
         })

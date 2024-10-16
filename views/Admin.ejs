@@ -39,32 +39,32 @@
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card bg-primary text-white shadow">
                             <div class="card-body">
-                                <div class="card-title">Total Patients</div>
-                                <div class="card-text">150</div>
+                                <div class="card-title">Appointments</div>
+                                <div class="card-text" id="aptcount">150</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card bg-success text-white shadow">
                             <div class="card-body">
-                                <div class="card-title">Appointments</div>
-                                <div class="card-text">120</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="card bg-warning text-white shadow">
-                            <div class="card-body">
-                                <div class="card-title">Pending</div>
-                                <div class="card-text">30</div>
+                                <div class="card-title">Pathology Bills</div>
+                                <div class="card-text" id="pathcount">120</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card bg-danger text-white shadow">
                             <div class="card-body">
-                                <div class="card-title">Cancelled</div>
-                                <div class="card-text">10</div>
+                                <div class="card-title">Cancelled Appointments</div>
+                                <div class="card-text" id="canAptcount">10</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="card bg-danger text-white shadow">
+                            <div class="card-body">
+                                <div class="card-title">Cancelled Pathology Bills</div>
+                                <div class="card-text" id="canPathcount">10</div>
                             </div>
                         </div>
                     </div>
@@ -132,7 +132,25 @@
             </div>
             
             <div id="profile">
-                <h1>This is my profile</h1>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="profileName" placeholder="name@example.com">
+                    <label for="Name">Name<span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="profileMobile" placeholder="name@example.com">
+                    <label for="Name">Mobile<span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="profileUsername" placeholder="name@example.com">
+                    <label for="Name">Username<span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="profileRole" readonly placeholder="name@example.com">
+                    <label for="Name">Role<span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input style="width: 50%;margin-left: 25%;" type="button" onclick="updateProfile()" class="form-control btn btn-success" value="Update">
+                </div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->

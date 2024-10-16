@@ -15,4 +15,5 @@ Router.get('/getByReportNumber', passport.checkAuthentication,reportsController.
 Router.get('/getDefaultTests', passport.checkAuthentication, reportsController.getDefaultTests);
 Router.post('/saveService', passport.checkAuthentication , reportsController.addServicesData);
 Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
+Router.get('/getDashboardData', passport.checkAuthentication, reportsController.dashboard)
 module.exports = Router;
