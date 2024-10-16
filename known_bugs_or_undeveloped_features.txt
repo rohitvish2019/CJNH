@@ -14,3 +14,4 @@ Pathology history showing no data
 AdmissionBill generation
 
 need to add report number on report
+amount & doctor is missing in sales history pathology

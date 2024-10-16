@@ -7,7 +7,9 @@ const LocalStrategy = require('../configs/passport-local-strategy');
 Router.get('/login', UsersController.loginHome)
 Router.get('/Admin', UsersController.adminHome)
 Router.get('/getAllUsers', UsersController.getUsers);
-Router.post('/changeStatus', UsersController.changeUserData)
+Router.post('/changeStatus', UsersController.changeUserData);
+Router.get('/profile', UsersController.getProfile);
+Router.post('/updateProfile', UsersController.updateProfile);
 Router.post('/authenticate', passport.authenticate(
     'local',
     {failureRedirect: '/user/login'},

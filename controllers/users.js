@@ -34,6 +34,8 @@ module.exports.logout = function(req, res){
     }
 }
 
+
+/*
 module.exports.addUser = async function(req, res){
     try{
         let user;
@@ -122,6 +124,7 @@ module.exports.updateMyPassword = async function(req, res){
 
 module.exports.updateProfile = async function(req, res){
     try{
+        let checkDuplicateEmail = await Users.find({email:re})
         let user = await Users.findByIdAndUpdate(req.body.id,{
             Name:req.body.Name,
             Address:req.body.Address,
@@ -143,6 +146,7 @@ module.exports.updateProfile = async function(req, res){
         })
     }
 }
+ */
 module.exports.adminHome = async function(req, res){
     try{
         return res.render('Admin');
@@ -180,6 +184,42 @@ module.exports.changeUserData = async function(req, res){
     }catch(err){
         return res.status(500).json({
             message :'Unabale to change status'
+        })
+    }
+}
+
+module.exports.getProfile = async function(req, res){
+    try{
+        let user = await Users.findOne({email:req.user.email}, 'Name Mobile email Role');
+        return res.status(200).json({
+            user
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal server error : Unable to fetch user'
+        })
+    }   
+}
+
+module.exports.updateProfile = async function(req, res){
+    try{
+        if(req.user.email != req.body.email){
+            let checkDuplicateEmail = await Users.find({email:req.body.email});
+            if(checkDuplicateEmail.length > 0){
+                return res.status(400).json({
+                    message:'Duplicate username'
+                })
+            }
+        }
+        await Users.findOneAndUpdate({email:req.user.email},{$set:{Name:req.body.Name, email:req.body.email,Mobile:req.body.Mobile}});
+        return res.status(200).json({
+            message:'Profile updated'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server Error : Unable to update profile'
         })
     }
 }
