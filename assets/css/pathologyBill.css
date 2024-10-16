@@ -1,9 +1,12 @@
 
 .patient-data{
+    font-size: small;
     margin-left: 0.5%;
-    width: 13%;
+    width: 11.76%;
 }
 .patient-data input{
+    font-size: small;
+    text-align: center;
     width: 98%;
 }
 .patient-data-heading{
@@ -11,8 +14,9 @@
     font-size: medium;
 }
 .patient-data-value{
-    font-size: larger;
-    font-weight: 400;   
+    margin-top: 5%;
+    font-size: medium !important;
+      
 }
 .patient-container{
     display: flex;
@@ -26,7 +30,7 @@ thead{
 td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
     font-size: small;
 }
 .bg th{

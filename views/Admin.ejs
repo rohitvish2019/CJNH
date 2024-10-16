@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
-    integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
-    integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/admin.css">
 </head>
+
 <body>
     <header>
         <%-include('_header')%>
     </header>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-        <div class="bg-dark border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading text-white">Admin Dashboard</div>
+        <div class="bg-dark border-right sidebar" id="sidebar-wrapper">
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openDashboard()"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openUsers()"><i class="fas fa-users"></i> Users</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openSettings()"><i class="fas fa-cogs"></i> Settings</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openProfile()"><i class="fas fa-sign-out-alt"></i> My Profile</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"
+                    onclick="openDashboard()"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openUsers()"><i
+                        class="fas fa-users"></i> Users</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"
+                    onclick="openSettings()"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openProfile()"><i
+                        class="fas fa-sign-out-alt"></i> My Profile</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -34,7 +40,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div id="dashboard" class="dashboard container-fluid">
-                <h1 class="mt-4">Dashboard</h1>
+                <h3 class="mt-4">Dashboard</h3>
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card bg-primary text-white shadow">
@@ -72,10 +78,10 @@
             </div>
 
             <div id="users" class="users">
-                <table>
+                <table class="table-bordered table-striped">
                     <thead>
-                        <tr>
-                            <th>username</th>
+                        <tr class="bg">
+                            <th>Username</th>
                             <th>Name</th>
                             <th>Role</th>
                             <th>Status</th>
@@ -83,22 +89,22 @@
                         </tr>
                     </thead>
                     <tbody id="usersListTable">
-                        
+
                     </tbody>
                 </table>
             </div>
 
             <div id="settings" class="settings">
-                <div style="width: 40%;">
-                    <h3>Services & Charges</h3>
+                <div class="card text-center" style="width: 45%; margin-left: 5%;">
+                    <h3 class="mb-3" style="margin: 5%;">Services & Charges</h3>
                     <div id="services-list">
                     </div>
                     <div>
-                        <button onclick="saveSettings()">Save</button>
+                        <button class="btn btn-success" style="margin: 5%;" onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
                     </div>
                 </div>
-                <div style="border: 1px solid green;width: 30%;">
-                    <h3>Add a new service</h3>
+                <div class="card text-center" style="width: 45%; align-items: center; margin-left: 3%;">
+                    <h3 style="margin: 5%;">Add a New Service</h3>
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="Name" placeholder="name@example.com">
                         <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
@@ -111,45 +117,46 @@
 
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="Category" placeholder="name@example.com">
-                        <label for="Name"><b>₹ </b>Category<span>*</span></label>
+                        <label for="Name"><b> </b><i class="fa-solid fa-list"></i> Category<span>*</span></label>
                     </div>
 
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="RefRange" placeholder="name@example.com">
-                        <label for="Name"><b>₹ </b>Normal Range<span>*</span></label>
+                        <label for="Name"><i class="fa-solid fa-arrow-down-wide-short"></i> Normal Range<span>*</span></label>
                     </div>
 
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="Notes" placeholder="name@example.com">
-                        <label for="Name"><i class="fa-solid fa-file"></i>Default Notes<span>*</span></label>
+                        <label for="Name"><i class="fa-solid fa-file-waveform"></i> Default Notes<span>*</span></label>
                     </div>
-                    <div class="form-floating mb-2">
-                        <button onclick="AddNewService()">Add</button>
+                    <div class="form-floating mb-2 text-center">
+                        <button class="btn btn-success"  style="padding: 10%; width: 150%;" onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
                     </div>
-                    
+
                 </div>
-                
+
             </div>
-            
-            <div id="profile">
+
+            <div id="profile" class="card" style="padding:3%;">
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileName" placeholder="name@example.com">
-                    <label for="Name">Name<span>*</span></label>
+                    <label for="Name"><i class="fas fa-user"></i>  Name<span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileMobile" placeholder="name@example.com">
-                    <label for="Name">Mobile<span>*</span></label>
+                    <label for="Name"><i class="fa-solid fa-phone"></i> Mobile Number<span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileUsername" placeholder="name@example.com">
-                    <label for="Name">Username<span>*</span></label>
+                    <label for="Name"><i class="fa-solid fa-address-card"></i> Username<span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileRole" readonly placeholder="name@example.com">
-                    <label for="Name">Role<span>*</span></label>
+                    <label for="Name"><i class="fa-solid fa-users-gear"></i> Role<span>*</span></label>
                 </div>
-                <div class="form-floating mb-2">
-                    <input style="width: 50%;margin-left: 25%;" type="button" onclick="updateProfile()" class="form-control btn btn-success" value="Update">
+                <div class="text-center" style="padding: 2%;">
+                    <input style="width: 50%;" type="button" onclick="updateProfile()"
+                        class="form-control btn btn-success" value="Update">
                 </div>
             </div>
         </div>
@@ -160,4 +167,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="/js/admin.js"></script>
 </body>
+
 </html>
