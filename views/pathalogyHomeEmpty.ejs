@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="/css/PathalogyHome.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
 </head>
 <body>
     <header>
         <%-include('_header')%>
     </header>
-    <div class="main-body">
+    <div class="main-body" style="display: flex; justify-content: space-between; width: 99%;" >
         <div class="left">
             <div class="patient-container">
                 <div class="patient-data">
@@ -41,15 +44,15 @@
                     <input class="patient-data-value" id="docName">
                 </div>
 
-                <div class="patient-data" style="width: 23%;border-left: 1px solid black;padding-left: 1%;padding-top: 1%;">
-                    <input style="width:40%;font-size: larger;" type="text" name="" id="patientId" placeholder="Patient Id">
+                <div class="patient-data" style="width: 23%;border-left: 1px solid white;">
+                    <input style="width:70%; margin-bottom: 5%;" type="text" name="" id="patientId" placeholder="Patient Id"><br>
                     <button class="btn btn-success" onclick="autoFillPatients()">Autofill</button>
                 </div>
             </div>
             <div class="addedTests">
-                <table>
+                <table class="table-striped table-bordered">
                     <thead>
-                        <tr>
+                        <tr class="bg">
                             <th>#</th>
                             <th>Test Name</th>
                             <th>Reference Range</th>
@@ -64,11 +67,13 @@
                 </table>
                 
             </div>
-            <button style="width: 50%;margin-left: 25%;" onclick="saveTests()" class="btn btn-success">Save & Print</button>
+            <div style="display: flex; justify-content: center; margin: 10px 0px 0px;">
+                <button style="width: 35%;" onclick="saveTests()" class="btn btn-success">Save & Print</button>
+            </div>
         </div>
-        <div class="right">
-            <h2 style="text-align: center;">Add new test</h2>
-            <div class="input-group mb-3">
+        <div class="right text-center">
+            <h3 style="text-align: center; margin: 5%;">Add New Test</h3>
+            <div class="input-group input-group-sm mb-1">
                 <span class="input-group-text" id="basic-addon1">Test Name</span>
                 <input id="testName" type="text" class="form-control" placeholder="" aria-label="Test Name" onchange="setRefRange()" aria-describedby="basic-addon1" list="servicesList">
                 <datalist id="servicesList">
@@ -77,20 +82,20 @@
                     <%}%>
                 </datalist>
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group input-group-sm mb-1">
                 <span class="input-group-text" id="basic-addon1">Test Result</span>
                 <input id="testResult" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group input-group-sm mb-1">
                 <span class="input-group-text" id="basic-addon1">Reference Range</span>
                 <input id="refRange" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-            <div class="input-group mb-3">
+            <div class="input-group input-group-sm mb-1">
                 <span class="input-group-text" id="basic-addon1">Category</span>
                 <input id="category" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-            <div>
-                <button style="width: 98%;margin-left: 1%;" class="btn btn-success" onclick="addTest()">Add</button>
+            <div class="text-center py-4">
+                <button style="width: 80%;" class="btn btn-success" onclick="addTest()">Add</button>
             </div>
         </div>
     </div>
