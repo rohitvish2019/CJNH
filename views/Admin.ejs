@@ -5,51 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+    integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+    integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
+    <header>
+        <%-include('_header')%>
+    </header>
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-dark border-right" id="sidebar-wrapper">
             <div class="sidebar-heading text-white">Admin Dashboard</div>
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><i class="fas fa-users"></i> Users</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><i class="fas fa-cogs"></i> Settings</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openDashboard()"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openUsers()"><i class="fas fa-users"></i> Users</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openSettings()"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openProfile()"><i class="fas fa-sign-out-alt"></i> My Profile</a>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <div class="container-fluid">
+            <div id="dashboard" class="dashboard container-fluid">
                 <h1 class="mt-4">Dashboard</h1>
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-4">
@@ -86,14 +70,76 @@
                     </div>
                 </div>
             </div>
+
+            <div id="users" class="users">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>username</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersListTable">
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="settings" class="settings">
+                <div style="width: 40%;">
+                    <h3>Services & Charges</h3>
+                    <div id="services-list">
+                    </div>
+                    <div>
+                        <button onclick="saveSettings()">Save</button>
+                    </div>
+                </div>
+                <div style="border: 1px solid green;width: 30%;">
+                    <h3>Add a new service</h3>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="Name" placeholder="name@example.com">
+                        <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="Price" placeholder="name@example.com">
+                        <label for="Name"><b>₹ </b>Price <span>*</span></label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="Category" placeholder="name@example.com">
+                        <label for="Name"><b>₹ </b>Category<span>*</span></label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="RefRange" placeholder="name@example.com">
+                        <label for="Name"><b>₹ </b>Normal Range<span>*</span></label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="Notes" placeholder="name@example.com">
+                        <label for="Name"><i class="fa-solid fa-file"></i>Default Notes<span>*</span></label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <button onclick="AddNewService()">Add</button>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+            <div id="profile">
+                <h1>This is my profile</h1>
+            </div>
         </div>
         <!-- /#page-content-wrapper -->
     </div>
     <!-- /#wrapper -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/js/admin.js"></script>
 </body>
 </html>

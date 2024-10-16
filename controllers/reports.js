@@ -27,10 +27,11 @@ module.exports.PathalogyHomeEmpty = async function(req, res){
 module.exports.addServicesData = async function(req, res){
     try{
         let service = await ServicesData.create({
-            Name:req.body.testname,
-            Price:req.body.price,
-            Category:req.body.category,
-            RefRange:req.body.refRange,
+            Name:req.body.Name,
+            Price:req.body.Price,
+            Category:req.body.Category,
+            RefRange:req.body.RefRange,
+            Notes:req.body.Notes
 
         })
         return res.status(200).json({
@@ -191,6 +192,25 @@ module.exports.getReportByNumber = async function(req, res){
         let report = await ReportsData.findOne({ReportNo:req.query.reportNo});
         if(report){
             return res.status(200).json({
+                report:report.Items
+            })
+        }else{
+            return res.status(404).json({
+                message:'No report found'
+            })
+        }
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to fetch report'
+        })
+    }
+}
+
+module.exports.getDefaultTests = async function(req, res){
+    try{
+        let report = await ServicesData.find({Type:'DischargeTest'});
+        if(report){
+            return res.status(200).json({
                 report
             })
         }else{
@@ -335,6 +355,24 @@ module.exports.getServiceByName = async function(req, res){
     }catch(err){
         return res.status(500).json({
             message:'Internal server error : Unable to find services'
+        })
+    }
+}
+
+module.exports.saveServicesUpdates = async function(req, res){
+    console.log(req.body)
+    try{
+        for(let i=0;i<req.body.valuesToUpdate.length;i++){
+            console.log('running loop '+i)
+            await ServicesData.findByIdAndUpdate(req.body.valuesToUpdate[i].id,{Price:req.body.valuesToUpdate[i].Price});
+        }
+        return res.status(200).json({
+            message:'Settings updated'
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:"Unable to update settings"
         })
     }
 }

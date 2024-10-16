@@ -18,8 +18,8 @@
                 <h4 style="margin-top: 2%;">Tests & Investigation</h4>
             </div>
             <input type="text" name="" id="reportNo" placeholder="report number">
-            <button onclick="loadTests()">Load by report number</button>
-            <button>Load defaults</button>
+            <button onclick="loadTestsByReport()">Load by report number</button>
+            <button onclick="loadDefaultTests()">Load defaults</button>
         </div>
         
         
@@ -29,21 +29,10 @@
                     <th>Test</th>
                     <th>Normal Range</th>
                     <th>Result</th>
-                    <th>Notes</th>
+                    <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <%let tests = ['Hb%','Bl gr & Rh','RBS','HIV','HBsAg','TSH','Others']%>
-                <% refRanges = ['12-15','25-55%','1.2mg-5.5mg','','2.5-25%','','']%>
-                <%results = ['11','35%','1.9mg','Negative','25%','','Positive']%>
-                <%for(let i=0;i<7;i++){%>
-                    <tr>
-                        <th><input type="text" value="<%=tests[i]%>"></th>
-                        <td><input type="text" value="<%=refRanges[i]%>"></td>
-                        <td><input type="text" name="" id="" value="<%=results[i]%>"></td>
-                        <td><input type="text" name="" id=""></td>
-                    </tr>
-                <%}%>
+            <tbody id="pathlogyTests">
                 
             </tbody>
         </table>

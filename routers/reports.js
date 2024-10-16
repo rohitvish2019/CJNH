@@ -12,4 +12,7 @@ Router.get('/getHistoryByDate', passport.checkAuthentication, reportsController.
 Router.get('/getAllServices', passport.checkAuthentication, reportsController.getAllServices);
 Router.get('/getServiceByName', passport.checkAuthentication, reportsController.getServiceByName);
 Router.get('/getByReportNumber', passport.checkAuthentication,reportsController.getReportByNumber);
+Router.get('/getDefaultTests', passport.checkAuthentication, reportsController.getDefaultTests);
+Router.post('/saveService', passport.checkAuthentication , reportsController.addServicesData);
+Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
 module.exports = Router;
