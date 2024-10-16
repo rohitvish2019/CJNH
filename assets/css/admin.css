@@ -5,6 +5,9 @@ body {
     margin: 0;
     padding: 0;
 }
+.sidebar{
+    padding-top: 2%;
+}
 
 #wrapper {
     display: flex;
@@ -16,9 +19,16 @@ body {
     margin-left: -15rem;
     transition: margin 0.25s ease-out;
 }
+.input-group-text{
+    font-weight: 600 !important;
+    width:auto;
+    font-size:small !important;
+}
 
 .input-group-value{
-    width: 10% !important;
+    margin-left:2%;
+    width:4rem;
+    text-align: center;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -45,7 +55,7 @@ body {
 }
 
 .card-title {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     font-weight: bold;
 }
 
@@ -58,9 +68,14 @@ body {
     display: none;
 }
 
-
+.bg th{
+    color: white;
+    background-color: #025E73 !important ;
+}
 
 table{
+    align-items: center;
+    text-align: center;
     width: 100%;
     border: 1px solid black;
 }

@@ -110,7 +110,7 @@ function getServices(){
                 rowItem.classList.add('mb-3');
                 rowItem.innerHTML=
                 `
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend" style="width:80%; background-color:#e9ecef;">
                         <span class="input-group-text" id="${service._id+'name'}">${service.Name}</span>
                     </div>
                     <input id='${service._id+'price'}' class="input-group-value" onchange='markToUpdate("${service._id}")' type="text" class="form-control" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" value='₹ ${service.Price}'>
