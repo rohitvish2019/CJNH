@@ -21,11 +21,20 @@ function getAppointments(){
 }
 
 function setAppointmentsOnUi(appointments){
-    let date = document.getElementById('selectedDate').value
     let parent = document.getElementById('table-body');
     parent.innerHTML=``;
+    if(appointments.length < 1){
+        let child = document.createElement('tr');
+        child.innerHTML=
+        `
+            <td colspan='8'>No Data Found</td>
+        `
+        parent.appendChild(child);
+        return
+    }
     for(let i=0;i<appointments.length;i++){
         let child = document.createElement('tr');
+        
         let checkStatus = appointments[i].isValid == true?'checked':null;
         child.innerHTML=
         `
