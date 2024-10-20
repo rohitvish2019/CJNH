@@ -16,7 +16,7 @@ span{
     font-size: small;
     max-width: 600px;
     margin: auto;
-    background-color:#011F26;
+    background-color:#d0d0d0;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
@@ -34,7 +34,6 @@ label {
 
 input[type="text"], select, input[type="number"], textarea {
     padding-left: 10px;
-    font-size: small;
     box-sizing: border-box;
     font-size: 15px;
 }
