@@ -7,12 +7,16 @@ function addTest() {
     let rowItem = document.createElement('tr');
     let testName
     let testResult = ''
-    let refRange = ''
+    let refRangeMin = -1
+    let refRangeMax = -1
+    let refRangeUnit = ''
     let testCategory = 'Others';
     
     testName = document.getElementById('testName').value
     testResult = document.getElementById('testResult').value
-    refRange = document.getElementById('refRange').value
+    refRangeMin = document.getElementById('rrmin').value
+    refRangeMax = document.getElementById('rrmax').value
+    refRangeUnit = document.getElementById('rrunit').value
     testCategory = document.getElementById('category').value
     if(testName == '' || testResult == ''){
         new Noty({
@@ -24,12 +28,14 @@ function addTest() {
         }).show();
         return
     }
-    tests.push(testName + '$' + testResult + '$' + refRange + '$' + testCategory);
+    tests.push(testName + '$' + testResult + '$' + testCategory + '$' + refRangeMin + '$' + refRangeMax + '$' + refRangeUnit);
     rowItem.id = 'rowItem_' + counter
     rowItem.innerHTML =
         `   <td>${counter}</td>
         <td>${testName}</td>
-        <td>${refRange}</td>
+        <td>${refRangeMin}</td>
+        <td>${refRangeMax}</td>
+        <td>${refRangeUnit}</td>
         <td>${testResult}</td>
         <td>${testCategory}</td>
         <td>
@@ -41,8 +47,10 @@ function addTest() {
     counter++;
     document.getElementById('testName').value = ''
     document.getElementById('testResult').value = ''
-    document.getElementById('refRange').value = ''
-    document.getElementById('category').value = ''
+    document.getElementById('rrmin').value = ''
+    document.getElementById('rrmax').value = ''
+    document.getElementById('rrunit').value = ''
+    document.getElementById('category').value = 'OTHERS'
 }
 
 function unhighlight(x) {
@@ -164,7 +172,9 @@ function getServiceByName(name) {
             name
         },
         success: function (data) {
-            document.getElementById('refRange').value = data.service.RefRange == undefined ? '' : data.service.RefRange
+            document.getElementById('rrmin').value = data.service.RefRangeMin == undefined ? '' : data.service.RefRangeMin
+            document.getElementById('rrmax').value = data.service.RefRangeMax == undefined ? '' : data.service.RefRangeMax
+            document.getElementById('rrunit').value = data.service.RefRangeUnit == undefined ? '' : data.service.RefRangeUnit
             document.getElementById('category').value = data.service.Category == undefined ? '' : data.service.Category;
             document.getElementById('testResult').value = ''
         },

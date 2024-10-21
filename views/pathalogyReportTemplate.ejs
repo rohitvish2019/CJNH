@@ -143,12 +143,29 @@
                     </thead>
                     <tbody>
                         <%for(let i=0;i<report.Items.length;i++){%>
-                            <%if(report.Items[i].split('$')[3] == 'HAEMATOLOGY'){%>
-                                <tr>
-                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                                </tr>
+                            <% let item = report.Items[i].split('$') %>
+                            <%if(item[2] == 'HAEMATOLOGY'){%>
+                                <%if(item[3] != '' && item[4] != ''){%>
+                                    <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
+                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                        </tr>
+                                    <%}else{%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        </tr>
+                                    <%}%>
+                                <%}else{%>
+                                    <tr>
+                                        <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                        <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                    </tr>
+                                <%}%>
                             <%}%>
                             
                         <%}%>
@@ -167,12 +184,29 @@
                     </thead>
                     <tbody>
                         <%for(let i=0;i<report.Items.length;i++){%>
-                            <%if(report.Items[i].split('$')[3] == 'BIOCHEMISTRY'){%>
-                                <tr>
-                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                                </tr>
+                            <% let item = report.Items[i].split('$') %>
+                            <%if(report.Items[i].split('$')[2] == 'BIOCHEMISTRY'){%>
+                                <%if(item[3] != '' && item[4] != ''){%>
+                                    <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
+                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                        </tr>
+                                    <%}else{%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        </tr>
+                                    <%}%>
+                                <%}else{%>
+                                    <tr>
+                                        <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                        <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                    </tr>
+                                <%}%>
                             <%}%>
                             
                         <%}%>
@@ -190,12 +224,29 @@
                     </thead>
                     <tbody>
                         <%for(let i=0;i<report.Items.length;i++){%>
-                            <%if(report.Items[i].split('$')[3] == 'URINE'){%>
-                                <tr>
-                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                                </tr>
+                            <% let item = report.Items[i].split('$') %>
+                            <%if(report.Items[i].split('$')[2] == 'URINE'){%>
+                                <%if(item[3] != '' && item[4] != ''){%>
+                                    <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
+                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                        </tr>
+                                    <%}else{%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        </tr>
+                                    <%}%>
+                                <%}else{%>
+                                    <tr>
+                                        <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                        <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                    </tr>
+                                <%}%>
                             <%}%>
                             
                         <%}%>
@@ -213,12 +264,29 @@
                     </thead>
                     <tbody>
                         <%for(let i=0;i<report.Items.length;i++){%>
-                            <%if(report.Items[i].split('$')[3] == 'SEROLOGY'){%>
-                                <tr>
-                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                                </tr>
+                            <% let item = report.Items[i].split('$') %>
+                            <%if(report.Items[i].split('$')[2] == 'SEROLOGY'){%>
+                                <%if(item[3] != '' && item[4] != ''){%>
+                                    <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
+                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                        </tr>
+                                    <%}else{%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        </tr>
+                                    <%}%>
+                                <%}else{%>
+                                    <tr>
+                                        <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                        <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                    </tr>
+                                <%}%>
                             <%}%>
                         <%}%>
                     </tbody>
@@ -234,12 +302,29 @@
                     </thead>
                     <tbody>
                         <%for(let i=0;i<report.Items.length;i++){%>
-                            <%if(report.Items[i].split('$')[3] == 'OTHERS'){%>
-                                <tr>
-                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                                </tr>
+                            <% let item = report.Items[i].split('$') %>
+                            <%if(report.Items[i].split('$')[2] == 'OTHERS'){%>
+                                <%if(item[3] != '' && item[4] != ''){%>
+                                    <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
+                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                        </tr>
+                                    <%}else{%>
+                                        <tr>
+                                            <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                            <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        </tr>
+                                    <%}%>
+                                <%}else{%>
+                                    <tr>
+                                        <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                        <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                    </tr>
+                                <%}%>
                             <%}%>
                         <%}%>
                         
