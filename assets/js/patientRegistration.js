@@ -21,6 +21,7 @@ function registerPatient() {
         type: 'POST',
         data: data,
         success: function (data) {
+            console.log(data)
             new Noty({
                 theme: 'relax',
                 text: data.message,
@@ -31,8 +32,7 @@ function registerPatient() {
             for (let i = 0; i < inputData.length; i++) {
                 document.getElementById(inputData[i]).value = ''
             }
-
-            window.open('/appointments/receipt/' + data.appointment._id)
+            window.open('/sales/bill/view/' + data.visit)
             window.location.href = '/patients/new'
         },
         error: function (err) {
@@ -127,7 +127,7 @@ function bookAppointmentWithId() {
             }
             document.getElementById('patientID').value ='';
 
-            window.open('/appointments/receipt/' + data.appointment._id)
+            window.open('/sales/bill/view/' + data.visit)
             window.location.href = '/patients/new'
         },
         error: function (err) {

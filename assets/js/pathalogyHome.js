@@ -9,10 +9,21 @@ function addTest() {
     let testResult = ''
     let refRange = ''
     let testCategory = 'Others';
+    
     testName = document.getElementById('testName').value
     testResult = document.getElementById('testResult').value
     refRange = document.getElementById('refRange').value
     testCategory = document.getElementById('category').value
+    if(testName == '' || testResult == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Test name and result are mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
     tests.push(testName + '$' + testResult + '$' + refRange + '$' + testCategory);
     rowItem.id = 'rowItem_' + counter
     rowItem.innerHTML =

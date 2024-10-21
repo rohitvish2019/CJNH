@@ -8,6 +8,16 @@ function addMedications(){
     let Batch = document.getElementById('Batch').value
     let Price = document.getElementById('Price').value
     let Quantity = document.getElementById('Quantity').value
+    if(Item == '' || Quantity == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Item Name and Quantity are mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
     purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity); 
     rowItem.innerHTML=
     `

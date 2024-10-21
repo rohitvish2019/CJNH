@@ -79,7 +79,8 @@ module.exports.addVisitAndPatient = async function(req, res){
         await visit.updateOne({SaleId:sale._id})
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         return res.status(200).json({
-            message:'Patient added'
+            message:'Patient added',
+            visit:sale._id
         })
     }catch(err){
         console.log(err);
@@ -241,7 +242,8 @@ module.exports.bookVisitToday = async function(req, res){
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         await visit.updateOne({SaleId:sale._id})
         return res.status(200).json({
-            message:'Visit Scheduled'
+            message:'Visit Scheduled',
+            visit:sale._id
         })
     }catch(err){
         console.log(err);
