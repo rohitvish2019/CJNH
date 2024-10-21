@@ -12,7 +12,7 @@
             border-collapse: collapse;
         }
         .header{
-            height: 10%;
+            height: 11%;
             text-align: center;
             border-bottom: 1px dotted rgb(198, 172, 172);
             padding-left: 20px;
@@ -22,7 +22,7 @@
         }
         
         .notes{
-            height: 8%;
+            height: 6%;
         }
         .div3{
             width: 33%;
@@ -39,11 +39,12 @@
             margin-bottom: 2%;
         }
         table{
-            width: 100%;
+            width: 99%;
             border: 1px solid black;
             border-collapse: collapse;
             font-size: large;
             margin-bottom: 30px;
+            margin-left: .5%;
         }
         th, td{
             text-align: center !important;
@@ -73,173 +74,189 @@
             font-size: large;
             margin-top: 3px;
         }
+        .logo{
+            margin-left:21%;
+        }
     </style>
 </head>
 <body>
     <div class="main-body">
-        <div class="header report-div">
-            <label style="font-size: 32px; border-bottom: 2px dashed black;"> Dr Chanda Jain Nursing Home </label>
-            <div style="display: flex;height: 100%;">
-                <div class="div3">
-                    <label class="large-font">Dr. R.K. Jain</label>
-                    <label class="mid-font">B.Sc. , MBBS, DNT, MCGP</label>
-                    <label class="mid-font">Regd No : 6682</label>
-                </div>
-                <div class="div3">
-                    <h2>Pathology Report</h2>
-                </div>
-                <div class="div3"></div>
-            </div>
-        </div>
-        <div class="patient-data report-div">
-            <div>
-                <div>
-                    <label class="patient-heading">Report No</label>
-                    <span class="patient-value"><%=report.ReportNo%></span>
-                </div>
-                <div>
-                    <label class="patient-heading">Name</label>
-                    <span class="patient-value"><%=report.Name%></span>
-                </div>
-                <div>
-                    <label class="patient-heading">Age , Gender</label>
-                    <span class="patient-value"><%=report.Age%>, <%=report.Gender%></span>
+        <div style="height: 94%;">
+            <div class="header report-div">
+                <label style="font-size: 32px; border-bottom: 2px dashed black;"> Dr Chanda Jain Nursing Home </label>
+                <div style="display: flex;height: 100%;">
+                    <div class="div3">
+                        <label class="large-font">Dr. R.K. Jain</label>
+                        <label class="mid-font">B.Sc. , MBBS, DNT, MCGP</label>
+                        <label class="mid-font">Regd No : 6682</label>
+                    </div>
+                    <div class="div3">
+                        <h2>Pathology Report</h2>
+                    </div>
+                    <div class="div3 logo" style="height: 60%; width: 10%;">
+                        <img src="/images/logo.jfif" height="100%" alt="">
+                    </div>
                 </div>
             </div>
-            <div>
+            <div class="patient-data report-div">
                 <div>
-                    <label class="patient-heading">Date</label>
-                    <span class="patient-value"><%=report.Date%></span>
+                    <div>
+                        <label class="patient-heading">Report No</label>
+                        <span class="patient-value"><%=report.ReportNo%></span>
+                    </div>
+                    <div>
+                        <label class="patient-heading">Name</label>
+                        <span class="patient-value"><%=report.Name%></span>
+                    </div>
+                    <div>
+                        <label class="patient-heading">Age , Gender</label>
+                        <span class="patient-value"><%=report.Age%>, <%=report.Gender%></span>
+                    </div>
                 </div>
                 <div>
-                    <label class="patient-heading">Mobile</label>
-                    <span class="patient-value"><%=report.Mobile%></span>
-                </div>
-                <div>
-                    <label class="patient-heading">Referred By</label>
-                    <span class="patient-value"><%=report.Doctor%></span>
+                    <div>
+                        <label class="patient-heading">Date</label>
+                        <span class="patient-value"><%=report.Date%></span>
+                    </div>
+                    <div>
+                        <label class="patient-heading">Mobile</label>
+                        <span class="patient-value"><%=report.Mobile%></span>
+                    </div>
+                    <div>
+                        <label class="patient-heading">Referred By</label>
+                        <span class="patient-value"><%=report.Doctor%></span>
+                    </div>
                 </div>
             </div>
-            
-        </div>
-        <div class="heamatology report-div">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3">HEAMATOLOGY REPORT</td>
-                    </tr>
-                    <tr>
-                        <th>Test</th>
-                        <th>Result</th>
-                        <th>Normal Range</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%for(let i=0;i<report.Items.length;i++){%>
-                        <%if(report.Items[i].split('$')[3] == 'HEAMATOLOGY'){%>
-                            <tr>
-                                <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                            </tr>
+
+            <div class="heamatology report-div">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">HAEMATOLOGY REPORT</td>
+                        </tr>
+                        <tr>
+                            <th>Test</th>
+                            <th>Result</th>
+                            <th>Normal Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<report.Items.length;i++){%>
+                            <%if(report.Items[i].split('$')[3] == 'HAEMATOLOGY'){%>
+                                <tr>
+                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
+                                </tr>
+                            <%}%>
+                            
                         <%}%>
                         
-                    <%}%>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div class="biochemisrty report-div">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3">BIOCHEMISTRY REPORT</td>
-                    </tr>
-                    
-                </thead>
-                <tbody>
-                    <%for(let i=0;i<report.Items.length;i++){%>
-                        <%if(report.Items[i].split('$')[3] == 'BIOCHEMISTRY'){%>
-                            <tr>
-                                <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                            </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="biochemisrty report-div">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">BIOCHEMISTRY REPORT</td>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<report.Items.length;i++){%>
+                            <%if(report.Items[i].split('$')[3] == 'BIOCHEMISTRY'){%>
+                                <tr>
+                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
+                                </tr>
+                            <%}%>
+                            
                         <%}%>
                         
-                    <%}%>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div class="urine-exam report-div">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3">URINE EXAMINATION REPORT</td>
-                    </tr>
-                    
-                </thead>
-                <tbody>
-                    <%for(let i=0;i<report.Items.length;i++){%>
-                        <%if(report.Items[i].split('$')[3] == 'URINE'){%>
-                            <tr>
-                                <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="urine-exam report-div">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">URINE EXAMINATION REPORT</td>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<report.Items.length;i++){%>
+                            <%if(report.Items[i].split('$')[3] == 'URINE'){%>
+                                <tr>
+                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
+                                </tr>
+                            <%}%>
+                            
                         <%}%>
                         
-                    <%}%>
-                    
-                </tbody>
-            </table>
-        </div>
-        <div class="serology report-div">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3">SEROLOGY REPORT</td>
-                    </tr>
-                    
-                </thead>
-                <tbody>
-                    <%for(let i=0;i<report.Items.length;i++){%>
-                        <%if(report.Items[i].split('$')[3] == 'SEROLOGY'){%>
-                            <tr>
-                                <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="serology report-div">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">SEROLOGY REPORT</td>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<report.Items.length;i++){%>
+                            <%if(report.Items[i].split('$')[3] == 'SEROLOGY'){%>
+                                <tr>
+                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
+                                </tr>
+                            <%}%>
                         <%}%>
-                    <%}%>
-                </tbody>
-            </table>
-        </div>
-        <div class="others report-div">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="3">OTHER REPORT</td>
-                    </tr>
-                    
-                </thead>
-                <tbody>
-                    <%for(let i=0;i<report.Items.length;i++){%>
-                        <%if(report.Items[i].split('$')[3] == 'OTHERS'){%>
-                            <tr>
-                                <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
-                                <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
-                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="others report-div">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">OTHER REPORT</td>
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <%for(let i=0;i<report.Items.length;i++){%>
+                            <%if(report.Items[i].split('$')[3] == 'OTHERS'){%>
+                                <tr>
+                                    <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
+                                    <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
+                                    <td style="width:45%;"><%=report.Items[i].split('$')[2]%></td>
+                                </tr>
+                            <%}%>
                         <%}%>
-                    <%}%>
-                    
-                </tbody>
-            </table>
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <div class="notes report-div" style="width: 720px;margin-left: 5px;display: flex; border-top: 1px dashed black;">
+            <div style="width: 80%; height: 71%;font-size: 14px;">
+                <label style="display: block;">1. Pathological tests have technical limitations, for any disparity repeated examinations are required.</label>
+                <label style="display: block;">2. No legal liability is accepted.</label>
+                <label style="display: block;">3. Clinical Correlation is also requested</label>
+            </div>
+            <div style="width: 20%;height: 70%;display: flex;justify-content: flex-end;align-items: end;">
+                <label style="font-size: larger;font-weight: bold;margin-right: 12%;">Signature</label>
+            </div>
         </div>
-        <div class="notes report-div"></div>
     </div>
 </body>
 </html>
