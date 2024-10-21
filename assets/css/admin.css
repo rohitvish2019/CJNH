@@ -5,6 +5,8 @@ body {
     margin: 0;
     padding: 0;
 }
+
+
 .sidebar{
     padding-top: 2%;
 }
@@ -12,6 +14,10 @@ body {
 #wrapper {
     display: flex;
     align-items: stretch;
+}
+
+.form-floating{
+    width: 80%;
 }
 
 #sidebar-wrapper {

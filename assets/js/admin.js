@@ -1,66 +1,70 @@
-$("#menu-toggle").click(function(e) {
+$("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
 openDashboard()
-function openDashboard(){
-    document.getElementById('users').style.display='none'
-    document.getElementById('settings').style.display='none'
-    document.getElementById('profile').style.display='none'
-    document.getElementById('dashboard').style.display='block'
+
+function openDashboard() {
+    document.getElementById('users').style.display = 'none'
+    document.getElementById('settings').style.display = 'none'
+    document.getElementById('profile').style.display = 'none'
+    document.getElementById('dashboard').style.display = 'block'
     getDashboardData()
 }
-function openUsers(){
-    document.getElementById('users').style.display='block'
-    document.getElementById('settings').style.display='none'
-    document.getElementById('profile').style.display='none'
-    document.getElementById('dashboard').style.display='none'
+
+function openUsers() {
+    document.getElementById('users').style.display = 'block'
+    document.getElementById('settings').style.display = 'none'
+    document.getElementById('profile').style.display = 'none'
+    document.getElementById('dashboard').style.display = 'none'
     getUsers()
 }
-function openSettings(){
-    document.getElementById('users').style.display='none'
-    document.getElementById('settings').style.display='flex'
-    document.getElementById('profile').style.display='none'
-    document.getElementById('dashboard').style.display='none'
+
+function openSettings() {
+    document.getElementById('users').style.display = 'none'
+    document.getElementById('settings').style.display = 'flex'
+    document.getElementById('profile').style.display = 'none'
+    document.getElementById('dashboard').style.display = 'none'
     getServices()
 }
-function openProfile(){
-    document.getElementById('users').style.display='none'
-    document.getElementById('settings').style.display='none'
-    document.getElementById('profile').style.display='block'
-    document.getElementById('dashboard').style.display='none'
+
+function openProfile() {
+    document.getElementById('users').style.display = 'none'
+    document.getElementById('settings').style.display = 'none'
+    document.getElementById('profile').style.display = 'block'
+    document.getElementById('dashboard').style.display = 'none'
     getMyProfile()
 }
 
-function getDashboardData(){
+function getDashboardData() {
     $.ajax({
-        url:'/reports/getDashboardData',
-        type:'Get',
-        success:function(data){
+        url: '/reports/getDashboardData',
+        type: 'Get',
+        success: function (data) {
             document.getElementById('canAptcount').innerHTML = data.cancelledApt
             document.getElementById('canPathcount').innerHTML = data.cancelledPath
             document.getElementById('pathcount').innerHTML = data.pathBills
             document.getElementById('aptcount').innerHTML = data.appointments
         },
-        error:function(err){
+        error: function (err) {
 
         }
     })
 }
 
-function getUsers(){
+function getUsers() {
     $.ajax({
-        url:'/user/getAllUsers',
-        type:'Get',
-        success:function(data){
+        url: '/user/getAllUsers',
+        type: 'Get',
+        success: function (data) {
             let container = document.getElementById('usersListTable');
-            container.innerHTML=``;
-            for(let i=0;i<data.usersList.length;i++){
+            container.innerHTML = ``;
+            for (let i = 0; i < data.usersList.length; i++) {
                 let user = data.usersList[i]
                 let rowItem = document.createElement('tr');
-                if(user.isValid == true){
-                    rowItem.innerHTML=
-                `
+                if (user.isValid == true) {
+                    rowItem.innerHTML =
+                        `
                     <td>${user.email}</td>
                     <td>${user.Name}</td>
                     <td>${user.Role}</td>
@@ -71,9 +75,9 @@ function getUsers(){
                     </td>
                     <td>Reset password</td>
                 `
-                }else{
-                    rowItem.innerHTML=
-                `
+                } else {
+                    rowItem.innerHTML =
+                        `
                     <td>${user.email}</td>
                     <td>${user.Name}</td>
                     <td>${user.Role}</td>
@@ -85,62 +89,78 @@ function getUsers(){
                     <td>Reset password</td>
                 `
                 }
-                
+
                 container.appendChild(rowItem)
             }
         },
-        error:function(err){
+        error: function (err) {
             console.log(err)
         }
     })
 }
 
 
-function getServices(){
+function getServices() {
     $.ajax({
-        url:'/reports/getAllServices',
-        type:'GET',
-        success:function(data){
+        url: '/reports/getAllServices',
+        type: 'GET',
+        success: function (data) {
             let container = document.getElementById('services-list');
             container.innerHTML = ``;
-            for(let i=0;i<data.services.length;i++){
+            for (let i = 0; i < data.services.length; i++) {
                 let service = data.services[i];
                 let rowItem = document.createElement('div');
                 rowItem.classList.add('input-group')
                 rowItem.classList.add('mb-3');
-                rowItem.innerHTML=
-                `
+                rowItem.innerHTML =
+                    `
                     <div class="input-group-prepend" style="width:80%; background-color:#e9ecef;">
                         <span class="input-group-text" id="${service._id+'name'}">${service.Name}</span>
                     </div>
                     <input id='${service._id+'price'}' class="input-group-value" onchange='markToUpdate("${service._id}")' type="text" class="form-control" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" value='₹ ${service.Price}'>
-                `
+                    <div style="margin-left:1%">
+                    <span id="dustbinLight" onmouseover = "highlight()"onmouseout = "unhighlight()" ><i class="fa-solid fa-trash-can"></i></span>
+                    <span style="display:none;" id="dustbinDark" onmouseover = "highlight()"onmouseout = "unhighlight()" ><i class="fa-regular fa-trash-can"></i></span>
+                    </div>
+                    `
                 container.appendChild(rowItem)
             }
         },
-        error:function(req, res){
+        error: function (req, res) {
             console.log(err)
         }
     })
-    
+
 }
+
+function unhighlight(x) {
+    document.getElementById('dustbinDark').style.display = "none";
+    document.getElementById('dustbinLight').style.display = "block";
+}
+
+function highlight(x) {
+    document.getElementById('dustbinDark').style.display = "block";
+    document.getElementById('dustbinLight').style.display = "none";
+}
+
 let valuesToUpdate = new Array();
-function markToUpdate(id){
+
+function markToUpdate(id) {
     let item = {
-        id:id,
-        Price: document.getElementById(id+'price').value.split('₹')[1]
+        id: id,
+        Price: document.getElementById(id + 'price').value.split('₹')[1]
     }
     valuesToUpdate.push(item);
 }
 
-function saveSettings(){
+function saveSettings() {
     $.ajax({
-        url:'/reports/saveServiceSettings',
-        data:{
+        url: '/reports/saveServiceSettings',
+        data: {
             valuesToUpdate,
         },
-        type:'POST',
-        success:function(data){
+        type: 'POST',
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: 'Settings saved',
@@ -150,7 +170,7 @@ function saveSettings(){
             }).show();
             return
         },
-        error:function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: 'Unable to save settings',
@@ -164,23 +184,23 @@ function saveSettings(){
 }
 
 
-function AddNewService(){
-    let Name= document.getElementById('Name').value
+function AddNewService() {
+    let Name = document.getElementById('Name').value
     let Category = document.getElementById('Category').value
     let Price = document.getElementById('Price').value
     let RefRange = document.getElementById('RefRange').value
     let Notes = document.getElementById('Notes').value
     $.ajax({
-        url:'/reports/saveService',
-        data:{
+        url: '/reports/saveService',
+        data: {
             Name,
             Category,
             Price,
             RefRange,
             Notes
         },
-        type:'POST',
-        success:function(data){
+        type: 'POST',
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: 'Service saved',
@@ -196,7 +216,7 @@ function AddNewService(){
             document.getElementById('Notes').value = ''
             return
         },
-        error:function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: 'Unable to save service',
@@ -209,22 +229,22 @@ function AddNewService(){
     })
 }
 
-function enableDisableUser(user){
+function enableDisableUser(user) {
     let message = '';
-    let status = document.getElementById('checkbox_'+user).checked
-    if(status){
-        message ='User enabled'
-    }else{
+    let status = document.getElementById('checkbox_' + user).checked
+    if (status) {
+        message = 'User enabled'
+    } else {
         message = 'User disabled'
     }
     $.ajax({
-        url:'/user/changeStatus',
-        data:{
+        url: '/user/changeStatus',
+        data: {
             user,
             status
         },
-        type:'Post',
-        success:function(data){
+        type: 'Post',
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: message,
@@ -233,7 +253,7 @@ function enableDisableUser(user){
                 timeout: 1500
             }).show();
         },
-        error: function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: 'Unable to change user status',
@@ -246,24 +266,26 @@ function enableDisableUser(user){
 }
 
 
-function getMyProfile(){
+function getMyProfile() {
     $.ajax({
-        url:'/user/profile',
-        success:function(data){
+        url: '/user/profile',
+        success: function (data) {
             document.getElementById('profileName').value = data.user.Name
             document.getElementById('profileMobile').value = data.user.Mobile
             document.getElementById('profileUsername').value = data.user.email
             document.getElementById('profileRole').value = data.user.Role
         },
-        error:function(err){}
+        error: function (err) {}
     })
 }
 
-function updateProfile(){
+
+
+function updateProfile() {
     let Name = document.getElementById('profileName').value
     let Mobile = document.getElementById('profileMobile').value
     let email = document.getElementById('profileUsername').value
-    if(Name == '' || Mobile == '' || email == ''){
+    if (Name == '' || Mobile == '' || email == '') {
         new Noty({
             theme: 'relax',
             text: 'Empty values not allowed',
@@ -274,14 +296,14 @@ function updateProfile(){
         return
     }
     $.ajax({
-        url:'/user/updateProfile',
-        type:'POST',
-        data : {
+        url: '/user/updateProfile',
+        type: 'POST',
+        data: {
             Name,
             Mobile,
             email
         },
-        success:function(data){
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: 'Profile updated',
@@ -291,7 +313,7 @@ function updateProfile(){
             }).show();
             return
         },
-        error:function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: JSON.parse(err.responseText)['message'],

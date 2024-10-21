@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
         integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/admin.css">
 </head>
@@ -27,7 +27,8 @@
             <div class="list-group list-group-flush">
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white"
                     onclick="openDashboard()"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a>
-                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openUsers()"><i class="fa-solid fa-hospital-user"></i> Users</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openUsers()"><i
+                        class="fa-solid fa-hospital-user"></i> Users</a>
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white"
                     onclick="openSettings()"><i class="fas fa-cogs"></i> Service & Charges</a>
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openProfile()"><i
@@ -99,7 +100,9 @@
                     <div id="services-list">
                     </div>
                     <div>
-                        <button class="btn btn-success" style="margin: 5%;" onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                        <button class="btn btn-success"
+                            style="width: 70%; padding: 2%; background-color:  #025E73; margin: 5%;"
+                            onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
                     </div>
                 </div>
                 <div class="card text-center" style="width: 45%; align-items: center; margin-left: 3%;">
@@ -121,16 +124,15 @@
 
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="RefRange" placeholder="name@example.com">
-                        <label for="Name"><i class="fa-solid fa-arrow-down-wide-short"></i> Normal Range<span>*</span></label>
+                        <label for="Name"><i class="fa-solid fa-arrow-down-wide-short"></i> Normal
+                            Range<span>*</span></label>
                     </div>
 
                     <div class="form-floating mb-2">
                         <input type="text" class="form-control" id="Notes" placeholder="name@example.com">
                         <label for="Name"><i class="fa-solid fa-file-waveform"></i> Default Notes<span>*</span></label>
                     </div>
-                    <div class="form-floating mb-2 text-center">
-                        <button class="btn btn-success"  style="padding: 10%; width: 150%;" onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
-                    </div>
+                    <button class="btn btn-success" style="margin-top: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;" onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
 
                 </div>
 
@@ -139,7 +141,7 @@
             <div id="profile" class="card" style="padding:3%;">
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileName" placeholder="name@example.com">
-                    <label for="Name"><i class="fas fa-user"></i>  Name<span>*</span></label>
+                    <label for="Name"><i class="fas fa-user"></i> Name<span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileMobile" placeholder="name@example.com">

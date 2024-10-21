@@ -33,13 +33,26 @@ function addItems() {
             <td>${itemPrice}</td>
             <td>${quantity}</td>
             <td>${Notes}</td>
-            <td><button class="btn btn-danger" style="margin: 1%;" onclick="deleteItem(${counter})">Delete</button></td>
+            <td>
+                <span id="dustbinDark" onmouseover = "highlight()" onmouseout = "unhighlight()" style="display:inline-block; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-solid fa-trash-can"></i> </span>
+                <span id="dustbinLight" onmouseover = "highlight()" onmouseout = "unhighlight()" style="display:none; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-regular fa-trash-can"></i> </span>
+            </td>
         </tr>
     `
     container.appendChild(rowItem)
     Items.push(itemName + '$' + quantity + '$' + itemPrice + '$' + Notes);
     document.getElementById('Item').value = ''
     document.getElementById('Price').value = ''
+}
+
+function unhighlight(x) {
+    document.getElementById('dustbinDark').style.display = "block";
+    document.getElementById('dustbinLight').style.display = "none";
+}
+
+function highlight(x) {
+    document.getElementById('dustbinDark').style.display = "none";
+    document.getElementById('dustbinLight').style.display = "block";
 }
 
 function deleteItem(counter){
