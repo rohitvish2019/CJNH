@@ -35,9 +35,10 @@
                         class="fas fa-sign-out-alt"></i> My Profile</a>
             </div>
         </div>
-        <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
+
+        <!-- Dashboard Tab-->
         <div id="page-content-wrapper">
             <div id="dashboard" class="dashboard container-fluid">
                 <h3 class="mt-4">Dashboard</h3>
@@ -77,6 +78,9 @@
                 </div>
             </div>
 
+            <!-- Dashboard END-->
+
+            <!-- USER TAB-->
             <div id="users" class="users">
                 <table class="table-bordered table-striped">
                     <thead>
@@ -93,9 +97,39 @@
                     </tbody>
                 </table>
             </div>
+            <!-- USER TAB END-->
 
-            <div id="settings" class="settings">
-                <div class="card text-center" style="width: 45%; margin-left: 5%;">
+            <!-- SETTINGS TAB-->
+            <div id="settings" style="text-align: center; padding: 10px; height: 75vh;" class="settings">
+                <div style="position: absolute; margin-left: 71%">
+                    <button class="btn btn-primary" onclick="popupservicewindow()">Add New Service</button>
+                </div>
+                <!-- Existing Services Display-->
+                <div class="table-body" style="margin-top: 5%; width: 100%; overflow: scroll;">
+                    <table class="table table-striped table-bordered">
+                        <caption>End of List</caption>
+                        <thead>
+                            <tr class="bg">
+                                <th>#</th>
+                                <th><i class="fas fa-cogs"></i> Service Name</th>
+                                <th><b>₹</b> Price</th>
+                                <th><i class="fa-solid fa-list"></i> Category</th>
+                                <th><i class="fa-solid fa-note-sticky"></i> Notes</th>
+                                <th><i class="fa-solid fa-hashtag"></i> Measurement Unit</th>
+                                <th><i class="fa-solid fa-arrow-down-9-1"></i> Minimum Range</th>
+                                <th><i class="fa-solid fa-arrow-up-9-1"></i> Maximum Range</th>
+                                <th><i class="fa-regular fa-hand-pointer"></i> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="">
+                            <!-- Table rows will be populated dynamically -->
+
+                        </tbody>
+                    </table>
+                </div>
+
+                    <!--
+                <div class="card text-center" style="width: 80%; margin-left: 5%;">
                     <h3 class="mb-3" style="margin: 5%;">Services & Charges</h3>
                     <div id="services-list">
                     </div>
@@ -105,68 +139,111 @@
                             onclick="saveSettings()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
                     </div>
                 </div>
-                <div class="card text-center" style="width: 45%; align-items: center; margin-left: 3%;">
-                    <h3 style="margin: 5%;">Add a New Service</h3>
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="Name" placeholder="name@example.com">
-                        <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
-                    </div>
+                -->
+                    <!-- Add new Services-->
 
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="Price" placeholder="name@example.com">
-                        <label for="Name"><b>₹ </b>Price <span>*</span></label>
-                    </div>
 
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="Category" placeholder="name@example.com">
-                        <label for="Name"><b> </b><i class="fa-solid fa-list"></i> Category<span>*</span></label>
-                    </div>
+                    <div id="addnewservice" class="card text-center">
 
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="RefRange" placeholder="name@example.com">
-                        <label for="Name"><i class="fa-solid fa-arrow-down-wide-short"></i> Normal
-                            Range<span>*</span></label>
-                    </div>
+                        <div style="margin: 1%; text-align: right;">
+                            <i onclick="closepopup()" style="align-items: end;"
+                                class="fa-regular fa-circle-xmark fa-2x"></i>
+                        </div>
+                        <h4>Add New Service</h4>
+                        <div class="container" style="display: flex;">
+                            <div class="left">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Name" placeholder="name@example.com">
+                                    <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
+                                </div>
 
-                    <div class="form-floating mb-2">
-                        <input type="text" class="form-control" id="Notes" placeholder="name@example.com">
-                        <label for="Name"><i class="fa-solid fa-file-waveform"></i> Default Notes<span>*</span></label>
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Price" placeholder="name@example.com">
+                                    <label for="Name"><b>₹ </b>Price <span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Category"
+                                        placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-list"></i>
+                                        Category<span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="RefRange"
+                                        placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-list-ol"></i> Normal
+                                        Range<span>*</span></label>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="Notes" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-note-sticky"></i> Default
+                                        Notes<span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="rrunit" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-hashtag"></i> Measurement
+                                        Unit<span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="rrmin" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-arrow-down-9-1"></i> Minimum
+                                        Range<span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="rrmin" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
+                                        Range<span>*</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn"
+                            style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
+                            onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
+
                     </div>
-                    <button class="btn btn-success" style="margin-top: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;" onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
 
                 </div>
+                 <!-- SETTINGS TAB END-->
 
+                <!-- MY PROFILE TAB-->
+                <div id="profile" class="card text-center" style="padding:3%;">
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="profileName" placeholder="name@example.com">
+                        <label for="Name"><i class="fas fa-user"></i> Name<span>*</span></label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="profileMobile" placeholder="name@example.com">
+                        <label for="Name"><i class="fa-solid fa-phone"></i> Mobile Number<span>*</span></label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="profileUsername" placeholder="name@example.com">
+                        <label for="Name"><i class="fa-solid fa-address-card"></i> Username<span>*</span></label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="text" class="form-control" id="profileRole" readonly
+                            placeholder="name@example.com">
+                        <label for="Name"><i class="fa-solid fa-users-gear"></i> Role<span>*</span></label>
+                    </div>
+                    <div class="form-floating text-center">
+                        <input style="width: 40%; background-color: #025E73; padding: 10px;" type="button" onclick="updateProfile()"
+                            class="btn btn-success" value="Update">
+                    </div>
+                </div>
+                <!-- MY PROFILE TAB END-->
+                 
             </div>
-
-            <div id="profile" class="card" style="padding:3%;">
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control" id="profileName" placeholder="name@example.com">
-                    <label for="Name"><i class="fas fa-user"></i> Name<span>*</span></label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control" id="profileMobile" placeholder="name@example.com">
-                    <label for="Name"><i class="fa-solid fa-phone"></i> Mobile Number<span>*</span></label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control" id="profileUsername" placeholder="name@example.com">
-                    <label for="Name"><i class="fa-solid fa-address-card"></i> Username<span>*</span></label>
-                </div>
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control" id="profileRole" readonly placeholder="name@example.com">
-                    <label for="Name"><i class="fa-solid fa-users-gear"></i> Role<span>*</span></label>
-                </div>
-                <div class="text-center" style="padding: 2%;">
-                    <input style="width: 50%;" type="button" onclick="updateProfile()"
-                        class="form-control btn btn-success" value="Update">
-                </div>
-            </div>
+            <!-- /#page-content-wrapper -->
         </div>
-        <!-- /#page-content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
+        <!-- /#wrapper -->
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="/js/admin.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="/js/admin.js"></script>
 </body>
 
 </html>
