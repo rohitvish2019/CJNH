@@ -91,6 +91,16 @@ body {
     margin-left: 15%;
 }
 
+#addnewuser{
+    background-color: #d0d0d0;
+    border-radius: 20px;
+    display:none; 
+    position:absolute;
+    height: fit-content; 
+    width: 40%;
+    margin-left: 15%;
+}
+
 table{
     align-items: center;
     text-align: center;
