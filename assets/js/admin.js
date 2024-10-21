@@ -28,6 +28,14 @@ function openSettings() {
     getServices()
 }
 
+function popupservicewindow(){
+    document.getElementById('addnewservice').style.display='block'
+}
+
+function closepopup(){
+    document.getElementById('addnewservice').style.display='none'
+}
+
 function openProfile() {
     document.getElementById('users').style.display = 'none'
     document.getElementById('settings').style.display = 'none'
