@@ -17,7 +17,7 @@ passport.use(new LocalStrategy({
                 console.log('Invalid Username/Password');
                 return done(null, false);
             }else{
-                return done(null, user);
+                return done(null, user._id);
             }
         }catch(err){
             console.log('Error in finding user --> Passport');
@@ -30,7 +30,7 @@ passport.use(new LocalStrategy({
 
 // serializing the user to decide which key is to be kept in the cookies
 passport.serializeUser(function(user, done){
-    done(null, user.id);
+    done(null, user._id);
 });
 
 
@@ -39,7 +39,7 @@ passport.serializeUser(function(user, done){
 passport.deserializeUser(async function(id, done){
     try{
         let user = await User.findById(id);
-        return done(null, user);
+        return done(null, user._id);
     }catch(err){
         console.log('Error in finding user --> Passport');
         return done(err);

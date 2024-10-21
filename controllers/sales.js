@@ -67,8 +67,8 @@ module.exports.addSales = async function(req, res){
             type:'Pathology',
             ReportNo:"PATH"+PathologyBillNo,
             Patient:Patient,
-            //UserName:req.user.Name,
-            //User:req.user._id,
+            UserName:req.user.Name,
+            User:req.user._id,
             BillDate:new Date().toISOString().split('T')[0],
             Total:req.body.Total,
             Items:req.body.Items,
@@ -145,16 +145,11 @@ module.exports.getBillsByDate = async function(req, res){
         let date = req.query.selectedDate;
         console.log(req.query)
         let billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
-        if(billsList.length > 0){
-            return res.status(200).json({
-                message:'Bills fetched',
-                billsList
-            })
-        }else{
-            return res.status(404).json({
-                message:'No bills found on specified date'
-            })
-        }
+        return res.status(200).json({
+            message:'Bills fetched',
+            billsList
+        })
+       
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -172,16 +167,12 @@ module.exports.getBillsByDateRange = async function(req, res){
                 {type:req.query.BillType,isCancelled:false, isValid:true}
             ]
         })
-        if(billsList.length > 0){
-            return res.status(200).json({
-                message:'Bills fetched',
-                billsList
-            })
-        }else{
-            return res.status(404).json({
-                message:'No bills found on specified dates'
-            })
-        }
+        
+        return res.status(200).json({
+            message:'Bills fetched',
+            billsList
+        })
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({

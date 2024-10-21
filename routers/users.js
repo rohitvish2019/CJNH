@@ -10,6 +10,8 @@ Router.get('/getAllUsers', UsersController.getUsers);
 Router.post('/changeStatus', UsersController.changeUserData);
 Router.get('/profile', UsersController.getProfile);
 Router.post('/updateProfile', UsersController.updateProfile);
+Router.get('/changePasswordHome', UsersController.changePasswordHome);
+Router.post('/updatePassword', UsersController.updatePassword)
 Router.post('/authenticate', passport.authenticate(
     'local',
     {failureRedirect: '/user/login'},

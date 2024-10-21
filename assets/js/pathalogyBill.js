@@ -24,6 +24,7 @@ function addItems() {
     let quantity = document.getElementById('Quantity').value
     let Notes = document.getElementById('Notes').value == undefined ? '' : document.getElementById('Notes').value
     let rowItem = document.createElement('tr');
+    rowItem.id='rowItem_'+ (counter+1)
     rowItem.innerHTML =
         `
         <tr>
@@ -32,7 +33,7 @@ function addItems() {
             <td>${itemPrice}</td>
             <td>${quantity}</td>
             <td>${Notes}</td>
-            <td><button class="btn btn-danger" style="margin: 1%;" onclick="">Delete</button></td>
+            <td><button class="btn btn-danger" style="margin: 1%;" onclick="deleteItem(${counter})">Delete</button></td>
         </tr>
     `
     container.appendChild(rowItem)
@@ -41,7 +42,12 @@ function addItems() {
     document.getElementById('Price').value = ''
 }
 
-
+function deleteItem(counter){
+    console.log('deleting item on position '+ (counter - 1))
+    console.log(typeof(counter))
+    Items.splice(counter-1, 1, '');
+    document.getElementById('rowItem_'+counter).remove()
+}
 function saveBill() {
     let id = document.getElementById('patientId').value;
     let patient = {
@@ -83,8 +89,8 @@ function saveBill() {
             id
         },
         success: function (data) {
-            window.open('/sales/bill/pathology')
-            window.location.href = '/sales/bill/view/' + data.Bill_id
+            window.location.href = '/sales/bill/pathology'
+            window.open('/sales/bill/view/' + data.Bill_id)
         },
         error: function (err) {}
     })

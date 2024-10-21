@@ -159,7 +159,7 @@ module.exports.getAppointmentsByDate = async function(req, res){
     }catch(err){
         console.log(err)
         return res.status(500).json({
-            message:'Internal server error : Unable to find visits for today'
+            message:'Internal server error : Unable to find visits for specified date'
         })
     }
 }

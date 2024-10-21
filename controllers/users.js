@@ -1,3 +1,4 @@
+const { emit } = require("../models/patients")
 const Users = require("../models/users")
 module.exports.loginHome = function(req, res){
     if(req.isAuthenticated()){
@@ -220,6 +221,38 @@ module.exports.updateProfile = async function(req, res){
         console.log(err);
         return res.status(500).json({
             message:'Internal server Error : Unable to update profile'
+        })
+    }
+}
+
+module.exports.changePasswordHome = function(req, res){
+    try{
+        return res.render('changePassword')
+    }catch(err){    
+        return res.render('Error_500')
+    }
+}
+
+
+module.exports.updatePassword = async function(req, res){
+    try{
+        let user = await Users.findById(req.user)
+        console.log(req.body.oldPassword.toString());
+        if(user.password.toString() === req.body.oldPassword.toString()){
+            await user.updateOne({password:req.body.password});
+            user.save();
+            return res.status(200).json({
+                message:'Password updated'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Incorrect old password'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal server error'
         })
     }
 }

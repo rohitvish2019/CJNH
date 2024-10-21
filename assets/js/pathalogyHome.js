@@ -13,13 +13,14 @@ function addTest(){
     refRange = document.getElementById('refRange').value
     testCategory = document.getElementById('category').value
     tests.push(testName+'$'+testResult+'$'+refRange+'$'+testCategory);
+    rowItem.id = 'rowItem_'+counter
     rowItem.innerHTML=
     `   <td>${counter}</td>
         <td>${testName}</td>
         <td>${refRange}</td>
         <td>${testResult}</td>
         <td>${testCategory}</td>
-        <td><button class="btn btn-danger" style="margin: 1%;" onclick="deleteItem(counter)">Delete</button></td>
+        <td><button class="btn btn-danger" style="margin: 1%;" onclick="deleteItem(${counter})">Delete</button></td>
     `
     container.appendChild(rowItem);
     counter++;
@@ -29,8 +30,9 @@ function addTest(){
     document.getElementById('category').value=''
 }
 
-function delteItem(counter){
-    tests.deleteRow(counter);
+function deleteItem(counter){
+    tests.splice(counter-1, 1, '');
+    document.getElementById('rowItem_'+counter).remove()
 }
 
 function saveTests(){
