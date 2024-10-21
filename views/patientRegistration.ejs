@@ -23,7 +23,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/js/patientRegistration.js"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -37,8 +37,9 @@
 
     <div id="registrationForm" class="text-center">
       <div class="input-group mb-3">
-        <input type="text" id="patientID" style="margin-right: 8px;" class="form-control"
-          placeholder="Search with Mobile or Id" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <input type="text" id="patientID" style="width:15%; padding: 20px 20px 20px 10px; margin-right: 8px;"
+          class="form-control" placeholder="Search with Mobile or Id" aria-label="Recipient's username"
+          aria-describedby="basic-addon2">
         <div class="input-group-append">
           <button class="btn" style="margin-right:8px; background-color:#025E73" type="button" onclick="searchById()"><i
               class="fas fa-search"></i> Search</button>
@@ -77,17 +78,18 @@
       </div>
       <div class="form-floating mb-2">
         <input type="text" class="form-control mb2" id="Mobile" placeholder="name@example.com">
-        <label for="Mobile"><i class="fa-solid fa-phone"></i>Mobile No<span>*</span></label>
+        <label for="Mobile"><i class="fa-solid fa-phone"></i> Mobile No<span>*</span></label>
       </div>
       <div class="form-floating mb-2">
         <input type="number" class="form-control" id="Fees" placeholder="name@example.com">
         <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
       </div>
-
-      <button id="register" class="btn" style="background-color:#025E73; width: 35%;" type="submit" value=""
-        onclick="registerPatient()"><i class="fas fa-user-plus"></i> Register</button>
-      <button id="bookAppointment" style="width: 35%;" disabled class="btn btn-success" type="submit"
-        onclick="bookAppointmentWithId()"><i class="fas fa-calendar-check"></i> Book Appointment</button>
+      <div style="padding-top: 10px;">
+        <button id="register" class="btn" style="background-color:#025E73; width: 35%;" type="submit" value=""
+          onclick="registerPatient()"><i class="fas fa-user-plus"></i> Register</button>
+        <button id="bookAppointment" style="width: 35%;" disabled class="btn btn-success" type="submit"
+          onclick="bookAppointmentWithId()"><i class="fas fa-calendar-check"></i> Book Appointment</button>
+      </div>
     </div>
   </section>
 

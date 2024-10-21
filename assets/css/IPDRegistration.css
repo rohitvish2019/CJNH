@@ -8,17 +8,22 @@ span{
     color: red;
     font-weight: bold;
 }
+.form-floating{
+    margin: 10px 0 0 0 ;
+}
 
 #registrationForm {
-    font-size: small;
-    max-width: 600px;
+    font-size: 15;
+    max-width: 900px;
     margin: auto;
-    background-color:#011F26;
-    padding: 20px;
+    background-color:#d0d0d0;
+    padding: 10px 10px 20px 10px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
     overflow-y: auto;
     margin-top: 2%;
+    max-height: fit-content;
+
 }
 
 .patient-form{
@@ -32,18 +37,22 @@ span{
 }
 .left, .right{
     width: 50%;
+    padding: 8px;
+    align-items: center !important;
+    text-align: center !important;
 }
 label {
-    display: block;
+    display: inline-block;
     color: #555;
 }
 
+
 input[type="text"], select, input[type="number"], textarea {
-    width: calc(100% - 22px);
     border: 2px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: small;
+    display: inline-block;
 }
 
 input[type="submit"] {
@@ -58,6 +67,10 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #45a049;
+}
+
+#register{
+    background-color:#025E73;
 }
 
 /* Responsive design */

@@ -19,7 +19,7 @@ function addTest(){
         <td>${refRange}</td>
         <td>${testResult}</td>
         <td>${testCategory}</td>
-        <td>delete</td>
+        <td><button class="btn btn-danger" style="margin: 1%;" onclick="deleteItem(counter)">Delete</button></td>
     `
     container.appendChild(rowItem);
     counter++;
@@ -27,6 +27,10 @@ function addTest(){
     document.getElementById('testResult').value=''
     document.getElementById('refRange').value=''
     document.getElementById('category').value=''
+}
+
+function delteItem(counter){
+    tests.deleteRow(counter);
 }
 
 function saveTests(){
