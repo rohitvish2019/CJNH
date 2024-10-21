@@ -17,7 +17,7 @@ function addTest() {
     if(testName == '' || testResult == ''){
         new Noty({
             theme: 'relax',
-            text: 'Test name and result are mandatory',
+            text: 'Mandatory details are missing',
             type: 'error',
             layout: 'topRight',
             timeout: 1500

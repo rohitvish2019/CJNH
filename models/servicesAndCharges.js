@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 const Services = new mongoose.Schema({
     Name:String,
     Price:Number,
-    RefRange:String,
+    RefRangeMin:Number,
+    RefRangeMax:Number,
+    RefRangeUnit:String,
     Category:String,
     Type:String,
     PaidTo:String,

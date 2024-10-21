@@ -30,17 +30,32 @@ module.exports.addServicesData = async function(req, res){
             Name:req.body.Name,
             Price:req.body.Price,
             Category:req.body.Category,
-            RefRange:req.body.RefRange,
+            RefRangeMax:req.body.RefRangeMax,
+            RefRangeMin:req.body.RefRangeMin,
+            RefRangeUnit:req.body.RefRangeUnit,
             Notes:req.body.Notes
 
         })
         return res.status(200).json({
-            message:'Test added successfully'
+            message:'Service item added successfully'
         })
     }catch(err){
         console.log(err)
         return res.status(500).json({
-            message:'Internal Server Error : Unable to add in tests'
+            message:'Internal Server Error : Unable to add in services'
+        })
+    }
+}
+
+module.exports.deleteService = async function(req, res){
+    try{
+        await ServicesData.findByIdAndDelete(req.params.serviceId);
+        return res.status(200).json({
+            message:'Service data deleted'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to delete service'
         })
     }
 }
@@ -377,7 +392,7 @@ module.exports.dashboard = async function(req, res){
     }catch(err){
         console.log(err);
         return res.status(500).json({
-            message:'Unable to fetch dahboard data'
+            message:'Unable to fetch dashboard data'
         })
     }
 }

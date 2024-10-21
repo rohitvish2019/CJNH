@@ -74,7 +74,7 @@
         <div class="right text-center">
             <h3 style="text-align: center; margin: 5%;">Add New Test</h3>
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Test Name</span>
+                <span class="input-group-text" id="basic-addon1">Test Name*</span>
                 <input id="testName" type="text" class="form-control" placeholder="" aria-label="Test Name" onchange="setRefRange()" aria-describedby="basic-addon1" list="servicesList">
                 <datalist id="servicesList">
                     <%for(let i=0;i<services.length;i++){%>
@@ -83,7 +83,7 @@
                 </datalist>
             </div>
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Test Result</span>
+                <span class="input-group-text" id="basic-addon1">Test Result*</span>
                 <input id="testResult" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="input-group input-group-sm mb-1">
@@ -91,7 +91,7 @@
                 <input id="refRange" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Category</span>
+                <span class="input-group-text" id="basic-addon1">Category*</span>
                 <select class="form-select" id="category" aria-label="Floating label select example">
                     
                     <option selected value="OTHERS">OTHERS</option>
