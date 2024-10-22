@@ -55,7 +55,9 @@
                         <tr class="bg">
                             <th>#</th>
                             <th>Test Name</th>
-                            <th>Reference Range</th>
+                            <th>Reference Range(Min)</th>
+                            <th>Reference Range(Max)</th>
+                            <th>Reference Range(Unit)</th>
                             <th>Result</th>
                             <th>Category</th>
                             <th>Action</th>
@@ -74,7 +76,7 @@
         <div class="right text-center">
             <h3 style="text-align: center; margin: 5%;">Add New Test</h3>
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Test Name</span>
+                <span class="input-group-text" id="basic-addon1">Test Name*</span>
                 <input id="testName" type="text" class="form-control" placeholder="" aria-label="Test Name" onchange="setRefRange()" aria-describedby="basic-addon1" list="servicesList">
                 <datalist id="servicesList">
                     <%for(let i=0;i<services.length;i++){%>
@@ -83,17 +85,36 @@
                 </datalist>
             </div>
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Test Result</span>
+                <span class="input-group-text" id="basic-addon1">Test Result*</span>
                 <input id="testResult" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+            
+
+
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Reference Range</span>
-                <input id="refRange" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon1">Minimum Range</span>
+                <input id="rrmin" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
             <div class="input-group input-group-sm mb-1">
-                <span class="input-group-text" id="basic-addon1">Category</span>
-                <input id="category" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="basic-addon1">Maximum Range</span>
+                <input id="rrmax" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
+            <div class="input-group input-group-sm mb-1">
+                <span class="input-group-text" id="basic-addon1">Measurement Unit</span>
+                <input id="rrunit" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group input-group-sm mb-1">
+                <span class="input-group-text" id="basic-addon1">Category*</span>
+                <select class="form-select" id="category" aria-label="Floating label select example">
+                    
+                    <option selected value="OTHERS">OTHERS</option>
+                    <option value="HAEMATOLOGY">HAEMATOLOGY</option>
+                    <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
+                    <option value="URINE">URINE</option>
+                    <option value="SEROLOGY">SEROLOGY</option>
+                </select>
+            </div>
+            
             <div class="text-center py-4">
                 <button style="width: 80%;" class="btn btn-success" onclick="addTest()">Add</button>
             </div>

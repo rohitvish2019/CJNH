@@ -166,13 +166,14 @@
                                 <th><b>₹</b> Price</th>
                                 <th><i class="fa-solid fa-list"></i> Category</th>
                                 <th><i class="fa-solid fa-note-sticky"></i> Notes</th>
-                                <th><i class="fa-solid fa-hashtag"></i> Measurement Unit</th>
+                                
                                 <th><i class="fa-solid fa-arrow-down-9-1"></i> Minimum Range</th>
                                 <th><i class="fa-solid fa-arrow-up-9-1"></i> Maximum Range</th>
+                                <th><i class="fa-solid fa-hashtag"></i> Measurement Unit</th>
                                 <th><i class="fa-regular fa-hand-pointer"></i> Action</th>
                             </tr>
                         </thead>
-                        <tbody id="">
+                        <tbody id="services-list">
                             <!-- Table rows will be populated dynamically -->
 
                         </tbody>
@@ -196,41 +197,38 @@
 
                 <div id="addnewservice" class="card text-center">
 
-                    <div style="margin: 1%; text-align: right;">
-                        <i onclick="closepopup()" style="align-items: end;"
-                            class="fa-regular fa-circle-xmark fa-2x"></i>
-                    </div>
-                    <h4>Add New Service</h4>
-                    <div class="container" style="display: flex;">
-                        <div class="left">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="Name" placeholder="name@example.com">
-                                <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
-                            </div>
-
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="Price" placeholder="name@example.com">
-                                <label for="Name"><b>₹ </b>Price <span>*</span></label>
-                            </div>
-
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="Category" placeholder="name@example.com">
-                                <label for="Name"><i class="fa-solid fa-list"></i>
-                                    Category<span>*</span></label>
-                            </div>
-
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="RefRange" placeholder="name@example.com">
-                                <label for="Name"><i class="fa-solid fa-list-ol"></i> Normal
-                                    Range<span>*</span></label>
-                            </div>
+                        <div style="margin: 1%; text-align: right;">
+                            <i onclick="closepopup()" style="align-items: end;"
+                                class="fa-regular fa-circle-xmark fa-2x"></i>
                         </div>
-                        <div class="right">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="Notes" placeholder="name@example.com">
-                                <label for="Name"><i class="fa-solid fa-note-sticky"></i> Default
-                                    Notes<span>*</span></label>
+                        <h4>Add New Service</h4>
+                        <div class="container" style="display: flex;">
+                            <div class="left">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="serviceName" placeholder="name@example.com">
+                                    <label for="Name"><i class="fas fa-cogs"></i>Service Name <span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="servicePrice" placeholder="name@example.com">
+                                    <label for="Name"><b>₹ </b>Price <span>*</span></label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="serviceCategory"
+                                        placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-list"></i>
+                                        Category<span>*</span></label>
+                                </div>
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="serviceNotes" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-note-sticky"></i> Default
+                                        Notes<span>*</span></label>
+                                </div>
+                                
                             </div>
+                            <div class="right">
+                                
 
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="rrunit" placeholder="name@example.com">
@@ -238,22 +236,22 @@
                                     Unit<span>*</span></label>
                             </div>
 
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="rrmin" placeholder="name@example.com">
-                                <label for="Name"><i class="fa-solid fa-arrow-down-9-1"></i> Minimum
-                                    Range<span>*</span></label>
-                            </div>
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="rrmin" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-arrow-down-9-1"></i> Minimum
+                                        Range<span>*</span></label>
+                                </div>
 
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="rrmin" placeholder="name@example.com">
-                                <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
-                                    Range<span>*</span></label>
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="rrmax" placeholder="name@example.com">
+                                    <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
+                                        Range<span>*</span></label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <button class="btn"
-                        style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
-                        onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
+                        <button class="btn"
+                            style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
+                            onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
 
                 </div>
 

@@ -86,10 +86,15 @@
                 <span class="input-group-text" id="basic-addon1">Reference Range</span>
                 <input id="refRange" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
             </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1">Category</span>
-                <input id="category" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
-            </div>
+            <select class="form-select" id="category" aria-label="Floating label select example">
+                <option selected disabled value="OTHERS">OTHERS</option>
+                <option value="HAEMATOLOGY">HAEMATOLOGY</option>
+                <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
+                <option value="URINE">URINE</option>
+                <option value="SEROLOGY">SEROLOGY</option>
+            </select>
+
+            
             <div>
                 <button style="width: 98%;margin-left: 1%;" class="btn btn-success" onclick="addTest()">Add</button>
             </div>

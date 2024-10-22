@@ -191,7 +191,7 @@ module.exports.changeUserData = async function(req, res){
 
 module.exports.getProfile = async function(req, res){
     try{
-        let user = await Users.findOne({email:req.user.email}, 'Name Mobile email Role');
+        let user = await Users.findById(req.user, 'Name Mobile email Role')
         return res.status(200).json({
             user
         })

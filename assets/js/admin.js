@@ -122,19 +122,24 @@ function getServices() {
             container.innerHTML = ``;
             for (let i = 0; i < data.services.length; i++) {
                 let service = data.services[i];
-                let rowItem = document.createElement('div');
-                rowItem.classList.add('input-group')
-                rowItem.classList.add('mb-3');
+                let rowItem = document.createElement('tr');
+                rowItem.id = service._id
                 rowItem.innerHTML =
                     `
-                    <div class="input-group-prepend" style="width:80%; background-color:#e9ecef;">
-                        <span class="input-group-text" id="${service._id+'name'}">${service.Name}</span>
-                    </div>
-                    <input id='${service._id+'price'}' class="input-group-value" onchange='markToUpdate("${service._id}")' type="text" class="form-control" placeholder="Amount" aria-label="Username" aria-describedby="basic-addon1" value='₹ ${service.Price}'>
-                    <div style="margin-left:1%">
-                    <span id="dustbinLight" onmouseover = "highlight()"onmouseout = "unhighlight()" ><i class="fa-solid fa-trash-can"></i></span>
-                    <span style="display:none;" id="dustbinDark" onmouseover = "highlight()"onmouseout = "unhighlight()" ><i class="fa-regular fa-trash-can"></i></span>
-                    </div>
+                    <td>${i+1}</td>
+                        <th>${service.Name}</th>
+                        <td><b>₹ ${service.Price}</b></td>
+                        <td>${service.Category}</td>
+                        <td>${service.Notes}</td>
+                        <td>${service.RefRangeMin}</td>
+                        <td>${service.RefRangeMax}</td>
+                        <td>${service.RefRangeUnit}</td>
+                        <td>
+							<div style="margin-left:1%" onclick = "deleteService('${service._id}')" >
+								<span id="dustbinLight" onmouseover = "highlight()" onmouseout = "unhighlight()" ><i class="fa-solid fa-trash-can"></i></span>
+								<span style="display:none;" id="dustbinDark" onmouseover = "highlight()" onmouseout = "unhighlight()" ><i class="fa-regular fa-trash-can"></i></span>
+							</div>
+						</td>
                     `
                 container.appendChild(rowItem)
             }
@@ -144,6 +149,23 @@ function getServices() {
         }
     })
 
+}
+
+function deleteService(id){
+    let confirmation = window.confirm("Service will be deleted permanently, Please CConfirm !!!")
+    if(confirmation){
+        $.ajax({
+            url:'/reports/deleteService/'+id,
+            type:'Delete',
+            success:function(data){
+                document.getElementById(id).remove();
+            },
+            error:function(err){}
+        })
+    }else{
+        return
+    }
+    
 }
 
 function unhighlight(x) {
@@ -198,18 +220,22 @@ function saveSettings() {
 
 
 function AddNewService() {
-    let Name = document.getElementById('Name').value
-    let Category = document.getElementById('Category').value
-    let Price = document.getElementById('Price').value
-    let RefRange = document.getElementById('RefRange').value
-    let Notes = document.getElementById('Notes').value
+    let Name = document.getElementById('serviceName').value
+    let Category = document.getElementById('serviceCategory').value
+    let Price = document.getElementById('servicePrice').value
+    let Notes = document.getElementById('serviceNotes').value
+    let RefRangeMin = document.getElementById('rrmin').value
+    let RefRangeMax = document.getElementById('rrmax').value
+    let RefRangeUnit = document.getElementById('rrunit').value
     $.ajax({
         url: '/reports/saveService',
         data: {
             Name,
             Category,
             Price,
-            RefRange,
+            RefRangeMin,
+            RefRangeMax,
+            RefRangeUnit,
             Notes
         },
         type: 'POST',

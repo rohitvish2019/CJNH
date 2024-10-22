@@ -80,6 +80,8 @@ body {
 .bg th{
     color: white;
     background-color: #025E73 !important ;
+    position: sticky;
+    top: 0;
 }
 #addnewservice{
     background-color: #d0d0d0;
@@ -99,11 +101,12 @@ body {
     height: fit-content; 
     width: 40%;
     margin-left: 15%;
+    
 }
 
 table{
     align-items: center;
-    text-align: center;
+    text-align: left;
     width: 100%;
     border: 1px solid black;
 }
