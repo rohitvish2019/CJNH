@@ -3,10 +3,6 @@ const VisitData = require('../models/visits');
 const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
 const AdmittedPatients = require('../models/admittedPatients')
-module.exports.test= function(req, res){
-    return res.render('test');
-}
-
 
 module.exports.patientRegistartionHome = function(req, res){
     try{
@@ -19,7 +15,11 @@ module.exports.patientRegistartionHome = function(req, res){
 
 module.exports.oldAppointmentsHome = function(req, res){
     try{
-        return res.render('oldAppointments')
+        if(req.user.Role == 'Admin'){
+            return res.render('oldAppointments')
+        }else{
+            return res.render('Error_403')
+        }
     }catch(err){
         console.log(err)
         return res.render('Error_500')
@@ -255,11 +255,18 @@ module.exports.bookVisitToday = async function(req, res){
 
 module.exports.changeVisitStatus = async function(req, res){
     try{
-        let visit = await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
-        await Sales.findByIdAndUpdate(visit.SaleId,{isValid:req.body.status})
-        return res.status(200).json({
-            message:'Status changed'
-        })
+        if(req.user.Role == 'Admin'){
+            let visit = await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
+            await Sales.findByIdAndUpdate(visit.SaleId,{isValid:req.body.status})
+            return res.status(200).json({
+                message:'Status changed'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request, please check with admin'
+            })
+        }
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -315,7 +322,12 @@ module.exports.showAdmitted = async function(req, res){
 
 module.exports.admittedPatientProfile = function(req, res){
     try{
-        return res.render('admittedPatientProfile')
+        if(req.user.Role == 'Admin'){
+            return res.render('admittedPatientProfile')
+        }else{
+            return res.render('Error_403')
+        }
+        
     }catch(err){
         return res.render('Error_500')
     }

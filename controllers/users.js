@@ -150,7 +150,12 @@ module.exports.updateProfile = async function(req, res){
  */
 module.exports.adminHome = async function(req, res){
     try{
-        return res.render('Admin');
+        if(req.user.Role == 'Admin'){
+            return res.render('Admin');
+        }else{
+            return res.render('Error_403')
+        }
+        
     }catch(err){
         console.log(err)
         return res.render('Error_500')
@@ -159,10 +164,17 @@ module.exports.adminHome = async function(req, res){
 
 module.exports.getUsers = async function(req, res){
     try{
-        let usersList = await Users.find({},'email Name Role isValid Mobile');
-        return res.status(200).json({
-            usersList
-        })
+        if(req.user.Role == 'Admin'){
+            let usersList = await Users.find({},'email Name Role isValid Mobile');
+            return res.status(200).json({
+                usersList
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request : Please check with Admin'
+            })
+        }
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -178,13 +190,20 @@ module.exports.changeUserData = async function(req, res){
                 message:'Self disbale in not allowed'
             })
         }
-        await Users.findByIdAndUpdate(req.body.user, {isValid:req.body.status});
-        return res.status(200).json({
-            message:'User status changed'
-        })
+        if(req.user.Role == 'Admin'){
+            await Users.findByIdAndUpdate(req.body.user, {isValid:req.body.status});
+            return res.status(200).json({
+                message:'User status changed'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request : Please check with Admin'
+            })
+        }
+        
     }catch(err){
         return res.status(500).json({
-            message :'Unabale to change status'
+            message :'Unable to change status'
         })
     }
 }

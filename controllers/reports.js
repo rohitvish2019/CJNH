@@ -357,7 +357,7 @@ module.exports.getServiceByName = async function(req, res){
         })
     }
 }
-
+/*
 module.exports.saveServicesUpdates = async function(req, res){
     console.log(req.body)
     try{
@@ -376,19 +376,28 @@ module.exports.saveServicesUpdates = async function(req, res){
     }
 }
 
+*/
+
 module.exports.dashboard = async function(req, res){
     try{
-        let today = new Date().toISOString().split('T')[0]
-        let appointments = await SalesData.find({type:'Appointment', BillDate:today}).countDocuments()
-        let cancelledApt = await SalesData.find({type:'Appointment', BillDate:today, isValid:false}).countDocuments()
-        let pathBills = await SalesData.find({type:'Pathology', BillDate:today}).countDocuments()
-        let cancelledPath = await SalesData.find({type:'Pathology', BillDate:today, isValid:false}).countDocuments()
-        return res.status(200).json({
-            appointments,
-            cancelledApt,
-            pathBills,
-            cancelledPath
-        })
+        if(req.user.Role == 'Admin'){
+            let today = new Date().toISOString().split('T')[0]
+            let appointments = await SalesData.find({type:'Appointment', BillDate:today}).countDocuments()
+            let cancelledApt = await SalesData.find({type:'Appointment', BillDate:today, isValid:false}).countDocuments()
+            let pathBills = await SalesData.find({type:'Pathology', BillDate:today}).countDocuments()
+            let cancelledPath = await SalesData.find({type:'Pathology', BillDate:today, isValid:false}).countDocuments()
+            return res.status(200).json({
+                appointments,
+                cancelledApt,
+                pathBills,
+                cancelledPath
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized action : Please check with Admin'
+            })
+        }
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({
