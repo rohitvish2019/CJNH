@@ -116,7 +116,7 @@
                 <div>
                     <div>
                         <label class="patient-heading">Date</label>
-                        <span class="patient-value"><%=report.Date%></span>
+                        <span class="patient-value"><%=report.Date.split('-')[2]%>-<%=report.Date.split('-')[1]%>-<%=report.Date.split('-')[0]%></span>
                     </div>
                     <div>
                         <label class="patient-heading">Mobile</label>
@@ -150,20 +150,20 @@
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
-                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                            <td style="width:45%;"><%=item[3]%> - <%=item[4]%> <%=item[5]%></td>
                                         </tr>
                                     <%}else{%>
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                         </tr>
                                     <%}%>
                                 <%}else{%>
                                     <tr>
                                         <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                         <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                     </tr>
                                 <%}%>
                             <%}%>
@@ -191,20 +191,20 @@
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
-                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                            <td style="width:45%;"><%=item[3]%> - <%=item[4]%> <%=item[5]%></td>
                                         </tr>
                                     <%}else{%>
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                         </tr>
                                     <%}%>
                                 <%}else{%>
                                     <tr>
                                         <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                         <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                     </tr>
                                 <%}%>
                             <%}%>
@@ -231,20 +231,20 @@
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
-                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                            <td style="width:45%;"><%=item[3]%> - <%=item[4]%> <%=item[5]%></td>
                                         </tr>
                                     <%}else{%>
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                         </tr>
                                     <%}%>
                                 <%}else{%>
                                     <tr>
                                         <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                         <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                     </tr>
                                 <%}%>
                             <%}%>
@@ -271,20 +271,20 @@
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
-                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                            <td style="width:45%;"><%=item[3]%> - <%=item[4]%> <%=item[5]%></td>
                                         </tr>
                                     <%}else{%>
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                         </tr>
                                     <%}%>
                                 <%}else{%>
                                     <tr>
                                         <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                         <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                     </tr>
                                 <%}%>
                             <%}%>
@@ -309,20 +309,20 @@
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;background-color: rgb(250, 250, 134);"><%=item[1]%></td>
-                                            <td style="width:45%;"><%=item[3]%>-<%=item[4]%> <%=item[5]%></td>
+                                            <td style="width:45%;"><%=item[3]%> - <%=item[4]%> <%=item[5]%></td>
                                         </tr>
                                     <%}else{%>
                                         <tr>
                                             <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                             <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                            <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                         </tr>
                                     <%}%>
                                 <%}else{%>
                                     <tr>
                                         <td style="width:35%;"><%=report.Items[i].split('$')[0]%></td>
                                         <td style="width:20%;"><%=report.Items[i].split('$')[1]%></td>
-                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%>-<%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
+                                        <td style="width:45%;"><%=report.Items[i].split('$')[3]%> - <%=report.Items[i].split('$')[4]%> <%=report.Items[i].split('$')[5]%></td>
                                     </tr>
                                 <%}%>
                             <%}%>

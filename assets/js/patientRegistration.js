@@ -87,6 +87,7 @@ function searchById() {
                     document.getElementById(inputData[i]).value = '';
                 }
             }
+            document.getElementById('Fees').value = 400 
             document.getElementById('patientID').value ='';
             document.getElementById('lastFeesPaid').innerText = 'NA'
             document.getElementById('lastVisitDate').innerText = 'NA'
