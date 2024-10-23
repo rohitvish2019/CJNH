@@ -28,11 +28,16 @@ function openSettings() {
     getServices()
 }
 
+function popupuserwindow(){
+    document.getElementById('addnewuser').style.display='block'
+}
+
 function popupservicewindow(){
     document.getElementById('addnewservice').style.display='block'
 }
 
 function closepopup(){
+    document.getElementById('addnewuser').style.display='none'
     document.getElementById('addnewservice').style.display='none'
 }
 
