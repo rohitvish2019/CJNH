@@ -11,6 +11,12 @@ const Visits = new mongoose.Schema({
     Prescriptions:Array,
     Fees:Number,
     Doctor:String,
+    AdmissionDate:String,
+    DischargeDate:String,
+    BroughtBy:String,
+    Reason:String,
+    AdmissionTime:String,
+    DischargeTime:String,
     SaleId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Sale'

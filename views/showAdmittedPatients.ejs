@@ -25,46 +25,51 @@
             <th scope="col">#</th>
             <th scope="col"><i class="fas fa-user"></i> Name</th>
             <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
-            <th scope="col"><i class="fa-solid fa-venus-mars"></i> Gender</th>
             <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
             <th scope="col"><i class="fas fa-phone"></i> Mobile</th>
-            <th scope="col"><i class="fa-solid fa-calendar"></i> Admission Date</th>
+            <th scope="col"><i class="fa-solid fa-calendar"></i> Admission on</th>
+            <th scope="col"><i class="fa-solid fa-calendar"></i> Discharge on</th>
             <th scope="col"><i class="fas fa-user"></i> Patient Profile</th>
-            <th scope="col"><i class="fa-solid fa-file"></i> Bill</th>
+            
             <th scope="col"><i class="fa-solid fa-hand-pointer"></i> Action</th>
+            <th scope="col"><i class="fa-solid fa-file"></i> Bill</th>
+            <th scope="col"><i class="fa-solid fa-file"></i> Discharge Sheet</th>
           </tr>
         </thead>
         <tbody>
-            <%for(let i=0;i<patients.length;i++){%>
-                <tr id="<%=patients[i]._id%>">
+            <%for(let i=0;i<visits.length;i++){%>
+                <tr id="<%=visits[i].Patient._id%>">
                   <%if(false){%>
                     <th style="width: 2%;background-color: #1bdf7359;" scope="row"><%=i+1%></th>
-                    <td style="width: 9%;background-color: #1bdf7359;"><%=patients[i].Name%></td>
-                    <td style="width: 2%;background-color: #1bdf7359;"><%=patients[i].Age%></td>
-                    <td style="width: 3%;background-color: #1bdf7359;"><%=patients[i].Gender%></td>
-                    <td style="width: 10%;background-color: #1bdf7359;"><%=patients[i].Address%></td>
-                    <td style="width: 10%;background-color: #1bdf7359;"><input type="date" name="" id="opdate_<%=patients[i]._id%>" value="<%=patients[i].OperationDate%>"></td>
-                    <td style="padding: 0.2% !important;margin: 0;width: 20%;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="cnh_<%=patients[i]._id%>" rows="8" cols="30"><%=patients[i].Complaint%></textarea></td>
-                    <td style="padding: 0.2% !important;margin: 0;width: 20%;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="opdesc_<%=patients[i]._id%>" rows="8" cols="30"><%=patients[i].OperationDescription%></textarea></td>
-                    <td style="padding: 0.2% !important;margin: 0;width:15% ;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="remarks_<%=patients[i]._id%>" rows="8" cols="18"><%=patients[i].Remarks%></textarea></td>
-                    <td style="width: 9%;background-color: #1bdf7359;" id="<%=patients[i]._id%>">
-                      <button class="btn btn-success" style="margin-top: 3%;" onclick="Save('<%=patients[i]._id%>')">Save</button>
-                      <a href="/patients/dischargeSheet/<%=patients[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+                    <td style="width: 9%;background-color: #1bdf7359;"><%=visits[i].Patient.Name%></td>
+                    <td style="width: 2%;background-color: #1bdf7359;"><%=visits[i].Patient.Age%></td>
+                    <td style="width: 10%;background-color: #1bdf7359;"><%=visits[i].Patient.Address%></td>
+                    <td style="width: 10%;background-color: #1bdf7359;"><input type="date" name="" id="opdate_<%=visits[i].Patient._id%>" value="<%=visits[i].Patient.OperationDate%>"></td>
+                    <td style="padding: 0.2% !important;margin: 0;width: 20%;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="cnh_<%=visits[i].Patient._id%>" rows="8" cols="30"><%=visits[i].Patient.Complaint%></textarea></td>
+                    <td style="padding: 0.2% !important;margin: 0;width: 20%;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="opdesc_<%=visits[i].Patient._id%>" rows="8" cols="30"><%=visits[i].Patient.OperationDescription%></textarea></td>
+                    <td style="padding: 0.2% !important;margin: 0;width:15% ;background-color: #1bdf7359;"><textarea style="border: none;" name="" id="remarks_<%=visits[i].Patient._id%>" rows="8" cols="18"><%=visits[i].Patient.Remarks%></textarea></td>
+                    <td style="width: 9%;background-color: #1bdf7359;" id="<%=visits[i].Patient._id%>">
+                      <button class="btn btn-success" style="margin-top: 3%;" onclick="Save('<%=visits[i].Patient._id%>')">Save</button>
+                      <a href="/patients/dischargeSheet/<%=visits[i].Patient._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
                     </td>
                     <%}else{%>
                       <th style="width: 2%;" scope="row"><%=i+1%></th>
-                      <td style="width: 9%;"><%=patients[i].Name%></td>
-                      <td style="width: 2%;"><%=patients[i].Age%></td>
-                      <td style="width: 3%;"><%=patients[i].Gender%></td>
-                      <td style="width: 10%;"><%=patients[i].Address%></td>
-                      <td style="width: 10%;"><%=patients[i].Mobile%></td>
-                      <td style="width: 10%;"><%=String(patients[i].AdmissionDate).substr(4,11)%></td>
-                      <td style="width: 10%;"><a href="/patients/viewAdmitted/<%=patients[i]._id%>">Info</a></td>
-                      <td style="width: 10%;">Admission Bill</td>
-                      <td style="width: 9%;" id="<%=patients[i]._id%>">
-                        <button class="btn btn-primary" style="margin-top: 3%;margin-bottom: 31%;display: none;" onclick="Discharge('<%=patients[i]._id%>')">Discharge</button>
-                        <a href="/patients/dischargeSheet/<%=patients[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+                      <td style="width: 9%;"><%=visits[i].Patient.Name%></td>
+                      <td style="width: 2%;"><%=visits[i].Patient.Age%></td>
+                      <td style="width: 10%;"><%=visits[i].Patient.Address%></td>
+                      <td style="width: 10%;"><%=visits[i].Patient.Mobile%></td>
+                      <td style="width: 10%;"><%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%></td>
+                      <td><input type="datetime-local" name="" id="dischargeDate" onchange="changeDischargeDate('<%=visits[i]._id%>')"></td>
+                      <td style="width: 10%;"><a href="/patients/viewAdmitted/<%=visits[i].Patient._id%>">Info</a></td>
+                      
+                      <td style="width: 9%;" id="<%=visits[i].Patient._id%>">
+                        <button class="btn btn-primary" onclick="Discharge('<%=visits[i].Patient._id%>')">Discharge</button>
                       </td>
+                      <td style="width: 10%;">Admission Bill</td>
+                      <td>
+                        <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+                      </td>
+                        
                     <%}%>
                     
                 </tr>
@@ -73,53 +78,6 @@
         </tbody>
       </table>
       
-      <script>
-        function Save(id){
-          let cnh,opdate,opdesc,remarks;
-          cnh = document.getElementById('cnh_'+id).value
-          opdate = document.getElementById('opdate_'+id).value
-          opdesc = document.getElementById('opdesc_'+id).value
-          remarks = document.getElementById('remarks_'+id).value
-          $.ajax({
-              url:'/patients/save/admissionData',
-              data:{id,cnh,opdate,opdesc,remarks},
-              type:'Post',
-              success:function(data){
-                console.log(data)
-                new Noty({
-                theme: 'relax',
-                text: data.message,
-                type: 'success',
-                layout: 'topRight',
-                timeout: 1500
-            }).show();
-              },
-              error:function(err){console.log(err.responseText)}
-          })
-        }
-        
-        function Discharge(id){
-          let cnh,opdate,opdesc,remarks;
-          cnh = document.getElementById('cnh_'+id).value
-          opdate = document.getElementById('opdate_'+id).value
-          opdesc = document.getElementById('opdesc_'+id).value
-          remarks = document.getElementById('remarks_'+id).value
-          $.ajax({
-              url:'/patients/discharge/',
-              data:{id},
-              type:'Post',
-              success:function(data){
-                new Noty({
-                theme: 'relax',
-                text: data.message,
-                type: 'success',
-                layout: 'topRight',
-                timeout: 1500
-            }).show();
-              },
-              error:function(err){console.log(err.responseText)}
-          })
-        }
-      </script>
+      <script src="/js/showAdmittedPatients.js"></script>
 </body>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dischargeSheet.css">
+    <title>Discharge Sheet</title>
+</head>
+<body class="container">
+    <div style="display: flex;height: 100%;flex-direction: column;">
+        <div class="hospital-details" style="height: 6%;text-align: center;">
+            <label style="font-size: 27px;font-weight: bolder;display: block;">डॉ. चंदा &nbsp;जैन &nbsp;नर्सिंग &nbsp;होम</label>
+            <label>323, सिविल वार्ड नंबर 7 दमोह (म. प्र.). Mob : 6263169195, Ph. No : 07812-222441</label>
+        </div>
+        <div class="patient-info">
+            <label hidden for="" id="visitId"><%=visit._id%></label>
+            <div class="patient-data" style="width: 9%; ">
+                <small for=""><b>ID</b></small>
+                <label for="" id=""><%=visit.Patient.Id%></label>
+            </div>
+            <div class="patient-data" style="width: 32%;">
+                <small for=""><b>Name</b></small>
+                <label for=""><%=visit.Patient.Name%></label>
+            </div>
+            <div class="patient-data" style="width: 7%;">
+                <small for=""><b>Age</b></small>
+                <label for=""><%=visit.Patient.Age%></label>
+            </div>
+            <div class="patient-address" style="width: 34%;">
+                <small for=""><b>Address</b></small>
+                <label for=""><%=visit.Patient.Address%></label>
+            </div>
+            <div class="patient-data" style="width: 18%; ">
+                <small for=""><b>Date</b></small>
+                <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
+                <label for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
+            </div>
+        </div>
+        <div class="dischargeItems" style="height: 4%;">
+            <div>
+                <label>Admission Date : 01-01-2024 at 11:50 AM</label>
+            </div>
+            <div>
+                <label>Discharge Date : 01-01-2024 at 11:50 AM</label>
+            </div> 
+        </div>
+        <div class="condition" style="height: 20%;">
+            <textarea name="" id="" placeholder="conditon on admisson"></textarea>
+            <textarea name="" id="" placeholder="condition on discharge"></textarea>
+        </div>
+        <div class="investigation-tables" style="height: 28%;">
+            Add 3 tables here, <br>
+            1.O/H MS- wali, <br>
+            2. Invet Done wali <br>
+            3. Treatment given wali
+        </div>
+        <div class="notes" style="height: 10%;">
+            <textarea name="" placeholder="Operative notes"></textarea>
+            <textarea name="" placeholder="Baby notes"></textarea>
+        </div>
+        <div class="dischargePrescription" style="height: 25%;">
+            Discharge Advice wali table and leave around 30% width on right side
+        </div>
+    </div>
+</body>
+</html>

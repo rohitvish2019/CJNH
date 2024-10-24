@@ -83,7 +83,7 @@ function getUsers() {
                     <td>${user.Role}</td>
                     <td>
                         <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}" checked>
+                        <input style='margin-left:0%' class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}" checked>
                         </div>
                     </td>
                     <td>Reset password</td>
@@ -362,5 +362,48 @@ function updateProfile() {
             }).show();
             return
         }
+    })
+}
+
+
+function AddNewUser(){
+    let feilds = ['FullName', 'Mobile', 'email', 'Password', 'Role']
+    let profileData = new Object();
+    for(let i=0;i<feilds.length;i++){
+        if(document.getElementById(feilds[i]).value == ''){
+            new Noty({
+                theme: 'relax',
+                text: 'All feilds are mandatory',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
+        }else{
+            profileData[feilds[i]] = document.getElementById(feilds[i]).value
+        }
+    }
+    $.ajax({
+        url:'/user/addNew',
+        data:profileData,
+        type:'Post',
+        success:function(data){
+            new Noty({
+                theme: 'relax',
+                text: 'User added',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
+        error: function(err){
+            new Noty({
+                theme: 'relax',
+                text: 'Unable to add user',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
     })
 }

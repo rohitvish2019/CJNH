@@ -55,7 +55,7 @@ module.exports.addVisitAndPatient = async function(req, res){
         }
         let visit = await VisitData.create({
             Patient:patient._id,
-            Type:req.body.Type,
+            Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
             Visit_date:new Date().toISOString().split('T')[0],
@@ -218,7 +218,7 @@ module.exports.bookVisitToday = async function(req, res){
     try{
         let visit = await VisitData.create({
             Patient:patient._id,
-            Type:req.body.Type,
+            Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
             Visit_date:new Date().toISOString().split('T')[0],
@@ -285,6 +285,8 @@ module.exports.IPDpatientRegistration = function(req, res){
 }
 
 module.exports.admitPatient = async function(req, res){
+    //ID, type
+    console.log(req.body);
     let id;
     try{
           id = await Tracker.findOne({});
@@ -294,13 +296,26 @@ module.exports.admitPatient = async function(req, res){
           })
     }
     try{
-          let patient = await AdmittedPatients.create(req.body);
-          let newId = Number(id.AdmissionNo) + 1
-          await id.updateOne({AdmissionNo:newId})
-          await patient.updateOne({AdmissionNo:newId});
+          let patient = await PatientData.create(req.body);
+          let newId = Number(id.patientId) + 1
+          await id.updateOne({patientId:newId})
+          let visit = await VisitData.create({
+            Patient:patient._id,
+            Visit_date:req.body.AdmissionDate,
+            Doctor:req.body.Doctor,
+            Type:'IPD',
+            AdmissionDate:req.body.AdmissionDate,
+            AdmissionTime:req.body.AdmissionTime,
+            Reason:req.body.Reason,
+            BroughtBy:req.body.BroughtBy
+          })
+          await patient.updateOne({$push:{Visits:visit._id}, Id:newId});
+          patient.Visits.push(visit._id);
           return res.status(200).json({
                 message:'Patient Admitted'
           })
+
+          
     }catch(err){
           console.log(err)
           return res.status(500).json({
@@ -311,8 +326,8 @@ module.exports.admitPatient = async function(req, res){
 
 module.exports.showAdmitted = async function(req, res){
     try{
-          let patients = await AdmittedPatients.find({}).sort([['createdAt',-1]]);
-          return res.render('showAdmittedPatients',{patients})
+          let visits = await VisitData.find({Type:'IPD'}).populate('Patient').sort([['createdAt',-1]]);
+          return res.render('showAdmittedPatients',{visits})
     }catch(err){
           console.log(err)
           return res.render('Error_500')
@@ -332,6 +347,15 @@ module.exports.admittedPatientProfile = function(req, res){
         return res.render('Error_500')
     }
 }
+/*
+module.exports.saveDischargeDate = function(Req, res){
+    try{
+        await 
+    }catch(err){
+
+    }
+}
+    */
 function getSixHourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
     const startDateTime = new Date(`${startDate}T${startTime}`);
@@ -354,6 +378,16 @@ module.exports.showPrescription = async function(req, res){
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         return res.render('prescriptionForm', {visit})
     }catch(err){
+        return res.render('Error_500')
+    }
+}
+
+module.exports.dischargeSheet = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.params.id).populate('Patient');
+        return res.render('dischargeSheetTemplate', {visit})
+    }catch(err){
+        console.log(err);
         return res.render('Error_500')
     }
 }

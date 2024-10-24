@@ -36,35 +36,37 @@ module.exports.logout = function(req, res){
 }
 
 
-/*
+
 module.exports.addUser = async function(req, res){
     try{
+        console.log(req.body)
         let user;
-        user = await Users.findOne({email:req.user.email});
+        user = await Users.findOne({email:req.body.email});
         if(user){
             return res.status(409).json({
                 message:'User id already exists'
             })
         }else{
             await Users.create({
-                Name:req.body.Name,
+                Name:req.body.FullName,
                 Address:req.body.Address,
                 Mobile:req.body.Mobile,
                 email:req.body.email,
-                password:req.body.password,
-                role:req.body.role,
+                password:req.body.Password,
+                Role:req.body.Role,
             })
         }
         return res.status(200).json({
             message:'User created',
         })
     }catch(err){
+        console.log(err)
         return res.status(500).json({
             message:'Internal Server Error : Unable to create user'
         })
     }
 }
-
+/*
 module.exports.makeUserInvalid = async function(req, res){
     try{
         let user = await Users.findByIdAndUpdate(req.body.id,{isCancelled:true, isValid:false});
