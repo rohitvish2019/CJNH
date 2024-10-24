@@ -96,9 +96,9 @@ module.exports.getAppointmentsToday = async function(req, res){
         let visits;
         console.log(req.query);
         if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date, isCancelled:false}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD'}).populate('Patient');
         }else{
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD'}).populate('Patient');
         }
             
         if(req.xhr){
@@ -126,7 +126,7 @@ module.exports.getAppointmentsByDateRange = async function(req, res){
             $and: [
                 {createdAt:{$gte :new Date(req.query.startDate)}},
                 {createdAt: {$lte : new Date(req.query.endDate)}},
-                {isCancelled:false, isValid:true}
+                {isCancelled:false, isValid:true, Type:'OPD'}
             ]
         }).populate('Patient');
         return res.status(200).json({
@@ -149,9 +149,9 @@ module.exports.getAppointmentsByDate = async function(req, res){
         let date = req.query.date;
         let visits;
         if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date,isCancelled:false}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date,isCancelled:false, Type:'OPD'}).populate('Patient');
         }else{
-            visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true, Type:'OPD'}).populate('Patient');
         }
         return res.status(200).json({
             message: visits.length + ' Visits fetched',
@@ -285,7 +285,6 @@ module.exports.IPDpatientRegistration = function(req, res){
 }
 
 module.exports.admitPatient = async function(req, res){
-    //ID, type
     console.log(req.body);
     let id;
     try{
