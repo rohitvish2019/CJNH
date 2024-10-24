@@ -13,7 +13,7 @@
     <div class="main-body">
         <div class="header">
             <div class="logo" style="padding: 1%;">
-                <img src="/images/CJNH_Logo_Black.png" alt="" srcset="" height="130%" width="130%">
+                <img src="/images/CJNH_Logo_Black.png" alt="" srcset="" height="140%" width="130%">
             </div>
             <div class="name">
                 <label style="font-size: 35px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन &nbsp;नर्सिंग &nbsp;होम</label>
@@ -21,7 +21,7 @@
                 <label style="font-size: 17px;">Mob: 6263169195, Ph No: 07812-222441</label>
             </div>
             <div class="logo" style="margin: 10px 5px 0px 0px; padding: 10px;">
-                <img src="/images/doctorLogo.jpg" alt="" srcset="" height="100%" width="100%">
+                <img src="/images/doctorLogo.jpg" alt="" srcset="" height="140%" width="100%">
             </div>
         </div>
         <div class="doctors-info">
@@ -49,40 +49,65 @@
         </div>
         <div class="patient-info">
             <label hidden for="" id="visitId"><%=visit._id%></label>
-            <div class="patient-data">
+            <div class="patient-data" style="width: 9%; ">
                 <small for=""><b>ID</b></small>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data">
+            <div class="patient-data" style="width: 32%;">
                 <small for=""><b>Name</b></small>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
-            <div class="patient-data">
-                <small for=""><b>Gender</b></small>
-                <label for=""><%=visit.Patient.Gender%></label>
-            </div>
-            <div class="patient-data">
+            <div class="patient-data" style="width: 7%;">
                 <small for=""><b>Age</b></small>
                 <label for=""><%=visit.Patient.Age%></label>
             </div>
-            <div class="patient-address">
+            <div class="patient-address" style="width: 34%;">
                 <small for=""><b>Address</b></small>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            <div class="patient-data">
+            <div class="patient-data" style="width: 18%; ">
                 <small for=""><b>Date</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
                 <label for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
             </div>
         </div>
         <div class="data-body">
-            
-            <div class="tests">
-                <h5 style="text-align: center; border-bottom: 2px dotted black; font-weight: bold;">Invt. Adv</h5>
+            <div class="prescription" style="height: 70%;">
+                <div style="width: 73%;">
+                    <textarea rows="3" cols="68" name="" id="history" placeholder="Investigation & History"></textarea>
+                </div>
+                <div class="investigationItems" style="width: 27%;">
+                    
+                    <label>Invt Adv</label>
+                    <label>CBC</label>
+                    <label>Bl gr & Rh</label>
+                    <label>RBS</label>
+                    <label>HIV</label>
+                    <label>HBsAg</label>
+                    <label>TSH</label>
+                    <label>Urine P.test</label>
+                    <label>&nbsp&nbsp;&nbsp;&nbsp; R/M</label>
+                    <label>&nbsp&nbsp;&nbsp;&nbsp; Culture</label>
+                    <label>&nbsp&nbsp;&nbsp;&nbsp; Sensitivity</label>
+                    <label>USG Obst</label>
+                    <label>&nbsp&nbsp;&nbsp;&nbsp; Colour Doppler</label>
+                    <label>&nbsp&nbsp;&nbsp;&nbsp; L.Abd</label>
+                    <label>&nbsp&nbsp;&nbsp;&nbsp; W.Abd</label>
+                    <label>Semen Analysis</label>
+                </div>
             </div>
-            <div class="prescriptions" id="prescriptions">
-                <h5 style="text-align: center; border-bottom: 2px dotted black; font-weight: bold;">Prescriptions</h5>
-                
+            <div class="prescription" style="height: 30%;">
+                <div style="width: 25%;padding-left: 5px;margin-top: 5px;display: flex;flex-direction: column;justify-content: space-between;">
+                    <label>T1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______________</label>
+                    <label>T2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______________</label>
+                    <label>NT on &nbsp;&nbsp;&nbsp;______________</label>
+                    <label>TS on &nbsp;&nbsp;&nbsp;&nbsp;______________</label>
+                    <label>CD on &nbsp;&nbsp;&nbsp;______________</label>
+                    <label>F/up on &nbsp;_____________</label>
+                </div>
+                <div style="width: 75%;border: 1px solid red;">
+                    
+                </div>
             </div>
         </div>
         <div class="footer" style="padding-left: 1%;">
@@ -92,7 +117,16 @@
             </label>
         </div>
     </div>
-    <script src="/js/prescriptionForm.js">
+    <button id="printButton" onclick="printPrescription()">Save & Print</button>
+    <script>
+        function printPrescription(){
+            document.getElementById('printButton').style.display='none'
+            let items = document.getElementsByTagName('textarea');
+            for(let i=0;i<items.length;i++){
+                items[i].style.border='none'
+            }
+            window.print()
+        }
     </script>
 </body>
 </html>

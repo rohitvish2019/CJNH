@@ -3,10 +3,6 @@ const VisitData = require('../models/visits');
 const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
 const AdmittedPatients = require('../models/admittedPatients')
-module.exports.test= function(req, res){
-    return res.render('test');
-}
-
 
 module.exports.patientRegistartionHome = function(req, res){
     try{
@@ -19,7 +15,11 @@ module.exports.patientRegistartionHome = function(req, res){
 
 module.exports.oldAppointmentsHome = function(req, res){
     try{
-        return res.render('oldAppointments')
+        if(req.user.Role == 'Admin'){
+            return res.render('oldAppointments')
+        }else{
+            return res.render('Error_403')
+        }
     }catch(err){
         console.log(err)
         return res.render('Error_500')
@@ -55,7 +55,7 @@ module.exports.addVisitAndPatient = async function(req, res){
         }
         let visit = await VisitData.create({
             Patient:patient._id,
-            Type:req.body.Type,
+            Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
             Visit_date:new Date().toISOString().split('T')[0],
@@ -96,9 +96,9 @@ module.exports.getAppointmentsToday = async function(req, res){
         let visits;
         console.log(req.query);
         if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date, isCancelled:false}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD'}).populate('Patient');
         }else{
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD'}).populate('Patient');
         }
             
         if(req.xhr){
@@ -126,7 +126,7 @@ module.exports.getAppointmentsByDateRange = async function(req, res){
             $and: [
                 {createdAt:{$gte :new Date(req.query.startDate)}},
                 {createdAt: {$lte : new Date(req.query.endDate)}},
-                {isCancelled:false, isValid:true}
+                {isCancelled:false, isValid:true, Type:'OPD'}
             ]
         }).populate('Patient');
         return res.status(200).json({
@@ -149,9 +149,9 @@ module.exports.getAppointmentsByDate = async function(req, res){
         let date = req.query.date;
         let visits;
         if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date,isCancelled:false}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date,isCancelled:false, Type:'OPD'}).populate('Patient');
         }else{
-            visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date,isCancelled:false, isValid:true, Type:'OPD'}).populate('Patient');
         }
         return res.status(200).json({
             message: visits.length + ' Visits fetched',
@@ -218,7 +218,7 @@ module.exports.bookVisitToday = async function(req, res){
     try{
         let visit = await VisitData.create({
             Patient:patient._id,
-            Type:req.body.Type,
+            Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
             Visit_date:new Date().toISOString().split('T')[0],
@@ -255,11 +255,18 @@ module.exports.bookVisitToday = async function(req, res){
 
 module.exports.changeVisitStatus = async function(req, res){
     try{
-        let visit = await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
-        await Sales.findByIdAndUpdate(visit.SaleId,{isValid:req.body.status})
-        return res.status(200).json({
-            message:'Status changed'
-        })
+        if(req.user.Role == 'Admin'){
+            let visit = await VisitData.findByIdAndUpdate(req.body.id, { isValid:req.body.status});
+            await Sales.findByIdAndUpdate(visit.SaleId,{isValid:req.body.status})
+            return res.status(200).json({
+                message:'Status changed'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request, please check with admin'
+            })
+        }
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -278,6 +285,7 @@ module.exports.IPDpatientRegistration = function(req, res){
 }
 
 module.exports.admitPatient = async function(req, res){
+    console.log(req.body);
     let id;
     try{
           id = await Tracker.findOne({});
@@ -287,13 +295,26 @@ module.exports.admitPatient = async function(req, res){
           })
     }
     try{
-          let patient = await AdmittedPatients.create(req.body);
-          let newId = Number(id.AdmissionNo) + 1
-          await id.updateOne({AdmissionNo:newId})
-          await patient.updateOne({AdmissionNo:newId});
+          let patient = await PatientData.create(req.body);
+          let newId = Number(id.patientId) + 1
+          await id.updateOne({patientId:newId})
+          let visit = await VisitData.create({
+            Patient:patient._id,
+            Visit_date:req.body.AdmissionDate,
+            Doctor:req.body.Doctor,
+            Type:'IPD',
+            AdmissionDate:req.body.AdmissionDate,
+            AdmissionTime:req.body.AdmissionTime,
+            Reason:req.body.Reason,
+            BroughtBy:req.body.BroughtBy
+          })
+          await patient.updateOne({$push:{Visits:visit._id}, Id:newId});
+          patient.Visits.push(visit._id);
           return res.status(200).json({
                 message:'Patient Admitted'
           })
+
+          
     }catch(err){
           console.log(err)
           return res.status(500).json({
@@ -304,8 +325,8 @@ module.exports.admitPatient = async function(req, res){
 
 module.exports.showAdmitted = async function(req, res){
     try{
-          let patients = await AdmittedPatients.find({}).sort([['createdAt',-1]]);
-          return res.render('showAdmittedPatients',{patients})
+          let visits = await VisitData.find({Type:'IPD'}).populate('Patient').sort([['createdAt',-1]]);
+          return res.render('showAdmittedPatients',{visits})
     }catch(err){
           console.log(err)
           return res.render('Error_500')
@@ -315,11 +336,25 @@ module.exports.showAdmitted = async function(req, res){
 
 module.exports.admittedPatientProfile = function(req, res){
     try{
-        return res.render('admittedPatientProfile')
+        if(req.user.Role == 'Admin'){
+            return res.render('admittedPatientProfile')
+        }else{
+            return res.render('Error_403')
+        }
+        
     }catch(err){
         return res.render('Error_500')
     }
 }
+/*
+module.exports.saveDischargeDate = function(Req, res){
+    try{
+        await 
+    }catch(err){
+
+    }
+}
+    */
 function getSixHourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
     const startDateTime = new Date(`${startDate}T${startTime}`);
@@ -342,6 +377,16 @@ module.exports.showPrescription = async function(req, res){
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         return res.render('prescriptionForm', {visit})
     }catch(err){
+        return res.render('Error_500')
+    }
+}
+
+module.exports.dischargeSheet = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.params.id).populate('Patient');
+        return res.render('dischargeSheetTemplate', {visit})
+    }catch(err){
+        console.log(err);
         return res.render('Error_500')
     }
 }

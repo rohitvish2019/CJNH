@@ -96,38 +96,39 @@
                     <div class="container">
 
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="Name" placeholder="name@example.com">
+                            <input type="text" class="form-control" id="FullName" placeholder="name@example.com">
                             <label for="Name"> Name <span>*</span></label>
                         </div>
 
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="Name" placeholder="name@example.com">
-                            <label for="Name"> User Name <span>*</span></label>
-                        </div>
-
-                        <div class="form-floating">
-                            <input type="text" class="form-control" id="Price" placeholder="name@example.com">
+                            <input type="text" class="form-control" id="Mobile" placeholder="name@example.com">
                             <label for="Name">Mobile<span>*</span></label>
                         </div>
 
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="Category" placeholder="name@example.com">
-                            <label for="Name"> Email<span>*</span></label>
+                            <input type="text" class="form-control" id="email" placeholder="name@example.com">
+                            <label for="Name"> Username(Only english characters and number allowed)<span>*</span></label>
                         </div>
 
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="RefRange" placeholder="name@example.com">
+                            <input type="text" class="form-control" id="Password" placeholder="name@example.com">
                             <label for="Name"> Password<span>*</span></label>
                         </div>
-                        <div>
-                            <input type="checkbox" id="isAdmin" name="isAdmin">
-                            <label for="isAdmin"> Admin User</label><br>
+                        <div class="form-floating">
+                            
+                            
+                            <select class="form-control" name="" id="Role">
+                                <option selected value="">--Select Role--</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Staff">Staff</option>
+                            </select>
+                            <label for="Name"> Role<span>*</span></label>
                         </div>
                     </div>
 
                     <button class="btn"
                         style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
-                        onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add User</button>
+                        onclick="AddNewUser()"><i class="fa-solid fa-file-circle-plus"></i> Add User</button>
 
                 </div>
                 <div class="table-body" style="margin-top: 5%; width: 100%; overflow: scroll;">

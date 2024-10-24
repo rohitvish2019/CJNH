@@ -61,7 +61,14 @@ function searchById() {
                 }
             }
             let visitDate = data.visit[0].createdAt.toString().split('T')[0].split('-');
-
+            let today = new Date();
+            let lastVisitDate = new Date(data.visit[0].createdAt)
+            let daysBetween = Math.floor(Math.abs(today-lastVisitDate) / (1000*86400));
+            let todaysFees = 400;
+            if(daysBetween < 31){
+                todaysFees = 200
+            }
+            document.getElementById('Fees').value = todaysFees
             document.getElementById('lastFeesPaid').innerText = data.visit[0].Fees
             document.getElementById('lastVisitDate').innerText = visitDate[2] + '-' + visitDate[1] + '-' + visitDate[0]
             document.getElementById('register').setAttribute('disabled', 'true');
@@ -80,6 +87,7 @@ function searchById() {
                     document.getElementById(inputData[i]).value = '';
                 }
             }
+            document.getElementById('Fees').value = 400 
             document.getElementById('patientID').value ='';
             document.getElementById('lastFeesPaid').innerText = 'NA'
             document.getElementById('lastVisitDate').innerText = 'NA'
