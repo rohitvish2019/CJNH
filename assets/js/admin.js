@@ -227,6 +227,7 @@ function AddNewService() {
     let RefRangeMin = document.getElementById('rrmin').value
     let RefRangeMax = document.getElementById('rrmax').value
     let RefRangeUnit = document.getElementById('rrunit').value
+    let Type = document.getElementById('serviceType').value
     $.ajax({
         url: '/reports/saveService',
         data: {
@@ -236,7 +237,8 @@ function AddNewService() {
             RefRangeMin,
             RefRangeMax,
             RefRangeUnit,
-            Notes
+            Notes,
+            Type
         },
         type: 'POST',
         success: function (data) {
@@ -248,11 +250,15 @@ function AddNewService() {
                 timeout: 1500
             }).show();
 
-            document.getElementById('Name').value = ''
-            document.getElementById('Category').value = ''
-            document.getElementById('Price').value = ''
-            document.getElementById('RefRange').value = ''
-            document.getElementById('Notes').value = ''
+            document.getElementById('serviceName').value = ''
+            document.getElementById('serviceCategory').value = ''
+            document.getElementById('servicePrice').value = ''
+            document.getElementById('serviceNotes').value = ''
+            document.getElementById('rrmin').value = ''
+            document.getElementById('rrmax').value = ''
+            document.getElementById('rrunit').value = ''
+            document.getElementById('serviceType').value = ''
+            closepopup()
             return
         },
         error: function (err) {

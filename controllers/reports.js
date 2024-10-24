@@ -33,8 +33,8 @@ module.exports.addServicesData = async function(req, res){
             RefRangeMax:req.body.RefRangeMax,
             RefRangeMin:req.body.RefRangeMin,
             RefRangeUnit:req.body.RefRangeUnit,
-            Notes:req.body.Notes
-
+            Notes:req.body.Notes,
+            Type:req.body.Type
         })
         return res.status(200).json({
             message:'Service item added successfully'

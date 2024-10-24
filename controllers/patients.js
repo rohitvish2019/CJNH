@@ -2,7 +2,8 @@ const PatientData = require('../models/patients');
 const VisitData = require('../models/visits');
 const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
-const AdmittedPatients = require('../models/admittedPatients')
+const AdmittedPatients = require('../models/admittedPatients');
+const ServicesData = require('../models/servicesAndCharges')
 
 module.exports.patientRegistartionHome = function(req, res){
     try{
@@ -326,7 +327,8 @@ module.exports.admitPatient = async function(req, res){
 module.exports.showAdmitted = async function(req, res){
     try{
           let visits = await VisitData.find({Type:'IPD'}).populate('Patient').sort([['createdAt',-1]]);
-          return res.render('showAdmittedPatients',{visits})
+          let rooms = await ServicesData.find({Type:'RoomCharges'});
+          return res.render('showAdmittedPatients',{visits, rooms})
     }catch(err){
           console.log(err)
           return res.render('Error_500')
@@ -346,16 +348,52 @@ module.exports.admittedPatientProfile = function(req, res){
         return res.render('Error_500')
     }
 }
-/*
-module.exports.saveDischargeDate = function(Req, res){
-    try{
-        await 
-    }catch(err){
 
+module.exports.saveDischargeDate = async function(req, res){
+    try{
+        let dischargeDate = req.body.dischargeDate.split('T')[0];
+        let dischargeTime = req.body.dischargeDate.split('T')[1];
+        await VisitData.findByIdAndUpdate(req.body.visitId,{isDischarged:true,DischargeDate:dischargeDate, DischargeTime:dischargeTime});
+        return res.status(200).json({
+            message:'Discharge date updated'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to update discharge date'
+        })
     }
 }
-    */
-function getSixHourTimeframes(startDate, startTime, endDate, endTime) {
+
+module.exports.saveRoomType = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.visitId,{RoomType:req.body.RoomType});
+        return res.status(200).json({
+            message:'Discharge date updated'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to update discharge date'
+        })
+    }
+}
+    
+module.exports.AdmissionBill = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        let bill = visit.Patient
+        let Items = await ServicesData.find({Type:'AdmissionBill'});
+        let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+        let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
+        
+        
+        return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount});
+    }catch(err){    
+        console.log(err);
+        return res.render('Error_500')
+    }
+}
+
+function get24HourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
     const startDateTime = new Date(`${startDate}T${startTime}`);
     const endDateTime = new Date(`${endDate}T${endTime}`);
@@ -368,7 +406,7 @@ function getSixHourTimeframes(startDate, startTime, endDate, endTime) {
     const hoursDiff = timeDiff / (1000 * 60 * 60);
     
     // Return the number of 6-hour timeframes (rounding down)
-    return Math.floor(hoursDiff / 6);
+    return Math.ceil(hoursDiff / 24);
 }
 
 

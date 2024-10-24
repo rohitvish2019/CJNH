@@ -216,10 +216,16 @@
                                 </div>
 
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="serviceCategory"
-                                        placeholder="name@example.com">
-                                    <label for="Name"><i class="fa-solid fa-list"></i>
-                                        Category<span>*</span></label>
+                                    <select class="form-control" name="" id="serviceCategory">
+                                        <option selected value="">--Select Category--</option>
+                                        <option value="HAEMATOLOGY">HAEMATOLOGY</option>
+                                        <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
+                                        <option value="URINE">URINE</option>
+                                        <option value="SEROLOGY">SEROLOGY</option>
+                                        <option value="HAEMATOLOGY">APPOINTMENT</option>
+                                        <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
+                                    </select>
+                                    <label for="Name"> Category<span>*</span></label>
                                 </div>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="serviceNotes" placeholder="name@example.com">
@@ -247,6 +253,15 @@
                                     <input type="number" class="form-control" id="rrmax" placeholder="name@example.com">
                                     <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
                                         Range<span>*</span></label>
+                                </div>
+                                <div class="form-floating">
+                                    <select class="form-control" name="" id="serviceType">
+                                        <option selected value="">--Select Type--</option>
+                                        <option value="Admission Billing">Admission Billing</option>
+                                        <option value="DischargeItem">Discharge Item</option>
+                                        <option value="RoomCharges">Room Charges</option>
+                                    </select>
+                                    <label for="Name"> Type<span>*</span></label>
                                 </div>
                             </div>
                         </div>
