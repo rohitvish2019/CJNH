@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill</title>
+    <link rel="stylesheet" href="/css/bill.css">
+</head>
+<body>
+    <body>
+        <div class="bill-container">
+            <header>
+                <label class="heading">Dr. Chanda Jain Nursing Home</label>
+                <label class="sub-heading">323, civil ward no 7, Damoh MP</label>
+                <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
+                    <label for="">Date : <%=bill.BillDate%></label>
+                    <label for="">Receipt No : <%=bill.ReportNo%></label>
+                </div>
+            </header>
+            
+            <section>
+                <label class="sub-heading">Patient Details</label>
+                <div class="patient-info" style="margin-bottom: 15px;">
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <td><%=bill.Name%></td>
+                            </tr>
+                            <tr>
+                                <th>Age</th>
+                                <td><%=bill.Age%></td>
+                            </tr>
+                            <tr>
+                                <th>Gender</th>
+                                <td><%=bill.Gender%></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>   
+                        <table>
+                            <tr>
+                                <th>Mobile</th>
+                                <td><%=bill.Mobile%></td>
+                            </tr>
+                            <tr>
+                                <th>Address</th>
+                                <td><%=bill.Address%></td>
+                            </tr>
+                            <tr>
+                                <th>Id</th>
+                                <td><%=bill.PatiendID%></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <label class="sub-heading">Billing Details</label>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billingDetails">
+                        <% let total = 0%>
+                        <% let counter = 1%>
+                        <%for(let i=0;i<Items.length;i++){%>
+                            <% total = total + Items[i].Price%>
+                            <tr>
+                                <td><%=counter++%></td>
+                                <td><%=Items[i].Name%></td>
+                                <td>₹<%=Items[i].Price%></td>
+                                <td><%=Items[i].Notes%></td>
+                            </tr>
+                        <%}%>
+                        <tr>
+                            <% total = total + (roomCharges * daysCount)%>
+                            <td><%=counter++%></td>
+                            <td>Room charges (<%=daysCount%> days)</td>
+                            <td>₹<%=roomCharges * daysCount%></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Grand Total</td>
+                            <td><b>₹<%=total%></b></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    
+        <script src="bill.js"></script>
+</body>
+</html>

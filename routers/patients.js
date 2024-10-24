@@ -16,5 +16,8 @@ Router.post('/admit', passport.checkAuthentication, PatientsController.admitPati
 Router.get('/showAdmitted', passport.checkAuthentication, PatientsController.showAdmitted);
 Router.get('/viewAdmitted/:id', passport.checkAuthentication, PatientsController.admittedPatientProfile);
 Router.get('/getPrescription/:visitId', passport.checkAuthentication, PatientsController.showPrescription);
-Router.get('/dischargeSheet/:id', passport.checkAuthentication, PatientsController.dischargeSheet)
+Router.get('/dischargeSheet/:id', passport.checkAuthentication, PatientsController.dischargeSheet);
+Router.post('/saveDischargeDate', passport.checkAuthentication, PatientsController.saveDischargeDate);
+Router.post('/saveRoomType', passport.checkAuthentication, PatientsController.saveRoomType);
+Router.get('/AdmissionBill/:visitId', passport.checkAuthentication, PatientsController.AdmissionBill)
 module.exports = Router;
