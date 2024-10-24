@@ -1,66 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="/css/dischargeSheet.css">
     <title>Discharge Sheet</title>
 </head>
+
 <body class="container">
-    <div style="display: flex;height: 100%;flex-direction: column;">
-        <div class="hospital-details" style="height: 6%;text-align: center;">
-            <label style="font-size: 27px;font-weight: bolder;display: block;">डॉ. चंदा &nbsp;जैन &nbsp;नर्सिंग &nbsp;होम</label>
-            <label>323, सिविल वार्ड नंबर 7 दमोह (म. प्र.). Mob : 6263169195, Ph. No : 07812-222441</label>
+    <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;">
+
+        <div class="hospital-details" style="height: 6%;text-align:left; display: flex;">
+            <div style="height: 100%; width: 30%;">
+                <img style="width: 110px; height: auto;" src="/images/CJNH_Logo_Black.png" alt="">
+            </div>
+            <label style="padding-top: 10px; font-size: 27px;font-weight: bolder;display: block;">डॉ. चंदा &nbsp;जैन
+                &nbsp;नर्सिंग &nbsp;होम</label>
+
         </div>
+        <label style="text-align: center; margin-bottom: 5px;">323, सिविल वार्ड नंबर 7 दमोह (म. प्र.). Mob : 6263169195, Ph. No :
+            07812-222441</label>
+        <!-- Patient Information-->
         <div class="patient-info">
             <label hidden for="" id="visitId"><%=visit._id%></label>
-            <div class="patient-data" style="width: 9%; ">
-                <small for=""><b>ID</b></small>
+            <div class="patient-data" style="width: 8%; ">
+                <span for=""><b>ID</b></span>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data" style="width: 32%;">
-                <small for=""><b>Name</b></small>
+            <div class="patient-data" style="width: 30%;">
+                <span for=""><b>Name</b></span>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
-            <div class="patient-data" style="width: 7%;">
-                <small for=""><b>Age</b></small>
+            <div class="patient-data" style="width: 10%;">
+                <span for=""><b>Age:</b></span>
                 <label for=""><%=visit.Patient.Age%></label>
             </div>
-            <div class="patient-address" style="width: 34%;">
-                <small for=""><b>Address</b></small>
+            <div class="patient-data" style="width: 33%;">
+                <span for=""><b>Address:</b></span>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            <div class="patient-data" style="width: 18%; ">
-                <small for=""><b>Date</b></small>
+            <div class="patient-data" style="width: 19%; ">
+                <span for=""><b>Date:</b></span>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
-                <label for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
+                <label
+                    for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
             </div>
         </div>
-        <div class="dischargeItems" style="height: 4%;">
-            <div>
+
+        <!-- Admission and Discharge Date Section-->
+        <div class="dischargeItems" style="height: 3%; display: flex;">
+            <div style="width: 50%; padding: 5px; text-align: center;">
                 <label>Admission Date : 01-01-2024 at 11:50 AM</label>
             </div>
-            <div>
+            <div style="width: 50%;text-align: center;  padding: 5px; ">
                 <label>Discharge Date : 01-01-2024 at 11:50 AM</label>
-            </div> 
+            </div>
+        </div>  
+
+        <!-- Conditions Input Text Box-->
+        <div class="condition" style="height: 14%; display: flex;">
+            <div style="text-align: center; width: 50%;">
+                <span>Condition on Admission</span>
+                <textarea rows="6" cols="40"></textarea>
+            </div>
+            <div style="text-align: center; width: 50%;">
+                <span>Condition on Discharge</span>
+                <textarea rows="6" cols="40"></textarea>
+            </div>
         </div>
-        <div class="condition" style="height: 20%;">
-            <textarea name="" id="" placeholder="conditon on admisson"></textarea>
-            <textarea name="" id="" placeholder="condition on discharge"></textarea>
+
+        <!-- Investigation Section-->
+        <div class="investigation-tables" style="height: 32%; display: flex;">
+            <div class="ohms" style="width:15%; height: 100%;text-align: center; ">
+                <span><b>O/H MS-</b></span>
+                <table class="table" style="text-align: center; height: 89%;width: 100%;">
+                    <tr class="b1">
+                        <th>G</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="b1">
+                        <th>P</th>
+                        <td><input type="text"></td>
+                    </tr class="b1">
+
+                    <tr class="b1">
+                        <th>L</th>
+                        <td><input type="text"></td>
+                    </tr>
+
+                    <tr class="b1">
+                        <th>A</th>
+                        <td><input type="text"></td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="invstdone" style="width:25%;  height: 100%; text-align: center;">
+                <span><b>Invst Done:</b></span>
+                <table class="table" style="height: 89%;width: 100%; ">
+                    <tr class="b2">
+                        <th>Hb%</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="b2">
+                        <th>Bl gr <br> & Rh</th>
+                        <td><input type="text"></td>
+                    </tr>
+
+                    <tr class="b2">
+                        <th>RBS</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="b2">
+                        <th>HIV</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="b2">
+                        <th>HbsAg</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="b2">
+                        <th>TSH</th>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="b2">
+                        <th>Others</th>
+                        <td><input type="text"></td>
+                    </tr>
+
+
+                </table>
+            </div>
+
+
+            <div class="treatmentgiven" style="height: 100%; width: 60%; align-items:center;">
+                <label><b>Treatment Given:</b></label><br>
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr class="b3">
+                            <td>I.V Fluids</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b3">
+                            <td>i.v Antibiotic XL 1.5 gm iv. 12 hrly X</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b3">
+                            <td>I.M Aquagesic 75mg im 8 hrly</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b3">
+                            <td>Tab. Mahacef XL BD x 5 Days</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b3">
+                            <td>Tab Camrox D BD x 5 Days</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b3">
+                            <td>Symptomatic t/t</th>
+                            <td><input type="text"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
         </div>
-        <div class="investigation-tables" style="height: 28%;">
-            Add 3 tables here, <br>
-            1.O/H MS- wali, <br>
-            2. Invet Done wali <br>
-            3. Treatment given wali
+        <!-- Notes-->
+        <div class="notes" style="height: 14%; display: flex;">
+            <div style="text-align: center; width: 50%;">
+                <span>Operative Notes</span>
+                <textarea rows="6" cols="40"></textarea>
+            </div>
+            <div style="text-align: center; width: 50%;">
+                <span>Baby Notes</span>
+                <textarea  rows="6" cols="40"></textarea>
+            </div>
         </div>
-        <div class="notes" style="height: 10%;">
-            <textarea name="" placeholder="Operative notes"></textarea>
-            <textarea name="" placeholder="Baby notes"></textarea>
+
+
+        <!-- Discharge Advice-->
+        <div class="dischargePrescription" 
+            style="height: 25%; display: flex; padding-top:5px">
+            <div style="width: 70%; height: 100%;">
+                <table style="text-align: center; width: 100%;">
+                    <thead>
+                        <tr class="b4">
+                            <th></th>
+                            <th>सुबह</th>
+                            <th>दोपहर</th>
+                            <th>रात</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="b4">
+                            <td>Tab. Hepataglobin / Anofer SP</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>0</td>
+                            <td>6 month. तक</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Tab. Maxical/Caly ZM</td>
+                            <td>X</td>
+                            <td>0</td>
+                            <td>X</td>
+                            <td>6 month. तक</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Tab. Limcee/Vit. C</td>
+                            <td>0</td>
+                            <td>X</td>
+                            <td>0</td>
+                            <td>15 Days. तक</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Tab. Camrox-D (दर्द निवारक)</td>
+                            <td>0</td>
+                            <td>X</td>
+                            <td>0</td>
+                            <td>x 5 days तक <br> आवश्यकता पड़ने पर</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Cap. Alamine M Forte/ Amino Rich</td>
+                            <td>0</td>
+                            <td>X</td>
+                            <td>0</td>
+                            <td>15 Days. तक</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Syp. Evict / Eva Q</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>2 tsp</td>
+                            <td>(कब्ज़ में)</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Powder Pro RD</td>
+                            <td>X</td>
+                            <td>X</td>
+                            <td>2 tsp</td>
+                            <td>1 कप दूध में</td>
+                        </tr>
+                        <tr class="b4">
+                            <td>Oint. Drez-s</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="width: 30%; height: 100%; padding-left:8px ; text-align: center; margin-top: 7%;">
+                <span>- बच्चे का टीकाकरण नियमित करायें ।</span><br><hr>
+                <span>- ⁠परिवार नियोजन अपनाए ।</span><br><hr>
+                <span>- ⁠आवश्यकता पड़ने पर या 1 - 1/2 माह बाद दिखाये ।</span>
+            </div>
         </div>
-        <div class="dischargePrescription" style="height: 25%;">
-            Discharge Advice wali table and leave around 30% width on right side
+        
+        <span style="text-align: center;"><b> बच्चे का जन्म पंजीयन 15 दिवस के अंदर नगर पालिका या ग्राम पंचायत से करवाये ।<b></span>
+        <div style="display: flex; ">
+            <table style="text-align: center; width: 100%;">
+                <thead>
+                    <tr class="b5">
+                        <td>Dr. Anuj Jain</td>
+                        <td>Dr. Swati jain</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="b5">
+                        <td>(DGO)</td>
+                        <td>(DGO)</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
     </div>
 </body>
+
 </html>

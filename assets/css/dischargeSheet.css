@@ -1,18 +1,58 @@
-div{
-    border: 1px solid red;
+.dischargeItems{
+    border-top:1px solid black ;
+    border-bottom:1px solid black ;
+}
+.condition, .condition, .investigation-tables, .notes, .dischargePrescription{
+    border-bottom: 1px solid black;
 }
 
+.treatmentgiven, .invstdone, .ohms{
+    margin: 0px 5px 0px 5px;
+}
+
+table th, td{
+    border: 0.5px solid grey    ;
+}
+textarea{
+    display: inline-block;
+}
 .container{
     width: 730px;
     height: 1040px;
 }
+
+.patient-data{
+    padding-left: 5px;
+ 
+}
+
+.b1 th{
+    padding: 10px;
+}
+input{
+    font-size: medium;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.b2 th{
+    padding: 5px;
+}
+
+.b3 td{
+    width: auto;
+    height: 38px;
+}
+.b5 td{
+    border: none !important;
+}
 .patient-info{
-    height: 5%;
+    height: 4%;
     border-top: 1px dotted rgb(20, 19, 19);
     border-bottom: 1px dotted rgb(20, 19, 19);
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding-left: 1%;
-    padding-right: 1%;
+  
 }
