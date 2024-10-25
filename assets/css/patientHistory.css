@@ -11,36 +11,56 @@ header {
     position: relative;
 }
 
+.pageTitle{
+    padding: 10px;
+    background-color:#343a40;
+    border: 1px solid white;
+    text-align: center;
+    color: white;
+}
+
+.patient-info-container{
+    justify-content: center;
+}
+.patient-info{
+    margin: 0px 20px 0px 20px;
+    justify-content: center;
+}
+p{
+    font-size: large;
+    text-align: left;
+}
+
 .doctor-icon {
     margin-right: 20px;
 }
 
-.patient-info p {
-    margin: 5px 0;
+#visit-container{
+    border: 1px solid black;
 }
-
-main {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .card {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    background: #025E73;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    background: #025E73 !important;
 }
 
 .card-body p {
     margin: 10px 0;
 }
 
-.card-body strong {
-    color: #F2A71B; /* Yellow */
+
+
+.information{
+    
+    width: 33%;
+    height: 92%;
+    padding: 5px;
+}
+.bg th, td{
+    text-align: center !important;
 }
 
 input.form-control {

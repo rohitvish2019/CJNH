@@ -1,72 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient History</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/css/patientHistory.css">
 </head>
+
 <body>
     <header>
         <%-include('_header')%>
     </header>
-    <div class="patient-info text-center mt-3">
-        <p><i class="fas fa-user"></i> <strong>Name:</strong> John Doe</p>
-        <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> 123 Main St, Springfield</p>
-        <p><i class="fas fa-phone"></i> <strong>Mobile:</strong> +1234567890</p>
+    <div class="pageTitle">
+        <h4>Patient History</h4>
     </div>
-    <main class="container my-4">
-        <button id="add-visit" class="btn btn-success mb-4"><i class="fas fa-plus"></i> Add Visit</button>
+    <div class="patient-info-container mt-3" style="display: flex; ">
+        <div class="patient-info">
+            <p><i class="fas fa-user"></i> <strong>Name:</strong></p>
+            <label for="">Patient Name</label>
+        </div>
+        <div class="patient-info">
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong></p>
+            <label for="">Patient Address jasdjnasjdnj jasnd jans dkjasndkjdnas</label>
+        </div>
+        <div class="patient-info">
+            <p><i class="fas fa-phone"></i> <strong>Mobile:</strong></p>
+            <label for="">1234567890</label>
+        </div>
+
+
+    </div>
+    <main style="padding: 20px;">
         <div id="visit-container">
-            <div class="card mb-4">
+            <div>
                 <div class="card-header text-white">
                     <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: 2024-10-01</h2>
                 </div>
                 <div class="card-body">
-                    <p><i class="fas fa-stethoscope"></i> <strong>Complaint:</strong> Headache</p>
-        
+                    <div style="display: flex; height: 200px; justify-content: space-between;">
+                        <div class="information">
+                            <b>Investigation & History:</b>
+                            <textarea rows="6" cols="60" name="" id="investigation" placeholder=""></textarea>
+                        </div>
+                        <div class="information">
+
+                            <b>Complications:</b>
+                            <textarea rows="6" cols="60" name="" id="complications" placeholder=""></textarea>
+                        </div>
+                        <div class="information">
+
+                            <b>Other Information:</b>
+                            <textarea rows="6" cols="60" name="" id="otherInfo" placeholder=""></textarea>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
-                        <h5>Test Results</h5>
+                        <h5><i class="fa-solid fa-syringe"></i> <strong>Test Results</strong></h5>
                         <table class="table table-bordered">
                             <thead>
-                                <tr>
-                                    <th>Test Name</th>
-                                    <th>Test Results</th>
-                                    <th>Reference Range</th>
+                                <tr class="bg">
+                                    <th>CBC</th>
+                                    <th>Bl gr & Rh</th>
+                                    <th>RBS</th>
+                                    <th>HIV</th>
+                                    <th>HBsAg</th>
+                                    <th>TSH</th>
+                                    <th>Urine P.test</th>
+                                    <th>R/M</th>
+                                    <th>R/M</th>
+                                    <th>Sensitivity</th>
+                                    <th>USG Obst</th>
+                                    <th>Colour Dop.</th>
+                                    <th>L.Abd</th>
+                                    <th>W.Abd</th>
+                                    <th>Semen Analysis</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Blood Test</td>
-                                    <td>Normal</td>
-                                    <td>4.5-5.5 million cells/mcL</td>
+                                <tr class="bg">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <div class="table">
-                        <h5>Prescribed Medicines</h5>
+                        <h5><strong>Prescribed Medicines</strong></h5>
                         <table class="table table-bordered">
                             <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Duration</th>
-                                    <th>Notes</th>
+                                <tr class="bg">
+                                    <th>T1</th>
+                                    <th>T2</th>
+                                    <th>NT on</th>
+                                    <th>TS on</th>
+                                    <th>CD on</th>
+                                    <th>F/up on</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Paracetamol</td>
-                                    <td>5 days</td>
-                                    <td>Take after meals</td>
+                                <tr class="bg">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <p><i class="fas fa-notes-medical"></i> <strong>Doctor's Advice:</strong> Rest and hydration</p>
                 </div>
             </div>
             <!-- New visit blocks will be added here -->
@@ -77,4 +136,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -6,7 +6,7 @@ body {
 
 .bill-container {
     width: 730px;
-    height: 450px;
+    height: auto;    
 }
 
 .patient-info{
