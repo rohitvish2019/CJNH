@@ -78,6 +78,7 @@ body {
 }
 
 .bg th{
+    text-align: center;
     color: white;
     background-color: #025E73 !important ;
     position: sticky;
