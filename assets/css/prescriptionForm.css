@@ -21,9 +21,10 @@ body{
 }
 
 .doctors-info{
-    height: 14%;
+    height: 12%;
     width: 99.9%;
     display: flex;
+    margin-top: 5%;
 }
 .patient-info{
     height: 5%;
@@ -49,9 +50,7 @@ body{
     text-align: right;
     margin-right: 1%;
 }
-.doc-info-left label, .doc-info-right label{
-    display: block;
-}
+
 .hospital-photo{
     width: 34%;
 }
@@ -145,9 +144,7 @@ p{
     
 }
 .investigationItems label{
-    display: block;
     margin-top: 6px;
-    border-bottom: .5px dotted black;
 }
 .investigationItems{
     border-left: .5px dashed black;
