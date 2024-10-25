@@ -78,15 +78,15 @@ function getUsers() {
                 if (user.isValid == true) {
                     rowItem.innerHTML =
                         `
-                    <td>${user.email}</td>
-                    <td>${user.Name}</td>
-                    <td>${user.Role}</td>
-                    <td>
+                    <td style="text-align:center">${user.email}</td>
+                    <td style="text-align:center">${user.Name}</td>
+                    <td style="text-align:center">${user.Role}</td>
+                    <td style="text-align:center">
                         <div class="form-check form-switch">
-                        <input style='margin-left:0%' class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}" checked>
+                        <input id="onoffswitch" style="display:inline" style='margin-left:0%' class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}" checked>
                         </div>
                     </td>
-                    <td>Reset password</td>
+                    <td style="text-align:center">Reset password</td>
                 `
                 } else {
                     rowItem.innerHTML =
@@ -126,18 +126,18 @@ function getServices() {
                 rowItem.id = service._id
                 rowItem.innerHTML =
                     `
-                    <td>${i+1}</td>
+                    <td style="text-align:center">${i+1}</td>
                         <th>${service.Name}</th>
-                        <td><b>₹ ${service.Price}</b></td>
-                        <td>${service.Category}</td>
-                        <td>${service.Notes}</td>
-                        <td>${service.RefRangeMin}</td>
-                        <td>${service.RefRangeMax}</td>
-                        <td>${service.RefRangeUnit}</td>
-                        <td>
+                        <td><b>₹</b> ${service.Price}</td>
+                        <td style="text-align:center">${service.Category}</td>
+                        <td style="text-align:center">${service.Notes}</td>
+                        <td style="text-align:center">${service.RefRangeMin}</td>
+                        <td style="text-align:center">${service.RefRangeMax}</td>
+                        <td style="text-align:center">${service.RefRangeUnit}</td>
+                        <td style="text-align:center">
 							<div style="margin-left:1%" onclick = "deleteService('${service._id}')" >
-								<span id="dustbinLight" onmouseover = "highlight()" onmouseout = "unhighlight()" ><i class="fa-solid fa-trash-can"></i></span>
-								<span style="display:none;" id="dustbinDark" onmouseover = "highlight()" onmouseout = "unhighlight()" ><i class="fa-regular fa-trash-can"></i></span>
+								<span id="dustbinLight${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-solid fa-trash-can"></i></span>
+								<span style="display:none;" id="dustbinDark${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-regular fa-trash-can"></i></span>
 							</div>
 						</td>
                     `
@@ -306,6 +306,7 @@ function enableDisableUser(user) {
                 layout: 'topRight',
                 timeout: 1500
             }).show();
+            document.getElementById('checkbox_' + user).setAttribute('checked','true');
         }
     })
 }
