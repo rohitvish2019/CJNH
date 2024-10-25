@@ -16,5 +16,6 @@ Router.get('/getDefaultTests', passport.checkAuthentication, reportsController.g
 Router.post('/saveService', passport.checkAuthentication , reportsController.addServicesData);
 //Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
 Router.get('/getDashboardData', passport.checkAuthentication, reportsController.dashboard);
-Router.delete('/deleteService/:serviceId', passport.checkAuthentication, reportsController.deleteService)
+Router.delete('/deleteService/:serviceId', passport.checkAuthentication, reportsController.deleteService);
+
 module.exports = Router;

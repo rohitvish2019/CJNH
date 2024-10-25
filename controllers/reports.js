@@ -3,6 +3,7 @@ const ReportsData = require('../models/reports');
 const Tracker = require('../models/tracker');
 const ServicesData = require('../models/servicesAndCharges');
 const SalesData = require('../models/sales')
+const VisitData = require('../models/visits')
 
 module.exports.PathalogyHome = async function(req, res){
     try{
@@ -98,9 +99,9 @@ module.exports.saveReport = async function(req, res){
             ReportNo:'RPT'+newReportNo,
             Items: req.body.tests,
             Doctor:req.body.patient.Doctor,
-            Date:new Date().toISOString().split('T')[0]
-            //User:req.user._id,   Need to save this id after login setup
-            //Username:req.user.Name   Need to save this id after login setup
+            Date:new Date().toISOString().split('T')[0],
+            User:req.user._id,
+            Username:req.user.Name
         });
         
         await tracker.updateOne({ReportNo:newReportNo});
@@ -141,6 +142,7 @@ module.exports.cancelReport = async function(req,res){
         })
     }
 }
+
 
 /*
 Unused function need to delete before go live

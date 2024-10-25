@@ -10,10 +10,11 @@
     <body>
         <div class="bill-container">
             <header>
+                <input type="hidden" id="visitId" value="<%=visit_id%>">
                 <label class="heading">Dr. Chanda Jain Nursing Home</label>
                 <label class="sub-heading">323, civil ward no 7, Damoh MP</label>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
-                    <label for="">Date : <%=bill.BillDate%></label>
+                    <label for="">Date : <%=isDischarged%></label>
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
                 </div>
             </header>
@@ -49,7 +50,7 @@
                             </tr>
                             <tr>
                                 <th>Id</th>
-                                <td><%=bill.PatiendID%></td>
+                                <td><%=bill.Id%></td>
                             </tr>
                         </table>
                     </div>
@@ -92,7 +93,13 @@
                 </table>
             </section>
         </div>
-    
-        <script src="bill.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/js/bill.js"></script>
+        <%if(!(isDischarged == true)){%>
+            <button onclick="SaveDischargeBill()">Save & Print</button>
+        <%}%>
+        
 </body>
 </html>
