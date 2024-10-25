@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<body>
+<body onload="getVisitdata()">
     <div class="main-body">
         <div class="header">
             <div class="logo" style="padding: 1%;">
@@ -74,8 +74,14 @@
         <div class="data-body">
             <div class="prescription" style="height: 72%;">
                 <div style="width: 73%;">
-                    <textarea rows="3" cols="68" name="" id="history" placeholder="Investigation & History"></textarea>
+                    <b>Investigation & History</b>
+                    <textarea rows="6" cols="68" name="" id="investigation" placeholder=""></textarea>
+                    <b>Complications</b>
+                    <textarea rows="6" cols="68" name="" id="complications" placeholder=""></textarea>
+                    <b>Other Information</b>
+                    <textarea rows="5" cols="68" name="" id="otherInfo" placeholder=""></textarea>
                 </div>
+                
                 <div class="investigationItems" style="width: 27%;">
                     <div style="text-align: center;">
                         <label style="text-align: center;font-weight: bold;">Invt Adv</label>
@@ -144,12 +150,34 @@
             </div>
             <div class="prescription" style="height: 28%;">
                 <div style="width: 25%;padding-left: 5px;margin-top: 5px;display: flex;flex-direction: column;justify-content: space-between;">
-                    <label>T1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______________</label>
-                    <label>T2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;______________</label>
-                    <label>NT on &nbsp;&nbsp;&nbsp;______________</label>
-                    <label>TS on &nbsp;&nbsp;&nbsp;&nbsp;______________</label>
-                    <label>CD on &nbsp;&nbsp;&nbsp;______________</label>
-                    <label>F/up on &nbsp;_____________</label>
+                    <div>
+                        <label style="width: 35%;">T1</label>
+                        <input style="width: 60%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T1')" id="T1">
+                    </div>
+
+                    <div>
+                        <label style="width: 35%;">T2</label>
+                        <input style="width: 60%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2">
+                    </div>
+
+                    <div>
+                        <label style="width: 35%;">NT on</label>
+                        <input style="width: 60%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('NT')" id="NT">
+                    </div>
+
+                    <div>
+                        <label style="width: 35%;">TS on</label>
+                        <input style="width: 60%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('TS')" id="TS">
+                    </div>
+
+                    <div>
+                        <label style="width: 35%;">CD on</label>
+                        <input style="width: 60%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('CD')" id="CD">
+                    </div>
+                    <div>
+                        <label style="width: 35%;">F/up on</label>
+                        <input style="width: 60%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('FUP')" id="FUP">
+                    </div>
                 </div>
                 <div style="width: 75%;">
                     
@@ -163,28 +191,53 @@
             </label>
         </div>
     </div>
+    
     <button id="printButton" onclick="printPrescription()">Save & Print</button>
     <script>
+
         let changes = new Object();
         function printPrescription(){
             document.getElementById('printButton').style.display='none'
-            let items = document.getElementsByTagName('textarea');
+            changes['investigation'] = document.getElementById('investigation').value
+            changes['complications'] = document.getElementById('complications').value
+            changes['otherInfo'] = document.getElementById('otherInfo').value
             $.ajax({
                 url:'/patients/saveVisitPrescriptions',
                 data:{
-                    visitId:document.getElementById('visitId').value,
-                    changes,
+                    visitId:document.getElementById('visitId').innerText,
+                    visitData:changes,
+                },
+                type:'POST',
+                success:function(data){
+                    let items = document.getElementsByTagName('textarea');
+                    for(let i=0;i<items.length;i++){
+                        items[i].style.border='none'
+                    }
+                    window.print()
                 }
             })
-            for(let i=0;i<items.length;i++){
-                items[i].style.border='none'
-            }
-            window.print()
         }
-
+        
+        function getVisitdata(){
+            $.ajax({
+                url:'/patients/getPrescription/'+document.getElementById('visitId').innerText,
+                type:'Get',
+                success:function(data){
+                    let keys = Object.keys(data.visitData)
+                    for(let i=0;i<keys.length;i++){
+                        document.getElementById(keys[i]).value=data.visitData[keys[i]]
+                    }
+                    console.log();
+                },
+                error:function(err){
+                    console.log(err)
+                }
+            })
+        }
         function addChanges(id){
             changes[id] = document.getElementById(id).value
         }
+       
     </script>
 </body>
 </html>

@@ -19,6 +19,7 @@ const Visits = new mongoose.Schema({
     DischargeTime:String,
     isDischarged:Boolean,
     RoomType:String,
+    VisitData:Object,
     SaleId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Sale'

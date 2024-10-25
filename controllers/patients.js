@@ -399,9 +399,6 @@ module.exports.AdmissionBill = async function(req, res){
 module.exports.saveDischargeBill = async function(req, res){
     try{
         let visit = await VisitData.findById(req.body.visitId).populate('Patient');
-        
-        
-        
         if(visit){
             await visit.updateOne({isDischarged:true})
             let Items = await ServicesData.find({Type:'AdmissionBill'});
@@ -471,8 +468,14 @@ function get24HourTimeframes(startDate, startTime, endDate, endTime) {
 module.exports.showPrescription = async function(req, res){
     try{
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        if(req.xhr){
+            return res.status(200).json({
+                visitData:visit.VisitData
+            })
+        }
         return res.render('prescriptionForm', {visit})
     }catch(err){
+        console.log(err)
         return res.render('Error_500')
     }
 }
@@ -484,5 +487,18 @@ module.exports.dischargeSheet = async function(req, res){
     }catch(err){
         console.log(err);
         return res.render('Error_500')
+    }
+}
+
+module.exports.saveVisitData = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.visitId, {VisitData:req.body.visitData});
+        return res.status(200).json({
+            message:'Prescription saved'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to save prescription'
+        })
     }
 }
