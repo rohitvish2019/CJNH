@@ -30,6 +30,7 @@
         <th scope="col"><i class="fa-solid fa-venus-mars"></i> Gender</th>
         <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
         <th scope="col">₹ Fees</th>
+        <th> <i class="fa-solid fa-calendar-plus"></i> History</th>
         <th> <i class="fa-solid fa-calendar-plus"></i> Open</th>
         <!--
         <th> <i class="fa-solid fa-syringe"></i> Pathalogy</th>
@@ -47,6 +48,7 @@
         <td><%=visits[i].Patient.Gender%></td>
         <td><%=visits[i].Patient.Address%></td>
         <td><%=visits[i].Fees%></td>
+        <td><a target="_blank" href="/patients/getHistory/<%=visits[i].Patient._id%>">Patient History</a></td>
         <td><a target="_blank" href="/patients/getPrescription/<%=visits[i]._id%>">Prescription</a></td>
         <!--
         <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>

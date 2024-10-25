@@ -1,104 +1,59 @@
-body{
-    height: 100vh;
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #F8F9FA; /* Light Grey */
+    color: #333;
     margin: 0;
     padding: 0;
 }
-.main-container{
-    height: 99.7%;
-    width: 99.8%;
-}
-.patient-info{
-    height: 9%;
-    border-bottom: 2px dotted black;
-    border-top: 2px dotted black;
-    min-height: 40px;
-    display: flex;
-    padding-left: 1%;
-    padding-right: 1%;
+
+header {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-.patient-data{
-    width: 15%;
-}
-.patient-data label{
-    display: block;
-    font-size: large;
-    padding: 1%;
+.doctor-icon {
+    margin-right: 20px;
 }
 
-.patient-address label{
-    display: block;
-    font-size: large;
-    padding: 1%;
+.patient-info p {
+    margin: 5px 0;
 }
 
-.patient-data small{
-    padding: 1%;
-}
-.patient-address small{
-    padding: 1%;
-}
-.patient-address{
-    width: 40%;
+main {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.history-data{
-    height: 73%;
-    padding-top: 1%;
-    overflow-y: auto;
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.one-history{
-    height: 80%;
-    margin-bottom: 2%;
-    -webkit-box-shadow: 0 0 10px gray;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    margin-left: .5%;
-    margin-right: .5%;
-    border-radius: 1.5rem;
-    padding-left: .2%;
-    padding-right: .2%;
+.card-header {
+    background: #025E73;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
-.history-heading{
-    height: 6%;
-    display: flex;
-    text-align: center;
-    font-weight: bold;
-}
-.history-info{
-    height: 93%;
-    display: flex;
-    border-top: 2px dotted black;
+.card-body p {
+    margin: 10px 0;
 }
 
-.complaint{
-    width: 20%;
-    padding-left: .5%;
-    padding-right: .2%;
-    border-right: 1px dotted black;
-    overflow: auto;
+.card-body strong {
+    color: #F2A71B; /* Yellow */
 }
 
-.oes{
-    width: 20%;
-    padding-left: .5%;
-    padding-right: .2%;
-    border-right: 1px dotted black;
-    overflow: auto;
+input.form-control {
+    display: inline-block;
+    width: auto;
+    margin-left: 10px;
 }
 
-.tests{
-    width: 20%;
-    padding-left: .5%;
-    padding-right: .2%;
-    border-right: 1px dotted black;
-    overflow: auto;
+.table-responsive {
+    margin-top: 20px;
 }
 
-.prescriptions{
-    width: 40%;
-    padding-left: .5%;
-    padding-right: .2%;
-    overflow: auto;
+.table th, .table td {
+    vertical-align: middle;
+    text-align: left;
 }

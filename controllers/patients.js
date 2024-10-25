@@ -502,3 +502,12 @@ module.exports.saveVisitData = async function(req, res){
         })
     }
 }
+
+module.exports.patientHistoryHome = async function(req, res){
+    try{
+        let patient = await PatientData.findById(req.params.patientId);
+        return res.render('patientHistory',{patient})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
