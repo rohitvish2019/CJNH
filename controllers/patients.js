@@ -74,8 +74,8 @@ module.exports.addVisitAndPatient = async function(req, res){
             Gender:req.body.Gender,
             PatiendID:newPatientId,
             Items:['Appointment$1$'+req.body.Fees],
-            type:'Appointment'
-
+            type:'Appointment',
+            Total:req.body.Fees
         })
         await visit.updateOne({SaleId:sale._id})
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
@@ -238,7 +238,8 @@ module.exports.bookVisitToday = async function(req, res){
             Gender:patient.Gender,
             PatiendID:patient.Id,
             Items:['Appointment$1$'+req.body.Fees],
-            type:'Appointment'
+            type:'Appointment',
+            Total:req.body.Fees
         })
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         await visit.updateOne({SaleId:sale._id})
@@ -407,11 +408,14 @@ module.exports.saveDischargeBill = async function(req, res){
             let billItems = new Array()
             let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
             let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
+            let total = 0
             for(let i=0;i<Items.length;i++){
                 let item = Items[i].Name+'$1$'+Items[i].Price+'$'+Items[i].Notes
+                total = total + Items[i].Price
                 billItems.push(item)
             }
             billItems.push('Room Charges ('+daysCount+' days)$1$'+ +room.Price*daysCount+'$');
+            total = total + +room.Price*daysCount
             let bill = await Tracker.findOne();
             let newBillNo = +bill.AdmissionNo + 1;
             await bill.updateOne({AdmissionNo:newBillNo});
@@ -426,7 +430,8 @@ module.exports.saveDischargeBill = async function(req, res){
                 Doctor:visit.Doctor,
                 type:'DischargeBill',
                 Items:billItems,
-                ReportNo:"DSCH"+newBillNo
+                ReportNo:"DSCH"+newBillNo,
+                Total:total
             })
             return res.status(200).json({
                 sale

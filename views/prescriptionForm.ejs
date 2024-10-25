@@ -82,63 +82,63 @@
                     </div>
                     <div>
                         <label style="width: 60%;">CBC</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('CBC')" id="CBC">
                     </div>
                     <div>
                         <label style="width: 60%;">Bl gr & Rh</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Blgr')" id="Blgr">
                     </div>
                     <div>
                         <label style="width: 60%;">RBS</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('RBS')" id="RBS">
                     </div>
                     <div>
                         <label style="width: 60%;">HIV</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('HIV')" id="HIV">
                     </div>
                     <div>
                         <label style="width: 60%;">HBsAg</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('HBsAg')" id="HBsAg">
                     </div>
                     <div>
                         <label style="width: 60%;">TSH</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('TSH')" id="TSH">
                     </div>
                     <div>
                         <label style="width: 60%;">Urine P.test</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-Ptest')" id="Urine-Ptest">
                     </div>
                     <div>
                         <label style="width: 60%;">&nbsp&nbsp; R/M</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-RM')" id="Urine-RM">
                     </div>
                     <div>
                         <label style="width: 60%;">&nbsp&nbsp; Culture</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-Culture')" id="Urine-Culture">
                     </div>
                     <div>
                         <label style="width: 60%;">&nbsp&nbsp; Sensitivity</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-Sensitivity')" id="Urine-Sensitivity">
                     </div>
                     <div>
                         <label style="width: 60%;">USG Obst</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-Obst')" id="USG-Obst">
                     </div>
                     <div>
                         <label style="width: 60%;">&nbsp&nbsp; Colour Dop.</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-ColourDop')" id="USG-ColourDop">
                     </div>
                     <div>
                         <label style="width: 60%;">&nbsp&nbsp; L.Abd</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-LAbd')" id="USG-LAbd">
                     </div>
                     <div>
                         <label style="width: 60%;">&nbsp&nbsp; W.Abd</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-WAbd')" id="USG-WAbd">
                     </div>
                     <div>
                         <label style="width: 60%;">Semen Analysis</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" name="" id="">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('SemenAnalysis')" id="SemenAnalysis">
                     </div>
                 </div>
             </div>
@@ -165,13 +165,25 @@
     </div>
     <button id="printButton" onclick="printPrescription()">Save & Print</button>
     <script>
+        let changes = new Object();
         function printPrescription(){
             document.getElementById('printButton').style.display='none'
             let items = document.getElementsByTagName('textarea');
+            $.ajax({
+                url:'/patients/saveVisitPrescriptions',
+                data:{
+                    visitId:document.getElementById('visitId').value,
+                    changes,
+                }
+            })
             for(let i=0;i<items.length;i++){
                 items[i].style.border='none'
             }
             window.print()
+        }
+
+        function addChanges(id){
+            changes[id] = document.getElementById(id).value
         }
     </script>
 </body>

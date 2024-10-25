@@ -15,14 +15,13 @@ function setPriceAndNotes() {
 }
 let Items = new Array();
 let counter = 0
-
+let total = 0
 function addItems() {
-
     let container = document.getElementById('itemsTableBody');
     let itemName = document.getElementById('Item').value
     let itemPrice = document.getElementById('Price').value
     let quantity = document.getElementById('Quantity').value
-    let Notes = document.getElementById('Notes').value == undefined ? '' : document.getElementById('Notes').value
+    let Notes = document.getElementById('Notes').value == 'undefined' ? '' : document.getElementById('Notes').value
     let rowItem = document.createElement('tr');
     rowItem.id='rowItem_'+ (counter+1)
     rowItem.innerHTML =
@@ -30,7 +29,7 @@ function addItems() {
         <tr>
             <td>${++counter}</td>
             <td>${itemName}</td>
-            <td>${itemPrice}</td>
+            <td id='price_${counter}'>${itemPrice}</td>
             <td>${quantity}</td>
             <td>${Notes}</td>
             <td>
@@ -41,6 +40,7 @@ function addItems() {
     `
     container.appendChild(rowItem)
     Items.push(itemName + '$' + quantity + '$' + itemPrice + '$' + Notes);
+    total = total + +itemPrice
     document.getElementById('Item').value = ''
     document.getElementById('Price').value = ''
 }
@@ -59,6 +59,7 @@ function deleteItem(counter){
     console.log('deleting item on position '+ (counter - 1))
     console.log(typeof(counter))
     Items.splice(counter-1, 1, '');
+    total = total - +document.getElementById('price_'+counter).value
     document.getElementById('rowItem_'+counter).remove()
 }
 
@@ -71,6 +72,7 @@ function saveBill() {
         Address: document.getElementById('address').value,
         Mobile: document.getElementById('mobile').value,
         Doctor: document.getElementById('docName').value,
+        
     }
     console.log('TEST')
     console.log(patient)
@@ -100,6 +102,7 @@ function saveBill() {
         data: {
             Items,
             patient,
+            Total:total,
             id
         },
         success: function (data) {

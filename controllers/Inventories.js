@@ -29,7 +29,7 @@ module.exports.addInventory = async function(req, res){
             })
         }
         return res.status(200).json({
-            message:'Purchase created and sales added'
+            message:'Purchase created and Inventories added'
         })
     }catch(err){
         console.log(err)
