@@ -1,6 +1,6 @@
 function changeDischargeDate(visitId){
     console.log(visitId);
-    let dischargeDate = document.getElementById('dischargeDate').value;
+    let dischargeDate = document.getElementById('dischargeDate_'+visitId).value;
     $.ajax({
         url:'/patients/saveDischargeDate',
         data:{
@@ -16,7 +16,7 @@ function changeDischargeDate(visitId){
 
 function changeRoom(visitId){
     console.log(visitId);
-    let RoomType = document.getElementById('RoomType').value;
+    let RoomType = document.getElementById('RoomType_'+visitId).value;
     $.ajax({
         url:'/patients/saveRoomType',
         data:{

@@ -21,6 +21,7 @@ function getAppointments(){
 }
 
 function setAppointmentsOnUi(appointments){
+    
     let parent = document.getElementById('table-body');
     parent.innerHTML=``;
     if(appointments.length < 1){
@@ -44,12 +45,13 @@ function setAppointmentsOnUi(appointments){
             <td>${appointments[i].Patient.Gender}</td>
             <td>${appointments[i].Patient.Address}</td>
             <td>${appointments[i].Fees}</td>
+            <td><a href='/patients/getPrescription/${appointments[i]._id}'>Prescription</a></td>
             <td>
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('${appointments[i]._id}')" role="switch" id="checkbox_${appointments[i]._id}" ${checkStatus}>
                 </div>
             </td>
-            <td hidden><a target="_blank" href="/patients/getPrescription/${appointments[i]._id}">Prescription</a></td>
+            <td hidden><a target="_blank" href="/patients/getPrescription/${appointments[i]._id}"></a></td>
         `
         parent.appendChild(child);
     }

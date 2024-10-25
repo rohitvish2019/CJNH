@@ -4,7 +4,7 @@ const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
 const AdmittedPatients = require('../models/admittedPatients');
 const ServicesData = require('../models/servicesAndCharges')
-
+const SalesData = require('../models/sales')
 module.exports.patientRegistartionHome = function(req, res){
     try{
         return res.render('patientRegistration')
@@ -74,8 +74,8 @@ module.exports.addVisitAndPatient = async function(req, res){
             Gender:req.body.Gender,
             PatiendID:newPatientId,
             Items:['Appointment$1$'+req.body.Fees],
-            type:'Appointment'
-
+            type:'Appointment',
+            Total:req.body.Fees
         })
         await visit.updateOne({SaleId:sale._id})
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
@@ -238,7 +238,8 @@ module.exports.bookVisitToday = async function(req, res){
             Gender:patient.Gender,
             PatiendID:patient.Id,
             Items:['Appointment$1$'+req.body.Fees],
-            type:'Appointment'
+            type:'Appointment',
+            Total:req.body.Fees
         })
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         await visit.updateOne({SaleId:sale._id})
@@ -354,7 +355,7 @@ module.exports.saveDischargeDate = async function(req, res){
     try{
         let dischargeDate = req.body.dischargeDate.split('T')[0];
         let dischargeTime = req.body.dischargeDate.split('T')[1];
-        await VisitData.findByIdAndUpdate(req.body.visitId,{isDischarged:true,DischargeDate:dischargeDate, DischargeTime:dischargeTime});
+        await VisitData.findByIdAndUpdate(req.body.visitId,{DischargeDate:dischargeDate, DischargeTime:dischargeTime});
         return res.status(200).json({
             message:'Discharge date updated'
         })
@@ -369,11 +370,11 @@ module.exports.saveRoomType = async function(req, res){
     try{
         await VisitData.findByIdAndUpdate(req.body.visitId,{RoomType:req.body.RoomType});
         return res.status(200).json({
-            message:'Discharge date updated'
+            message:'Room type updated'
         })
     }catch(err){
         return res.status(500).json({
-            message:'Unable to update discharge date'
+            message:'Unable to update Room type'
         })
     }
 }
@@ -385,14 +386,66 @@ module.exports.AdmissionBill = async function(req, res){
         let Items = await ServicesData.find({Type:'AdmissionBill'});
         let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
-        
-        
-        return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount});
+        return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount, visit_id:visit._id, isDischarged:visit.isDischarged});
     }catch(err){    
         console.log(err);
         return res.render('Error_500')
     }
 }
+
+
+
+module.exports.saveDischargeBill = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.body.visitId).populate('Patient');
+        if(visit){
+            await visit.updateOne({isDischarged:true})
+            let Items = await ServicesData.find({Type:'AdmissionBill'});
+            let billItems = new Array()
+            let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+            let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
+            let total = 0
+            for(let i=0;i<Items.length;i++){
+                let item = Items[i].Name+'$1$'+Items[i].Price+'$'+Items[i].Notes
+                total = total + Items[i].Price
+                billItems.push(item)
+            }
+            billItems.push('Room Charges ('+daysCount+' days)$1$'+ +room.Price*daysCount+'$');
+            total = total + +room.Price*daysCount
+            let bill = await Tracker.findOne();
+            let newBillNo = +bill.AdmissionNo + 1;
+            await bill.updateOne({AdmissionNo:newBillNo});
+            let sale = await SalesData.create({
+                Patient:visit.Patient,
+                Name:visit.Patient.Name,
+                Age:visit.Patient.Age,
+                Address:visit.Patient.Address,
+                Mobile:visit.Patient.Mobile,
+                Gender:visit.Patient.Gender,
+                PatiendID:visit.Patient.Id,
+                Doctor:visit.Doctor,
+                type:'DischargeBill',
+                Items:billItems,
+                ReportNo:"DSCH"+newBillNo,
+                Total:total
+            })
+            return res.status(200).json({
+                sale
+            })
+        }else{
+            return res.status(400).json({
+                message:'Invalid visit'
+            })
+        }
+        
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to save bill'
+        })
+    }
+}
+
 
 function get24HourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
@@ -414,8 +467,14 @@ function get24HourTimeframes(startDate, startTime, endDate, endTime) {
 module.exports.showPrescription = async function(req, res){
     try{
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        if(req.xhr){
+            return res.status(200).json({
+                visitData:visit.VisitData
+            })
+        }
         return res.render('prescriptionForm', {visit})
     }catch(err){
+        console.log(err)
         return res.render('Error_500')
     }
 }
@@ -427,5 +486,18 @@ module.exports.dischargeSheet = async function(req, res){
     }catch(err){
         console.log(err);
         return res.render('Error_500')
+    }
+}
+
+module.exports.saveVisitData = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.visitId, {VisitData:req.body.visitData});
+        return res.status(200).json({
+            message:'Prescription saved'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to save prescription'
+        })
     }
 }

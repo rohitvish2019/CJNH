@@ -137,6 +137,7 @@ function getSalesHistoryRange(){
 }
 
 function showHistory(items){
+    let total = 0
     let container = document.getElementById('historyBody');
     container.innerHTML=``;
     for(let i=0;i<items.length;i++){
@@ -145,12 +146,15 @@ function showHistory(items){
         `
             <td>${i+1}</td>
             <td>${items[i].Name}</td>
-            <td></td>
+            <td>${items[i].Total}</td>
             <td>${items[i].BillDate}</td>
             <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
             <td>Cancel</td>
         `
         container.appendChild(rowItem);
+        total = total  + +items[i].Total
     }
+
+    document.getElementById('tvalue').innerText='Total : '+total
 }
