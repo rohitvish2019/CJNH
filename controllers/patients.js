@@ -330,8 +330,7 @@ module.exports.showAdmitted = async function(req, res){
           let visits = await VisitData.find({Type:'IPD'}).populate('Patient').sort([['createdAt',-1]]);
           let rooms = await ServicesData.find({Type:'RoomCharges'});
           return res.render('showAdmittedPatients',{visits, rooms})
-          console.log(rooms);
-          console.log(visits);
+        
     }catch(err){
           console.log(err)
           return res.render('Error_500')

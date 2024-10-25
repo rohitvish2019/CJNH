@@ -1,23 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill</title>
     <link rel="stylesheet" href="/css/bill.css">
 </head>
+
 <body>
+
     <body>
-        <div class="bill-container">
+        <div class="bill-container" style="border: 1px solid black; padding: 5px;">
             <header>
-                <label class="heading">Dr. Chanda Jain Nursing Home</label>
-                <label class="sub-heading">323, civil ward no 7, Damoh MP</label>
+                <div
+                    style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;">
+                    <span style="font-size: medium;"><i>Cash Memo</i></span>
+                    <span>Reg No. NH/9255/JUN-2023</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="justify-content: left;">
+                        <img style="height: 60px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
+                    </div>
+                    <span style="margin-top: 1.5%;" class="heading">Dr. Chanda Jain Nursing Home</span>
+                    <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
+                </div>
+                <label class="sub-heading">323, civil ward no 7, Damoh. (MP) Pin - 470661</label>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
                     <label for="">Date : <%=bill.BillDate%></label>
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
                 </div>
             </header>
-            
+
             <section>
                 <label class="sub-heading">Patient Details</label>
                 <div class="patient-info" style="margin-bottom: 15px;">
@@ -37,7 +51,7 @@
                             </tr>
                         </table>
                     </div>
-                    <div>   
+                    <div>
                         <table>
                             <tr>
                                 <th>Mobile</th>
@@ -68,16 +82,16 @@
                         <% let total = 0%>
                         <% let counter = 1%>
                         <%for(let i=0;i<bill.Items.length;i++){%>
-                            <% if(bill.Items[i].length > 0) {%>
-                                <% let item = bill.Items[i].split('$')%>
-                                <% total = total + +item[2]%>
-                                <tr>
-                                    <td><%=counter++%></td>
-                                    <td><%=item[0]%></td>
-                                    <td>₹<%=item[2]%></td>
-                                    <td><%=item[3]%></td>
-                                </tr>
-                            <%}%>
+                        <% if(bill.Items[i].length > 0) {%>
+                        <% let item = bill.Items[i].split('$')%>
+                        <% total = total + +item[2]%>
+                        <tr>
+                            <td><%=counter++%></td>
+                            <td><%=item[0]%></td>
+                            <td>₹<%=item[2]%></td>
+                            <td><%=item[3]%></td>
+                        </tr>
+                        <%}%>
                             
                         <%}%>
                         <tr>
@@ -88,8 +102,21 @@
                     </tbody>
                 </table>
             </section>
-        </div>
-    
-        <script src="bill.js"></script>
-</body>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="font-size: small; margin-top:10px ;">
+                    <span><b>Bank Details:</b></span><br>
+                    <span>HDFC BANK, Damoh</span><br>
+                    <span>A/c Name: Dr. Chanda Jain Nursing Home</span><br>
+                    <span>A/c No. : 50200025216267</span><br>
+                    <span>IFSC Code - HDFC0000914</span>
+                </div>
+                        <div style="margin-top: 9%; margin-right: 5%;">
+                            <span><i>Signature</i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="bill.js"></script>
+    </body>
+
 </html>
