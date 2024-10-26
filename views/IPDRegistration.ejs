@@ -58,17 +58,17 @@
                     </div>
                     <div class="form-floating">
                         <input type="text" class="form-control" id="Mobile" placeholder="name@example.com">
-                        <label for="Mobile"><i class="fa-solid fa-phone"></i> Mobile No</label>
+                        <label for="Mobile"><i class="fa-solid fa-phone"></i> Mobile No <span>*</span></label>
                     </div>
                 </div>
                 <div class="right">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="BroughtBy" placeholder="name@example.com">
-                        <label for="Fees"><i class="fas fa-user"></i> Brought By</label>
+                        <label for="Fees"><i class="fas fa-user"></i> Brought By <span>*</span></label>
                     </div>
                     <div class="form-floating">
                         <input type="date" class="form-control" id="AdmissionDate" placeholder="name@example.com">
-                        <label for="Fees"><i class="fa-solid fa-calendar"></i> Admission Date</label>
+                        <label for="Fees"><i class="fa-solid fa-calendar"></i> Admission Date <span>*</span></label>
                     </div>
 
 
@@ -84,19 +84,22 @@
 
                     <div class="form-floating">
                         <input type="text" class="form-control" id="Reason" placeholder="name@example.com">
-                        <label for="Fees">Complaint/Reason</label>
+                        <label for="Fees">Complaint/Reason <span>*</span></label>
                     </div>
                     <div class="form-floating">
                         <input type="time" class="form-control" id="AdmissionTime" placeholder="name@example.com">
-                        <label for="Admission Time"><i class="fa-solid fa-clock"></i> Admission Time</label>
+                        <label for="Admission Time"><i class="fa-solid fa-clock"></i> Admission Time <span>*</span></label>
                     </div>
                 </div>
                 <div class="button-container">
-                    <button id="register" class="btn btn-success" type="submit"
-                        value="" onclick="admitPatient()"><i class="fas fa-user-plus"></i><br> Register Admission</button>
+                    <button id="register" class="btn btn-success" type="submit" value="" onclick="admitPatient()"><i
+                            class="fas fa-user-plus"></i><br> Register Admission</button>
                 </div>
-            </section>
 
+            </section>
+            <div style="text-align: left; font-size: small; padding-left: 10px;">
+                <span>* Mandatory Details</span>
+            </div>
         </div>
     </section>
 </body>

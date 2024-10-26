@@ -65,6 +65,13 @@ input{
     border-collapse: collapse;
     padding-left: 4px;
 }
+.b4 input{
+
+    display: inline-block;
+    width: 30px;
+    border: none;
+}
+
 .b5 td{
     border: none !important;
 }
