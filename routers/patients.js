@@ -22,5 +22,6 @@ Router.post('/saveRoomType', passport.checkAuthentication, PatientsController.sa
 Router.get('/AdmissionBill/:visitId', passport.checkAuthentication, PatientsController.AdmissionBill);
 Router.post('/saveDischargeBill', passport.checkAuthentication, PatientsController.saveDischargeBill);
 Router.post('/saveVisitPrescriptions', passport.checkAuthentication, PatientsController.saveVisitData);
-Router.get('/getHistory/:patientId', passport.checkAuthentication, PatientsController.patientHistoryHome)
+Router.get('/getHistory/:patientId', passport.checkAuthentication, PatientsController.patientHistoryHome);
+Router.get('/getAllVisits/:patientId', passport.checkAuthentication,  PatientsController.getAllVisits)
 module.exports = Router;

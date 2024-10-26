@@ -510,3 +510,17 @@ module.exports.patientHistoryHome = async function(req, res){
         return res.render('Error_500')
     }
 }
+
+module.exports.getAllVisits = async function(req, res){
+    try{
+        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date');
+        return res.status(200).json({
+            visits,
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to get visits'
+        })
+    }
+}

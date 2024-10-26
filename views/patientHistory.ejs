@@ -10,129 +10,35 @@
     <link rel="stylesheet" href="/css/patientHistory.css">
 </head>
 
-<body>
+<body onload="getAllVisits()">
     <header>
         <%-include('_header')%>
     </header>
     <div class="pageTitle">
         <h4>Patient History</h4>
     </div>
-    <div class="patient-info-container mt-3" style="display: flex; ">
+    <div class="patient-info-container mt-3" style="display: flex;">
+        <label id="patientID" hidden><%=patient._id%></label>
         <div class="patient-info">
             <p><i class="fas fa-user"></i> <strong>Name:</strong></p>
-            <label for="">Patient Name</label>
+            <label for=""><%=patient.Name%></label>
         </div>
         <div class="patient-info">
             <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong></p>
-            <label for="">Patient Address jasdjnasjdnj jasnd jans dkjasndkjdnas</label>
+            <label for=""><%=patient.Address%></label>
         </div>
         <div class="patient-info">
             <p><i class="fas fa-phone"></i> <strong>Mobile:</strong></p>
-            <label for="">1234567890</label>
+            <label for=""><%=patient.Mobile%></label>
         </div>
-
-
     </div>
     <main style="padding: 20px;">
         <div id="visit-container">
-            <div>
-                <div class="card-header text-white">
-                    <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: 2024-10-01</h2>
-                </div>
-                <div class="card-body">
-                    <div style="display: flex; height: 200px; justify-content: space-between;">
-                        <div class="information">
-                            <b>Investigation & History:</b>
-                            <textarea rows="6" cols="60" name="" id="investigation" placeholder=""></textarea>
-                        </div>
-                        <div class="information">
-
-                            <b>Complications:</b>
-                            <textarea rows="6" cols="60" name="" id="complications" placeholder=""></textarea>
-                        </div>
-                        <div class="information">
-
-                            <b>Other Information:</b>
-                            <textarea rows="6" cols="60" name="" id="otherInfo" placeholder=""></textarea>
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <h5><i class="fa-solid fa-syringe"></i> <strong>Test Results</strong></h5>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="bg">
-                                    <th>CBC</th>
-                                    <th>Bl gr & Rh</th>
-                                    <th>RBS</th>
-                                    <th>HIV</th>
-                                    <th>HBsAg</th>
-                                    <th>TSH</th>
-                                    <th>Urine P.test</th>
-                                    <th>R/M</th>
-                                    <th>R/M</th>
-                                    <th>Sensitivity</th>
-                                    <th>USG Obst</th>
-                                    <th>Colour Dop.</th>
-                                    <th>L.Abd</th>
-                                    <th>W.Abd</th>
-                                    <th>Semen Analysis</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="table">
-                        <h5><strong>Prescribed Medicines</strong></h5>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="bg">
-                                    <th>T1</th>
-                                    <th>T2</th>
-                                    <th>NT on</th>
-                                    <th>TS on</th>
-                                    <th>CD on</th>
-                                    <th>F/up on</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            
             <!-- New visit blocks will be added here -->
         </div>
     </main>
     <script src="/js/patientHistory.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
