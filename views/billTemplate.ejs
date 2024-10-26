@@ -27,7 +27,7 @@
                 </div>
                 <label class="sub-heading">323, civil ward no 7, Damoh. (MP) Pin - 470661</label>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
-                    <label for="">Date : <%=bill.BillDate%></label>
+                    <label for="">Date : <%=bill.BillDate.split('-')[2]%>-<%=bill.BillDate.split('-')[1]%>-<%=bill.BillDate.split('-')[0]%></label>
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
                 </div>
             </header>

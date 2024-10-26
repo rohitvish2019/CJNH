@@ -8,7 +8,13 @@ function changeDischargeDate(visitId){
             visitId
         },
         type:'Post',
-        success:function(data){},
+        success:function(data){
+            console.log("Room type is "+document.getElementById('RoomType_'+visitId).value)
+            if(document.getElementById('RoomType_'+visitId).value != 'none'){
+                document.getElementById(visitId+'_anchor').style.pointerEvents=''
+            }
+            
+        },
         error:function(err){}
     })
     console.log(dischargeDate)
@@ -24,7 +30,12 @@ function changeRoom(visitId){
             visitId
         },
         type:'Post',
-        success:function(data){},
+        success:function(data){
+            console.log("discharge date is "+document.getElementById('dischargeDate_'+visitId).value)
+            if(document.getElementById('dischargeDate_'+visitId).value != ''){
+                document.getElementById(visitId+'_anchor').style.pointerEvents=''
+            }
+        },
         error:function(err){}
     })
     console.log(dischargeDate)

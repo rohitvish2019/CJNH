@@ -83,7 +83,7 @@ function getUsers() {
                     <td style="text-align:center">${user.Role}</td>
                     <td style="text-align:center">
                         <div class="form-check form-switch">
-                        <input id="onoffswitch" style="display:inline" style='margin-left:0%' class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}" checked>
+                        <input style="display:inline" style='margin-left:0%' class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}" checked>
                         </div>
                     </td>
                     <td style="text-align:center">Reset password</td>
@@ -130,6 +130,7 @@ function getServices() {
                         <th>${service.Name}</th>
                         <td><b>₹</b> ${service.Price}</td>
                         <td style="text-align:center">${service.Category}</td>
+                        <td style="text-align:center">${service.Type}</td>
                         <td style="text-align:center">${service.Notes}</td>
                         <td style="text-align:center">${service.RefRangeMin}</td>
                         <td style="text-align:center">${service.RefRangeMax}</td>
@@ -258,7 +259,9 @@ function AddNewService() {
             document.getElementById('rrmax').value = ''
             document.getElementById('rrunit').value = ''
             document.getElementById('serviceType').value = ''
+            
             closepopup()
+            getServices()
             return
         },
         error: function (err) {
@@ -275,6 +278,8 @@ function AddNewService() {
 }
 
 function enableDisableUser(user) {
+    console.log(user);
+    console.log(document.getElementById('checkbox_' + '670ec783ffc1d1b458e96db7'))
     let message = '';
     let status = document.getElementById('checkbox_' + user).checked
     if (status) {
@@ -306,7 +311,7 @@ function enableDisableUser(user) {
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            document.getElementById('checkbox_' + user).setAttribute('checked','true');
+            document.getElementById('checkbox_' + user).checked='true'
         }
     })
 }
@@ -402,6 +407,8 @@ function AddNewUser(){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
+            closepopup();
+            getUsers()
         },
         error: function(err){
             new Noty({

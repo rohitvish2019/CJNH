@@ -19,17 +19,17 @@ function getAllVisits(){
                     <div style="display: flex; height: 200px; justify-content: space-between;">
                         <div class="information">
                             <b>Investigation & History:</b>
-                            <textarea rows="6" cols="60" name="" id="investigation" placeholder="">${visitData.investigation}</textarea>
+                            <textarea disabled rows="6" cols="60" name="" id="investigation" placeholder="">${visitData.investigation}</textarea>
                         </div>
                         <div class="information">
 
                             <b>Complications:</b>
-                            <textarea rows="6" cols="60" name="" id="complications" placeholder="">${visitData.complications}</textarea>
+                            <textarea disabled rows="6" cols="60" name="" id="complications" placeholder="">${visitData.complications}</textarea>
                         </div>
                         <div class="information">
 
                             <b>Other Information:</b>
-                            <textarea rows="6" cols="60" name="" id="otherInfo" placeholder="">${visitData.otherInfo}</textarea>
+                            <textarea disabled rows="6" cols="60" name="" id="otherInfo" placeholder="">${visitData.otherInfo}</textarea>
                         </div>
                     </div>
 
@@ -45,13 +45,13 @@ function getAllVisits(){
                                     <th>HBsAg</th>
                                     <th>TSH</th>
                                     <th>Urine P.test</th>
-                                    <th>R/M</th>
-                                    <th>R/M</th>
-                                    <th>Sensitivity</th>
+                                    <th>Urine-R/M</th>
+                                    <th>Urine-Culture</th>
+                                    <th>Urine-Sensitivity</th>
                                     <th>USG Obst</th>
-                                    <th>Colour Dop.</th>
-                                    <th>L.Abd</th>
-                                    <th>W.Abd</th>
+                                    <th>USG -Colour Dop.</th>
+                                    <th>USG - L.Abd</th>
+                                    <th>USG - W.Abd</th>
                                     <th>Semen Analysis</th>
                                 </tr>
                             </thead>
@@ -78,7 +78,7 @@ function getAllVisits(){
                     </div>
 
                     <div class="table">
-                        <h5><strong>Prescribed Medicines</strong></h5>
+                        <h5><strong><i class="fas fa-calendar-alt"></i> Prescribed Medicines</strong></h5>
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="bg">

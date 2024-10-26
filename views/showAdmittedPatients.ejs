@@ -54,11 +54,14 @@
                             <%}else{%>
                               <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
                             <%}%>
-                            
                           <%}%>
                         </select>
                       </td>
-                      <td style="width: 10%;"><a href="/patients/AdmissionBill/<%=visits[i]._id%>">Admission Bill</a></td>
+                      <%if( visits[i].RoomType == null || visits[i].DischargeDate == null) {%>
+                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" style="pointer-events: none" href="/patients/AdmissionBill/<%=visits[i]._id%>">Admission Bill</a></td>
+                      <%}else{%>
+                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" href="/patients/AdmissionBill/<%=visits[i]._id%>">Admission Bill</a></td>
+                      <%}%>
                       <td>
                         <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
                       </td>
@@ -83,7 +86,11 @@
                           <%}%>
                         </select>
                       </td>
-                      <td style="width: 10%;"><a href="/patients/AdmissionBill/<%=visits[i]._id%>">Admission Bill</a></td>
+                      <%if(visits[i].RoomType == null || visits[i].DischargeDate == null){%>
+                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" style="pointer-events: none" href="/patients/AdmissionBill/<%=visits[i]._id%>">Admission Bill</a></td>
+                      <%}else{%>
+                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" href="/patients/AdmissionBill/<%=visits[i]._id%>">Admission Bill</a></td>
+                      <%}%>
                       <td>
                         <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
                       </td>

@@ -146,7 +146,7 @@ function showHistory(items){
         `
             <td>${i+1}</td>
             <td>${items[i].Name}</td>
-            <td>${items[i].Total}</td>
+            <td>₹ ${items[i].Total}</td>
             <td>${items[i].BillDate}</td>
             <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
@@ -156,5 +156,5 @@ function showHistory(items){
         total = total  + +items[i].Total
     }
 
-    document.getElementById('tvalue').innerText='Total : '+total
+    document.getElementById('tvalue').innerText='Total : ₹ '+total
 }
