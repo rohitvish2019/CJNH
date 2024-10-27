@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill</title>
     <link rel="stylesheet" href="/css/bill.css">
+    
 </head>
 
 <body>
@@ -118,5 +119,13 @@
 
                 <script src="bill.js"></script>
     </body>
-
+    <div style="display: flex;justify-content: center;">
+        <button id="printButton" onclick="printMe()" style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;" class="btn btn-success">Print</button>
+    </div>
+    <script>
+        function printMe(){
+            document.getElementById('printButton').style.display='none'
+            window.print()
+        }
+    </script>
 </html>
