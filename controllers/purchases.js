@@ -8,11 +8,11 @@ module.exports.home = async function(req, res){
     }catch(err){
         console.log(err + 'unable to find Inventories')
     }
-    return res.render('purchases', {inventory});
+    return res.render('purchases', {inventory, user:req.user});
 }
 
 module.exports.purchaseHistoryHome = function(req, res){
-    return res.render('purchaseHistory');
+    return res.render('purchaseHistory',{user:req.user});
 }
 
 module.exports.savePurchase = async function(req, res){

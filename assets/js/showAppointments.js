@@ -1,4 +1,4 @@
-const { text } = require("express")
+
 
 function keepOnHold(id){
     document.getElementById(id +'_rea').style.display='block'
@@ -25,6 +25,7 @@ function keepOnHold(id){
             document.getElementById('loader').style.display='none'
         },
         error:function(err){
+            document.getElementById('checkbox_'+id).checked = !status
             document.getElementById('loader').style.display='none'
         }
     })
@@ -54,6 +55,7 @@ function getAppointmentsToday(){
                         <td>${data.visits[i].Patient.Gender}</td>
                         <td>${data.visits[i].Patient.Address}</td>
                         <td>${data.visits[i].Fees}</td>
+                        <td><a target='_blank' href="/patients/getHistory/${data.visits[i].Patient._id}">Patient History</a></td>
                         <td><a href="/patients/newVisit/${data.visits[i].Patient._id}">Open Visit</a></td>
                         <td>
                         <div class="form-check form-switch">

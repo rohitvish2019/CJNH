@@ -2,6 +2,7 @@ const express = require('express');
 const Router = express.Router();
 const PatientsController = require('../controllers/patients')
 const passport = require('../configs/passport-local-strategy')
+
 Router.post('/addVisit',passport.checkAuthentication,  PatientsController.addVisitAndPatient);
 Router.get('/getAppointments/today', passport.checkAuthentication, PatientsController.getAppointmentsToday);
 Router.get('/getAppointments/old', passport.checkAuthentication, PatientsController.oldAppointmentsHome);

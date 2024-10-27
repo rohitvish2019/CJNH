@@ -39,26 +39,32 @@ module.exports.logout = function(req, res){
 
 module.exports.addUser = async function(req, res){
     try{
-        console.log(req.body)
-        let user;
-        user = await Users.findOne({email:req.body.email});
-        if(user){
-            return res.status(409).json({
-                message:'User id already exists'
+        if(req.user.Role == 'Admin'){
+            let user;
+            user = await Users.findOne({email:req.body.email});
+            if(user){
+                return res.status(409).json({
+                    message:'User id already exists'
+                })
+            }else{
+                await Users.create({
+                    Name:req.body.FullName,
+                    Address:req.body.Address,
+                    Mobile:req.body.Mobile,
+                    email:req.body.email,
+                    password:req.body.Password,
+                    Role:req.body.Role,
+                })
+            }
+            return res.status(200).json({
+                message:'User created',
             })
         }else{
-            await Users.create({
-                Name:req.body.FullName,
-                Address:req.body.Address,
-                Mobile:req.body.Mobile,
-                email:req.body.email,
-                password:req.body.Password,
-                Role:req.body.Role,
+            return res.status(200).json({
+                message:'Unauthorized request'
             })
         }
-        return res.status(200).json({
-            message:'User created',
-        })
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -66,94 +72,11 @@ module.exports.addUser = async function(req, res){
         })
     }
 }
-/*
-module.exports.makeUserInvalid = async function(req, res){
-    try{
-        let user = await Users.findByIdAndUpdate(req.body.id,{isCancelled:true, isValid:false});
-        if(user){
-            return res.status(200).json({
-                message:'User disabled'
-            })
-        }else{
-            return res.status(404).json({
-                message:'Unable to find user'
-            })
-        }
-    }catch(err){
-        return res.status(500).json({
-            message:'Internal Server Error : Disable user failed'
-        })
-    }
-}
 
-module.exports.reEnableUser = async function(req, res){
-    try{
-        let user = await Users.findByIdAndUpdate(req.body.id,{isCancelled:false, isValid:true});
-        if(user){
-            return res.status(200).json({
-                message:'User enabled'
-            })
-        }else{
-            return res.status(404).json({
-                message:'Unable to find user'
-            })
-        }
-    }catch(err){
-        return res.status(500).json({
-            message:'Internal Server Error : Enable user failed'
-        })
-    }
-}
-
-module.exports.updateMyPassword = async function(req, res){
-    try{
-        let user = await Users.findOne({email:req.user.email});
-        if(user && user.password == req.body.oldPassword){
-            await user.updateOne({password:req.body.newPassword})
-            return res.status(200).json({
-                message:'Password updated'
-            })
-        }else{
-            return res.status(404).json({
-                message:'Unable to find user or invalid password'
-            })
-        }
-    }catch(err){
-        return res.status(500).json({
-            message:'Internal Server Error : Password update failed'
-        })
-    }
-}
-
-module.exports.updateProfile = async function(req, res){
-    try{
-        let checkDuplicateEmail = await Users.find({email:re})
-        let user = await Users.findByIdAndUpdate(req.body.id,{
-            Name:req.body.Name,
-            Address:req.body.Address,
-            Mobile:req.body.Mobile
-        });
-        if(user){
-            return res.status(200).json({
-                message:"User profile updated"
-            })
-        }else{
-            return res.status(404).json({
-                message:'No user found'
-            })
-        }
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to update user profile'
-        })
-    }
-}
- */
 module.exports.adminHome = async function(req, res){
     try{
         if(req.user.Role == 'Admin'){
-            return res.render('Admin');
+            return res.render('Admin',{user:req.user});
         }else{
             return res.render('Error_403')
         }
@@ -226,18 +149,25 @@ module.exports.getProfile = async function(req, res){
 
 module.exports.updateProfile = async function(req, res){
     try{
-        if(req.user.email != req.body.email){
-            let checkDuplicateEmail = await Users.find({email:req.body.email});
-            if(checkDuplicateEmail.length > 0){
-                return res.status(400).json({
-                    message:'Duplicate username'
-                })
+        if(req.user.Role == 'Admin'){
+            if(req.user.email != req.body.email){
+                let checkDuplicateEmail = await Users.find({email:req.body.email});
+                if(checkDuplicateEmail.length > 0){
+                    return res.status(400).json({
+                        message:'Duplicate username'
+                    })
+                }
             }
+            await Users.findOneAndUpdate({email:req.user.email},{$set:{Name:req.body.Name, email:req.body.email,Mobile:req.body.Mobile}});
+            return res.status(200).json({
+                message:'Profile updated'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request'
+            })
         }
-        await Users.findOneAndUpdate({email:req.user.email},{$set:{Name:req.body.Name, email:req.body.email,Mobile:req.body.Mobile}});
-        return res.status(200).json({
-            message:'Profile updated'
-        })
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -248,7 +178,7 @@ module.exports.updateProfile = async function(req, res){
 
 module.exports.changePasswordHome = function(req, res){
     try{
-        return res.render('changePassword')
+        return res.render('changePassword',{user:req.user})
     }catch(err){    
         return res.render('Error_500')
     }

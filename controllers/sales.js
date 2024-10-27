@@ -4,7 +4,7 @@ const PatientData = require('../models/patients');
 const Tracker = require('../models/tracker')
 module.exports.salesHistoryHome = function(req, res){
     try{
-        return res.render('salesHistory');
+        return res.render('salesHistory',{user:req.user});
     }catch(err){
         return res.render('Error_500')
     }
@@ -14,7 +14,7 @@ module.exports.salesHistoryHome = function(req, res){
 module.exports.newPathologyBill = async function(req, res){
     try{
         let services = await ServicesData.find({}, 'Name');
-        return res.render('pathologyBill', {services})
+        return res.render('pathologyBill', {services, user:req.user})
     }catch(err){
         return res.render('Error_500')
     }
@@ -98,7 +98,7 @@ module.exports.getBillById = async function(req, res){
                 bill
             })
         }else if(bill && !req.xhr){
-            return res.render('billTemplate',{bill})
+            return res.render('billTemplate',{bill, user:req.user})
         }
         else if(req.xhr && (!bill || bill == null)){
             return res.status(404).json({
@@ -113,30 +113,7 @@ module.exports.getBillById = async function(req, res){
         return res.render('Error_500')
     }
 }
-/*
-Unused functions
 
-module.exports.cancelSale = async function(req,res){
-    try{
-        let bill = await BillsData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
-        if(bill){
-            return res.status(200).json({
-                message:'Bill cancelled'
-            })
-        }else{
-            return res.status(404).json({
-                message:'No bill found'
-            })
-        }
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to cancel sale'
-        })
-    }
-}
-
-*/
 
 
 module.exports.getBillsByDate = async function(req, res){
@@ -180,50 +157,3 @@ module.exports.getBillsByDateRange = async function(req, res){
         })
     }
 }
-
-/*
-module.exports.getAllBillsByPatient = async function(req, res){
-    try{
-        let bills = await BillsData.find({Patient:req.body.PatientId});
-        if(bills.length > 0){
-            return res.status(200).json({
-                message:bills.length +' Bills fetched',
-                bills
-            })
-        }else{
-            return res.status(404).json({
-                message:'No bills found for the patient'
-            })
-        }
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to find bill by patient id'
-        })
-    }
-}
-
-
-module.exports.getAllBillsByUser = async function(req, res){
-    let user = await UsersData.findById(req.body.id);
-    try{
-        let bills = await BillsData.find({User:user._id});
-        if(bills.length > 0){
-            return res.status(200).json({
-                message:bills.length +' Bills fetched',
-                bills
-            })
-        }else{
-            return res.status(404).json({
-                message:'No bills found for the patient'
-            })
-        }
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to find bill by patient id'
-        })
-    }
-}
-
-*/

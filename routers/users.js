@@ -5,13 +5,13 @@ const passport = require('passport');
 const passportLocal = require('passport-local').Strategy;
 const LocalStrategy = require('../configs/passport-local-strategy');
 Router.get('/login', UsersController.loginHome)
-Router.get('/Admin', UsersController.adminHome)
-Router.get('/getAllUsers', UsersController.getUsers);
-Router.post('/changeStatus', UsersController.changeUserData);
-Router.get('/profile', UsersController.getProfile);
-Router.post('/updateProfile', UsersController.updateProfile);
-Router.get('/changePasswordHome', UsersController.changePasswordHome);
-Router.post('/updatePassword', UsersController.updatePassword);
+Router.get('/Admin', passport.checkAuthentication, UsersController.adminHome)
+Router.get('/getAllUsers', passport.checkAuthentication, UsersController.getUsers);
+Router.post('/changeStatus', passport.checkAuthentication, UsersController.changeUserData);
+Router.get('/profile', passport.checkAuthentication, UsersController.getProfile);
+Router.post('/updateProfile', passport.checkAuthentication, UsersController.updateProfile);
+Router.get('/changePasswordHome', passport.checkAuthentication, UsersController.changePasswordHome);
+Router.post('/updatePassword', passport.checkAuthentication, UsersController.updatePassword);
 Router.post('/addNew', passport.checkAuthentication, UsersController.addUser)
 Router.post('/authenticate', passport.authenticate(
     'local',

@@ -7,7 +7,7 @@ const ServicesData = require('../models/servicesAndCharges')
 const SalesData = require('../models/sales')
 module.exports.patientRegistartionHome = function(req, res){
     try{
-        return res.render('patientRegistration')
+        return res.render('patientRegistration',{user:req.user})
     }catch(err){
         console.log(err)
         return res.render('Error_500')
@@ -17,7 +17,7 @@ module.exports.patientRegistartionHome = function(req, res){
 module.exports.oldAppointmentsHome = function(req, res){
     try{
         if(req.user.Role == 'Admin'){
-            return res.render('oldAppointments')
+            return res.render('oldAppointments',{user:req.user})
         }else{
             return res.render('Error_403')
         }
@@ -108,7 +108,7 @@ module.exports.getAppointmentsToday = async function(req, res){
                 visits
             })
         }else{
-            return res.render('showAppointments',{visits});
+            return res.render('showAppointments',{visits,user:req.user});
         }
         
     }catch(err){
@@ -279,7 +279,7 @@ module.exports.changeVisitStatus = async function(req, res){
 
 module.exports.IPDpatientRegistration = function(req, res){
     try{
-        return res.render('IPDRegistration');
+        return res.render('IPDRegistration',{user:req.user});
     }catch(err){
         return res.render('Error_500');
     }
@@ -327,13 +327,14 @@ module.exports.admitPatient = async function(req, res){
 
 module.exports.showAdmitted = async function(req, res){
     try{
-          let visits = await VisitData.find({Type:'IPD'}).populate('Patient').sort([['createdAt',-1]]);
-          let rooms = await ServicesData.find({Type:'RoomCharges'});
-          return res.render('showAdmittedPatients',{visits, rooms})
+        let oneYearOld = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
+        let visits = await VisitData.find({Type:'IPD', createdAt :{$gte : oneYearOld}}).populate('Patient').sort([['createdAt',-1]]);
+        let rooms = await ServicesData.find({Type:'RoomCharges'});
+        return res.render('showAdmittedPatients',{visits, rooms, user:req.user})
         
     }catch(err){
-          console.log(err)
-          return res.render('Error_500')
+        console.log(err)
+        return res.render('Error_500')
     }
     
 }
@@ -341,7 +342,7 @@ module.exports.showAdmitted = async function(req, res){
 module.exports.admittedPatientProfile = function(req, res){
     try{
         if(req.user.Role == 'Admin'){
-            return res.render('admittedPatientProfile')
+            return res.render('admittedPatientProfile',{user:req.user})
         }else{
             return res.render('Error_403')
         }
@@ -386,7 +387,7 @@ module.exports.AdmissionBill = async function(req, res){
         let Items = await ServicesData.find({Type:'AdmissionBill'});
         let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
-        return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount, visit_id:visit._id, isDischarged:visit.isDischarged});
+        return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount, visit_id:visit._id, isDischarged:visit.isDischarged, user:req.user});
     }catch(err){    
         console.log(err);
         return res.render('Error_500')
@@ -472,7 +473,7 @@ module.exports.showPrescription = async function(req, res){
                 visitData:visit.VisitData
             })
         }
-        return res.render('prescriptionForm', {visit})
+        return res.render('prescriptionForm', {visit, user:req.user})
     }catch(err){
         console.log(err)
         return res.render('Error_500')
@@ -482,7 +483,7 @@ module.exports.showPrescription = async function(req, res){
 module.exports.dischargeSheet = async function(req, res){
     try{
         let visit = await VisitData.findById(req.params.id).populate('Patient');
-        return res.render('dischargeSheetTemplate', {visit})
+        return res.render('dischargeSheetTemplate', {visit, user:req.user})
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -505,7 +506,7 @@ module.exports.saveVisitData = async function(req, res){
 module.exports.patientHistoryHome = async function(req, res){
     try{
         let patient = await PatientData.findById(req.params.patientId);
-        return res.render('patientHistory',{patient})
+        return res.render('patientHistory',{patient, user:req.user})
     }catch(err){
         return res.render('Error_500')
     }

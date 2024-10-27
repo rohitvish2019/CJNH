@@ -40,7 +40,10 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/patients/new">Patient Registration</a></li>
             <li><a class="dropdown-item" href="/patients/getAppointments/today">Show appointments</a></li>
-            <li><a class="dropdown-item" href="/patients/getAppointments/old">Old appointments</a></li>
+            <%if(user.Role == 'Admin'){%>
+              <li><a class="dropdown-item" href="/patients/getAppointments/old">Old appointments</a></li>
+            <%}%>
+            
             <li disabled><a class="dropdown-item" href="/patients/IPD/new">IPD Admission</a></li>
             <li><a class="dropdown-item" href="/patients/showAdmitted">Show Admitted</a></li>
           </ul>
@@ -93,15 +96,12 @@
             Profile
           </button>
           <ul class="dropdown-menu">
-
+            <%if(user.Role == 'Admin'){%>
             <li><a class="dropdown-item" href="/user/Admin">Admin Dashboard</a></li>
-
+            <%}%>
             <li><a class="dropdown-item" href="/user/changePasswordHome">Change Password</a></li>
           </ul>
         </div>
-
-        
-
       </div>
     </div>
     <div class="logout-btn">

@@ -9,7 +9,7 @@ module.exports.PathalogyHome = async function(req, res){
     try{
         let patient = await PatientData.findById(req.params.id);
         let services = await ServicesData.find({});
-        return res.render('pathalogyHome', {patient, services, billId:req.query.bill});
+        return res.render('pathalogyHome', {patient, services, billId:req.query.bill, user:req.user});
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -19,7 +19,7 @@ module.exports.PathalogyHome = async function(req, res){
 module.exports.PathalogyHomeEmpty = async function(req, res){
     try{
         let services = await ServicesData.find({});
-        return res.render('pathalogyHomeEmpty', {services})
+        return res.render('pathalogyHomeEmpty', {services, user:req.user})
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -27,19 +27,26 @@ module.exports.PathalogyHomeEmpty = async function(req, res){
 }
 module.exports.addServicesData = async function(req, res){
     try{
-        let service = await ServicesData.create({
-            Name:req.body.Name,
-            Price:req.body.Price,
-            Category:req.body.Category,
-            RefRangeMax:req.body.RefRangeMax,
-            RefRangeMin:req.body.RefRangeMin,
-            RefRangeUnit:req.body.RefRangeUnit,
-            Notes:req.body.Notes,
-            Type:req.body.Type
-        })
-        return res.status(200).json({
-            message:'Service item added successfully'
-        })
+        if(req.user.Role == 'Admin'){
+            let service = await ServicesData.create({
+                Name:req.body.Name,
+                Price:req.body.Price,
+                Category:req.body.Category,
+                RefRangeMax:req.body.RefRangeMax,
+                RefRangeMin:req.body.RefRangeMin,
+                RefRangeUnit:req.body.RefRangeUnit,
+                Notes:req.body.Notes,
+                Type:req.body.Type
+            })
+            return res.status(200).json({
+                message:'Service item added successfully'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request'
+            })
+        }
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -50,10 +57,17 @@ module.exports.addServicesData = async function(req, res){
 
 module.exports.deleteService = async function(req, res){
     try{
-        await ServicesData.findByIdAndDelete(req.params.serviceId);
-        return res.status(200).json({
-            message:'Service data deleted'
-        })
+        if(req.user.Role == 'Admin'){
+            await ServicesData.findByIdAndDelete(req.params.serviceId);
+            return res.status(200).json({
+                message:'Service data deleted'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized request'
+            })
+        }
+        
     }catch(err){
         return res.status(500).json({
             message:'Internal Server Error : Unable to delete service'
@@ -144,59 +158,12 @@ module.exports.cancelReport = async function(req,res){
 }
 
 
-/*
-Unused function need to delete before go live
 
-module.exports.getReportById = async function(req, res){
-    let report 
-    try{
-        report = await ReportsData.findById(req.body.id);
-        if(report){
-            return res.status(200).json({
-                message:'Report fetched successfully',
-                report,
-            })
-        }else{
-            return res.status(404).json({
-                message:'No report found by id',
-                report,
-            })
-        } 
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to fetch report',
-        })
-    }
-}
-*/
-/*
-Unused
-module.exports.getAllReportsByPatient = async function(req, res){
-    try{
-        let reports = await ReportsData.find({Patient:req.body.PatientId});
-        if(reports.length > 0){
-            return res.status(200).json({
-                message:reports.length +' reports fetched',
-                reports
-            })
-        }else{
-            return res.status(404).json({
-                message:'No reports found for the patient'
-            })
-        }
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:'Internal Server Error : Unable to find bill by patient id'
-        })
-    }
-}
-*/
+
 module.exports.viewReport = async function(req, res){
     try{
         let report = await ReportsData.findById(req.params.pid);
-        return res.render('pathalogyReportTemplate', {report});
+        return res.render('pathalogyReportTemplate', {report, user:req.user});
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -244,7 +211,7 @@ module.exports.getDefaultTests = async function(req, res){
 }
 module.exports.pathologyHistoryHome = function(req, res){
     try{
-        return res.render('pathReportsHistory')
+        return res.render('pathReportsHistory',{user:req.user})
     }catch(err){
         return res.render('Error_500')
     }
@@ -360,26 +327,7 @@ module.exports.getServiceByName = async function(req, res){
         })
     }
 }
-/*
-module.exports.saveServicesUpdates = async function(req, res){
-    console.log(req.body)
-    try{
-        for(let i=0;i<req.body.valuesToUpdate.length;i++){
-            console.log('running loop '+i)
-            await ServicesData.findByIdAndUpdate(req.body.valuesToUpdate[i].id,{Price:req.body.valuesToUpdate[i].Price});
-        }
-        return res.status(200).json({
-            message:'Settings updated'
-        })
-    }catch(err){
-        console.log(err)
-        return res.status(500).json({
-            message:"Unable to update settings"
-        })
-    }
-}
 
-*/
 
 module.exports.dashboard = async function(req, res){
     try{
