@@ -39,9 +39,9 @@ function addTest() {
         <td>${testResult}</td>
         <td>${testCategory}</td>
         <td>
-                <span id="dustbinDark" onmouseover = "highlight()" onmouseout = "unhighlight()" style="display:inline-block; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-solid fa-trash-can"></i> </span>
-                <span id="dustbinLight" onmouseover = "highlight()" onmouseout = "unhighlight()" style="display:none; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-regular fa-trash-can"></i> </span>
-        </td>
+                <label id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-solid fa-trash-can"></i> </label>
+                <label id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-regular fa-trash-can"></i> </label>
+            </td>
     `
     container.appendChild(rowItem);
     counter++;
@@ -54,13 +54,13 @@ function addTest() {
 }
 
 function unhighlight(x) {
-    document.getElementById('dustbinDark').style.display = "block";
-    document.getElementById('dustbinLight').style.display = "none";
+    document.getElementById('dustbinDark'+x).style.display = "block";
+    document.getElementById('dustbinLight'+x).style.display = "none";
 }
 
 function highlight(x) {
-    document.getElementById('dustbinDark').style.display = "none";
-    document.getElementById('dustbinLight').style.display = "block";
+    document.getElementById('dustbinDark'+x).style.display = "none";
+    document.getElementById('dustbinLight'+x).style.display = "block";
 }
 
 function deleteItem(counter) {

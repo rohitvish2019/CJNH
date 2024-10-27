@@ -7,6 +7,11 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
+label{
+    color: red;
+    padding-left: 3px;
+    font-size: small;
+}
 
 .bg th{
     font-size: 15px;
@@ -36,21 +41,20 @@ th {
     overflow: auto;
 }
 
-
+i
 .prescription-form{
     border-left: 2px dotted black;
     width: 28%;
     margin-top: 3%;
 }
-
-.prescription-form .input-group{
-    margin-left: 3%;
+.prescription-form{
+    width: 29%;
+    padding: 1%;
 }
 
-.input-group-prepend span{
-    font-weight: bold;
+.input-group{
+    margin: 2%;
 }
-
 
 .test-data label, .test-data input{
     font-size: small;
@@ -61,14 +65,14 @@ th {
 }
 
 .input-group-text{
-    width: 120px;
+    width:110px !important;
+    font-weight: bold !important;
+    font-size: small !important;
 }
-.input-group-sm{
-    width: 100%;
-}
-.input-group-prepend span{
-    font-size: small;
-}
+ .input-group input{
+    margin: 2px 0px 0px 2px !important;
+ }
+
 .delButton:hover{
     background-color: rgb(160, 206, 206);
 }

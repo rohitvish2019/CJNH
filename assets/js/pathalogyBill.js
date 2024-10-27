@@ -106,8 +106,8 @@ function saveBill() {
             id
         },
         success: function (data) {
-            window.location.href = '/sales/bill/pathology'
             window.open('/sales/bill/view/' + data.Bill_id)
+            window.location.href = '/sales/bill/pathology'
         },
         error: function (err) {}
     })

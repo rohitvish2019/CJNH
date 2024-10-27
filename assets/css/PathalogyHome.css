@@ -33,6 +33,10 @@ table{
     font-size: large;
     overflow: auto;
 }
+span{
+    padding-left: 2px;
+    color: red;
+}
 
 th{
     background-color: rgb(226, 222, 217);

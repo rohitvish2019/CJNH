@@ -5,7 +5,10 @@ body {
 }
 
 .bill-container {
-    width: 730px;
+    margin: 20px;
+    border: 1px solid black;
+    text-align: center;
+    width: auto;
     height: auto;    
 }
 
@@ -20,7 +23,7 @@ body {
     text-align: left;
     padding-left: 6%;
 }
-header {
+.heading-container {
     text-align: center;
 }
 .heading{
@@ -48,9 +51,9 @@ table, th, td {
     border: 1px solid #dddddda5;
 }
 
-th, td {
+.bg th, td {
     padding: 3px;
-    text-align: left;
+    text-align: center;
 }
 
 .total-section {
