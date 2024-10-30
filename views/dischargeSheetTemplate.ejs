@@ -284,6 +284,18 @@
         </div>
 
     </div>
+
+    <div style="display: flex;justify-content: center; margin-top: 10px;">
+        <button id="printButton" onclick="printMe()"
+            style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
+            class="btn btn-success"><b>Print</b></button>
+    </div>
+    <script>
+        function printMe() {
+            document.getElementById('printButton').style.display = 'none'
+            window.print()
+        }
+    </script>
 </body>
 
 </html>

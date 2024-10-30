@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill</title>
     <link rel="stylesheet" href="/css/bill.css">
-    
+
 </head>
 
 <body>
@@ -26,47 +26,52 @@
                     <span style="margin-top: 1.5%;" class="heading">Dr. Chanda Jain Nursing Home</span>
                     <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
                 </div>
-                <label class="sub-heading">323, civil ward no 7, Damoh. (MP) Pin - 470661</label>
+                <label class="sub-heading">323, Civil Ward No. 7, Damoh. (MP) Pin - 470661</label>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
-                    <label for="">Date : <%=bill.BillDate.split('-')[2]%>-<%=bill.BillDate.split('-')[1]%>-<%=bill.BillDate.split('-')[0]%></label>
+                    <label for="">Date :
+                        <%=bill.BillDate.split('-')[2]%>-<%=bill.BillDate.split('-')[1]%>-<%=bill.BillDate.split('-')[0]%></label>
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
                 </div>
             </header>
 
-            <section>
+            <div>
                 <label class="sub-heading">Patient Details</label>
                 <div class="patient-info" style="margin-bottom: 15px;">
-                    <div>
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <td><%=bill.Name%></td>
-                            </tr>
-                            <tr>
-                                <th>Age</th>
-                                <td><%=bill.Age%></td>
-                            </tr>
-                            <tr>
-                                <th>Gender</th>
-                                <td><%=bill.Gender%></td>
-                            </tr>
-                        </table>
+                    <div style="width: 50%; text-align:right;">
+                        <div class="inner-table" style="display: inline-block;">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <td><%=bill.Name%></td>
+                                </tr>
+                                <tr>
+                                    <th>Age</th>
+                                    <td><%=bill.Age%></td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td><%=bill.Gender%></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <div>
-                        <table>
-                            <tr>
-                                <th>Mobile</th>
-                                <td><%=bill.Mobile%></td>
-                            </tr>
-                            <tr>
-                                <th>Address</th>
-                                <td><%=bill.Address%></td>
-                            </tr>
-                            <tr>
-                                <th>Id</th>
-                                <td><%=bill.PatiendID%></td>
-                            </tr>
-                        </table>
+                    <div style="width: 50%; text-align:left;">
+                        <div class="inner-table" style="display: inline-block;">
+                            <table>
+                                <tr>
+                                    <th>Mobile</th>
+                                    <td><%=bill.Mobile%></td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td><%=bill.Address%></td>
+                                </tr>
+                                <tr>
+                                    <th>Id</th>
+                                    <td><%=bill.PatiendID%></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <label class="sub-heading">Billing Details</label>
@@ -74,7 +79,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Description</th>
+                            <th style="text-align: left;">Description</th>
                             <th>Price</th>
                             <th>Notes</th>
                         </tr>
@@ -88,7 +93,7 @@
                         <% total = total + +item[2]%>
                         <tr>
                             <td><%=counter++%></td>
-                            <td><%=item[0]%></td>
+                            <td style="text-align: left;"><%=item[0]%></td>
                             <td>₹<%=item[2]%></td>
                             <td><%=item[3]%></td>
                         </tr>
@@ -96,36 +101,37 @@
                             
                         <%}%>
                         <tr>
-                            <td colspan="2">Grand Total</td>
+                            <td style="text-align: right;" colspan="2"><b>Grand Total</b></td>
                             <td><b>₹<%=total%></b></td>
                             <td></td>
                         </tr>
                     </tbody>
                 </table>
-            </section>
+            </div>
             <div style="display: flex; justify-content: space-between;">
-                <div style="font-size: small; margin-top:10px ;">
+                <div style="font-size: small; margin-top:10px; text-align: left;">
                     <span><b>Bank Details:</b></span><br>
                     <span>HDFC BANK, Damoh</span><br>
                     <span>A/c Name: Dr. Chanda Jain Nursing Home</span><br>
                     <span>A/c No. : 50200025216267</span><br>
                     <span>IFSC Code - HDFC0000914</span>
                 </div>
-                        <div style="margin-top: 9%; margin-right: 5%;">
-                            <span><i>Signature</i></span>
-                        </div>
-                    </div>
+                <div style="margin-top: 9%; margin-right: 5%;">
+                    <span><i>Signature</i></span>
                 </div>
+            </div>
+        </div>
 
-                <script src="bill.js"></script>
+        <script src="bill.js"></script>
     </body>
-    <div style="display: flex;justify-content: center;">
-        <button id="printButton" onclick="printMe()" style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;" class="btn btn-success">Print</button>
+    <div class="printButtonContainer">
+        <button id="printButton" onclick="printMe()" class="btn btn-success">Print</button>
     </div>
     <script>
-        function printMe(){
-            document.getElementById('printButton').style.display='none'
+        function printMe() {
+            document.getElementById('printButton').style.display = 'none'
             window.print()
         }
     </script>
+
 </html>
