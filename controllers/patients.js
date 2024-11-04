@@ -96,10 +96,11 @@ module.exports.getAppointmentsToday = async function(req, res){
         let date = new Date().toISOString().split('T')[0];
         let visits;
         console.log(req.query);
+        console.log(req.user)
         if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD'}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
         }else{
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD'}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient');
         }
             
         if(req.xhr){
