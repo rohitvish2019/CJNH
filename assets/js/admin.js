@@ -128,13 +128,13 @@ function getServices() {
                     `
                     <td style="text-align:center">${i+1}</td>
                         <th>${service.Name}</th>
-                        <td><b>₹</b> ${service.Price}</td>
-                        <td style="text-align:center">${service.Category}</td>
-                        <td style="text-align:center">${service.Type}</td>
-                        <td style="text-align:center">${service.Notes}</td>
-                        <td style="text-align:center">${service.RefRangeMin}</td>
-                        <td style="text-align:center">${service.RefRangeMax}</td>
-                        <td style="text-align:center">${service.RefRangeUnit}</td>
+                        <td><b>₹</b> ${service.Price == undefined ? '' : service.Price}</td>
+                        <td style="text-align:center">${service.Category == undefined ? '' : service.Category}</td>
+                        <td style="text-align:center">${service.Type == undefined ? '' : service.Type}</td>
+                        <td style="text-align:center">${service.Notes == undefined ? '' : service.Notes}</td>
+                        <td style="text-align:center">${service.RefRangeMin == undefined ? '' : service.RefRangeMin}</td>
+                        <td style="text-align:center">${service.RefRangeMax == undefined ? '' : service.RefRangeMax}</td>
+                        <td style="text-align:center">${service.RefRangeUnit == undefined ? '' : service.RefRangeUnit}</td>
                         <td style="text-align:center">
 							<div style="margin-left:1%" onclick = "deleteService('${service._id}')" >
 								<span id="dustbinLight${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-solid fa-trash-can"></i></span>
