@@ -102,17 +102,17 @@
 
                         <div class="form-floating">
                             <input type="text" class="form-control" id="Mobile" placeholder="name@example.com">
-                            <label for="Name">Mobile<span>*</span></label>
+                            <label for="Name">Mobile <span>*</span></label>
                         </div>
 
                         <div class="form-floating">
                             <input type="text" class="form-control" id="email" placeholder="name@example.com">
-                            <label for="Name"> Username(Only english characters and number allowed)<span>*</span></label>
+                            <label for="Name"> Username <span>*</span> <i>Only english characters and number are allowed</i> </label>
                         </div>
 
                         <div class="form-floating">
                             <input type="text" class="form-control" id="Password" placeholder="name@example.com">
-                            <label for="Name"> Password<span>*</span></label>
+                            <label for="Name"> Password <span>*</span></label>
                         </div>
                         <div class="form-floating">
                             
@@ -122,7 +122,7 @@
                                 <option value="Admin">Admin</option>
                                 <option value="Staff">Staff</option>
                             </select>
-                            <label for="Name"> Role<span>*</span></label>
+                            <label for="Name"> Role <span>*</span></label>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@
                 <div class="table-body" style="margin-top: 5%; width: 100%; overflow: scroll;">
                     <table class="table-bordered table-striped">
                         <thead>
-                            <tr class="bg">
+                            <tr class="bgusertable">
                                 <th>Username</th>
                                 <th>Name</th>
                                 <th>Role</th>
@@ -194,9 +194,10 @@
                     </div>
                 </div>
                 -->
+
+
+
                 <!-- Add new Services-->
-
-
                 <div id="addnewservice" class="card text-center">
 
                         <div style="margin: 1%; text-align: right;">
@@ -208,12 +209,12 @@
                             <div class="left">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="serviceName" placeholder="name@example.com">
-                                    <label for="Name"><i class="fas fa-cogs"></i>Service Name <span>*</span></label>
+                                    <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
                                 </div>
 
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="servicePrice" placeholder="name@example.com">
-                                    <label for="Name"><b>₹ </b>Price <span>*</span></label>
+                                    <label for="Name"><b>₹ </b> Price <span>*</span></label>
                                 </div>
 
                                 <div class="form-floating">
@@ -226,12 +227,12 @@
                                         <option value="HAEMATOLOGY">APPOINTMENT</option>
                                         <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
                                     </select>
-                                    <label for="Name"> Category<span>*</span></label>
+                                    <label for="Name"> Category <span>*</span></label>
                                 </div>
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="serviceNotes" placeholder="name@example.com">
                                     <label for="Name"><i class="fa-solid fa-note-sticky"></i> Default
-                                        Notes<span>*</span></label>
+                                        Notes <span>*</span></label>
                                 </div>
                                 
                             </div>
@@ -241,19 +242,19 @@
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="rrunit" placeholder="name@example.com">
                                 <label for="Name"><i class="fa-solid fa-hashtag"></i> Measurement
-                                    Unit<span>*</span></label>
+                                    Unit <span>*</span></label>
                             </div>
 
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="rrmin" placeholder="name@example.com">
                                     <label for="Name"><i class="fa-solid fa-arrow-down-9-1"></i> Minimum
-                                        Range<span>*</span></label>
+                                        Range <span>*</span></label>
                                 </div>
 
                                 <div class="form-floating">
                                     <input type="number" class="form-control" id="rrmax" placeholder="name@example.com">
                                     <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
-                                        Range<span>*</span></label>
+                                        Range <span>*</span></label>
                                 </div>
                                 <div class="form-floating">
                                     <select class="form-control" name="" id="serviceType">
@@ -263,10 +264,12 @@
                                         <option value="RoomCharges">Room Charges</option>
                                         <option value="Ultrasound">Ultrasound</option>
                                     </select>
-                                    <label for="Name"> Type<span>*</span></label>
+                                    <label for="Name"> Type <span>*</span></label>
                                 </div>
                             </div>
                         </div>
+                        <div style="text-align: left; padding-left: 5%;font-size: small;"><span><i>* Mandatory Fields</i></span><br></div>
+
                         <button class="btn"
                             style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
                             onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
@@ -284,15 +287,15 @@
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileMobile" placeholder="name@example.com">
-                    <label for="Name"><i class="fa-solid fa-phone"></i> Mobile Number<span>*</span></label>
+                    <label for="Name"><i class="fa-solid fa-phone"></i> Mobile Number <span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileUsername" placeholder="name@example.com">
-                    <label for="Name"><i class="fa-solid fa-address-card"></i> Username<span>*</span></label>
+                    <label for="Name"><i class="fa-solid fa-address-card"></i> Username <span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="profileRole" readonly placeholder="name@example.com">
-                    <label for="Name"><i class="fa-solid fa-users-gear"></i> Role<span>*</span></label>
+                    <label for="Name"><i class="fa-solid fa-users-gear"></i> Role <span>*</span></label>
                 </div>
                 <div class="form-floating text-center">
                     <input style="width: 40%; background-color: #025E73; padding: 10px;" type="button"

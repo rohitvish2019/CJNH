@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/prescriptionForm.css">
     <title>Prescription</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"
+        integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+        integrity="sha512-jnSuA4Ss2PkkikSOLtYs8BlYIeeIK1h99ty4YfvRPAlzr377vr3CXDb7sb7eEEBYjDtcYj+AjBH3FLv5uSJuXg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+
 <body onload="getVisitdata()">
     <div class="main-body">
         <div class="header">
@@ -16,8 +24,10 @@
                 <img src="/images/CJNH_Logo_Black.png" alt="" srcset="" height="140%" width="130%">
             </div>
             <div class="name">
-                <label style="font-size: 35px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन &nbsp;नर्सिंग &nbsp;होम</label>
-                <label  style="font-size: 20px; font-weight: 500;margin-top: 0.3%;">सिविल वार्ड नंबर 7 दमोह (म. प्र.)</label>
+                <label style="font-size: 35px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन
+                    &nbsp;नर्सिंग &nbsp;होम</label>
+                <label style="font-size: 20px; font-weight: 500;margin-top: 0.3%;">सिविल वार्ड नंबर 7 दमोह (म.
+                    प्र.)</label>
                 <label style="font-size: 17px;">Mob: 6263169195, Ph No: 07812-222441</label>
             </div>
             <div class="logo" style="margin: 10px 5px 0px 0px; padding: 10px;">
@@ -32,10 +42,10 @@
                 <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
                 <label class="old-info">मिलने का समय</label>
                 <label class="old-info">सुबह 10 बजे से शाम 5 बजे तक</label>
-                
+
             </div>
             <div class="hospital-photo">
-                
+
             </div>
             <div class="doc-info-right">
                 <label class="doc-name">डॉ. स्वाति जैन</label>
@@ -44,7 +54,7 @@
                 <label class="old-info">CF. SR. No. Addl./MPMC-6978</label>
                 <label class="old-info">मिलने का समय</label>
                 <label class="old-info">सुबह 11बजे से 1 बजे तक, 1:30 से शाम 3 बजे तक</label>
-                
+
             </div>
         </div>
         <div class="patient-info">
@@ -68,7 +78,8 @@
             <div class="patient-data" style="width: 18%; ">
                 <small for=""><b>Date</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
-                <label for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
+                <label
+                    for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
             </div>
         </div>
         <div class="data-body">
@@ -78,206 +89,237 @@
                         <b>Complaint</b>
                         <textarea rows="4" style="width: 100%;" name="" id="complaint" placeholder=""></textarea>
                         <b>History</b>
-                        <textarea rows="8" style="width: 100%;"  name="" id="history" placeholder=""></textarea>
+                        <textarea rows="8" style="width: 100%;" name="" id="history" placeholder=""></textarea>
                         <b>O/E</b>
-                        <textarea rows="5" style="width: 100%;"  name="" id="OEs" placeholder=""></textarea>
+                        <textarea rows="5" style="width: 100%;" name="" id="OEs" placeholder=""></textarea>
                     </div>
                     <div style="width: 45%;">
-                        <div>
+                        <div style="display: flex;">
                             <input type="search" placeholder="Medicine" id="searchBox">
                             <input type="button" id="AddMed" value="Add" onclick="addMed()">
                         </div>
                         <div>
-                            <b style="font-size: large;">Prescribed Medicines</b>
+                            <b style="font-size: large;">Prescribed Medicines: </b>
                             <div id="prescribedMeds">
 
                             </div>
                         </div>
-                        
+
                     </div>
-                    
+
                 </div>
-                
+
                 <div class="investigationItems" style="width: 27%;">
                     <div style="text-align: center;">
                         <label style="text-align: center;font-weight: bold;">Invt Adv</label>
                     </div>
                     <div style="text-align: center;">
 
-                        <input type="checkbox"><label style="text-align: center;font-weight: bold;">&nbsp;Outside tests</label>
+                        <input type="checkbox"><label style="text-align: center;font-weight: bold;">&nbsp;Outside
+                            Tests</label>
                     </div>
                     <div>
                         <label style="width: 58%;">CBC</label>
-                        <input style="width: 35%;border: none;border-bottom: 1px dotted black;" type="text" onchange="addChanges('CBC')" id="CBC">
+                        <input style="width: 35%;border: none;border-bottom: 1px dotted black;" type="text"
+                            onchange="addChanges('CBC')" id="CBC">
                     </div>
                     <div>
                         <label style="width: 58%;">Bl gr & Rh</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Blgr')" id="Blgr">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('Blgr')" id="Blgr">
                     </div>
                     <div>
                         <label style="width: 58%;">RBS</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('RBS')" id="RBS">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('RBS')" id="RBS">
                     </div>
                     <div>
                         <label style="width: 58%;">HIV</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('HIV')" id="HIV">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('HIV')" id="HIV">
                     </div>
                     <div>
                         <label style="width: 58%;">HBsAg</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('HBsAg')" id="HBsAg">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('HBsAg')" id="HBsAg">
                     </div>
                     <div>
                         <label style="width: 58%;">TSH</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('TSH')" id="TSH">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('TSH')" id="TSH">
                     </div>
                     <div>
                         <label style="width: 58%;">Urine P.test</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-Ptest')" id="Urine-Ptest">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('Urine-Ptest')" id="Urine-Ptest">
                     </div>
                     <div>
                         <label style="width: 58%;">&nbsp&nbsp;&nbsp; R/M</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-RM')" id="Urine-RM">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('Urine-RM')" id="Urine-RM">
                     </div>
                     <div>
                         <label style="width: 58%;">&nbsp&nbsp;&nbsp; Cult & Sens.</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-CultureSens')" id="Urine-CultureSens">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('Urine-CultureSens')" id="Urine-CultureSens">
                     </div>
-                    
+
                     <div>
                         <label style="width: 58%;">USG Obst</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-Obst')" id="USG-Obst">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('USG-Obst')" id="USG-Obst">
                     </div>
                     <div>
                         <label style="width: 58%;">&nbsp&nbsp;&nbsp; Colour Dop.</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-ColourDop')" id="USG-ColourDop">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('USG-ColourDop')" id="USG-ColourDop">
                     </div>
                     <div>
                         <label style="width: 58%;">&nbsp&nbsp;&nbsp; L.Abd</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-LAbd')" id="USG-LAbd">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('USG-LAbd')" id="USG-LAbd">
                     </div>
                     <div>
                         <label style="width: 58%;">&nbsp&nbsp;&nbsp; W.Abd</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-WAbd')" id="USG-WAbd">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('USG-WAbd')" id="USG-WAbd">
                     </div>
                     <div>
                         <label style="width: 58%;">Semen Analysis</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('SemenAnalysis')" id="SemenAnalysis">
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('SemenAnalysis')" id="SemenAnalysis">
                     </div>
                 </div>
             </div>
             <div class="prescription" style="height: 28%;">
-                <div style="width: 25%;padding-left: 5px;margin-top: 5px;display: flex;flex-direction: column;justify-content: space-between;">
+                <div
+                    style="width: 25%;padding-left: 5px;margin-top: 5px;display: flex;flex-direction: column;justify-content: space-between;">
                     <div>
                         <label style="width: 35%;">T1</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T1')" id="T1">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('T1')" id="T1">
                     </div>
 
                     <div>
                         <label style="width: 35%;">T2</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('T2')" id="T2">
                     </div>
 
                     <div>
                         <label style="width: 35%;">NT on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('NT')" id="NT">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('NT')" id="NT">
                     </div>
 
                     <div>
                         <label style="width: 35%;">TS on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('TS')" id="TS">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('TS')" id="TS">
                     </div>
 
                     <div>
                         <label style="width: 35%;">CD on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('CD')" id="CD">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('CD')" id="CD">
                     </div>
                     <div>
                         <label style="width: 35%;">F/up on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP">
                     </div>
                 </div>
                 <div style="width: 75%;">
-                    
+
                 </div>
             </div>
         </div>
         <div class="footer" style="padding-left: 1%;">
             <label>
-                <p style="font-size: 20px;padding:0;margin: 0;font-weight: bold;">Dr R.K. Jain <span style="font-weight: 400; font-size: 15px;padding:0;margin: 0;">(B.sc. MBBS, DNT, MCGP)</span></p>
-                <p style="font-size: 14px;padding:0;margin: 0;">323, Civil ward No. 7, Damoh(M.P.) Ph No : 07812-222441</p>
+                <p style="font-size: 20px;padding:0;margin: 0;font-weight: bold;">Dr R.K. Jain <span
+                        style="font-weight: 400; font-size: 15px;padding:0;margin: 0;">(B.sc. MBBS, DNT, MCGP)</span>
+                </p>
+                <p style="font-size: 14px;padding:0;margin: 0;">323, Civil ward No. 7, Damoh(M.P.) Ph No : 07812-222441
+                </p>
             </label>
         </div>
     </div>
     <div style="width: 730px;display: flex;justify-content: center;margin-top: 15px;">
-        <button class="btn btn-success" style="width: 70%;"  id="printButton" onclick="printPrescription()">Save & Print</button>
+        <button class="btn btn-success" style="width: 70%;" id="printButton" onclick="printPrescription()">Save &
+            Print</button>
     </div>
-    
+
     <script>
         let changes = new Object();
         let prescribedMeds = new Array();
-        function printPrescription(){
-            document.getElementById('printButton').style.display='none'
+
+        function printPrescription() {
+            document.getElementById('printButton').style.display = 'none'
             changes['complaint'] = document.getElementById('complaint').value
             changes['history'] = document.getElementById('history').value
             changes['OEs'] = document.getElementById('OEs').value
             $.ajax({
-                url:'/patients/saveVisitPrescriptions',
-                data:{
-                    visitId:document.getElementById('visitId').innerText,
-                    visitData:changes,
+                url: '/patients/saveVisitPrescriptions',
+                data: {
+                    visitId: document.getElementById('visitId').innerText,
+                    visitData: changes,
                     prescribedMeds
                 },
-                type:'POST',
-                success:function(data){
+                type: 'POST',
+                success: function (data) {
                     let items = document.getElementsByTagName('textarea');
-                    for(let i=0;i<items.length;i++){
-                        items[i].style.border='none'
+                    for (let i = 0; i < items.length; i++) {
+                        items[i].style.border = 'none'
                     }
-                    document.getElementById('searchBox').style.display='none'
-                    document.getElementById('AddMed').style.display='none'
+                    document.getElementById('searchBox').style.display = 'none'
+                    document.getElementById('AddMed').style.display = 'none'
                     window.print()
                 }
             })
         }
-        
-        function getVisitdata(){
+
+        function getVisitdata() {
             $.ajax({
-                url:'/patients/getPrescription/'+document.getElementById('visitId').innerText,
-                type:'Get',
-                success:function(data){
+                url: '/patients/getPrescription/' + document.getElementById('visitId').innerText,
+                type: 'Get',
+                success: function (data) {
                     let keys = Object.keys(data.visitData)
-                    changes=data.visitData
-                    for(let i=0;i<keys.length;i++){
-                        document.getElementById(keys[i]).value=data.visitData[keys[i]]
+                    changes = data.visitData
+                    for (let i = 0; i < keys.length; i++) {
+                        document.getElementById(keys[i]).value = data.visitData[keys[i]]
                     }
                     let container = document.getElementById('prescribedMeds');
-                    for(let i=0;i<data.Prescriptions.length;i++){
+                    for (let i = 0; i < data.Prescriptions.length; i++) {
                         let item = document.createElement('label');
-                        item.style.fontSize='medium'
-                        item.style.display='block'
-                        item.innerText= data.Prescriptions[i]
+                        item.style.fontSize = 'medium'
+                        item.style.display = 'block'
+                        item.innerText = data.Prescriptions[i]
                         container.appendChild(item);
                         prescribedMeds.push(data.Prescriptions[i])
                     }
                     console.log();
                 },
-                error:function(err){
+                error: function (err) {
                     console.log(err)
                 }
             })
         }
-        function addChanges(id){
+
+        function addChanges(id) {
             changes[id] = document.getElementById(id).value
         }
-        function addMed(){
+
+        function addMed() {
             let container = document.getElementById('prescribedMeds');
             let item = document.createElement('label');
-            item.style.fontSize='medium'
-            item.style.display='block'
-            item.innerText= document.getElementById('searchBox').value
+            item.style.fontSize = 'medium'
+            item.style.display = 'block'
+            item.innerText = document.getElementById('searchBox').value
             container.appendChild(item);
             prescribedMeds.push(document.getElementById('searchBox').value)
+            document.getElementById('searchBox').value = "";
         }
     </script>
 </body>
+
 </html>

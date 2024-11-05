@@ -28,17 +28,17 @@ function openSettings() {
     getServices()
 }
 
-function popupuserwindow(){
-    document.getElementById('addnewuser').style.display='block'
+function popupuserwindow() {
+    document.getElementById('addnewuser').style.display = 'block'
 }
 
-function popupservicewindow(){
-    document.getElementById('addnewservice').style.display='block'
+function popupservicewindow() {
+    document.getElementById('addnewservice').style.display = 'block'
 }
 
-function closepopup(){
-    document.getElementById('addnewuser').style.display='none'
-    document.getElementById('addnewservice').style.display='none'
+function closepopup() {
+    document.getElementById('addnewuser').style.display = 'none'
+    document.getElementById('addnewservice').style.display = 'none'
 }
 
 function openProfile() {
@@ -128,7 +128,7 @@ function getServices() {
                     `
                     <td style="text-align:center">${i+1}</td>
                         <th>${service.Name}</th>
-                        <td><b>₹</b> ${service.Price == undefined ? '' : service.Price}</td>
+                        <td style="width:6.5%"><b>₹</b> ${service.Price == undefined ? '' : service.Price}</td>
                         <td style="text-align:center">${service.Category == undefined ? '' : service.Category}</td>
                         <td style="text-align:center">${service.Type == undefined ? '' : service.Type}</td>
                         <td style="text-align:center">${service.Notes == undefined ? '' : service.Notes}</td>
@@ -136,11 +136,12 @@ function getServices() {
                         <td style="text-align:center">${service.RefRangeMax == undefined ? '' : service.RefRangeMax}</td>
                         <td style="text-align:center">${service.RefRangeUnit == undefined ? '' : service.RefRangeUnit}</td>
                         <td style="text-align:center">
-							<div style="margin-left:1%" onclick = "deleteService('${service._id}')" >
-								<span id="dustbinLight${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-solid fa-trash-can"></i></span>
-								<span style="display:none;" id="dustbinDark${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-regular fa-trash-can"></i></span>
-							</div>
-						</td>
+							<div onclick = "deleteService('${service._id}')" >
+								<label id="dustbinLight${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-solid fa-trash-can"></i></label>
+								<label style="display:none;" id="dustbinDark${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-regular fa-trash-can"></i></label>
+                                
+                            </div>
+					</td>
                     `
                 container.appendChild(rowItem)
             }
@@ -152,32 +153,36 @@ function getServices() {
 
 }
 
-function deleteService(id){
-    let confirmation = window.confirm("Service will be deleted permanently, Please CConfirm !!!")
-    if(confirmation){
-        $.ajax({
-            url:'/reports/deleteService/'+id,
-            type:'Delete',
-            success:function(data){
-                document.getElementById(id).remove();
-            },
-            error:function(err){}
-        })
-    }else{
-        return
-    }
-    
+function highlight(x) {
+    document.getElementById('dustbinDark' + x).style.display = "block";
+    document.getElementById('dustbinLight' + x).style.display = "none";
 }
 
 function unhighlight(x) {
-    document.getElementById('dustbinDark').style.display = "none";
-    document.getElementById('dustbinLight').style.display = "block";
+    document.getElementById('dustbinDark' + x).style.display = "none";
+    document.getElementById('dustbinLight' + x).style.display = "block";
 }
 
-function highlight(x) {
-    document.getElementById('dustbinDark').style.display = "block";
-    document.getElementById('dustbinLight').style.display = "none";
+
+
+function deleteService(id) {
+    let confirmation = window.confirm("Service will be deleted permanently, Please CConfirm !!!")
+    if (confirmation) {
+        $.ajax({
+            url: '/reports/deleteService/' + id,
+            type: 'Delete',
+            success: function (data) {
+                document.getElementById(id).remove();
+            },
+            error: function (err) {}
+        })
+    } else {
+        return
+    }
+
 }
+
+
 
 let valuesToUpdate = new Array();
 
@@ -259,7 +264,7 @@ function AddNewService() {
             document.getElementById('rrmax').value = ''
             document.getElementById('rrunit').value = ''
             document.getElementById('serviceType').value = ''
-            
+
             closepopup()
             getServices()
             return
@@ -311,7 +316,7 @@ function enableDisableUser(user) {
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            document.getElementById('checkbox_' + user).checked='true'
+            document.getElementById('checkbox_' + user).checked = 'true'
         }
     })
 }
@@ -378,11 +383,11 @@ function updateProfile() {
 }
 
 
-function AddNewUser(){
+function AddNewUser() {
     let feilds = ['FullName', 'Mobile', 'email', 'Password', 'Role']
     let profileData = new Object();
-    for(let i=0;i<feilds.length;i++){
-        if(document.getElementById(feilds[i]).value == ''){
+    for (let i = 0; i < feilds.length; i++) {
+        if (document.getElementById(feilds[i]).value == '') {
             new Noty({
                 theme: 'relax',
                 text: 'All feilds are mandatory',
@@ -391,15 +396,15 @@ function AddNewUser(){
                 timeout: 1500
             }).show();
             return
-        }else{
+        } else {
             profileData[feilds[i]] = document.getElementById(feilds[i]).value
         }
     }
     $.ajax({
-        url:'/user/addNew',
-        data:profileData,
-        type:'Post',
-        success:function(data){
+        url: '/user/addNew',
+        data: profileData,
+        type: 'Post',
+        success: function (data) {
             new Noty({
                 theme: 'relax',
                 text: 'User added',
@@ -410,7 +415,7 @@ function AddNewUser(){
             closepopup();
             getUsers()
         },
-        error: function(err){
+        error: function (err) {
             new Noty({
                 theme: 'relax',
                 text: 'Unable to add user',
