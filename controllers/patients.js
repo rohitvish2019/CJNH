@@ -73,7 +73,7 @@ module.exports.addVisitAndPatient = async function(req, res){
             Doctor:req.body.Doctor,
             Gender:req.body.Gender,
             PatiendID:newPatientId,
-            Items:['Appointment$1$'+req.body.Fees],
+            Items:['OPD$1$'+req.body.Fees],
             type:'Appointment',
             Total:req.body.Fees
         })
@@ -96,10 +96,11 @@ module.exports.getAppointmentsToday = async function(req, res){
         let date = new Date().toISOString().split('T')[0];
         let visits;
         console.log(req.query);
+        console.log(req.user)
         if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD'}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
         }else{
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD'}).populate('Patient');
+            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient');
         }
             
         if(req.xhr){
@@ -237,7 +238,7 @@ module.exports.bookVisitToday = async function(req, res){
             Doctor:patient.Doctor,
             Gender:patient.Gender,
             PatiendID:patient.Id,
-            Items:['Appointment$1$'+req.body.Fees],
+            Items:['OPD$1$'+req.body.Fees],
             type:'Appointment',
             Total:req.body.Fees
         })
@@ -470,7 +471,8 @@ module.exports.showPrescription = async function(req, res){
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         if(req.xhr){
             return res.status(200).json({
-                visitData:visit.VisitData
+                visitData:visit.VisitData,
+                Prescriptions: visit.Prescriptions
             })
         }
         return res.render('prescriptionForm', {visit, user:req.user})
@@ -492,7 +494,7 @@ module.exports.dischargeSheet = async function(req, res){
 
 module.exports.saveVisitData = async function(req, res){
     try{
-        await VisitData.findByIdAndUpdate(req.body.visitId, {VisitData:req.body.visitData});
+        await VisitData.findByIdAndUpdate(req.body.visitId, {VisitData:req.body.visitData, Prescriptions:req.body.prescribedMeds});
         return res.status(200).json({
             message:'Prescription saved'
         })
@@ -514,7 +516,7 @@ module.exports.patientHistoryHome = async function(req, res){
 
 module.exports.getAllVisits = async function(req, res){
     try{
-        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date');
+        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions');
         return res.status(200).json({
             visits,
         })

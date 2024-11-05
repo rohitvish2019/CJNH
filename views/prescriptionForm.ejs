@@ -73,18 +73,38 @@
         </div>
         <div class="data-body">
             <div class="prescription" style="height: 72%;">
-                <div style="width: 73%;">
-                    <b>Investigation & History</b>
-                    <textarea rows="6" cols="68" name="" id="investigation" placeholder=""></textarea>
-                    <b>Complications</b>
-                    <textarea rows="6" cols="68" name="" id="complications" placeholder=""></textarea>
-                    <b>Other Information</b>
-                    <textarea rows="5" cols="68" name="" id="otherInfo" placeholder=""></textarea>
+                <div style="width: 73%;display: flex;justify-content: space-between;">
+                    <div style="width: 54%;border-right: 1px solid black;">
+                        <b>Complaint</b>
+                        <textarea rows="4" style="width: 100%;" name="" id="complaint" placeholder=""></textarea>
+                        <b>History</b>
+                        <textarea rows="8" style="width: 100%;"  name="" id="history" placeholder=""></textarea>
+                        <b>O/E</b>
+                        <textarea rows="5" style="width: 100%;"  name="" id="OEs" placeholder=""></textarea>
+                    </div>
+                    <div style="width: 45%;">
+                        <div>
+                            <input type="search" placeholder="Medicine" id="searchBox">
+                            <input type="button" id="AddMed" value="Add" onclick="addMed()">
+                        </div>
+                        <div>
+                            <b style="font-size: large;">Prescribed Medicines</b>
+                            <div id="prescribedMeds">
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
                 
                 <div class="investigationItems" style="width: 27%;">
                     <div style="text-align: center;">
                         <label style="text-align: center;font-weight: bold;">Invt Adv</label>
+                    </div>
+                    <div style="text-align: center;">
+
+                        <input type="checkbox"><label style="text-align: center;font-weight: bold;">&nbsp;Outside tests</label>
                     </div>
                     <div>
                         <label style="width: 58%;">CBC</label>
@@ -119,13 +139,10 @@
                         <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-RM')" id="Urine-RM">
                     </div>
                     <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; Culture</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-Culture')" id="Urine-Culture">
+                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; Cult & Sens.</label>
+                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-CultureSens')" id="Urine-CultureSens">
                     </div>
-                    <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; Sensitivity</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('Urine-Sensitivity')" id="Urine-Sensitivity">
-                    </div>
+                    
                     <div>
                         <label style="width: 58%;">USG Obst</label>
                         <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('USG-Obst')" id="USG-Obst">
@@ -176,7 +193,7 @@
                     </div>
                     <div>
                         <label style="width: 35%;">F/up on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('FUP')" id="FUP">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP">
                     </div>
                 </div>
                 <div style="width: 75%;">
@@ -197,16 +214,18 @@
     
     <script>
         let changes = new Object();
+        let prescribedMeds = new Array();
         function printPrescription(){
             document.getElementById('printButton').style.display='none'
-            changes['investigation'] = document.getElementById('investigation').value
-            changes['complications'] = document.getElementById('complications').value
-            changes['otherInfo'] = document.getElementById('otherInfo').value
+            changes['complaint'] = document.getElementById('complaint').value
+            changes['history'] = document.getElementById('history').value
+            changes['OEs'] = document.getElementById('OEs').value
             $.ajax({
                 url:'/patients/saveVisitPrescriptions',
                 data:{
                     visitId:document.getElementById('visitId').innerText,
                     visitData:changes,
+                    prescribedMeds
                 },
                 type:'POST',
                 success:function(data){
@@ -214,6 +233,8 @@
                     for(let i=0;i<items.length;i++){
                         items[i].style.border='none'
                     }
+                    document.getElementById('searchBox').style.display='none'
+                    document.getElementById('AddMed').style.display='none'
                     window.print()
                 }
             })
@@ -229,6 +250,15 @@
                     for(let i=0;i<keys.length;i++){
                         document.getElementById(keys[i]).value=data.visitData[keys[i]]
                     }
+                    let container = document.getElementById('prescribedMeds');
+                    for(let i=0;i<data.Prescriptions.length;i++){
+                        let item = document.createElement('label');
+                        item.style.fontSize='medium'
+                        item.style.display='block'
+                        item.innerText= data.Prescriptions[i]
+                        container.appendChild(item);
+                        prescribedMeds.push(data.Prescriptions[i])
+                    }
                     console.log();
                 },
                 error:function(err){
@@ -239,7 +269,15 @@
         function addChanges(id){
             changes[id] = document.getElementById(id).value
         }
-       
+        function addMed(){
+            let container = document.getElementById('prescribedMeds');
+            let item = document.createElement('label');
+            item.style.fontSize='medium'
+            item.style.display='block'
+            item.innerText= document.getElementById('searchBox').value
+            container.appendChild(item);
+            prescribedMeds.push(document.getElementById('searchBox').value)
+        }
     </script>
 </body>
 </html>

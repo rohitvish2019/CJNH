@@ -4,8 +4,12 @@ function getAllVisits(){
         type:'Get',
         success:function(data){
             for(let k=0;k<data.visits.length;k++){
-                console.log(data.visits[k])
-                let visitData = data.visits[k].VisitData
+                
+                if(data.visits[k].VisitData == null){
+                    continue
+                }
+                let visitData = replaceUndefinedValues(data.visits[k].VisitData)
+                console.log(visitData)
                 let visitsContainer = document.getElementById('visit-container')
                 let cardContainer = document.createElement('div');
                 cardContainer.classList.add('cardOne')
@@ -13,23 +17,23 @@ function getAllVisits(){
                 `
                 <div>
                 <div class="card-header text-white">
-                    <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: ${data.visits[k].Visit_date}</h2>
+                    <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: ${data.visits[k].Visit_date.split('-')[2]+'-'+data.visits[k].Visit_date.split('-')[1]+'-'+data.visits[k].Visit_date.split('-')[0]}</h2>
                 </div>
                 <div class="card-body">
                     <div style="display: flex; height: 200px; justify-content: space-between;">
                         <div class="information">
-                            <b>Investigation & History:</b><br>
-                            <label disabled rows="6" cols="55" name="" id="investigation" placeholder="">${visitData.investigation}</label>
+                            <b>Complaint :</b>
+                            <textarea disabled rows="6" cols="60" name="" id="investigation" placeholder="">${visitData.complaint}</textarea>
                         </div>
                         <div class="information">
 
-                            <b>Complications:</b>
-                            <label disabled rows="6" cols="55" name="" id="complications" placeholder="">${visitData.complications}</label>
+                            <b>History:</b>
+                            <textarea disabled rows="6" cols="60" name="" id="complications" placeholder="">${visitData.history}</textarea>
                         </div>
                         <div class="information">
 
-                            <b>Other Information:</b>
-                            <label disabled rows="6" cols="55" name="" id="otherInfo" placeholder="">${visitData.otherInfo}</label>
+                            <b>O/E:</b>
+                            <textarea disabled rows="6" cols="60" name="" id="otherInfo" placeholder="">${visitData.OEs}</textarea>
                         </div>
                     </div>
 
@@ -46,8 +50,7 @@ function getAllVisits(){
                                     <th>TSH</th>
                                     <th>Urine P.test</th>
                                     <th>Urine-R/M</th>
-                                    <th>Urine-Culture</th>
-                                    <th>Urine-Sensitivity</th>
+                                    <th>Urine-Culture & Sensitivity</th>
                                     <th>USG Obst</th>
                                     <th>USG -Colour Dop.</th>
                                     <th>USG - L.Abd</th>
@@ -57,28 +60,27 @@ function getAllVisits(){
                             </thead>
                             <tbody>
                                 <tr class="bg">
-                                    <td id="CBC">${visitData['CBC']}</td>
-                                    <td id="Blgr">${visitData['Blgr']}</td>
-                                    <td id="RBS">${visitData['RBS']}</td>
-                                    <td id="HIV">${visitData['HIV']}</td>
-                                    <td id="HBsAg">${visitData['HBsAg']}</td>
-                                    <td id="TSH">${visitData['TSH']}</td>
-                                    <td id="Urine-Ptest">${visitData['Urine-Ptest']}</td>
-                                    <td id="Urine-RM">${visitData['Urine-RM']}</td>
-                                    <td id="Urine-Culture">${visitData['Urine-Culture']}</td>
-                                    <td id="Urine-Sensitivity">${visitData['Urine-Sensitivity']}</td>
-                                    <td id="USG-Obst">${visitData['USG-Obst']}</td>
-                                    <td id="USG-ColourDop">${visitData['USG-ColourDop']}</td>
-                                    <td id="USG-LAbd">${visitData['USG-LAbd']}</td>
-                                    <td id="USG-WAbd">${visitData['USG-WAbd']}</td>
-                                    <td id="SemenAnalysis">${visitData['SemenAnalysis']}</td>
+                                    <td id="CBC">${visitData['CBC'] == undefined ? '' : visitData['CBC']}</td>
+                                    <td id="Blgr">${visitData['Blgr'] == undefined ? '' : visitData['Blgr']}</td>
+                                    <td id="RBS">${visitData['RBS'] == undefined ? '' : visitData['RBS']}</td>
+                                    <td id="HIV">${visitData['HIV'] == undefined ? '' : visitData['HIV']}</td>
+                                    <td id="HBsAg">${visitData['HBsAg'] == undefined ? '' : visitData['HBsAg']}</td>
+                                    <td id="TSH">${visitData['TSH'] == undefined ? '' : visitData['TSH']}</td>
+                                    <td id="Urine-Ptest">${visitData['Urine-Ptest'] == undefined ? '' : visitData['Urine-Ptest']}</td>
+                                    <td id="Urine-RM">${visitData['Urine-RM'] == undefined ? '' : visitData['Urine-RM']}</td>
+                                    <td id="Urine-Culture">${visitData['Urine-CultureSens'] == undefined ? '' : visitData['Urine-CultureSens']}</td>
+                                    <td id="USG-Obst">${visitData['USG-Obst'] == undefined ? '' : visitData['USG-Obst']}</td>
+                                    <td id="USG-ColourDop">${visitData['USG-ColourDop'] == undefined ? '' : visitData['USG-ColourDop']}</td>
+                                    <td id="USG-LAbd">${visitData['USG-LAbd'] == undefined ? '' : visitData['USG-LAbd']}</td>
+                                    <td id="USG-WAbd">${visitData['USG-WAbd'] == undefined ? '' : visitData['USG-WAbd']}</td>
+                                    <td id="SemenAnalysis">${visitData['SemenAnalysis'] == undefined ? '' : visitData['SemenAnalysis']}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="table">
-                        <h5><strong><i class="fas fa-calendar-alt"></i> Prescribed Medicines</strong></h5>
+                        <h5><strong><i class="fas fa-calendar-alt"></i> Miscellaneous</strong></h5>
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="bg">
@@ -87,17 +89,17 @@ function getAllVisits(){
                                     <th>NT on</th>
                                     <th>TS on</th>
                                     <th>CD on</th>
-                                    <th>F/up on</th>
+                                    <th>Follow up on</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="bg">
-                                    <td id="T1">${visitData.T1}</td>
-                                    <td id="T2">${visitData.T2}</td>
-                                    <td id="NT">${visitData.NT}</td>
-                                    <td id="TS">${visitData.TS}</td>
-                                    <td id="CD">${visitData.CD}</td>
-                                    <td id="FUP">${visitData.FUP}</td>
+                                    <td id="T1">${visitData.T1 == undefined ? '' : visitData.T1}</td>
+                                    <td id="T2">${visitData.T2 == undefined ? '' : visitData.T2}</td>
+                                    <td id="NT">${visitData.NT == undefined ? '' : visitData.NT}</td>
+                                    <td id="TS">${visitData.TS == undefined ? '' : visitData.TS}</td>
+                                    <td id="CD">${visitData.CD == undefined ? '' : visitData.CD}</td>
+                                    <td id="FUP">${visitData.FUP == undefined ? '' : visitData.FUP}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -127,3 +129,17 @@ function getAllVisits(){
         }
     })
 }
+
+function replaceUndefinedValues(obj) {
+    // Iterate over the keys of the object
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        // Check if the value is undefined
+        if (obj[key] === undefined) {
+          // Replace with an empty string
+          obj[key] = '';
+        }
+      }
+    }
+    return obj;
+  }

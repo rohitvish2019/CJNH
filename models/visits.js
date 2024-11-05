@@ -20,6 +20,7 @@ const Visits = new mongoose.Schema({
     isDischarged:Boolean,
     RoomType:String,
     VisitData:Object,
+    prescribedMeds:Array,
     SaleId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Sale'
