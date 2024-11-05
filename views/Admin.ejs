@@ -31,8 +31,11 @@
                         class="fa-solid fa-hospital-user"></i> Users</a>
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white"
                     onclick="openSettings()"><i class="fas fa-cogs"></i> Service & Charges</a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white"
+                    onclick="openMedicine()"><i class="fa-solid fa-prescription-bottle-medical"></i> Medicines</a>
                 <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="openProfile()"><i
                         class="fas fa-sign-out-alt"></i> My Profile</a>
+
             </div>
         </div>
 
@@ -83,7 +86,8 @@
             <!-- USER TAB-->
             <div id="users" class="users" style="text-align: center; padding: 10px; height: 75vh;">
                 <div style="position: absolute; margin-left: 73%">
-                    <button style="padding: 8px;" class="btn btn-primary" onclick="popupuserwindow()">Add New User</button>
+                    <button style="padding: 8px;" class="btn btn-primary" onclick="popupuserwindow()">Add New
+                        User</button>
                 </div>
 
                 <div id="addnewuser" class="card text-center">
@@ -107,7 +111,8 @@
 
                         <div class="form-floating">
                             <input type="text" class="form-control" id="email" placeholder="name@example.com">
-                            <label for="Name"> Username <span>*</span> <i>Only english characters and number are allowed</i> </label>
+                            <label for="Name"> Username <span>*</span> <i>Only english characters and number are
+                                    allowed</i> </label>
                         </div>
 
                         <div class="form-floating">
@@ -115,8 +120,8 @@
                             <label for="Name"> Password <span>*</span></label>
                         </div>
                         <div class="form-floating">
-                            
-                            
+
+
                             <select class="form-control" name="" id="Role">
                                 <option selected value="">--Select Role--</option>
                                 <option value="Admin">Admin</option>
@@ -168,7 +173,7 @@
                                 <th><i class="fa-solid fa-list"></i> Category</th>
                                 <th><i class="fa-solid fa-list"></i> Type</th>
                                 <th><i class="fa-solid fa-note-sticky"></i> Notes</th>
-                                
+
                                 <th><i class="fa-solid fa-arrow-down-9-1"></i> Minimum Range</th>
                                 <th><i class="fa-solid fa-arrow-up-9-1"></i> Maximum Range</th>
                                 <th><i class="fa-solid fa-hashtag"></i> Measurement Unit</th>
@@ -200,44 +205,46 @@
                 <!-- Add new Services-->
                 <div id="addnewservice" class="card text-center">
 
-                        <div style="margin: 1%; text-align: right;">
-                            <i onclick="closepopup()" style="align-items: end;"
-                                class="fa-regular fa-circle-xmark fa-2x"></i>
-                        </div>
-                        <h4>Add New Service</h4>
-                        <div class="container" style="display: flex;">
-                            <div class="left">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="serviceName" placeholder="name@example.com">
-                                    <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
-                                </div>
-
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="servicePrice" placeholder="name@example.com">
-                                    <label for="Name"><b>₹ </b> Price <span>*</span></label>
-                                </div>
-
-                                <div class="form-floating">
-                                    <select class="form-control" name="" id="serviceCategory">
-                                        <option selected value="">--Select Category--</option>
-                                        <option value="HAEMATOLOGY">HAEMATOLOGY</option>
-                                        <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
-                                        <option value="URINE">URINE</option>
-                                        <option value="SEROLOGY">SEROLOGY</option>
-                                        <option value="HAEMATOLOGY">APPOINTMENT</option>
-                                        <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
-                                    </select>
-                                    <label for="Name"> Category <span>*</span></label>
-                                </div>
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="serviceNotes" placeholder="name@example.com">
-                                    <label for="Name"><i class="fa-solid fa-note-sticky"></i> Default
-                                        Notes <span>*</span></label>
-                                </div>
-                                
+                    <div style="margin: 1%; text-align: right;">
+                        <i onclick="closepopup()" style="align-items: end;"
+                            class="fa-regular fa-circle-xmark fa-2x"></i>
+                    </div>
+                    <h4>Add New Service</h4>
+                    <div class="container" style="display: flex;">
+                        <div class="left">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="serviceName" placeholder="name@example.com">
+                                <label for="Name"><i class="fas fa-cogs"></i> Service Name <span>*</span></label>
                             </div>
-                            <div class="right">
-                                
+
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="servicePrice"
+                                    placeholder="name@example.com">
+                                <label for="Name"><b>₹ </b> Price <span>*</span></label>
+                            </div>
+
+                            <div class="form-floating">
+                                <select class="form-control" name="" id="serviceCategory">
+                                    <option selected value="">--Select Category--</option>
+                                    <option value="HAEMATOLOGY">HAEMATOLOGY</option>
+                                    <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
+                                    <option value="URINE">URINE</option>
+                                    <option value="SEROLOGY">SEROLOGY</option>
+                                    <option value="HAEMATOLOGY">APPOINTMENT</option>
+                                    <option value="BIOCHEMISTRY">BIOCHEMISTRY</option>
+                                </select>
+                                <label for="Name"> Category <span>*</span></label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="serviceNotes"
+                                    placeholder="name@example.com">
+                                <label for="Name"><i class="fa-solid fa-note-sticky"></i> Default
+                                    Notes <span>*</span></label>
+                            </div>
+
+                        </div>
+                        <div class="right">
+
 
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="rrunit" placeholder="name@example.com">
@@ -245,34 +252,35 @@
                                     Unit <span>*</span></label>
                             </div>
 
-                                <div class="form-floating">
-                                    <input type="number" class="form-control" id="rrmin" placeholder="name@example.com">
-                                    <label for="Name"><i class="fa-solid fa-arrow-down-9-1"></i> Minimum
-                                        Range <span>*</span></label>
-                                </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="rrmin" placeholder="name@example.com">
+                                <label for="Name"><i class="fa-solid fa-arrow-down-9-1"></i> Minimum
+                                    Range <span>*</span></label>
+                            </div>
 
-                                <div class="form-floating">
-                                    <input type="number" class="form-control" id="rrmax" placeholder="name@example.com">
-                                    <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
-                                        Range <span>*</span></label>
-                                </div>
-                                <div class="form-floating">
-                                    <select class="form-control" name="" id="serviceType">
-                                        <option selected value="">--Select Type--</option>
-                                        <option value="Admission Billing">Admission Billing</option>
-                                        <option value="DischargeItem">Discharge Item</option>
-                                        <option value="RoomCharges">Room Charges</option>
-                                        <option value="Ultrasound">Ultrasound</option>
-                                    </select>
-                                    <label for="Name"> Type <span>*</span></label>
-                                </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="rrmax" placeholder="name@example.com">
+                                <label for="Name"><i class="fa-solid fa-arrow-up-9-1"></i> Maximum
+                                    Range <span>*</span></label>
+                            </div>
+                            <div class="form-floating">
+                                <select class="form-control" name="" id="serviceType">
+                                    <option selected value="">--Select Type--</option>
+                                    <option value="Admission Billing">Admission Billing</option>
+                                    <option value="DischargeItem">Discharge Item</option>
+                                    <option value="RoomCharges">Room Charges</option>
+                                    <option value="Ultrasound">Ultrasound</option>
+                                </select>
+                                <label for="Name"> Type <span>*</span></label>
                             </div>
                         </div>
-                        <div style="text-align: left; padding-left: 5%;font-size: small;"><span><i>* Mandatory Fields</i></span><br></div>
+                    </div>
+                    <div style="text-align: left; padding-left: 5%;font-size: small;"><span><i>* Mandatory
+                                Fields</i></span><br></div>
 
-                        <button class="btn"
-                            style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
-                            onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
+                    <button class="btn"
+                        style="margin: 2%; padding: 5px; width: 40% !important; background-color: #025E73 ;"
+                        onclick="AddNewService()"><i class="fa-solid fa-file-circle-plus"></i> Add</button>
 
                 </div>
 
@@ -304,7 +312,67 @@
             </div>
             <!-- MY PROFILE TAB END-->
 
+            <!--MEDICINE TAB-->
+            <div id="Medicine" class="Medicine">
+                <div style="text-align: end;">
+                    <button style="padding: 8px; display: inline-block;" class="btn btn-primary"
+                        onclick="popupmedicinewindow()">Add New
+                        Medicine</button>
+                </div>
+
+                <div id="addnewmedicine" class="card text-center">
+
+                    <div style="margin: 1%; text-align: right;">
+                        <i onclick="closepopup()" style="align-items: end;"
+                            class="fa-regular fa-circle-xmark fa-2x"></i>
+                    </div>
+                    <h4>Add New Medicine</h4>
+                    <div class="container">
+
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="MedicineName" placeholder="name@example.com">
+                            <label for="Name"><i class="fa-solid fa-prescription-bottle"></i> Medicine Name
+                                <span>*</span></label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="Dosage" placeholder="name@example.com">
+                            <label for="Dosage"><i class="fa-solid fa-pills"></i> Dosage <span>*</span></label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="Duration" placeholder="name@example.com">
+                            <label for="Duration"><i class="fa-solid fa-clock-rotate-left"></i> Duration
+                                <span>*</span></label>
+                        </div>
+
+                    </div>
+
+                    <div style="text-align: left; padding-left: 8%;font-size: small;"><span><i>* Mandatory
+                                Fields</i></span><br></div>
+                    <button class="btn"
+                        style="margin: 2%; padding: 10px; width: 40% !important; background-color: #025E73 ;"
+                        onclick="AddNewMedicine()"><i class="fa-solid fa-file-circle-plus"></i> Add Medicine</button>
+
+                </div>
+                <div class="table-body" style="margin-top: 2%; width: 100%; overflow: scroll; height: 68vh;">
+                    <table class="table-bordered table-striped">
+                        <thead>
+                            <tr class="bgmedicinetable">
+                                <th><i class="fa-solid fa-prescription-bottle"></i> Medicine Name</th>
+                                <th><i class="fa-solid fa-pills"></i> Dosage</th>
+                                <th><i class="fa-solid fa-clock-rotate-left"></i> Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody id="MedicineListTable">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--MEDICINE TAB ENDS HERE-->
         </div>
+
         <!-- /#page-content-wrapper -->
     </div>
     <!-- /#wrapper -->

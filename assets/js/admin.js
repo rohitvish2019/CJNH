@@ -9,6 +9,7 @@ function openDashboard() {
     document.getElementById('settings').style.display = 'none'
     document.getElementById('profile').style.display = 'none'
     document.getElementById('dashboard').style.display = 'block'
+    document.getElementById('Medicine').style.display = 'none'
     getDashboardData()
 }
 
@@ -17,6 +18,7 @@ function openUsers() {
     document.getElementById('settings').style.display = 'none'
     document.getElementById('profile').style.display = 'none'
     document.getElementById('dashboard').style.display = 'none'
+    document.getElementById('Medicine').style.display = 'none'
     getUsers()
 }
 
@@ -25,20 +27,8 @@ function openSettings() {
     document.getElementById('settings').style.display = 'flex'
     document.getElementById('profile').style.display = 'none'
     document.getElementById('dashboard').style.display = 'none'
+    document.getElementById('Medicine').style.display = 'none'
     getServices()
-}
-
-function popupuserwindow() {
-    document.getElementById('addnewuser').style.display = 'block'
-}
-
-function popupservicewindow() {
-    document.getElementById('addnewservice').style.display = 'block'
-}
-
-function closepopup() {
-    document.getElementById('addnewuser').style.display = 'none'
-    document.getElementById('addnewservice').style.display = 'none'
 }
 
 function openProfile() {
@@ -46,8 +36,18 @@ function openProfile() {
     document.getElementById('settings').style.display = 'none'
     document.getElementById('profile').style.display = 'block'
     document.getElementById('dashboard').style.display = 'none'
+    document.getElementById('Medicine').style.display = 'none'
     getMyProfile()
 }
+
+function openMedicine() {
+    document.getElementById('users').style.display = 'none'
+    document.getElementById('settings').style.display = 'none'
+    document.getElementById('profile').style.display = 'none'
+    document.getElementById('dashboard').style.display = 'none'
+    document.getElementById('Medicine').style.display = 'block'
+    getMedicineData()
+} 
 
 function getDashboardData() {
     $.ajax({
@@ -151,6 +151,24 @@ function getServices() {
         }
     })
 
+}
+
+function popupuserwindow() {
+    document.getElementById('addnewuser').style.display = 'block'
+}
+
+function popupservicewindow() {
+    document.getElementById('addnewservice').style.display = 'block'
+}
+
+function popupmedicinewindow(){
+    document.getElementById('addnewmedicine').style.display = 'block'
+}
+
+function closepopup() {
+    document.getElementById('addnewuser').style.display = 'none'
+    document.getElementById('addnewservice').style.display = 'none'
+    document.getElementById('addnewmedicine').style.display = 'none'
 }
 
 function highlight(x) {
@@ -335,7 +353,9 @@ function getMyProfile() {
     })
 }
 
-
+function getMedicineData(){
+    
+}
 
 function updateProfile() {
     let Name = document.getElementById('profileName').value

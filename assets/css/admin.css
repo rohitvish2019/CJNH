@@ -24,7 +24,7 @@ body {
 }
 
 #sidebar-wrapper {
-    min-height: 87.5vh;
+    min-height: 86.2vh;
     margin-left: -15rem;
     transition: margin 0.25s ease-out;
 }
@@ -73,11 +73,19 @@ body {
     font-weight: bold;
 }
 
-#users, #settings, #profile{
+#users, #settings, #profile, #Medicine{
     display: none;
 }
 
 .bgusertable th{
+    text-align: center;
+    color: white;
+    background-color: #025E73 !important ;
+    
+}
+
+
+.bgmedicinetable th{
     text-align: center;
     color: white;
     background-color: #025E73 !important ;
@@ -118,8 +126,19 @@ body {
     z-index: 5;
 }
 
+#addnewmedicine{
+    background-color: #d0d0d0;
+    border-radius: 20px;
+    display:none; 
+    position:absolute;
+    height: fit-content; 
+    width: 40%;
+    margin-left: 15%;
+    z-index: 5;
+}
+
 span{
-    font-weight: bold;
+    
     color: red;
 }
 
