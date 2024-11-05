@@ -18,18 +18,18 @@ function getAllVisits(){
                 <div class="card-body">
                     <div style="display: flex; height: 200px; justify-content: space-between;">
                         <div class="information">
-                            <b>Investigation & History:</b>
-                            <textarea disabled rows="6" cols="60" name="" id="investigation" placeholder="">${visitData.investigation}</textarea>
+                            <b>Investigation & History:</b><br>
+                            <label disabled rows="6" cols="55" name="" id="investigation" placeholder="">${visitData.investigation}</label>
                         </div>
                         <div class="information">
 
                             <b>Complications:</b>
-                            <textarea disabled rows="6" cols="60" name="" id="complications" placeholder="">${visitData.complications}</textarea>
+                            <label disabled rows="6" cols="55" name="" id="complications" placeholder="">${visitData.complications}</label>
                         </div>
                         <div class="information">
 
                             <b>Other Information:</b>
-                            <textarea disabled rows="6" cols="60" name="" id="otherInfo" placeholder="">${visitData.otherInfo}</textarea>
+                            <label disabled rows="6" cols="55" name="" id="otherInfo" placeholder="">${visitData.otherInfo}</label>
                         </div>
                     </div>
 
