@@ -65,7 +65,7 @@ module.exports.addVisitAndPatient = async function(req, res){
         let updatedReportNo = +tracker.AppointmentNumber + 1
         await patient.updateOne({$push:{Visits:visit._id}});
         let sale = await Sales.create({
-            ReportNo:'APMT'+tracker.AppointmentNumber,
+            ReportNo:'OPD'+tracker.AppointmentNumber,
             Name:req.body.Name,
             Age:req.body.Age,
             Address:req.body.Address,
@@ -230,7 +230,7 @@ module.exports.bookVisitToday = async function(req, res){
         await patient.save();
         let updatedReportNo = +tracker.AppointmentNumber + 1
         let sale = await Sales.create({
-            ReportNo:'APMT'+tracker.AppointmentNumber,
+            ReportNo:'OPD'+tracker.AppointmentNumber,
             Name:patient.Name,
             Age:patient.Age,
             Address:patient.Address,
@@ -516,7 +516,7 @@ module.exports.patientHistoryHome = async function(req, res){
 
 module.exports.getAllVisits = async function(req, res){
     try{
-        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions');
+        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions').sort({createdAt:-1});
         return res.status(200).json({
             visits,
         })

@@ -63,7 +63,7 @@
                 <small for=""><b>ID</b></small>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data" style="width: 32%;">
+            <div class="patient-data" style="width: 23%;">
                 <small for=""><b>Name</b></small>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
@@ -71,7 +71,11 @@
                 <small for=""><b>Age</b></small>
                 <label for=""><%=visit.Patient.Age%></label>
             </div>
-            <div class="patient-address" style="width: 34%;">
+            <div class="patient-data" style="width: 8%;">
+                <small for=""><b>Weight</b></small>
+                <label for="" style="margin-bottom: 5px;"><input style="width: 100%;margin-bottom: 5px;" type="number" name="" id=""></label>
+            </div>
+            <div class="patient-data" style="width: 29%;">
                 <small for=""><b>Address</b></small>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
@@ -82,16 +86,18 @@
                     for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
             </div>
         </div>
+        <div style="height: 13%;font-size: 14px;">
+            <b>Complaint</b>
+            <textarea style="width: 100%;height: 87%;border-right: 1px solid black !important;" name="" id="complaint" placeholder=""></textarea>
+        </div>
         <div class="data-body">
-            <div class="prescription" style="height: 72%;">
-                <div style="width: 73%;display: flex;justify-content: space-between;">
-                    <div style="width: 54%;border-right: 1px solid black;">
-                        <b>Complaint</b>
-                        <textarea rows="4" style="width: 100%;" name="" id="complaint" placeholder=""></textarea>
+            <div class="prescription" style="height: 73%;margin-top: 4px;">
+                <div style="width: 77%;display: flex;justify-content: space-between;">
+                    <div style="width: 54%;border-right: 1px solid black;font-size: 14px; border-collapse: collapse !important;">
                         <b>History</b>
                         <textarea rows="8" style="width: 100%;" name="" id="history" placeholder=""></textarea>
                         <b>O/E</b>
-                        <textarea rows="5" style="width: 100%;" name="" id="OEs" placeholder=""></textarea>
+                        <textarea rows="9" style="width: 100%;" name="" id="OEs" placeholder=""></textarea>
                     </div>
                     <div style="width: 45%;">
                         <div style="display: flex;">
@@ -100,8 +106,10 @@
                         </div>
                         <div>
                             <b style="font-size: large;">Prescribed Medicines: </b>
-                            <div id="prescribedMeds">
+                            <div  style="font-size: 14px !important;">
+                                <ul id="prescribedMeds">
 
+                                </ul>
                             </div>
                         </div>
 
@@ -109,13 +117,12 @@
 
                 </div>
 
-                <div class="investigationItems" style="width: 27%;">
-                    <div style="text-align: center;">
-                        <label style="text-align: center;font-weight: bold;">Invt Adv</label>
+                <div class="investigationItems" style="width: 23%;font-size: 14px;">
+                    <div style="text-align: left;">
+                        <label style="text-align: center;font-weight: bold;margin-top: 0%;">Investigation Advice</label>
                     </div>
-                    <div style="text-align: center;">
-
-                        <input type="checkbox"><label style="text-align: center;font-weight: bold;">&nbsp;Outside
+                    <div style="text-align: left;">
+                        <input type="checkbox"><label style="text-align: center;font-weight: bold;margin-top: 0%;">&nbsp;Outside
                             Tests</label>
                     </div>
                     <div>
@@ -185,25 +192,28 @@
                             onchange="addChanges('USG-WAbd')" id="USG-WAbd">
                     </div>
                     <div>
-                        <label style="width: 58%;">Semen Analysis</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 60%;">Semen Analysis</label>
+                        <input style="width: 33%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('SemenAnalysis')" id="SemenAnalysis">
                     </div>
                 </div>
             </div>
-            <div class="prescription" style="height: 28%;">
+            <div class="prescription" style="height: 23%;">
                 <div
-                    style="width: 25%;padding-left: 5px;margin-top: 5px;display: flex;flex-direction: column;justify-content: space-between;">
+                    style="font-size: 13px; width: 25%;padding-left: 5px;margin-top: 3px;display: flex;flex-direction: column;justify-content: space-between;">
                     <div>
                         <label style="width: 35%;">T1</label>
                         <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('T1')" id="T1">
+                            onchange="addChanges('T1')" id="T1" list="vals">
                     </div>
 
                     <div>
                         <label style="width: 35%;">T2</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('T2')" id="T2">
+                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2" list="vals">
+                        <datalist id="vals">
+                            <option value="Yes"></option>
+                            <option value="No"></option>
+                        </datalist>
                     </div>
 
                     <div>
@@ -250,6 +260,7 @@
     </div>
 
     <script>
+        let medCounter = 1
         let changes = new Object();
         let prescribedMeds = new Array();
 
@@ -267,10 +278,14 @@
                 },
                 type: 'POST',
                 success: function (data) {
+                    
                     let items = document.getElementsByTagName('textarea');
                     for (let i = 0; i < items.length; i++) {
-                        items[i].style.border = 'none'
+                        items[i].style.borderLeft = 'none'
+                        items[i].style.borderBottom = '1px solid black'
+
                     }
+                    
                     document.getElementById('searchBox').style.display = 'none'
                     document.getElementById('AddMed').style.display = 'none'
                     window.print()
@@ -290,9 +305,9 @@
                     }
                     let container = document.getElementById('prescribedMeds');
                     for (let i = 0; i < data.Prescriptions.length; i++) {
-                        let item = document.createElement('label');
-                        item.style.fontSize = 'medium'
-                        item.style.display = 'block'
+                        let item = document.createElement('li');
+                        item.style.fontSize = '14px'
+                        //item.style.display = 'block'
                         item.innerText = data.Prescriptions[i]
                         container.appendChild(item);
                         prescribedMeds.push(data.Prescriptions[i])
@@ -311,9 +326,9 @@
 
         function addMed() {
             let container = document.getElementById('prescribedMeds');
-            let item = document.createElement('label');
-            item.style.fontSize = 'medium'
-            item.style.display = 'block'
+            let item = document.createElement('li');
+            item.style.fontSize = '14px'
+            //item.style.display = 'block'
             item.innerText = document.getElementById('searchBox').value
             container.appendChild(item);
             prescribedMeds.push(document.getElementById('searchBox').value)

@@ -25,6 +25,7 @@
     <thead>
       <tr class="bg">
         <th scope="col">#</th>
+        <th scope="col">Id</th>
         <th scope="col"><i class="fas fa-user"></i> Name</th>
         <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
         <th scope="col"><i class="fa-solid fa-venus-mars"></i> Gender</th>
@@ -43,6 +44,7 @@
       <%for(let i=0;i<visits.length;i++){%>
       <tr id="<%=visits[i]._id%>">
         <th scope="row"><%=i+1%></th>
+        <td><%=visits[i].Patient.Id%></td>
         <td><%=visits[i].Patient.Name%></td>
         <td><%=visits[i].Patient.Age%></td>
         <td><%=visits[i].Patient.Gender%></td>

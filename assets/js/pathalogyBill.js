@@ -8,7 +8,8 @@ function setPriceAndNotes() {
         },
         success: function (data) {
             document.getElementById('Price').value = data.service.Price == undefined ? '' : data.service.Price
-            document.getElementById('Notes').value = data.service.Price == undefined ? '' : data.service.Notes
+            document.getElementById('Notes').value = data.service.Notes == undefined ? '' : data.service.Notes
+            //document.getElementById('Type').value = data.service.Type == undefined ? '' : data.service.Type
         },
         error: function (err) {}
     })

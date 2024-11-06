@@ -94,11 +94,12 @@
             </div>
             <div class="input-group input-group-sm mb-1">
                 <label class="input-group-text" id="basic-addon1">Test Result<span>*</span></label>
-                <input id="testResult" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                <input id="testResult" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" list="values">
+                <datalist id="values">
+                    <option value="Negative"></option>
+                    <option value="Positive"></option>
+                </datalist>
             </div>
-            
-
-
             <div class="input-group input-group-sm mb-1">
                 <span class="input-group-text" id="basic-addon1">Minimum Range</span>
                 <input id="rrmin" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
