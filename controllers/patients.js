@@ -29,6 +29,7 @@ module.exports.oldAppointmentsHome = function(req, res){
 // This methods add a visit for old patient and also creates a patient if its new.
 module.exports.addVisitAndPatient = async function(req, res){
     try{
+        console.log(req.body);
         let patient;
         let tracker = await Tracker.findOne({});
         let newPatientId = -1 
@@ -50,7 +51,8 @@ module.exports.addVisitAndPatient = async function(req, res){
                 Mobile:req.body.Mobile,
                 Doctor:req.body.Doctor,
                 Id:newPatientId,
-                Gender:req.body.Gender
+                Gender:req.body.Gender,
+                Husband:req.body.Husband,
             });
             await tracker.updateOne({patientId:newPatientId})
         }
@@ -59,7 +61,7 @@ module.exports.addVisitAndPatient = async function(req, res){
             Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
-            Visit_date:new Date().toISOString().split('T')[0],
+            Visit_date:req.body.AppointmentDate,
             Outside_docs:req.body.Outside_docs
         });
         let updatedReportNo = +tracker.AppointmentNumber + 1

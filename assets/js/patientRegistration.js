@@ -1,11 +1,11 @@
-let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor'];
+let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor','Husband','AppointmentDate'];
 
 function registerPatient() {
     let data = {}
 
     for (let i = 0; i < inputData.length; i++) {
         data[inputData[i]] = document.getElementById(inputData[i]).value;
-        if (document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '') {
+        if (document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' ) {
             new Noty({
                 theme: 'relax',
                 text: inputData[i] + ' is mandatory',
