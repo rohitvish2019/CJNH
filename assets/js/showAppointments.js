@@ -46,6 +46,15 @@ function getAppointmentsToday(){
             for(let i=0;i<data.visits.length;i++){
                 let rowItem = document.createElement('tr');
                 let checkStatus = data.visits[i].isValid == true?'checked':null;
+                let bgcolor = 'yellow'
+                let fontColor = '#10132e'
+                let visitStatus = 'In Queue'
+                if(data.visits[i].VisitData && data.visits[i].VisitData.complaint){
+                    bgcolor = 'green'
+                    fontColor = 'white'
+                    visitStatus='Completed'
+                }
+                 
                 rowItem.innerHTML=
                 `
                     <tr id="${data.visits[i]._id}">
@@ -64,7 +73,9 @@ function getAppointmentsToday(){
                             <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('${data.visits[i]._id}')" role="switch" id="checkbox_${data.visits[i]._id}" ${checkStatus}>
                         </div>
                         </td>
-                        
+                        <td style="color: ${fontColor};background-color: ${bgcolor};font-weight: bold;">
+                            <span >${visitStatus}</span>
+                        </td>
                     </tr>
                 `
                 container.appendChild(rowItem)
@@ -74,4 +85,32 @@ function getAppointmentsToday(){
         error:function(err){console.log(err)}
     })
 }
-  
+  function uploadReport(){
+    var formData = new FormData();
+    let file = document.getElementById('file').files[0];
+    formData.append('file',file)
+    console.log(file);
+    /*
+    $.ajax({
+        url:'/uploads/report',
+        type:'Post',
+        data:formData,
+        success:function(data){console.log(data)},
+        error:function(err){console.log(err)}
+    })
+*/
+    var formData = new FormData();
+    formData.append('file', document.getElementById('file').files[0]);
+    $.ajax({
+        url : '/uploads/report',
+        type : 'POST',
+        data : formData,
+        processData: false,   // tell jQuery not to process the data            
+        contentType: false,  // tell jQuery not to set contentType            
+        success : function(data) {                
+            console.log(data);                
+            alert(data);
+        }
+    });
+        
+  }

@@ -17,5 +17,6 @@ Router.post('/saveService', passport.checkAuthentication , reportsController.add
 //Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
 Router.get('/getDashboardData', passport.checkAuthentication, reportsController.dashboard);
 Router.delete('/deleteService/:serviceId', passport.checkAuthentication, reportsController.deleteService);
+Router.get('/cancel/:reportId', passport.checkAuthentication, reportsController.cancelReport)
 
 module.exports = Router;

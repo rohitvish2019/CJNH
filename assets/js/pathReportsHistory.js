@@ -67,7 +67,7 @@ function getSalesHistoryRange(){
         success:function(data){
             document.getElementById('loader').style.display='none'
             if(status == 'pending'){
-                showReportOnUIPending(data.reportsList)
+                showReportOnUICancelled(data.reportsList)
             }else{
                 showReportOnUI(data.reportsList) 
             }
@@ -113,7 +113,7 @@ function getSalesHistoryDate(){
                 
             }
             if(status == 'pending'){
-                showReportOnUIPending(data.reportsList)
+                showReportOnUICancelled(data.reportsList)
             }else{
                 showReportOnUI(data.reportsList) 
             }
@@ -159,12 +159,13 @@ function showReportOnUI(reports){
             <td>${reports[i].Name}</td>
             <td><a target='_blank' href='/reports/view/${reports[i]._id}'>${reports[i].ReportNo}</a></td>
             <td>${reports[i].Date}</td>
+            <td><a style="color: red;font-size: medium;font-weight: bold;" href='/reports/cancel/${reports[i]._id}'>Cancel</a></td>
             `
         container.appendChild(rowItem)
     }
 }
 
-function showReportOnUIPending(reports){
+function showReportOnUICancelled(reports){
     let i = 0
     let container = document.getElementById('historyBody');
     container.innerHTML=``

@@ -38,7 +38,7 @@
         <th> <i class="fa-solid fa-syringe"></i> Pathalogy</th>
         -->
         <th> <i class="fa-solid fa-eye-slash"></i> Disable</th>
-        
+        <th> <i class="fa-solid fa-eye-slash"></i> Status</th>
       </tr>
     </thead>
     <tbody id="tableBody">
@@ -46,7 +46,7 @@
       <tr id="<%=visits[i]._id%>">
         <th scope="row"><%=i+1%></th>
         <td><%=visits[i].Patient.Id%></td>
-        <td><%=visits[i].Patient.Doctor%></td>
+        <td><%=visits[i].Doctor%></td>
         <td><%=visits[i].Patient.Name%></td>
         <td><%=visits[i].Patient.Age%></td>
         <td><%=visits[i].Patient.Gender%></td>
@@ -62,6 +62,17 @@
             <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('<%=visits[i]._id%>')" role="switch" id="checkbox_<%=visits[i]._id%>" checked>
           </div>
         </td>
+        
+          <%if(visits[i].VisitData && visits[i].VisitData.complaint){%>
+            <td style="background-color: green;">
+              <span style="color: white;font-weight: bold;">Completed</span>
+            </td>
+          <%}else{%>
+            <td style="background-color: yellow;">
+              <span style="color: #10132e;font-weight: bold;">In Queue</span>
+            </td>
+            
+          <%}%>
         
       </tr>
       <%}%>

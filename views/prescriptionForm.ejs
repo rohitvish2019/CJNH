@@ -80,10 +80,12 @@
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
             <div class="patient-data" style="width: 18%; ">
-                <small for=""><b>Date</b></small>
+                <small for=""><b>Date & Time</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
-                <label
-                    for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
+                <label style="font-size: small;">
+                    <%let dateTime = visit.createdAt.toString().substring(4,21)%>
+                    <%=dateTime %>
+                </label>
             </div>
         </div>
         <div style="height: 13%;font-size: 14px;">

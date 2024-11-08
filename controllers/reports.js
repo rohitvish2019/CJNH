@@ -139,7 +139,7 @@ module.exports.saveReport = async function(req, res){
 
 module.exports.cancelReport = async function(req,res){
     try{
-        let report = await ReportsData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
+        let report = await ReportsData.findByIdAndUpdate(req.params.reportId, {$set:{isCancelled:true}});
         if(report){
             return res.status(200).json({
                 message:'Report cancelled'
@@ -227,6 +227,7 @@ module.exports.getHistoryByRange = async function(req, res){
                 $and: [
                     {createdAt:{$gte :new Date(req.query.startDate)}},
                     {createdAt: {$lte : new Date(req.query.endDate)}},
+                    {isCancelled:false, isValid:true}
                 ]
             }).populate('Patient').sort("createdAt");
             
@@ -235,12 +236,12 @@ module.exports.getHistoryByRange = async function(req, res){
                 reportsList
             })          
             
-        }else if(status == 'pending'){
-            reportsList = await SalesData.find({
+        }else if(status == 'cancelled'){
+            reportsList = await ReportsData.find({
                 $and: [
                     {createdAt:{$gte :new Date(req.query.startDate)}},
                     {createdAt: {$lte : new Date(req.query.endDate)}},
-                    {type:'Pathology'}
+                    {isCancelled:true, isValid:true}
                 ]
             }).populate('Patient').sort("createdAt");
             
@@ -270,7 +271,8 @@ module.exports.getHistoryByDate = async function(req, res){
         let reportsList
         if(status == 'generated'){
             reportsList = await ReportsData.find({
-                Date:req.query.selectedDate
+                Date:req.query.selectedDate,
+                isCancelled:false, isValid:true
             }).populate('Patient').sort("createdAt");
             
             return res.status(200).json({
@@ -278,10 +280,10 @@ module.exports.getHistoryByDate = async function(req, res){
                 reportsList
             })
             
-        }else if(status == 'pending'){
-            reportsList = await SalesData.find({
-                BillDate:req.query.selectedDate,
-                type:'Pathology'
+        }else if(status == 'cancelled'){
+            reportsList = await ReportsData.find({
+                Date:req.query.selectedDate,
+                isCancelled:true, isValid:true
             }).populate('Patient').sort("createdAt");
             
             return res.status(200).json({
@@ -304,7 +306,7 @@ module.exports.getHistoryByDate = async function(req, res){
 
 module.exports.getAllServices = async function(req, res){
     try{    
-        let services = await ServicesData.find({});
+        let services = await ServicesData.find({}).sort('Name');
         return res.status(200).json({
             services,
         })

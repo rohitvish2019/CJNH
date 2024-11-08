@@ -51,7 +51,7 @@
                 <label for=""><b>Billing Status : </b>&nbsp;</label>
                 <select name="Billing Status" id="status" style="height: 70%;">
                     <option value="generated" selected>Generated</option>
-                    <option value="pending">Not Generated</option>
+                    <option value="cancelled">Cancelled</option>
                 </select>
             </div>
             <button class="btn btn-success" style="margin-bottom: 0.5%;"
@@ -74,6 +74,7 @@
                         <th><i class="fas fa-user"></i> Patient Name</th>
                         <th><i class="fa-solid fa-book-medical"></i> Report</th>
                         <th><i class="fa-regular fa-calendar"></i> Date</th>
+                        <th><i class="fa-regular fa-calendar"></i> Action</th>
                     </tr>
                 </thead>
                 <%-include('_loader')%>

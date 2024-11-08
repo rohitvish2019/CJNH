@@ -77,9 +77,12 @@
         .logo{
             margin-left:21%;
         }
+        .heamatology, .urine-exam, .biochemisrty , .others, .serology{
+            display: none;
+        }
     </style>
 </head>
-<body>
+<body onload="enableSections()">
     <div class="main-body">
         <div style="height: 94%;">
             <div class="header report-div">
@@ -129,7 +132,7 @@
                 </div>
             </div>
 
-            <div class="heamatology report-div">
+            <div id="heamatology" class="heamatology report-div">
                 <table>
                     <thead>
                         <tr>
@@ -145,6 +148,7 @@
                         <%for(let i=0;i<report.Items.length;i++){%>
                             <% let item = report.Items[i].split('$') %>
                             <%if(item[2] == 'HAEMATOLOGY'){%>
+                                <input hidden class="sections" type="text" value="heamatology">
                                 <%if(item[3] != '' && item[4] != ''){%>
                                     <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
                                         <tr>
@@ -174,7 +178,7 @@
                 </table>
             </div>
 
-            <div class="biochemisrty report-div">
+            <div id="biochemisrty" class="biochemisrty report-div">
                 <table>
                     <thead>
                         <tr>
@@ -186,6 +190,7 @@
                         <%for(let i=0;i<report.Items.length;i++){%>
                             <% let item = report.Items[i].split('$') %>
                             <%if(report.Items[i].split('$')[2] == 'BIOCHEMISTRY'){%>
+                                <input hidden class="sections" type="text" value="biochemisrty">
                                 <%if(item[3] != '' && item[4] != ''){%>
                                     <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
                                         <tr>
@@ -214,7 +219,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="urine-exam report-div">
+            <div id="urine-exam" class="urine-exam report-div">
                 <table>
                     <thead>
                         <tr>
@@ -226,6 +231,7 @@
                         <%for(let i=0;i<report.Items.length;i++){%>
                             <% let item = report.Items[i].split('$') %>
                             <%if(report.Items[i].split('$')[2] == 'URINE'){%>
+                                <input hidden class="sections" type="text" value="urine-exam">
                                 <%if(item[3] != '' && item[4] != ''){%>
                                     <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
                                         <tr>
@@ -254,7 +260,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="serology report-div">
+            <div id="serology" class="serology report-div">
                 <table>
                     <thead>
                         <tr>
@@ -266,6 +272,7 @@
                         <%for(let i=0;i<report.Items.length;i++){%>
                             <% let item = report.Items[i].split('$') %>
                             <%if(report.Items[i].split('$')[2] == 'SEROLOGY'){%>
+                                <input hidden class="sections" type="text" value="serology">
                                 <%if(item[3] != '' && item[4] != ''){%>
                                     <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
                                         <tr>
@@ -292,7 +299,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="others report-div">
+            <div id="others" class="others report-div">
                 <table>
                     <thead>
                         <tr>
@@ -304,6 +311,7 @@
                         <%for(let i=0;i<report.Items.length;i++){%>
                             <% let item = report.Items[i].split('$') %>
                             <%if(report.Items[i].split('$')[2] == 'OTHERS'){%>
+                                <input hidden class="sections" type="text" value="others">
                                 <%if(item[3] != '' && item[4] != ''){%>
                                     <%if( Number(item[1]) < Number(item[3]) || Number(item[1]) > Number(item[4]) ){%>
                                         <tr>
@@ -344,4 +352,12 @@
         </div>
     </div>
 </body>
+<script>
+    function enableSections(){
+        let sections = document.getElementsByClassName('sections');
+        for(let i=0;i<sections.length;i++){
+            document.getElementById(sections[i].value).style.display='block'
+        }
+    }
+</script>
 </html>
