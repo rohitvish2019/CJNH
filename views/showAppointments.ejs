@@ -26,7 +26,7 @@
       <tr class="bg">
         <th scope="col">#</th>
         <th scope="col">Id</th>
-        <th scope="col">Dr. Name</th>
+        <th scope="col"><i class="fa-solid fa-stethoscope"></i> Dr. Name</th>
         <th scope="col"><i class="fas fa-user"></i> Name</th>
         <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
         <th scope="col"><i class="fa-solid fa-people-group"></i> Husband</th>
@@ -53,7 +53,7 @@
         <td><%=visits[i].Patient.Address%></td>
         <td><%=visits[i].Fees%></td>
         <td><a target="_blank" href="/patients/getHistory/<%=visits[i].Patient._id%>">Patient History</a></td>
-        <td><a target="_blank" href="/patients/getPrescription/<%=visits[i]._id%>">Prescription</a></td>
+        <td><a href="/patients/getPrescription/<%=visits[i]._id%>">Prescription</a></td>
         <!--
         <td><a href="/reports/home/<%=visits[i].Patient._id%>">Pathalogy</a></td>
         -->
