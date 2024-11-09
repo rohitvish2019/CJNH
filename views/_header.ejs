@@ -38,10 +38,10 @@
             Patients
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/patients/new">Patient Registration</a></li>
-            <li><a class="dropdown-item" href="/patients/getAppointments/today">Show appointments</a></li>
+            <li><a class="dropdown-item" href="/patients/new">OPD Registration</a></li>
+            <li><a class="dropdown-item" href="/patients/getAppointments/today">Appointments Today</a></li>
             <%if(user.Role == 'Admin'){%>
-              <li><a class="dropdown-item" href="/patients/getAppointments/old">Old appointments</a></li>
+              <li><a class="dropdown-item" href="/patients/getAppointments/old">Appointments By Date</a></li>
             <%}%>
             
             <li disabled><a class="dropdown-item" href="/patients/IPD/new">IPD Admission</a></li>
@@ -84,7 +84,7 @@
         -->
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Sales
+            Services
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/sales/bill/pathology">New Bill</a></li>

@@ -27,10 +27,10 @@
         <div class="patient-info">
             <label hidden for="" id="visitId"><%=visit._id%></label>
             <div class="patient-data" style="width: 8%; ">
-                <span for=""><b>ID</b></span>
+                <span for=""><b>IPD No</b></span>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data" style="width: 30%;">
+            <div class="patient-data" style="width: 25%;">
                 <span for=""><b>Name</b></span>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
@@ -38,25 +38,24 @@
                 <span for=""><b>Age:</b></span>
                 <label for=""><%=visit.Patient.Age%></label>
             </div>
+            <div class="patient-data" style="width: 25%; ">
+                <span for=""><b>Husband:</b></span>
+                <label for=""><%=visit.Patient.Husband%></label>
+            </div>
             <div class="patient-data" style="width: 33%;">
                 <span for=""><b>Address:</b></span>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            <div class="patient-data" style="width: 19%; ">
-                <span for=""><b>Date:</b></span>
-                <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
-                <label
-                    for=""><%=new Date().getDate() +'-'+ months[(Number(new Date().getMonth()))] +'-'+new Date().getFullYear() %></label>
-            </div>
+            
         </div>
 
         <!-- Admission and Discharge Date Section-->
         <div class="dischargeItems" style="height: 3%; display: flex;justify-content: space-between;">
             <div style="width: 50%; padding: 5px; text-align: left;">
-                <label>Admission Date : 01-01-2024 at 11:50 AM</label>
+                <label>Date Of Admission : <%=visit.AdmissionDate.split('-')[2]%>-<%=visit.AdmissionDate.split('-')[1]%>-<%=visit.AdmissionDate.split('-')[0]%> at <%=visit.AdmissionTime%></label>
             </div>
             <div style="width: 50%;text-align: right;  padding: 5px; ">
-                <label>Discharge Date : 01-01-2024 at 11:50 AM</label>
+                <label>Date Of Discharge : <%=visit.DischargeDate.split('-')[2]%>-<%=visit.DischargeDate.split('-')[1]%>-<%=visit.DischargeDate.split('-')[0]%> at <%=visit.DischargeTime%></label>
             </div>
         </div>  
 
@@ -73,71 +72,66 @@
         </div>
 
         <!-- Investigation Section-->
-        <div class="investigation-tables" style="height: 32%; display: flex;border-top: .5px dashed black;border-bottom: .5px dashed black;">
-            <div class="ohms" style="width:16%; height: 100%;text-align: center;margin-right: 2%;">
-                <span><b>O/H MS-</b></span>
-                <table class="table" style="text-align: center; height: 89%;width: 100%;">
-                    <tr class="b1">
-                        <th>G</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="b1">
-                        <th>P</th>
-                        <td><input type="text"></td>
-                    </tr class="b1">
-
-                    <tr class="b1">
-                        <th>L</th>
-                        <td><input type="text"></td>
-                    </tr>
-
-                    <tr class="b1">
-                        <th>A</th>
-                        <td><input type="text"></td>
-                    </tr>
-
-                </table>
+        <div class="investigation-tables" style="height: 32%; display: flex; border-top: .5px dashed black;border-bottom: .5px dashed black;">
+            <div>
+                <div class="ohms" style="width:95%; height: 20%;text-align: center;margin-right: 2%;">
+                    <span><b>O/H MS-</b></span>
+                    <table class="table" style="text-align: center;width: 100%;">
+                        <tr>
+                            <td>G</td>
+                            <td>L</td>
+                            <td>P</td>
+                            <td>A</td>
+                        </tr>
+                        <tr class="ohms-inputs">
+                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="invstdone" style="width:95%;  height: 75%; text-align: center;">
+                    <span><b>Invst Done:</b></span>
+                    <table class="table" style="height: 89%;width: 100%; ">
+                        <tr class="b2">
+                            <th>Hb%</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b2">
+                            <th>Bl gr <br> & Rh</th>
+                            <td><input type="text"></td>
+                        </tr>
+    
+                        <tr class="b2">
+                            <th>RBS</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b2">
+                            <th>HIV</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b2">
+                            <th>HbsAg</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b2">
+                            <th>TSH</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b2">
+                            <th>Others</th>
+                            <td><input type="text"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-
-            <div class="invstdone" style="width:25%;  height: 100%; text-align: center;">
-                <span><b>Invst Done:</b></span>
-                <table class="table" style="height: 89%;width: 100%; ">
-                    <tr class="b2">
-                        <th>Hb%</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="b2">
-                        <th>Bl gr <br> & Rh</th>
-                        <td><input type="text"></td>
-                    </tr>
-
-                    <tr class="b2">
-                        <th>RBS</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="b2">
-                        <th>HIV</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="b2">
-                        <th>HbsAg</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="b2">
-                        <th>TSH</th>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="b2">
-                        <th>Others</th>
-                        <td><input type="text"></td>
-                    </tr>
+            
+            
+            
 
 
-                </table>
-            </div>
-
-
-            <div class="treatmentgiven" style="height: 100%; width: 60%; align-items:center;">
+            <div class="treatmentgiven" style="height: 104%; width: 70%; align-items:center;">
                 <label><b>Treatment Given:</b></label><br>
                 <table style="width: 100%; height: 89%;">
                     <tbody>

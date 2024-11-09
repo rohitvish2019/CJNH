@@ -8,4 +8,5 @@ Router.post('/saveBill', passport.checkAuthentication, SalesController.addSales)
 Router.get('/bill/view/:id', passport.checkAuthentication, SalesController.getBillById);
 Router.get('/getHistoryByDate', passport.checkAuthentication, SalesController.getBillsByDate);
 Router.get('/getHistoryByRange', passport.checkAuthentication, SalesController.getBillsByDateRange);
+Router.get('/cancel/:saleId', passport.checkAuthentication, SalesController.cancelSale)
 module.exports = Router;

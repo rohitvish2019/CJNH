@@ -21,6 +21,7 @@ const Visits = new mongoose.Schema({
     RoomType:String,
     VisitData:Object,
     prescribedMeds:Array,
+    PaymentType:String,
     SaleId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Sale'

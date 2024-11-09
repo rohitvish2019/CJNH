@@ -1,7 +1,8 @@
 const ServicesData = require('../models/servicesAndCharges');
 const SalesData = require('../models/sales')
 const PatientData = require('../models/patients');
-const Tracker = require('../models/tracker')
+const Tracker = require('../models/tracker');
+const { json } = require('express');
 module.exports.salesHistoryHome = function(req, res){
     try{
         return res.render('salesHistory',{user:req.user});
@@ -119,6 +120,7 @@ module.exports.getBillById = async function(req, res){
 module.exports.getBillsByDate = async function(req, res){
     try{
         //date to be fixed to handle all date formats
+        console.log(req.query)
         let date = req.query.selectedDate;
         console.log(req.query)
         let billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
@@ -154,6 +156,20 @@ module.exports.getBillsByDateRange = async function(req, res){
         console.log(err)
         return res.status(500).json({
             message:'Internal Server Error : unable to find bills on specific dates'
+        })
+    }
+}
+
+
+module.exports.cancelSale = async function(req, res){
+    try{
+        console.log(req.params)
+        let sale = await SalesData.findByIdAndUpdate(req.params.saleId, {isCancelled:true});
+        return res.redirect('back')
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Error cancelling sales'
         })
     }
 }

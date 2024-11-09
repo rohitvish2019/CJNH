@@ -63,7 +63,7 @@ function getAppointmentsToday(){
                         <td>${data.visits[i].Patient.Doctor}</td>
                         <td>${data.visits[i].Patient.Name}</td>
                         <td>${data.visits[i].Patient.Age}</td>
-                        <td>${data.visits[i].Patient.Gender}</td>
+                        <td>${data.visits[i].Patient.Husband}</td>
                         <td>${data.visits[i].Patient.Address}</td>
                         <td>${data.visits[i].Fees}</td>
                         <td><a target='_blank' href="/patients/getHistory/${data.visits[i].Patient._id}">Patient History</a></td>

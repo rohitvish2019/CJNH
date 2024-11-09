@@ -150,7 +150,7 @@ function showHistory(items){
             <td>${items[i].BillDate}</td>
             <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
-            <td>Cancel</td>
+            <td><a href = '/sales/cancel/${items[i]._id}'>Cancel</a></td>
         `
         container.appendChild(rowItem);
         total = total  + +items[i].Total

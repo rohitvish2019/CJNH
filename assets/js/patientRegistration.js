@@ -1,11 +1,11 @@
-let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor','Husband','AppointmentDate'];
+let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor','Husband','AppointmentDate','IdProof','paymentType'];
 
 function registerPatient() {
     let data = {}
 
     for (let i = 0; i < inputData.length; i++) {
         data[inputData[i]] = document.getElementById(inputData[i]).value;
-        if (document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' ) {
+        if (inputData[i] != 'IdProof' && (document.getElementById(inputData[i]).value == null || document.getElementById(inputData[i]).value == '' )) {
             new Noty({
                 theme: 'relax',
                 text: inputData[i] + ' is mandatory',
@@ -101,10 +101,43 @@ function searchById() {
 
 function bookAppointmentWithId() {
     let fees = document.getElementById('Fees').value;
+    let AppointmentDate = document.getElementById('AppointmentDate').value;
+    let paymentType = document.getElementById('paymentType').value;
+    let Doctor = document.getElementById('Doctor').value
     if (!fees || fees == '') {
         new Noty({
             theme: 'relax',
             text: 'Fees is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if (!AppointmentDate || AppointmentDate == '') {
+        new Noty({
+            theme: 'relax',
+            text: 'Appointment Date is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if (!Doctor || Doctor == '') {
+        new Noty({
+            theme: 'relax',
+            text: 'Doctor is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if (!paymentType || paymentType == '') {
+        new Noty({
+            theme: 'relax',
+            text: 'Payment Type is mandatory',
             type: 'error',
             layout: 'topRight',
             timeout: 1500
@@ -116,9 +149,10 @@ function bookAppointmentWithId() {
         type: 'Post',
         data: {
             PatientId: document.getElementById('patientID').value,
-            date: null,
-            Fees: document.getElementById('Fees').value,
-            Doctor: document.getElementById('Doctor').value,
+            date: AppointmentDate,
+            Fees: fees,
+            Doctor,
+            paymentType
         },
         success: function (data) {
             new Noty({

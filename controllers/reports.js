@@ -163,7 +163,8 @@ module.exports.cancelReport = async function(req,res){
 module.exports.viewReport = async function(req, res){
     try{
         let report = await ReportsData.findById(req.params.pid);
-        return res.render('pathalogyReportTemplate', {report, user:req.user});
+        let patient = await PatientData.findOne(report.Patient);
+        return res.render('pathalogyReportTemplate', {report, user:req.user, patient});
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -219,6 +220,7 @@ module.exports.pathologyHistoryHome = function(req, res){
 
 module.exports.getHistoryByRange = async function(req, res){
     try{
+        console.log(req.query)
         let status = req.query.status;
         let reportsList;
         console.log(req.query.status)
@@ -266,7 +268,7 @@ module.exports.getHistoryByRange = async function(req, res){
 
 module.exports.getHistoryByDate = async function(req, res){
     let status = req.query.status
-    console.log(req.body.status)
+    console.log(req.query)
     try{
         let reportsList
         if(status == 'generated'){
@@ -306,7 +308,7 @@ module.exports.getHistoryByDate = async function(req, res){
 
 module.exports.getAllServices = async function(req, res){
     try{    
-        let services = await ServicesData.find({}).sort('Name');
+        let services = await ServicesData.find({}).sort('Type Name');
         return res.status(200).json({
             services,
         })

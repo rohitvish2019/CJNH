@@ -55,6 +55,9 @@ input{
     border-left: none;
 
 }
+.ohms-inputs input{
+    border: none;
+}
 .b2 th{
     padding: 5px;
 }

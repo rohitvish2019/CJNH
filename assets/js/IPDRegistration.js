@@ -1,4 +1,4 @@
-let inputData = ['Name','Gender','Age','Address','AdmissionDate','Doctor','BroughtBy','Mobile','Reason','AdmissionTime'];
+let inputData = ['Name','Gender','Age','Address','AdmissionDate','Doctor','Husband','Mobile','Reason','AdmissionTime'];
 function admitPatient(){
     let data = {}
     for(let i=0;i<inputData.length;i++){

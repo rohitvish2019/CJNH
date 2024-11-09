@@ -36,7 +36,7 @@
   <section class="main-content">
 
     <div id="registrationForm">
-      <h4><i class="fa-solid fa-id-card"></i> Registration Form</h4>
+      <h4><i class="fa-solid fa-id-card"></i> OPD Registration Form</h4>
 
       <div class="Container" style="display: flex;">
         <div class="left">
@@ -70,13 +70,17 @@
             <input type="text" class="form-control" id="Address" placeholder="name@example.com">
             <label for="Address"><i class="fas fa-map-marker-alt"></i> Address <span>*</span></label>
           </div>
+          <div class="form-floating mb-2">
+            <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="400">
+            <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
+          </div>
           <div style="text-align: left; font-size: 12px;">
             <span>* Mandatory Details</span>
           </div>
         </div>
 
         <div class="right">
-          <select class="form-select mb-2" id="Doctor" aria-label="Floating label select example" style="">
+          <select class="form-select mb-2" id="Doctor" aria-label="Floating label select example">
             <option selected disabled value="">--Select Doctor--</option>
             <option value="Dr Anuj Jain">Dr Anuj Jain</option>
             <option value="Dr Swati Jain">Dr Swati Jain</option>
@@ -87,17 +91,24 @@
           </div>
           <div class="form-floating mb-2">
             <input type="text" class="form-control mb2" id="Husband" placeholder="name@example.com">
-            <label for="Mobile"><i class="fa-solid fa-user"></i> Husband's Name</label>
+            <label for="Mobile"><i class="fa-solid fa-user"></i> Husband's Name <span>*</span></label>
           </div>
           <div class="form-floating mb-2">
-            <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="400">
-            <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
+            <input type="text" class="form-control" id="IdProof" placeholder="name@example.com">
+            <label for="Fees"><i class="fa-solid fa-calendar"></i> Id proof </label>
           </div>
-          <div class="mb-2" style="height: 55px; width: 100%;">
-          <input style="width: 100%; height: 100%; padding: 8px;" type="date" name="" id="AppointmentDate" onchange="" value="">
+          <div class="form-floating mb-2">
+            <input type="date" class="form-control" id="AppointmentDate" placeholder="name@example.com">
+            <label for="Fees"><i class="fa-solid fa-calendar"></i> Appointment Date <span>*</span></label>
           </div>
-          
-
+          <div class="form-floating">
+            <select class="form-select" id="paymentType" aria-label="Floating label select example">
+                <option selected disabled value="">--Select--</option>
+                <option value="Cash">Cash</option>
+                <option value="Online">Online</option>
+            </select>
+            <label for="Gender"><i class="fa-solid fa-user-doctor"></i> Payment Type <span>*</span></label>
+          </div>
         </div>
       </div>
       <div style="padding-top: 10px;">

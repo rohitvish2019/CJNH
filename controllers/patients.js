@@ -53,6 +53,7 @@ module.exports.addVisitAndPatient = async function(req, res){
                 Id:newPatientId,
                 Gender:req.body.Gender,
                 Husband:req.body.Husband,
+                IdProof:req.body.IdProof
             });
             await tracker.updateOne({patientId:newPatientId})
         }
@@ -62,7 +63,8 @@ module.exports.addVisitAndPatient = async function(req, res){
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
             Visit_date:req.body.AppointmentDate,
-            Outside_docs:req.body.Outside_docs
+            Outside_docs:req.body.Outside_docs,
+            PaymentType:req.body.paymentType
         });
         let updatedReportNo = +tracker.AppointmentNumber + 1
         await patient.updateOne({$push:{Visits:visit._id}});
@@ -225,8 +227,9 @@ module.exports.bookVisitToday = async function(req, res){
             Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
-            Visit_date:new Date().toISOString().split('T')[0],
-            Outside_docs:req.body.Outside_docs
+            Visit_date:req.body.date,
+            Outside_docs:req.body.Outside_docs,
+            PaymentType:req.body.paymentType
         });
         patient.Visits.push(visit._id);
         await patient.save();
