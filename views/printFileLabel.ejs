@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print File Label</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div style="border: 1px solid black;  padding: 5px;">
+        <Label>Patient ID:</Label><br>
+        <label>Patient Name:</label<br>
+        <label>Mobile Number:</label>
+    </div>
+    <div class="printButtonContainer">
+        <button id="printButton" onclick="printMe()" class="btn btn-success">Print</button>
+    </div>
+    <script>
+        function printMe() {
+            document.getElementById('printButton').style.display = 'none'
+            window.print()
+        }
+    </script>
+    <style>
+        label{
+            font-weight: bold;
+        }
+        div{
+            width: 18%;
+            text-align: center;
+        }
+    </style>
+</body>

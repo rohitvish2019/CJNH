@@ -104,6 +104,10 @@ function getAllVisits(){
                             </tbody>
                         </table>
                     </div>
+                    <div>
+                        <h5><strong><i class="fa-regular fa-file-powerpoint"></i> Pathalogy Reports</strong></h5>
+                        <a href="">Reports</a>
+                    </div>
                 </div>
             </div>
                 `
