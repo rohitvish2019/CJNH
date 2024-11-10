@@ -4,7 +4,8 @@ const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
 const AdmittedPatients = require('../models/admittedPatients');
 const ServicesData = require('../models/servicesAndCharges')
-const SalesData = require('../models/sales')
+const SalesData = require('../models/sales');
+const MedsData = require('../models/meds')
 module.exports.patientRegistartionHome = function(req, res){
     try{
         return res.render('patientRegistration',{user:req.user})
@@ -473,14 +474,16 @@ function get24HourTimeframes(startDate, startTime, endDate, endTime) {
 
 module.exports.showPrescription = async function(req, res){
     try{
+        let medsList = await MedsData.find({})
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         if(req.xhr){
             return res.status(200).json({
                 visitData:visit.VisitData,
-                Prescriptions: visit.Prescriptions
+                Prescriptions: visit.Prescriptions,
+                medsList
             })
         }
-        return res.render('prescriptionForm', {visit, user:req.user})
+        return res.render('prescriptionForm', {visit, user:req.user, medsList})
     }catch(err){
         console.log(err)
         return res.render('Error_500')

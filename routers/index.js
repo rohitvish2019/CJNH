@@ -7,5 +7,6 @@ Router.use('/purchases', require('./purchases'));
 Router.use('/reports', require('./reports'));
 Router.use('/user', require('./users'))
 Router.use('/',passport.checkAuthentication, require('./users'));
-Router.use('/uploads', require('./uploads'))
+Router.use('/uploads', require('./uploads'));
+Router.use('/meds', require('./meds'))
 module.exports = Router;

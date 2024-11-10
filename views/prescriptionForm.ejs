@@ -104,7 +104,13 @@
                     </div>
                     <div style="width: 45%;">
                         <div style="display: flex;">
-                            <input type="search" placeholder="Medicine" id="searchBox">
+                            <input type="search" placeholder="Medicine" id="searchBox" list="meds">
+                            <datalist id="meds">
+                                <%for(let i=0;i<medsList.length;i++){%>
+                                <option value="<%=medsList[i].Name%> <%=medsList[i].Dosage%> for <%=medsList[i].Duration%>"></option>
+                                <%}%>
+                            </datalist>
+                            
                             <input type="button" id="AddMed" value="Add" onclick="addMed()">
                         </div>
                         <div>

@@ -354,6 +354,86 @@ function getMyProfile() {
 }
 
 function getMedicineData(){
+    $.ajax({
+        url:'/meds/getAll',
+        type:'GET',
+        success:function(data){
+            console.log(data.medsList);
+            let container = document.getElementById('MedicineListTable');
+            container.innerHTML=``;
+            for(let i=0;i<data.medsList.length;i++){
+                let item = document.createElement('tr');
+                item.innerHTML=
+                `
+                    <tr id="data.medsList[i]._id">
+                        <td>${data.medsList[i].Name}</td>
+                        <td>${data.medsList[i].Dosage}</td>
+                        <td>${data.medsList[i].Duration}</td>
+                    </tr>
+                `
+                container.appendChild(item)
+            }
+        },
+        error:function(err){}
+    })
+}
+
+
+function AddNewMedicine(){
+    console.log('Adding meds')
+    let Name = document.getElementById('MedicineName').value;
+    let Dosage = document.getElementById('Dosage').value;
+    let Duration = document.getElementById('Duration').value;
+    if(!Name || Name == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Medicine Name is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if(!Dosage || Dosage == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Medicine dosage is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+
+    $.ajax({
+        url:'/meds/addNew',
+        data:{
+            Name, Dosage, Duration,
+        },
+        type:'POST',
+        success:function(data){
+            closepopup()
+            getMedicineData()
+            new Noty({
+                theme: 'relax',
+                text: 'Meds record added',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
+        },
+        error:function(data){
+            new Noty({
+                theme: 'relax',
+                text: 'Unable to add medicine',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
+        },
+    })
     
 }
 
