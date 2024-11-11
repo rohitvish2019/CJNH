@@ -3,6 +3,7 @@ module.exports.addMeds = async function(req, res){
     try{
         await MedsData.create({
             Name:req.body.Name,
+            Composition:req.body.Composition,
             Dosage:req.body.Dosage,
             Duration:req.body.Duration
         });
@@ -12,7 +13,7 @@ module.exports.addMeds = async function(req, res){
     }catch(err){
         console.log(err)
         return res.status(500).json({
-            message:'Unable to add meds'
+            message:'Unable to add Medicine'
         })
     }
 }
@@ -22,11 +23,25 @@ module.exports.getAllMedicine = async function(req, res){
         let medsList = await MedsData.find({});
         return res.status(200).json({
             medsList,
-            message:'Meds fetched'
+            message:'Medicine fetched'
         })
     }catch(err){
         return res.status(500).json({
-            message:'Unable to find meds list'
+            message:'Unable to find Medicine List'
+        })
+    }
+}
+
+module.exports.deleteMedicine = async function(req, res){
+    try{
+        await MedsData.deleteOne({_id:req.params.medId})
+        return res.status(200).json({
+            message:'Nedicine Deleted'
+        })
+    }
+    catch(err){
+        return res.status(500).json({
+            message:'Unable to Delete Medicine'
         })
     }
 }

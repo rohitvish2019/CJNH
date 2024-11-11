@@ -336,13 +336,18 @@
                         </div>
 
                         <div class="form-floating">
+                            <input type="text" class="form-control" id="Composition" placeholder="name@example.com">
+                            <label for="Name"><i class="fa-solid fa-flask"></i> Composition</label>
+                        </div>
+
+                        <div class="form-floating">
                             <input type="text" class="form-control" id="Dosage" placeholder="name@example.com">
                             <label for="Dosage"><i class="fa-solid fa-pills"></i> Dosage <span>*</span></label>
                         </div>
 
                         <div class="form-floating">
                             <input type="text" class="form-control" id="Duration" placeholder="name@example.com">
-                            <label for="Duration"><i class="fa-solid fa-clock-rotate-left"></i> Duration
+                            <label for="Duration"><i class="fa-solid fa-clock-rotate-left"></i> Timing - Freq. - Duration
                                 <span>*</span></label>
                         </div>
 
@@ -359,9 +364,13 @@
                     <table class="table-bordered table-striped">
                         <thead>
                             <tr class="bgmedicinetable">
+                                <th>#</th>
                                 <th><i class="fa-solid fa-prescription-bottle"></i> Medicine Name</th>
+                                <th><i class="fa-solid fa-flask"></i> Composition</th>
                                 <th><i class="fa-solid fa-pills"></i> Dosage</th>
                                 <th><i class="fa-solid fa-clock-rotate-left"></i> Duration</th>
+                                <th><i class="fa-regular fa-hand-pointer"></i> Action</th>
+
                             </tr>
                         </thead>
                         <tbody id="MedicineListTable">
