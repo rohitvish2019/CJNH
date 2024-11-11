@@ -25,6 +25,23 @@ module.exports.PathalogyHomeEmpty = async function(req, res){
         return res.render('Error_500')
     }
 }
+
+module.exports.saveServicesUpdates = async function(req, res){
+    try{
+        console.log(req.body)
+        await ServicesData.findByIdAndUpdate(req.body.id,{Price:req.body.Price})
+        return res.status(200).json({
+            message:'Price updated successfully'
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to Update Price'
+        })
+    }
+}
+
 module.exports.addServicesData = async function(req, res){
     try{
         if(req.user.Role == 'Admin'){

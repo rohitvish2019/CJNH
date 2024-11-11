@@ -137,7 +137,7 @@ function getServices() {
                     `
                     <td style="text-align:center">${i+1}</td>
                         <th>${service.Name}</th>
-                        <td style="width:6.5%"><b>₹</b> ${service.Price == undefined ? '' : service.Price}</td>
+                        <td style="width:6.5%"><b></b><input id="${service._id}price" type="text" onchange="saveSettings('${service._id}')" value="₹${service.Price}"></td>
                         <td style="text-align:center">${service.Category == undefined ? '' : service.Category}</td>
                         <td style="text-align:center">${service.Type == undefined ? '' : service.Type}</td>
                         <td style="text-align:center">${service.Notes == undefined ? '' : service.Notes}</td>
@@ -214,6 +214,7 @@ function deleteService(id) {
 let valuesToUpdate = new Array();
 
 function markToUpdate(id) {
+    console.log("Function Call mark to update")
     let item = {
         id: id,
         Price: document.getElementById(id + 'price').value.split('₹')[1]
@@ -221,17 +222,18 @@ function markToUpdate(id) {
     valuesToUpdate.push(item);
 }
 
-function saveSettings() {
+function saveSettings(id) {
     $.ajax({
         url: '/reports/saveServiceSettings',
         data: {
-            valuesToUpdate,
+        id: id,
+        Price: document.getElementById(id + 'price').value.split('₹')[1]
         },
         type: 'POST',
         success: function (data) {
             new Noty({
                 theme: 'relax',
-                text: 'Settings saved',
+                text: 'Price Updated',
                 type: 'success',
                 layout: 'topRight',
                 timeout: 1500
