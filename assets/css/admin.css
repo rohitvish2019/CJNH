@@ -145,7 +145,12 @@ span{
     
     color: red;
 }
-
+.table-body{
+    
+    scrollbar-width: thin;          /* "auto" or "thin" */
+    scrollbar-color: grey #ffffff;   /* scroll thumb and track */ 
+    
+}
 
 
 table{

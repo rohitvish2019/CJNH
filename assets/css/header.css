@@ -10,11 +10,14 @@ header{
 .logo{
   height: 90px;
   width: 10%;
-  Margin-left: 20px;
 }
 
 ul{
     list-style: none;
+  }
+
+  .btn:hover{
+    color:lightgrey;
   }
 
   .btn{
@@ -25,20 +28,16 @@ ul{
   
   .menu-items{
     display: flex;
-    justify-content: flex-start;
   }
 
-  .dropdown{
-    margin-right: .5%; 
-    margin-left: .5%;
-  }
   .dropdown-menu.show{
     background-color: rgb(235, 238, 238);
   }
-  
-  .logout-btn{
-    margin-right: 20px;
+  li a {
+    font-weight: bold !important;
+    color: rgb(11, 80, 42) !important;
   }
+
 
   .doctor-icon {
     margin-right: 20px;

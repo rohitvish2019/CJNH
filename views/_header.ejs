@@ -15,35 +15,26 @@
 
   <link rel="stylesheet" href="/css/header.css">
 </head>
-<style>
-  li a {
-    font-weight: bold !important;
-    color: rgb(11, 80, 42) !important;
-  }
-</style>
 <header>
-  <div class="text-center text-white py-1 d-flex justify-content-between align-items-center ">
+  <div class="text-center text-white d-flex justify-content-between align-items-center"
+    style="padding-right:2%; padding-left: 2%;">
 
     <div class="logo">
       <a href="/patients/new"><img src="/images/CJNH_Logo_White.png" alt="" srcset="" height="100%" width="100%"></a>
 
     </div>
 
-    <div>
-      <h3 style="font-weight: bolder !important;text-align: center;color: rgb(255, 255, 255); ">Dr. Chanda Jain Nursing
-        Home</h3>
-      <div class="menu-items">
+    <div style="text-align: center; width: 35%;">
+      <h3 style="font-weight: bolder !important;">Dr. Chanda Jain Nursing Home</h3>
+      <div class="menu-items" style="display: inline-flex;">
         <div class="dropdown">
-          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Patients
-          </button>
+          <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Patients</button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/patients/new">OPD Registration</a></li>
             <li><a class="dropdown-item" href="/patients/getAppointments/today">Appointments Today</a></li>
             <%if(user.Role == 'Admin'){%>
-              <li><a class="dropdown-item" href="/patients/getAppointments/old">Appointments By Date</a></li>
+            <li><a class="dropdown-item" href="/patients/getAppointments/old">Appointments By Date</a></li>
             <%}%>
-            
             <li disabled><a class="dropdown-item" href="/patients/IPD/new">IPD Admission</a></li>
             <li><a class="dropdown-item" href="/patients/showAdmitted">Show Admitted</a></li>
           </ul>
@@ -91,17 +82,19 @@
             <li><a class="dropdown-item" href="/sales/History/home">Sales History</a></li>
           </ul>
         </div>
+
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Profile
           </button>
           <ul class="dropdown-menu">
             <%if(user.Role == 'Admin'){%>
-            <li><a class="dropdown-item" href="/user/Admin">Admin Dashboard</a></li>
+            <li><a id="AdminDash" class="dropdown-item" href="/user/Admin">Admin Dashboard</a></li>
             <%}%>
             <li><a class="dropdown-item" href="/user/changePasswordHome">Change Password</a></li>
           </ul>
         </div>
+
       </div>
     </div>
     <div class="logout-btn">
@@ -109,6 +102,7 @@
     </div>
   </div>
 </header>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
   integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>

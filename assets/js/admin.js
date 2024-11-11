@@ -51,6 +51,15 @@ function openMedicine() {
 
 function getDashboardData() {
     $.ajax({
+        url: '/user/profile',
+        success: function (data) {
+            document.getElementById('proName').textContent = data.user.Name
+            
+        },
+        error: function (err) {}
+    })
+
+    $.ajax({
         url: '/reports/getDashboardData',
         type: 'Get',
         success: function (data) {
