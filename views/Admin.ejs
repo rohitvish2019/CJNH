@@ -44,7 +44,10 @@
         <!-- Dashboard Tab-->
         <div id="page-content-wrapper">
             <div id="dashboard" class="dashboard container-fluid">
-                <h3 class="mt-4">Dashboard</h3>
+                <div class="mb-3">
+                <Label style="font-size: larger;">Welcome,</label>
+                <label id="proName" style="font-size: large; font-weight: bold;"></label>
+                </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="card bg-primary text-white shadow">
@@ -136,7 +139,7 @@
                         onclick="AddNewUser()"><i class="fa-solid fa-file-circle-plus"></i> Add User</button>
 
                 </div>
-                <div class="table-body" style="margin-top: 5%; width: 100%; overflow: scroll;">
+                <div class="table-body" style="margin-top: 5%; width: 100%; overflow-y: scroll; ">
                     <table class="table-bordered table-striped">
                         <thead>
                             <tr class="bgusertable">
@@ -154,7 +157,7 @@
                 </div>
             </div>
             <!-- USER TAB END-->
-
+            
             <!-- SETTINGS TAB-->
             <div id="settings" style="text-align: center; padding: 10px; height: 75vh;" class="settings">
 
@@ -162,7 +165,7 @@
                     <button class="btn btn-primary" onclick="popupservicewindow()">Add New Service</button>
                 </div>
                 <!-- Existing Services Display-->
-                <div class="table-body" style="margin-top: 5%; width: 100%; overflow: scroll;">
+                <div class="table-body" style="margin-top: 5%; width: 100%; overflow-y: scroll;">
                     <table class="table table-striped table-bordered">
                         <caption>End of List</caption>
                         <thead>
@@ -218,7 +221,7 @@
                             </div>
 
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="servicePrice"
+                                <input type="number" class="form-control" id="servicePrice"
                                     placeholder="name@example.com">
                                 <label for="Name"><b>₹ </b> Price <span>*</span></label>
                             </div>
@@ -336,13 +339,18 @@
                         </div>
 
                         <div class="form-floating">
+                            <input type="text" class="form-control" id="Composition" placeholder="name@example.com">
+                            <label for="Name"><i class="fa-solid fa-flask"></i> Composition</label>
+                        </div>
+
+                        <div class="form-floating">
                             <input type="text" class="form-control" id="Dosage" placeholder="name@example.com">
                             <label for="Dosage"><i class="fa-solid fa-pills"></i> Dosage <span>*</span></label>
                         </div>
 
                         <div class="form-floating">
                             <input type="text" class="form-control" id="Duration" placeholder="name@example.com">
-                            <label for="Duration"><i class="fa-solid fa-clock-rotate-left"></i> Duration
+                            <label for="Duration"><i class="fa-solid fa-clock-rotate-left"></i> Timing - Freq. - Duration
                                 <span>*</span></label>
                         </div>
 
@@ -355,13 +363,18 @@
                         onclick="AddNewMedicine()"><i class="fa-solid fa-file-circle-plus"></i> Add Medicine</button>
 
                 </div>
-                <div class="table-body" style="margin-top: 2%; width: 100%; overflow: scroll; height: 68vh;">
+                <div class="table-body" style="margin-top: 2%; width: 100%; overflow-y: scroll; height: 68vh;">
                     <table class="table-bordered table-striped">
+                        <caption>End of List</caption>
                         <thead>
                             <tr class="bgmedicinetable">
+                                <th>#</th>
                                 <th><i class="fa-solid fa-prescription-bottle"></i> Medicine Name</th>
+                                <th><i class="fa-solid fa-flask"></i> Composition</th>
                                 <th><i class="fa-solid fa-pills"></i> Dosage</th>
                                 <th><i class="fa-solid fa-clock-rotate-left"></i> Duration</th>
+                                <th><i class="fa-regular fa-hand-pointer"></i> Action</th>
+
                             </tr>
                         </thead>
                         <tbody id="MedicineListTable">

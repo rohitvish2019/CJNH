@@ -91,6 +91,10 @@ body {
     background-color: #025E73 !important ;
     
 }
+.MedicineListTable td{
+    text-align: center;
+}
+
 .bg th{
     vertical-align: middle !important;
     color: white;
@@ -141,7 +145,12 @@ span{
     
     color: red;
 }
-
+.table-body{
+    
+    scrollbar-width: thin;          /* "auto" or "thin" */
+    scrollbar-color: grey #ffffff;   /* scroll thumb and track */ 
+    
+}
 
 
 table{

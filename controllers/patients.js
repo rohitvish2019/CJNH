@@ -100,7 +100,7 @@ module.exports.getAppointmentsToday = async function(req, res){
     try{
         let date = new Date().toISOString().split('T')[0];
         let visits;
-        console.log(date);
+        console.log(date)
         if(req.query.status == 'true'){
             visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
         }else{
@@ -108,7 +108,7 @@ module.exports.getAppointmentsToday = async function(req, res){
         }
             
         if(req.xhr){
-            console.log('Its an xhr request')
+            console.log('It is a xhr request')
             return res.status(200).json({
                 visits
             })
@@ -118,9 +118,7 @@ module.exports.getAppointmentsToday = async function(req, res){
         
     }catch(err){
         console.log(err)
-        return res.status(500).json({
-            message:'Internal server error : Unable to find visits for today'
-        })
+        return res.render('Error_500');
     }
 }
 

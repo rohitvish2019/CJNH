@@ -14,7 +14,7 @@ Router.get('/getServiceByName', passport.checkAuthentication, reportsController.
 Router.get('/getByReportNumber', passport.checkAuthentication,reportsController.getReportByNumber);
 Router.get('/getDefaultTests', passport.checkAuthentication, reportsController.getDefaultTests);
 Router.post('/saveService', passport.checkAuthentication , reportsController.addServicesData);
-//Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
+Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
 Router.get('/getDashboardData', passport.checkAuthentication, reportsController.dashboard);
 Router.delete('/deleteService/:serviceId', passport.checkAuthentication, reportsController.deleteService);
 Router.get('/cancel/:reportId', passport.checkAuthentication, reportsController.cancelReport)

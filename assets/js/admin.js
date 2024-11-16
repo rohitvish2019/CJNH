@@ -47,9 +47,18 @@ function openMedicine() {
     document.getElementById('dashboard').style.display = 'none'
     document.getElementById('Medicine').style.display = 'block'
     getMedicineData()
-} 
+}
 
 function getDashboardData() {
+    $.ajax({
+        url: '/user/profile',
+        success: function (data) {
+            document.getElementById('proName').textContent = data.user.Name
+            
+        },
+        error: function (err) {}
+    })
+
     $.ajax({
         url: '/reports/getDashboardData',
         type: 'Get',
@@ -77,7 +86,7 @@ function getUsers() {
                 let rowItem = document.createElement('tr');
                 if (user.isValid == true) {
                     rowItem.innerHTML =
-                        `
+                        `                    
                     <td style="text-align:center">${user.email}</td>
                     <td style="text-align:center">${user.Name}</td>
                     <td style="text-align:center">${user.Role}</td>
@@ -128,7 +137,7 @@ function getServices() {
                     `
                     <td style="text-align:center">${i+1}</td>
                         <th>${service.Name}</th>
-                        <td style="width:6.5%"><b>₹</b> ${service.Price == undefined ? '' : service.Price}</td>
+                        <td style="width:6.5%"><b></b><input id="${service._id}price" type="text" onchange="saveSettings('${service._id}')" value="₹${service.Price}"></td>
                         <td style="text-align:center">${service.Category == undefined ? '' : service.Category}</td>
                         <td style="text-align:center">${service.Type == undefined ? '' : service.Type}</td>
                         <td style="text-align:center">${service.Notes == undefined ? '' : service.Notes}</td>
@@ -160,7 +169,7 @@ function popupservicewindow() {
     document.getElementById('addnewservice').style.display = 'block'
 }
 
-function popupmedicinewindow(){
+function popupmedicinewindow() {
     document.getElementById('addnewmedicine').style.display = 'block'
 }
 
@@ -183,7 +192,7 @@ function unhighlight(x) {
 
 
 function deleteService(id) {
-    let confirmation = window.confirm("Service will be deleted permanently, Please CConfirm !!!")
+    let confirmation = window.confirm("Service will be deleted permanently, Please Confirm !")
     if (confirmation) {
         $.ajax({
             url: '/reports/deleteService/' + id,
@@ -204,6 +213,7 @@ function deleteService(id) {
 let valuesToUpdate = new Array();
 
 function markToUpdate(id) {
+    console.log("Function Call mark to update")
     let item = {
         id: id,
         Price: document.getElementById(id + 'price').value.split('₹')[1]
@@ -211,17 +221,18 @@ function markToUpdate(id) {
     valuesToUpdate.push(item);
 }
 
-function saveSettings() {
+function saveSettings(id) {
     $.ajax({
         url: '/reports/saveServiceSettings',
         data: {
-            valuesToUpdate,
+        id: id,
+        Price: document.getElementById(id + 'price').value.split('₹')[1]
         },
         type: 'POST',
         success: function (data) {
             new Noty({
                 theme: 'relax',
-                text: 'Settings saved',
+                text: 'Price Updated',
                 type: 'success',
                 layout: 'topRight',
                 timeout: 1500
@@ -305,9 +316,9 @@ function enableDisableUser(user) {
     let message = '';
     let status = document.getElementById('checkbox_' + user).checked
     if (status) {
-        message = 'User enabled'
+        message = 'User Enabled'
     } else {
-        message = 'User disabled'
+        message = 'User Disabled'
     }
     $.ajax({
         url: '/user/changeStatus',
@@ -352,38 +363,48 @@ function getMyProfile() {
     })
 }
 
-function getMedicineData(){
+function getMedicineData() {
     $.ajax({
-        url:'/meds/getAll',
-        type:'GET',
-        success:function(data){
+        url: '/meds/getAll',
+        type: 'GET',
+        success: function (data) {
             console.log(data.medsList);
             let container = document.getElementById('MedicineListTable');
-            container.innerHTML=``;
-            for(let i=0;i<data.medsList.length;i++){
+            container.innerHTML = ``;
+            for (let i = 0; i < data.medsList.length; i++) {
                 let item = document.createElement('tr');
-                item.innerHTML=
-                `
+                item.innerHTML =
+                    `
                     <tr id="data.medsList[i]._id">
-                        <td>${data.medsList[i].Name}</td>
-                        <td>${data.medsList[i].Dosage}</td>
-                        <td>${data.medsList[i].Duration}</td>
+                        <td style="text-align:center; ">${i+1}</td>         
+                        <td style="padding-left:10px; font-weight:bold;">${data.medsList[i].Name}</td>
+                        <td style="padding-left:10px; ">${data.medsList[i].Composition}</td>
+                        <td style="text-align:center">${data.medsList[i].Dosage}</td>
+                        <td style="text-align:center">${data.medsList[i].Duration}</td>
+                        <td style="text-align:center">
+                            <div onclick = "deleteMedicine('${data.medsList[i]._id}')">
+                            <label id="dustbinLight${data.medsList[i]._id}" onmouseover = "highlight('${data.medsList[i]._id}')" onmouseout = "unhighlight('${data.medsList[i]._id}')" ><i class="fa-solid fa-trash-can"></i></label>
+							<label style="display:none;" id="dustbinDark${data.medsList[i]._id}" onmouseover = "highlight('${data.medsList[i]._id}')" onmouseout = "unhighlight('${data.medsList[i]._id}')" ><i class="fa-regular fa-trash-can"></i></label>
+                            </div>
+                        </td>
                     </tr>
                 `
                 container.appendChild(item)
             }
         },
-        error:function(err){}
+        error: function (err) {}
     })
 }
 
 
-function AddNewMedicine(){
+function AddNewMedicine() {
     console.log('Adding meds')
     let Name = document.getElementById('MedicineName').value;
+    let Composition = document.getElementById('Composition').value;
     let Dosage = document.getElementById('Dosage').value;
     let Duration = document.getElementById('Duration').value;
-    if(!Name || Name == ''){
+    
+    if (!Name || Name == '') {
         new Noty({
             theme: 'relax',
             text: 'Medicine Name is mandatory',
@@ -393,10 +414,10 @@ function AddNewMedicine(){
         }).show();
         return
     }
-    if(!Dosage || Dosage == ''){
+    if (!Dosage || Dosage == '') {
         new Noty({
             theme: 'relax',
-            text: 'Medicine dosage is mandatory',
+            text: 'Medicine Dosage is mandatory',
             type: 'error',
             layout: 'topRight',
             timeout: 1500
@@ -405,27 +426,34 @@ function AddNewMedicine(){
     }
 
     $.ajax({
-        url:'/meds/addNew',
-        data:{
-            Name, Dosage, Duration,
+        url: '/meds/addNew',
+        data: {
+            Name,
+            Composition,
+            Dosage,
+            Duration,
         },
-        type:'POST',
-        success:function(data){
+        type: 'POST',
+        success: function (data) {
             closepopup()
             getMedicineData()
             new Noty({
                 theme: 'relax',
-                text: 'Meds record added',
+                text: 'New Medicine record saved successfully',
                 type: 'success',
                 layout: 'topRight',
                 timeout: 1500
             }).show();
+            document.getElementById('MedicineName').value = ''
+            document.getElementById('Composition').value = ''
+            document.getElementById('Dosage').value = ''
+            document.getElementById('Duration').value = ''
             return
         },
-        error:function(data){
+        error: function (data) {
             new Noty({
                 theme: 'relax',
-                text: 'Unable to add medicine',
+                text: 'Unable to add Medicine',
                 type: 'error',
                 layout: 'topRight',
                 timeout: 1500
@@ -433,7 +461,41 @@ function AddNewMedicine(){
             return
         },
     })
-    
+
+}
+
+function deleteMedicine(id){
+    let confirmation = window.confirm("Medicine will be deleted permanently, Please Confirm !")
+    if (confirmation) {
+        $.ajax({
+            url: '/meds/deleteMedicine/' + id,
+            type: 'Delete',
+            success: function (data) {
+                new Noty({
+                    theme: 'relax',
+                    text: 'Medicine deleted successfully',
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                getMedicineData();
+                return
+            },
+            error: function (err) {
+                new Noty({
+                    theme: 'relax',
+                    text: 'Unable to Delete Medicine',
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+            }
+
+        })
+    } else {
+        return
+    }
+
 }
 
 function updateProfile() {
@@ -461,7 +523,7 @@ function updateProfile() {
         success: function (data) {
             new Noty({
                 theme: 'relax',
-                text: 'Profile updated',
+                text: 'Profile Updated',
                 type: 'success',
                 layout: 'topRight',
                 timeout: 1500
@@ -489,7 +551,7 @@ function AddNewUser() {
         if (document.getElementById(feilds[i]).value == '') {
             new Noty({
                 theme: 'relax',
-                text: 'All feilds are mandatory',
+                text: 'All fields are Mandatory',
                 type: 'error',
                 layout: 'topRight',
                 timeout: 1500
@@ -506,7 +568,7 @@ function AddNewUser() {
         success: function (data) {
             new Noty({
                 theme: 'relax',
-                text: 'User added',
+                text: 'New User added successfully',
                 type: 'success',
                 layout: 'topRight',
                 timeout: 1500
