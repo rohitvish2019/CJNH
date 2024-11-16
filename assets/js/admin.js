@@ -139,7 +139,6 @@ function getServices() {
 							<div onclick = "deleteService('${service._id}')" >
 								<label id="dustbinLight${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-solid fa-trash-can"></i></label>
 								<label style="display:none;" id="dustbinDark${service._id}" onmouseover = "highlight('${service._id}')" onmouseout = "unhighlight('${service._id}')" ><i class="fa-regular fa-trash-can"></i></label>
-                                
                             </div>
 					</td>
                     `

@@ -11,90 +11,125 @@
         <header>
             <%-include('_header')%>
         </header>
-        <div class="bill-container">
+        <div style="display: flex;">
+            <div class="bill-container" style="width: 70%;">
             
-            <section>
-                <label class="sub-heading">Patient Details</label>
-                <div class="patient-info" style="margin-bottom: 15px;">
-                    <div style="width: 50%;padding-left: 25%;">
-                        <input hidden type="text" id="visitId" value="<%=visit_id%>">
-                        <table>
-                            <tr>
-                                <th>Name</th>
-                                <td><%=bill.Name%></td>
-                            </tr>
-                            <tr>
-                                <th>Age</th>
-                                <td><%=bill.Age%></td>
-                            </tr>
-                            <tr>
-                                <th>Gender</th>
-                                <td><%=bill.Gender%></td>
-                            </tr>
-                        </table>
+                <section>
+                    <label class="sub-heading">Patient Details</label>
+                    <div class="patient-info" style="margin-bottom: 15px;">
+                        <div style="width: 50%;padding-left: 25%;">
+                            <input hidden type="text" id="visitId" value="<%=visit_id%>">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <td><%=bill.Name%></td>
+                                </tr>
+                                <tr>
+                                    <th>Age</th>
+                                    <td><%=bill.Age%></td>
+                                </tr>
+                                <tr>
+                                    <th>Gender</th>
+                                    <td><%=bill.Gender%></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="width: 50%;">   
+                            <table>
+                                <tr>
+                                    <th>Mobile</th>
+                                    <td><%=bill.Mobile%></td>
+                                </tr>
+                                <tr>
+                                    <th>Address</th>
+                                    <td><%=bill.Address%></td>
+                                </tr>
+                                <tr>
+                                    <th>Id</th>
+                                    <td><%=bill.Id%></td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <div style="width: 50%;">   
-                        <table>
-                            <tr>
-                                <th>Mobile</th>
-                                <td><%=bill.Mobile%></td>
+                    <label class="sub-heading">Billing Details</label>
+                    <table>
+                        <thead>
+                            <tr class="bg">
+                                <th>#</th>
+                                <th style="text-align: left;">Description</th>
+                                <th>Price</th>
+                                <th>Notes</th>
                             </tr>
+                        </thead>
+                        <tbody id="billingDetails">
+                            <!--
+                            <% let total = 0%>
+                            <% let counter = 1%>
+                            <%for(let i=0;i<Items.length;i++){%>
+                                <% total = total + Items[i].Price%>
+                                <tr>
+                                    <td><%=counter++%></td>
+                                    <td style="text-align: left;"><%=Items[i].Name%></td>
+                                    <td>₹<%=Items[i].Price%></td>
+                                    <td><%=Items[i].Notes%></td>
+                                </tr>
+                            <%}%>
                             <tr>
-                                <th>Address</th>
-                                <td><%=bill.Address%></td>
-                            </tr>
-                            <tr>
-                                <th>Id</th>
-                                <td><%=bill.Id%></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <label class="sub-heading">Billing Details</label>
-                <table>
-                    <thead>
-                        <tr class="bg">
-                            <th>#</th>
-                            <th style="text-align: left;">Description</th>
-                            <th>Price</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody id="billingDetails">
-                        <% let total = 0%>
-                        <% let counter = 1%>
-                        <%for(let i=0;i<Items.length;i++){%>
-                            <% total = total + Items[i].Price%>
-                            <tr>
+                                <% total = total + (roomCharges * daysCount)%>
                                 <td><%=counter++%></td>
-                                <td style="text-align: left;"><%=Items[i].Name%></td>
-                                <td>₹<%=Items[i].Price%></td>
-                                <td><%=Items[i].Notes%></td>
+                                <td style="text-align: left;">Room charges (<%=daysCount%> days)</td>
+                                <td>₹<%=roomCharges * daysCount%></td>
+                                <td></td>
                             </tr>
-                        <%}%>
-                        <tr>
-                            <% total = total + (roomCharges * daysCount)%>
-                            <td><%=counter++%></td>
-                            <td style="text-align: left;">Room charges (<%=daysCount%> days)</td>
-                            <td>₹<%=roomCharges * daysCount%></td>
-                            <td></td>
-                        </tr>
-                        <tr style="border-top: 1px solid black;">
-                            <td style="text-align: right;" colspan="2"><b>Grand Total</b></td>   
-                            <td style="border-left:1px solid black; border-right:1px solid black;"><b>₹<%=total%></b></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+                            <tr style="border-top: 1px solid black;">
+                                <td style="text-align: right;" colspan="2"><b>Grand Total</b></td>   
+                                <td style="border-left:1px solid black; border-right:1px solid black;"><b>₹<%=total%></b></td>
+                                <td></td>
+                            </tr>
+                            -->
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div style="margin-top: 1.3%;">
+                <button onclick="openNewItemPopup()">Add New Item</button>
+            </div>
         </div>
+        
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
   integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="/js/bill.js"></script>
-        <%if(!(isDischarged == true)){%>
-            <div class="printButtonContainer"> <button id="printButton" onclick="SaveDischargeBill()" class="btn btn-success">Save & Print</button></div>
-        <%}%>
+        <div class="printButtonContainer" style="width: 70%;"> <button id="printButton" onclick="SaveDischargeBill()" class="btn btn-success">Save & Print</button></div>
         
-</body>
+        <div id="addNewItem" class="card text-center">
+
+            <div style="margin: 1%; text-align: right;">
+                <i onclick="closepopup()" style="align-items: end;"
+                    class="fa-regular fa-circle-xmark fa-2x"></i>
+            </div>
+            <h4>Add New Item</h4>
+            <div class="container">
+
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="itemName" placeholder="name@example.com">
+                    <label for="Name"><i class="fa-solid fa-prescription-bottle"></i> Item Name
+                        <span>*</span></label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="itemPrice" placeholder="name@example.com">
+                    <label for="Dosage"><i class="fa-solid fa-pills"></i> Price <span>*</span></label>
+                </div>
+
+            </div>
+
+            <div style="text-align: left; padding-left: 8%;font-size: small;"><span><i>* Mandatory
+                        Fields</i></span><br></div>
+            <button class="btn"
+                style="margin: 2%;margin-left: 0% !important; padding: 10px; width: 40% !important; background-color: #025E73 ;"
+                onclick="addNewItems()"><i class="fa-solid fa-file-circle-plus"></i> Add Item</button>
+        </div>
+        </body>
 </html>

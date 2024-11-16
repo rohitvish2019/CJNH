@@ -125,7 +125,6 @@ function getSalesHistoryRange(){
                     <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
                 </tr>
                 `
-                document.getElementById('pagination').innerHTML=``
                 return
             }
             showHistory(data.billsList)
@@ -142,19 +141,52 @@ function showHistory(items){
     container.innerHTML=``;
     for(let i=0;i<items.length;i++){
         let rowItem = document.createElement('tr');
+        rowItem.id=items[i]._id+'row'
         rowItem.innerHTML=
         `
             <td>${i+1}</td>
             <td>${items[i].Name}</td>
             <td>₹ ${items[i].Total}</td>
-            <td>${items[i].BillDate}</td>
+            <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
             <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
-            <td><a href = '/sales/cancel/${items[i]._id}'>Cancel</a></td>
+            <td>${items[i].PaymentType}</td>
+            <td style='width:15%'><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
+            </td>   
         `
         container.appendChild(rowItem);
         total = total  + +items[i].Total
     }
 
     document.getElementById('tvalue').innerText='Total : ₹ '+total
+}
+
+
+function cancelSale(id){
+    let confirmation = window.confirm('Sales will be cancelled permantly');
+    if(confirmation){
+        $.ajax({
+            url:'/sales/cancel',
+            type:'Delete',
+            data:{
+                saleId: id
+            },
+            success:function(data){
+                document.getElementById(id+'row').remove()
+                document.getElementById('tvalue').innerText=''
+            },
+            error:function(err){
+                new Noty({
+                    theme: 'relax',
+                    text: 'Unable to cancel sale',
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                return
+            }
+    
+        })
+    }
+    
 }

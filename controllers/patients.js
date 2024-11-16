@@ -100,8 +100,7 @@ module.exports.getAppointmentsToday = async function(req, res){
     try{
         let date = new Date().toISOString().split('T')[0];
         let visits;
-        console.log(req.query);
-        console.log(req.user)
+        console.log(date);
         if(req.query.status == 'true'){
             visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
         }else{
@@ -241,12 +240,13 @@ module.exports.bookVisitToday = async function(req, res){
             Age:patient.Age,
             Address:patient.Address,
             Mobile:patient.Mobile,
-            Doctor:patient.Doctor,
+            Doctor:req.body.Doctor,
             Gender:patient.Gender,
             PatiendID:patient.Id,
             Items:['OPD$1$'+req.body.Fees],
             type:'Appointment',
-            Total:req.body.Fees
+            Total:req.body.Fees,
+            PaymentType:req.body.paymentType
         })
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         await visit.updateOne({SaleId:sale._id})
@@ -392,7 +392,7 @@ module.exports.AdmissionBill = async function(req, res){
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         let bill = visit.Patient
         let Items = await ServicesData.find({Type:'AdmissionBill'});
-        let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+        let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount, visit_id:visit._id, isDischarged:visit.isDischarged, user:req.user});
     }catch(err){    
@@ -401,25 +401,40 @@ module.exports.AdmissionBill = async function(req, res){
     }
 }
 
-
+module.exports.getAdmissionBillItems = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.query.visitid).populate('Patient');
+        let Items = await ServicesData.find({Type:'AdmissionBill'},'Name Price');
+        let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+        let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
+        return res.status(200).json({
+            visit,
+            Items,
+            daysCount,
+            roomRent : room.Price
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to find admission billing items'
+        })
+    }
+}
 
 module.exports.saveDischargeBill = async function(req, res){
     try{
         let visit = await VisitData.findById(req.body.visitId).populate('Patient');
+        let billItems = new Array()
+        let total = 0
         if(visit){
-            await visit.updateOne({isDischarged:true})
-            let Items = await ServicesData.find({Type:'AdmissionBill'});
-            let billItems = new Array()
-            let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
-            let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
-            let total = 0
-            for(let i=0;i<Items.length;i++){
-                let item = Items[i].Name+'$1$'+Items[i].Price+'$'+Items[i].Notes
-                total = total + Items[i].Price
+            console.log(req.body);
+            let keys = Object.keys(req.body.dischargeItems);
+            for(let i=0;i<keys.length;i++){
+                let item = req.body.dischargeItems[keys[i]].Name+'$1$'+req.body.dischargeItems[keys[i]].Price
+                total = total + +req.body.dischargeItems[keys[i]].Price
                 billItems.push(item)
             }
-            billItems.push('Room Charges ('+daysCount+' days)$1$'+ +room.Price*daysCount+'$');
-            total = total + +room.Price*daysCount
+            await visit.updateOne({isDischarged:true});
             let bill = await Tracker.findOne();
             let newBillNo = +bill.AdmissionNo + 1;
             await bill.updateOne({AdmissionNo:newBillNo});
@@ -437,8 +452,23 @@ module.exports.saveDischargeBill = async function(req, res){
                 ReportNo:"DSCH"+newBillNo,
                 Total:total
             })
+            
+            /*
+            
+            let Items = await ServicesData.find({Type:'AdmissionBill'});
+            
+            let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+            let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
+            
+            
+            billItems.push('Room Charges ('+daysCount+' days)$1$'+ +room.Price*daysCount+'$');
+            total = total + +room.Price*daysCount
+            
+            
+                */
             return res.status(200).json({
-                sale
+                sale:sale._id,
+                message:'Bill Saved'
             })
         }else{
             return res.status(400).json({
@@ -455,7 +485,7 @@ module.exports.saveDischargeBill = async function(req, res){
 }
 
 
-function get24HourTimeframes(startDate, startTime, endDate, endTime) {
+function get12HourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
     const startDateTime = new Date(`${startDate}T${startTime}`);
     const endDateTime = new Date(`${endDate}T${endTime}`);
@@ -468,7 +498,7 @@ function get24HourTimeframes(startDate, startTime, endDate, endTime) {
     const hoursDiff = timeDiff / (1000 * 60 * 60);
     
     // Return the number of 6-hour timeframes (rounding down)
-    return Math.ceil(hoursDiff / 24);
+    return Math.ceil(hoursDiff / 12);
 }
 
 

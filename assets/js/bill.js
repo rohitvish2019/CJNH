@@ -1,15 +1,99 @@
+let counter = 1
 function SaveDischargeBill(){
     $.ajax({
         url:'/patients/saveDischargeBill',
         data:{
-            visitId : document.getElementById('visitId').value
+            visitId : document.getElementById('visitId').value,
+            dischargeItems,
         },
         type:'Post',
         success:function(data){
-            console.log(data)
-            window.location.href='/sales/bill/view/'+data.sale._id
+            window.location.href='/sales/bill/view/'+data.sale
         }
     })
 }
 
+function openNewItemPopup(){
+    document.getElementById('addNewItem').style.display='block'
+}
 
+function closepopup(){
+    document.getElementById('addNewItem').style.display='none'
+}
+let dischargeItems = {};
+
+function addNewItems(){
+    let itemName = document.getElementById('itemName').value
+    let itemPrice = document.getElementById('itemPrice').value
+    let item = {
+        'Name':itemName,
+        'Price':itemPrice,
+    }
+    if( itemName == '' || itemPrice == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Empty values are not allowed',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+    }
+    
+    dischargeItems[itemName+'newItem'] = item;
+    let rowItem = document.createElement('tr');
+    rowItem.id= itemName+'newItem';
+    rowItem.innerHTML=
+    `
+        <td>${counter++}</td>
+        <td style="text-align: left;">${itemName}</td>
+        <td>₹${itemPrice}</td>
+        <td onclick='deleteItems("${itemName+'newItem'}")'><button>Delete</button></td>
+    `
+    document.getElementById('billingDetails').appendChild(rowItem);
+    closepopup()
+}
+function getDischargeBillItems(){
+    let visitid = document.getElementById('visitId').value
+    $.ajax({
+        url:'/patients/getDischargeBillItems',
+        type:'GET',
+        data:{
+            visitid
+        },
+        success:function(data){
+            let container = document.getElementById('billingDetails');
+            container.innerHTML=``
+            
+            for(let i=0;i<data.Items.length;i++){
+                let rowItem = document.createElement('tr');
+                rowItem.id = data.Items[i]._id
+                rowItem.innerHTML=
+                `
+                    <td>${counter++}</td>
+                    <td style="text-align: left;">${data.Items[i].Name}</td>
+                    <td>₹${data.Items[i].Price}</td>
+                    <td onclick='deleteItems("${data.Items[i]._id}")'><button>Delete</button></td>
+                `
+                container.appendChild(rowItem);
+                dischargeItems[data.Items[i]._id] = data.Items[i]
+            }
+            let rooRentRow = document.createElement('tr');
+            rooRentRow.id = 'roomRent'
+            rooRentRow.innerHTML=
+            `
+                <td>${counter}</td>
+                <td style="text-align: left;">Room Rent</td>
+                <td>₹${data.daysCount * data.roomRent}</td>
+                <td onclick='deleteItems("roomRent")'><button>Delete</button></td>
+            `
+            container.appendChild(rooRentRow)
+            dischargeItems['roomRent'] = {"Name":"roomRent","Price":data.daysCount*data.roomRent}
+        },
+        error:function(err){}
+    })
+}
+function deleteItems(id){
+    document.getElementById(id).remove();
+    delete dischargeItems[id]
+}
+getDischargeBillItems();

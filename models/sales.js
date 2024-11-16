@@ -12,6 +12,7 @@ const Sales = new mongoose.Schema({
     type:String,
     ReportNo:String,
     Total:Number,
+    PaymentType:String,
     BillDate:{
         type:String,
         default:new Date().toISOString().split('T')[0]

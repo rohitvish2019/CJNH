@@ -8,6 +8,7 @@ function addMedications(){
     let Batch = document.getElementById('Batch').value
     let Price = document.getElementById('Price').value
     let Quantity = document.getElementById('Quantity').value
+    let SellerName = document.getElementById('SellerName').value
     if(Item == '' || Quantity == ''){
         new Noty({
             theme: 'relax',
@@ -18,7 +19,7 @@ function addMedications(){
         }).show();
         return
     }
-    purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity); 
+    purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity+'$'+SellerName); 
     rowItem.innerHTML=
     `
         <td>${countTracker}</td>
@@ -27,6 +28,7 @@ function addMedications(){
         <td>${Price}</td>
         <td>${Quantity}</td>
         <td>${Price * Quantity}</td>
+        <td>${SellerName}</td>
     `
     container.appendChild(rowItem);
     countTracker++
@@ -35,6 +37,7 @@ function addMedications(){
     document.getElementById('Price').value=''
     document.getElementById('ExpiryDate').value=''
     document.getElementById('Quantity').value=''
+    document.getElementById('SellerName').value=''
 }
 
 function savePurchases(){

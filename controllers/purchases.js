@@ -26,7 +26,8 @@ module.exports.savePurchase = async function(req, res){
                 Name:item[0],
                 Batch:item[1],
                 Price:item[2],
-                AvailableQuantity:item[3]
+                AvailableQuantity:item[3],
+                Seller:item[4]
             });
 
             await PurchaseData.create({
@@ -34,7 +35,8 @@ module.exports.savePurchase = async function(req, res){
                 Batch:item[1],
                 Price:item[2],
                 Quantity:item[3],
-                Bought_Date:new Date().toISOString().split('T')[0]
+                Bought_Date:new Date().toISOString().split('T')[0],
+                Seller:item[4]
             })
         }
         return res.status(200).json({

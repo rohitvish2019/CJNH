@@ -2,7 +2,7 @@ const ServicesData = require('../models/servicesAndCharges');
 const SalesData = require('../models/sales')
 const PatientData = require('../models/patients');
 const Tracker = require('../models/tracker');
-const { json } = require('express');
+const Visits = require('../models/visits')
 module.exports.salesHistoryHome = function(req, res){
     try{
         return res.render('salesHistory',{user:req.user});
@@ -163,9 +163,22 @@ module.exports.getBillsByDateRange = async function(req, res){
 
 module.exports.cancelSale = async function(req, res){
     try{
-        console.log(req.params)
-        let sale = await SalesData.findByIdAndUpdate(req.params.saleId, {isCancelled:true});
-        return res.redirect('back')
+        console.log(req.body)
+        let sale = await SalesData.findById(req.body.saleId);
+        let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled')
+        await sale.updateOne({isCancelled:true})
+        if(appointment){
+            if(appointment.VisitData && appointment.VisitData.complaint.length > 0){
+                return res.status(424).json({
+                    message:'Appointment already completed'
+                })
+            }else{
+                await appointment.updateOne({isCancelled:true})
+            }
+        }
+        return res.status(200).json({
+            message:'Sales cancelled'
+        })
     }catch(err){
         console.log(err)
         return res.status(500).json({

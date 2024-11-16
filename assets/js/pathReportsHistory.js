@@ -158,7 +158,7 @@ function showReportOnUI(reports){
             <td>${i+1}</td>
             <td>${reports[i].Name}</td>
             <td><a target='_blank' href='/reports/view/${reports[i]._id}'>${reports[i].ReportNo}</a></td>
-            <td>${reports[i].Date}</td>
+            <td>${reports[i].Date.split('-')[2]}-${reports[i].Date.split('-')[1]}-${reports[i].Date.split('-')[0]}</td>
             <td><a style="color: red;font-size: medium;font-weight: bold;" href='/reports/cancel/${reports[i]._id}'>Cancel</a></td>
             `
         container.appendChild(rowItem)
