@@ -35,6 +35,7 @@
                 <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
                     <option value="byDate" selected>Exact Date</option>
                     <option value="byDateRange">Date Range</option>
+                    <option value="byId">By Mobile/Id</option>
                 </select>
             </div>
 
@@ -46,6 +47,9 @@
             <div id="dateInput" style="margin-right: 2%; margin-top: 2px;">
                 <label for=""><b>Report Date : </b>&nbsp;</label>
                 <input type="date" name="" id="selectedDate">
+            </div>
+            <div id="idInput">
+                <input type="number" placeholder="Enter Mobile or Id" id="idToSearch">
             </div>
             <div style="margin-top: 2px;margin-right: 2%;">
                 <label for=""><b>Billing Status : </b>&nbsp;</label>

@@ -1,11 +1,17 @@
 function changeInputs(){
     let value = document.getElementById('filterType').value
     if(value == 'byDate'){
+        document.getElementById('idInput').style.display='none'
         document.getElementById('dateRangeInputs').style.display='none'
         document.getElementById('dateInput').style.display='block'
     }else if (value == 'byDateRange'){
+        document.getElementById('idInput').style.display='none'
         document.getElementById('dateInput').style.display='none'
         document.getElementById('dateRangeInputs').style.display='block'
+    }else if(value == 'byId'){
+        document.getElementById('dateRangeInputs').style.display='none'
+        document.getElementById('dateInput').style.display='none'
+        document.getElementById('idInput').style.display='block'
     }
 }
 
@@ -66,6 +72,15 @@ function getSalesHistoryRange(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
+            if(!data.reportsList || data.reportsList.length < 1){
+                document.getElementById("historyBody").innerHTML=
+                `
+                    <tr>
+                        <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+                    </tr>
+                `
+                return
+            }
             if(status == 'pending'){
                 showReportOnUICancelled(data.reportsList)
             }else{
@@ -109,8 +124,14 @@ function getSalesHistoryDate(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.reportsList.length < 1){
-                
+            if(!data.reportsList || data.reportsList.length < 1){
+                document.getElementById("historyBody").innerHTML=
+                `
+                    <tr>
+                        <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+                    </tr>
+                `
+                return
             }
             if(status == 'pending'){
                 showReportOnUICancelled(data.reportsList)
@@ -144,8 +165,64 @@ function getReportsHistory(){
     }else if (value == 'byDateRange'){
         getSalesHistoryRange()
     }
+    else if(value == 'byId'){
+        getReportsById();
+    }
 }
+function getReportsById(){
 
+    let id = document.getElementById('idToSearch').value
+    let status = document.getElementById('status').value
+    if(!id || id == null || id == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'ID / Mobile is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    document.getElementById('loader').style.display='block'
+    $.ajax({
+        url:'/reports/getHistoryById',
+        type:'Get',
+        data:{
+            id,
+            status
+        },
+        success:function(data){
+            document.getElementById('loader').style.display='none'
+            if(!data.reportsList || data.reportsList.length < 1){
+                document.getElementById("historyBody").innerHTML=
+                `
+                    <tr>
+                        <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+                    </tr>
+                `
+                return
+            }
+            if(status == 'pending'){
+                showReportOnUICancelled(data.reportsList)
+            }else{
+                showReportOnUI(data.reportsList) 
+            }
+              
+             
+        },
+        error:function(err){
+            console.log(err)
+            document.getElementById('loader').style.display='none'
+            document.getElementById("historyBody").innerHTML=
+            `
+            <tr>
+                <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+            </tr>
+            `
+            return
+        }
+    })
+}
 function showReportOnUI(reports){
     console.log(reports)
     let i = 0
@@ -159,12 +236,47 @@ function showReportOnUI(reports){
             <td>${reports[i].Name}</td>
             <td><a target='_blank' href='/reports/view/${reports[i]._id}'>${reports[i].ReportNo}</a></td>
             <td>${reports[i].Date.split('-')[2]}-${reports[i].Date.split('-')[1]}-${reports[i].Date.split('-')[0]}</td>
-            <td><a style="color: red;font-size: medium;font-weight: bold;" href='/reports/cancel/${reports[i]._id}'>Cancel</a></td>
-            `
+            <td><button class='btn btn-danger' onclick='cancelReport("${reports[i]._id}")'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button></td>
+            
+        `
         container.appendChild(rowItem)
     }
 }
 
+
+function cancelReport(id){
+    let confirmation = window.confirm("Report will be cancelled permanently");
+    if(confirmation){
+        $.ajax({
+            url:'/reports/cancel/',
+            type:'post',
+            data:{
+                id
+            },
+            success:function(data){
+                new Noty({
+                    theme: 'relax',
+                    text: 'Report cancelled',
+                    type: 'success',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                return
+            },
+            error: function(err){
+                new Noty({
+                    theme: 'relax',
+                    text: 'Unable to cancel report',
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                return
+            }
+        })
+    }
+    
+}
 function showReportOnUICancelled(reports){
     let i = 0
     let container = document.getElementById('historyBody');

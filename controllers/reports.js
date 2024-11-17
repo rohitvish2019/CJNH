@@ -156,7 +156,7 @@ module.exports.saveReport = async function(req, res){
 
 module.exports.cancelReport = async function(req,res){
     try{
-        let report = await ReportsData.findByIdAndUpdate(req.params.reportId, {$set:{isCancelled:true}});
+        let report = await ReportsData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
         if(report){
             return res.status(200).json({
                 message:'Report cancelled'
@@ -322,6 +322,68 @@ module.exports.getHistoryByDate = async function(req, res){
         })
     }
 }
+
+
+
+
+module.exports.getHistoryById = async function(req, res){
+    try{
+        let status = req.query.status
+        let reportsList
+        let patient = await PatientData.findOne({
+            $or: [
+                {Id:req.query.id},
+                {Mobile:req.query.id},
+                
+            ],
+            isCancelled:false, isValid:true
+        });
+    
+        if(patient){
+            if(status == 'generated'){
+                let reportsList = await ReportsData.find({
+                    Patient:patient._id,
+                    isCancelled:false, isValid:true
+                }).populate('Patient').sort("createdAt");
+                return res.status(200).json({
+                    message:reportsList.length+' reports found',
+                    reportsList
+                })
+                
+            }else if(status == 'cancelled'){
+                let reportsList = await ReportsData.find({
+                    Patient:patient._id,
+                    isCancelled:true, isValid:true
+                }).populate('Patient').sort("createdAt");
+                
+                return res.status(200).json({
+                    message:reportsList.length+' reports found',
+                    reportsList
+                })
+                
+            }else{
+                return res.status(200).json({
+                    reportsList,
+                    message:'No reports found'
+                })
+            }
+        }else{
+            return res.status(200).json({
+                reportsList,
+                message:'No reports found'
+            })
+        }
+        
+        
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find receipts'
+        })
+    }
+}
+
+
 
 module.exports.getAllServices = async function(req, res){
     try{    

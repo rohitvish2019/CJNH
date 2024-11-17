@@ -9,6 +9,7 @@ Router.get('/view/:pid', passport.checkAuthentication, reportsController.viewRep
 Router.get('/history/home', passport.checkAuthentication, reportsController.pathologyHistoryHome);
 Router.get('/getHistoryByRange', passport.checkAuthentication, reportsController.getHistoryByRange);
 Router.get('/getHistoryByDate', passport.checkAuthentication, reportsController.getHistoryByDate);
+Router.get('/getHistoryById', passport.checkAuthentication, reportsController.getHistoryById);
 Router.get('/getAllServices', passport.checkAuthentication, reportsController.getAllServices);
 Router.get('/getServiceByName', passport.checkAuthentication, reportsController.getServiceByName);
 Router.get('/getByReportNumber', passport.checkAuthentication,reportsController.getReportByNumber);
@@ -17,6 +18,7 @@ Router.post('/saveService', passport.checkAuthentication , reportsController.add
 Router.post('/saveServiceSettings', passport.checkAuthentication, reportsController.saveServicesUpdates);
 Router.get('/getDashboardData', passport.checkAuthentication, reportsController.dashboard);
 Router.delete('/deleteService/:serviceId', passport.checkAuthentication, reportsController.deleteService);
-Router.get('/cancel/:reportId', passport.checkAuthentication, reportsController.cancelReport)
+Router.post('/cancel', passport.checkAuthentication, reportsController.cancelReport);
+
 
 module.exports = Router;

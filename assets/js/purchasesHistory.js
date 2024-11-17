@@ -4,8 +4,10 @@ function getPurchaseHistory(){
     $.ajax({
         url:'/purchases/getHistory',
         data:{
+            type:document.getElementById('searchType').value,
             startDate,
-            endDate
+            endDate,
+            Item:document.getElementById('itemName').value
         },
         type:'Get',
         success:function(data){
@@ -32,5 +34,16 @@ function showPurchaseHistory(purchases){
             <td>${purchases[i].Seller}</td>
         `
         container.appendChild(rowItem);
+    }
+}
+
+function changeInputs(){
+    let selected = document.getElementById('searchType').value;
+    if(selected == 'byItem'){
+        document.getElementById('dateRangeInputs').style.display='none'
+        document.getElementById('itemNameInputs').style.display='block'
+    }else if(selected == 'byDateRange'){
+        document.getElementById('itemNameInputs').style.display='none'
+        document.getElementById('dateRangeInputs').style.display='block'
     }
 }

@@ -19,17 +19,34 @@
         <div class="heading">
             <h4>Purchase History</h4>
         </div>
-        <div class="searchElements" style="display: flex; justify-content: space-between;margin-right: 2%;">
-            <div class=" justify-content-between text-center align-items-center">
+        <div class="searchElements" style="display: flex; justify-content: flex-start;margin-right: 2%;">
+            <div style="margin-right: 2%;">
+                <label for=""><b>Search type : </b>&nbsp;</label>
+                <select style="margin-top: 4px;" name="" id="searchType" onchange="changeInputs()">
+                    <option value="byItem">Item Name</option>
+                    <option value="byDateRange">Date Range</option>
+                </select>
+                
+            </div>
+            <div style="display: none;margin-right: 2%;" id="dateRangeInputs" class=" justify-content-between text-center align-items-center">
                 <label for=""><b>Purchase Date Range : </b>&nbsp;</label>
                 <input type="date" name="" id="startDate">
                 <input type="date" name="" id="endDate">
+            </div>
+            <div id="itemNameInputs" style="margin-right: 2%;">
+                <input type="text" placeholder="Enter Item Name" name="" id="itemName" list="medicineList">
+                <datalist id="medicineList">
+                    <%for(let i=0;i<inventory.length;i++){%>
+                        <option value="<%=inventory[i]%>"></option>
+                    <%}%>
+                </datalist>
+            </div>
+            <div style="align-items: left;">
                 <button class="btn btn-success" style="margin-bottom: 1%;" onclick="getPurchaseHistory()">Search</button>
             </div>
             <div>
                 <b id="tvalue"></b>
             </div>
-            
         </div>
         <div class="table-body">
             <table class="table table-striped table-bordered">
