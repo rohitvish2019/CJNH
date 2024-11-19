@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Birth Certificate</title>
+    <link rel="stylesheet" href="/css/birthCertificateHome.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+        integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div>
+        <div class="inputContent">
+            <div class="inputDivs">
+                <label class="heading">Patient Details</label>
+                <div class="form-floating mb-2">
+                    <input disabled type="text" class="form-control mb2" id="patientId" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Patient ID <span>*</span></label>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control mb2" id="Name" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Patient Name <span>*</span></label>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control mb2" id="Husband" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Husband Name <span>*</span></label>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <input type="number" class="form-control mb2" id="Age" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Patient Age <span>*</span></label>
+                </div>
+            </div>
+            <div class="inputDivs">
+                <label class="heading">Address Details</label>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control mb2" id="Village" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Village <span>*</span></label>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control mb2" id="Tahsil" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Tahsil <span>*</span></label>
+                </div>
+                
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control mb2" id="District" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> District <span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control mb2" id="State" placeholder="name@example.com" value="Madhya Pradesh">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> State <span>*</span></label>
+                </div>
+            </div>
+            <div class="inputDivs">
+                <label class="heading">Delivery/Child Details</label>
+                <div class="form-floating">
+                    <select class="form-select" id="DeliveryType" aria-label="Floating label select example">
+                        <option selected disabled value="">--Select--</option>
+                        <option value="Vaginal">Vaginal</option>
+                        <option value="Caesarean">Caesarean</option>
+                        <option value="Instrumental">Instrumental</option>
+                    </select>
+                    <label><i class="fa-solid fa-user-doctor"></i> Delivery Type <span>*</span></label>
+                </div>
+
+                <div class="form-floating">
+                    <select class="form-select" id="Gender" aria-label="Floating label select example">
+                        <option selected disabled value="">--Select--</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <label><i class="fa-solid fa-user-doctor"></i> Gender<span>*</span></label>
+                </div>
+                
+                <div class="form-floating mb-2">
+                    <input type="time" class="form-control mb2" id="BirthTime" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Birth Time <span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="date" class="form-control mb2" id="BirthDate" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Birth Date <span>*</span></label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="number" class="form-control mb2" id="ChildWeight" placeholder="name@example.com">
+                    <label for="Mobile"><i class="fa-solid fa-user"></i> Child Weight <span>*</span></label>
+                </div>
+            </div>
+            <div class="autoFillDiv">
+                <input type="text" id="patientId_search" placeholder="Enter Patient ID">
+                <button onclick="setAutofillData()">Auto Fill</button>
+            </div>
+        </div>
+        <div style="display: flex;justify-content: center;margin-top: 2%;">
+            <button style="width: 30%;" onclick="saveBirthDetails()">Save and Print</button>
+        </div>
+    </div>
+    <script src="/js/birthCertificateHome.js"></script>
+</body>
+</html>

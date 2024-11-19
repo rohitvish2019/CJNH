@@ -2,7 +2,6 @@ const express = require('express');
 const Router = express.Router();
 const PatientsController = require('../controllers/patients')
 const passport = require('../configs/passport-local-strategy')
-
 Router.post('/addVisit',passport.checkAuthentication,  PatientsController.addVisitAndPatient);
 Router.get('/getAppointments/today', passport.checkAuthentication, PatientsController.getAppointmentsToday);
 Router.get('/getAppointments/old', passport.checkAuthentication, PatientsController.oldAppointmentsHome);
@@ -26,4 +25,6 @@ Router.post('/saveVisitPrescriptions', passport.checkAuthentication, PatientsCon
 Router.get('/getHistory/:patientId', passport.checkAuthentication, PatientsController.patientHistoryHome);
 Router.get('/getAllVisits/:patientId', passport.checkAuthentication,  PatientsController.getAllVisits);
 Router.get('/getDischargeBillItems', passport.checkAuthentication, PatientsController.getAdmissionBillItems);
+Router.get('/birthCertificate/home', passport.checkAuthentication, PatientsController.birthCertificateHome);
+Router.post('/birthCertificate/save', passport.checkAuthentication, PatientsController.saveBirthDetails);
 module.exports = Router;

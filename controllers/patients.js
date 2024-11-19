@@ -5,7 +5,8 @@ const Sales = require('../models/sales');
 const AdmittedPatients = require('../models/admittedPatients');
 const ServicesData = require('../models/servicesAndCharges')
 const SalesData = require('../models/sales');
-const MedsData = require('../models/meds')
+const MedsData = require('../models/meds');
+const BirthData = require('../models/birthCertificates')
 module.exports.patientRegistartionHome = function(req, res){
     try{
         return res.render('patientRegistration',{user:req.user})
@@ -560,6 +561,85 @@ module.exports.getAllVisits = async function(req, res){
         console.log(err);
         return res.status(500).json({
             message:'Unable to get visits'
+        })
+    }
+}
+
+
+module.exports.birthCertificateHome = function(req, res){
+    try{
+        return res.render('birthCertificateHome');
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
+    }
+}
+
+module.exports.saveBirthDetails = async function(req, res){
+    try{
+        let pid = req.body.id;
+        let patient
+        let birthCertNumber = await Tracker.findOne({});
+        let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
+        if(pid && pid != null && pid != ''){
+            patient = await PatientData.findOne({Id:pid});
+            if(patient){
+                let bcert = await BirthData.create({
+                    CertificateNumber:newBirthCertNumber,
+                    OPDId:pid,
+                    //IPDId:Number,
+                    Name:patient.Name,
+                    Husband:patient.Husband,
+                    Age:patient.Age,
+                    Village:req.body.Village,
+                    Tahsil:req.body.Tahsil,
+                    District:req.body.District,
+                    State:req.body.State,
+                    DeliveryType:req.body.DeliveryType,
+                    Gender:req.body.Gender,
+                    BirthTime:req.body.BirthTime,
+                    BirthDate:req.body.BirthDate,
+                    ChildWeight:req.body.ChildWeight,
+                    GeneratedOn:req.body.GeneratedOn,
+                })
+                await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber})
+                return res.status(200).json({
+                    message:'Birth Certificate created',
+                    id:bcert._id
+                })
+            }else{
+                return res.status(400).json({
+                    message:'Invalid patient ID'
+                })
+            }
+        }else{
+            let bcert = await BirthData.create({
+                //OPDId:pid,
+                //IPDId:Number,
+                CertificateNumber:newBirthCertNumber,
+                Name:req.body.Name,
+                Husband:req.body.Husband,
+                Age:req.body.Age,
+                Village:req.body.Village,
+                Tahsil:req.body.Tahsil,
+                District:req.body.District,
+                State:req.body.State,
+                DeliveryType:req.body.DeliveryType,
+                Gender:req.body.Gender,
+                BirthTime:req.body.BirthTime,
+                BirthDate:req.body.BirthDate,
+                ChildWeight:req.body.ChildWeight,
+                GeneratedOn:req.body.GeneratedOn,
+            })
+            await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber});
+            return res.status(200).json({
+                message:'Birth Certificate created',
+                id:bcert._id
+            })
+        }
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to generate birth certificate',
         })
     }
 }

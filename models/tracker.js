@@ -5,6 +5,7 @@ const Trackers = new mongoose.Schema({
     PathologyBillNo:Number,
     AppointmentNumber:Number,
     AdmissionNo:Number,
+    BirthCertificateNumber:Number,
 },
 {
     timestamps:true

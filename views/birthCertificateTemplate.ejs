@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Birth Certificate</title>
+    <link rel="stylesheet" href="/css/birthCertificateHome.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+    <div>
+        <div class="inputContent">
+            <div class="inputDivs">
+                <label>Patient Details</label>
+                <input type="text" id="pname" placeholder="Patient Name">
+                <input type="text" id="phname" placeholder="Husband Name">
+                <input type="number" id="p_age" placeholder="Patient Age">
+            </div>
+            <div class="inputDivs">
+                <label>Address Details</label>
+                <input type="text" id="village" placeholder="Village">
+                <input type="text" id="tahsil" placeholder="Tahsil">
+                <input type="text" id="district" placeholder="District">
+                <input type="text" id="state" placeholder="State">
+            </div>
+            <div class="inputDivs">
+                <label>Delivery/Child Details</label>
+                <select name="" id="deliveryType">
+                    <option value="Vaginal">Vaginal</option>
+                    <option value="Caesarean">Caesarean</option>
+                    <option value="Instrumental">Instrumental</option>
+                </select>
+                <select name="" id="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="time" id="birthTime" placeholder="Birth Time">
+                <input type="date" id="birthDate" placeholder="Birth date">
+                <input type="number" id="childWeight" placeholder="Child Weight">
+            </div>
+            <div class="autoFillDiv">
+                <input type="text" id="" placeholder="Enter IPD ID">
+                <button>Auto Fill</button>
+            </div>
+        </div>
+        <div>
+            <button>Save and Print</button>
+        </div>
+        
+        
+        <div class="dateDiv">
+            Date : sample date
+        </div>
+        <div class="content">
+            This is to certified that smt. **Patient name** W/O Shri **patient husband name** Age **Patient age yeards** of 
+            village *patient Village* Tahsil **Patient tahsil** District **Patient District ** state ** Patient State** 
+            delivered a Vaginal / Caesarean / Instrumental, Male/Female chaild at **Birth time** at **Birth date**
+            Birth weight **Child weight Kg** in my nursing home 
+
+        </div>
+        <div class="footer">
+            <div>
+                <div>
+                    <label>Parents sign</label>
+                </div>
+                <div>
+                    <label>Dr Swati Jain</label>
+                    <label>MBBS, DGO</label>
+                </div>
+                <div>
+                    <label>Dr Anuj Jain</label>
+                    <label>MBBS, DGO</label>
+                </div>
+            </div>
+            <div>
+                Prop. Dr. Chanda Jain Nursing Home
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
