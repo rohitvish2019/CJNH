@@ -19,25 +19,33 @@ module.exports.savePurchase = async function(req, res){
     try{
         let purchases = req.body.purchases;
         for(let i=0;i<purchases.length;i++){
-            let item = purchases[i].split('$');
-            let expDate = item[3];
-            let inventoryEntry = await InventoriesData.findOne({Name:item[0]});
-            console.log(inventoryEntry);
-            if(!inventoryEntry || inventoryEntry == null){
-                console.log('Inside if block')
-                await InventoriesData.create({
+            if(purchases[i].length > 0){
+                let item = purchases[i].split('$');
+                let expDate = item[3];
+                let inventoryEntry = await InventoriesData.findOne({Name:item[0]});
+                console.log(inventoryEntry);
+                let day = new Date().getDate()
+                let month = +new Date().getMonth()
+                let year = new Date().getFullYear()
+                let date = year +'-'+ (month+1) +'-'+ day; 
+                if(!inventoryEntry || inventoryEntry == null){
+                    console.log('Inside if block')
+                    await InventoriesData.create({
+                        Name:item[0],
+                    });
+                }
+                await PurchaseData.create({
                     Name:item[0],
-                });
+                    Batch:item[1],
+                    Price:item[2],
+                    Quantity:item[3],
+                    //Bought_Date:new Date().toISOString().split('T')[0],
+                    Bought_Date: date,
+                    Seller:item[4]
+                })
+            }else{
+                continue;
             }
-            
-            await PurchaseData.create({
-                Name:item[0],
-                Batch:item[1],
-                Price:item[2],
-                Quantity:item[3],
-                Bought_Date:new Date().toISOString().split('T')[0],
-                Seller:item[4]
-            })
         }
         return res.status(200).json({
             message:'Purchase added'

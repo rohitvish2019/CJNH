@@ -99,9 +99,13 @@ module.exports.addVisitAndPatient = async function(req, res){
 
 module.exports.getAppointmentsToday = async function(req, res){
     try{
-        let date = new Date().toISOString().split('T')[0];
+        let day = new Date().getDate()
+        let month = +new Date().getMonth()
+        let year = new Date().getFullYear()
+        //let date =  new Date().toISOString().split('T')[0];
+        let date = year +'-'+ (month+1) +'-'+ day; 
         let visits;
-        console.log(date)
+
         if(req.query.status == 'true'){
             visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
         }else{

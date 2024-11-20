@@ -145,6 +145,7 @@ function showHistory(items){
         rowItem.innerHTML=
         `
             <td>${i+1}</td>
+            <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
             <td>${items[i].Name}</td>
             <td>₹ ${items[i].Total}</td>
             <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>

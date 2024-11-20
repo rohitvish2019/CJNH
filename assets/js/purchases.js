@@ -19,7 +19,8 @@ function addMedications(){
         }).show();
         return
     }
-    purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity+'$'+SellerName); 
+    purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity+'$'+SellerName);
+    rowItem.id = countTracker + '_items'
     rowItem.innerHTML=
     `
         <td>${countTracker}</td>
@@ -29,15 +30,19 @@ function addMedications(){
         <td>${Quantity}</td>
         <td>${Price * Quantity}</td>
         <td>${SellerName}</td>
+        <td><button onclick='removeItem(${countTracker})'>Delete</button></td>
     `
     container.appendChild(rowItem);
     countTracker++
     document.getElementById('Item').value=''
     document.getElementById('Batch').value=''
     document.getElementById('Price').value=''
-    document.getElementById('ExpiryDate').value=''
     document.getElementById('Quantity').value=''
     document.getElementById('SellerName').value=''
+}
+function removeItem(counter){
+    purchases[counter-1] = '';
+    document.getElementById(counter+'_items').remove();
 }
 
 function savePurchases(){

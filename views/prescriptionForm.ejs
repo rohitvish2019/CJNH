@@ -265,81 +265,9 @@
     </div>
 
     <script>
-        let medCounter = 1
-        let changes = new Object();
-        let prescribedMeds = new Array();
-
-        function printPrescription() {
-            document.getElementById('printButton').style.display = 'none'
-            changes['complaint'] = document.getElementById('complaint').value
-            changes['history'] = document.getElementById('history').value
-            changes['OEs'] = document.getElementById('OEs').value
-            $.ajax({
-                url: '/patients/saveVisitPrescriptions',
-                data: {
-                    visitId: document.getElementById('visitId').innerText,
-                    visitData: changes,
-                    prescribedMeds
-                },
-                type: 'POST',
-                success: function (data) {
-                    
-                    let items = document.getElementsByTagName('textarea');
-                    for (let i = 0; i < items.length; i++) {
-                        items[i].style.borderLeft = 'none'
-                        items[i].style.borderBottom = '1px solid black'
-
-                    }
-                    
-                    document.getElementById('searchBox').style.display = 'none'
-                    document.getElementById('AddMed').style.display = 'none'
-                    window.print()
-                }
-            })
-        }
-
-        function getVisitdata() {
-            $.ajax({
-                url: '/patients/getPrescription/' + document.getElementById('visitId').innerText,
-                type: 'Get',
-                success: function (data) {
-                    let keys = Object.keys(data.visitData)
-                    changes = data.visitData
-                    for (let i = 0; i < keys.length; i++) {
-                        document.getElementById(keys[i]).value = data.visitData[keys[i]]
-                    }
-                    let container = document.getElementById('prescribedMeds');
-                    for (let i = 0; i < data.Prescriptions.length; i++) {
-                        let item = document.createElement('li');
-                        item.style.fontSize = '14px'
-                        //item.style.display = 'block'
-                        item.innerText = data.Prescriptions[i]
-                        container.appendChild(item);
-                        prescribedMeds.push(data.Prescriptions[i])
-                    }
-                    console.log();
-                },
-                error: function (err) {
-                    console.log(err)
-                }
-            })
-        }
-
-        function addChanges(id) {
-            changes[id] = document.getElementById(id).value
-        }
-
-        function addMed() {
-            let container = document.getElementById('prescribedMeds');
-            let item = document.createElement('li');
-            item.style.fontSize = '14px'
-            //item.style.display = 'block'
-            item.innerText = document.getElementById('searchBox').value
-            container.appendChild(item);
-            prescribedMeds.push(document.getElementById('searchBox').value)
-            document.getElementById('searchBox').value = "";
-        }
+        
     </script>
+    <script src="/js/prescriptionForm.js"></script>
 </body>
 
 </html>

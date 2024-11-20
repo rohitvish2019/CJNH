@@ -57,6 +57,10 @@ module.exports.addSales = async function(req, res){
 
         let tracker = await Tracker.findOne({});
         let PathologyBillNo = +tracker.PathologyBillNo + 1
+        let day = new Date().getDate()
+        let month = +new Date().getMonth()
+        let year = new Date().getFullYear()
+        let date = year +'-'+ (month+1) +'-'+ day; 
         let sale = await SalesData.create({
             Patient:Id,
             Name:Name,
@@ -70,7 +74,8 @@ module.exports.addSales = async function(req, res){
             Patient:Patient,
             UserName:req.user.Name,
             User:req.user._id,
-            BillDate:new Date().toISOString().split('T')[0],
+            //BillDate:new Date().toISOString().split('T')[0],
+            BillDate:date,
             Total:req.body.Total,
             Items:req.body.Items,
         })
@@ -183,6 +188,27 @@ module.exports.cancelSale = async function(req, res){
         console.log(err)
         return res.status(500).json({
             message:'Error cancelling sales'
+        })
+    }
+}
+
+
+module.exports.validateBill = async function(req , res){
+    try{
+        let bill = await SalesData.findOne({ReportNo:req.query.billNumber, Name:req.query.Name});
+        console.log(bill)
+        if(bill){
+            return res.status(200).json({
+                isValid : true
+            })
+        }else{
+            return res.status(200).json({
+                isValid :false
+            })
+        }
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to validate bill'
         })
     }
 }

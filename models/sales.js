@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+let day = new Date().getDate()
+let month = +new Date().getMonth()
+let year = new Date().getFullYear()
+let date = year +'-'+ (month+1) +'-'+ day; 
 const Sales = new mongoose.Schema({
     Patient:mongoose.Schema.Types.ObjectId,
     Name:String,
@@ -15,7 +19,7 @@ const Sales = new mongoose.Schema({
     PaymentType:String,
     BillDate:{
         type:String,
-        default:new Date().toISOString().split('T')[0]
+        default:date,
     },
     isValid:{
         type:Boolean,

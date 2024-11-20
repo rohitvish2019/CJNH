@@ -101,21 +101,50 @@ function saveTests() {
         }).show();
         return
     }
+    let billNumber = window.prompt('Please enter bill number to continue');
+    console.log(billNumber)
     $.ajax({
-        url: '/reports/save',
-        data: {
-            tests,
-            id,
-            patient
+        url:'/sales/validateBill/',
+        data:{
+            billNumber,
+            Name:patient.Name
         },
-        type: 'Post',
-        success: function (data) {
-            window.open('/reports/view/' + data.report_id);
-            window.location.href = '/reports/new/home'
+        type:'GET',
+        success:function(data){
+            console.log("Printing reponse from validation call")
+            console.log(data)
+            if(data.isValid == true){
+                $.ajax({
+                    url: '/reports/save',
+                    data: {
+                        tests,
+                        id,
+                        patient
+                    },
+                    type: 'Post',
+                    success: function (data) {
+                        window.open('/reports/view/' + data.report_id);
+                        window.location.href = '/reports/new/home'
+            
+                    },
+                    error: function (err) {}
+                })
+            }else{
+                new Noty({
+                    theme: 'relax',
+                    text: 'Bill details are not matching',
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                return
+            }
+            
+        },
+        error:function(err){}
 
-        },
-        error: function (err) {}
     })
+    
 }
 
 function autoFillPatients() {
