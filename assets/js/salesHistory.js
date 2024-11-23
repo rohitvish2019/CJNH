@@ -142,7 +142,22 @@ function showHistory(items){
     for(let i=0;i<items.length;i++){
         let rowItem = document.createElement('tr');
         rowItem.id=items[i]._id+'row'
-        rowItem.innerHTML=
+        if(items[i].type == 'IPDAdvance'){
+            rowItem.innerHTML=
+        `
+            <td>${i+1}</td>
+            <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
+            <td>${items[i].Name}</td>
+            <td>₹ ${items[i].Total}</td>
+            <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
+            <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
+            <td>${items[i].Doctor}</td>
+            <td>${items[i].PaymentType}</td>
+            <td style='width:15%'><button disabled onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
+            </td>   
+        `
+        }else{
+            rowItem.innerHTML=
         `
             <td>${i+1}</td>
             <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
@@ -155,6 +170,8 @@ function showHistory(items){
             <td style='width:15%'><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
             </td>   
         `
+        }
+        
         container.appendChild(rowItem);
         total = total  + +items[i].Total
     }

@@ -46,6 +46,7 @@ function setAppointmentsOnUi(appointments){
             <td>${appointments[i].Patient.Gender}</td>
             <td>${appointments[i].Patient.Address}</td>
             <td>${appointments[i].Fees}</td>
+            <td><a target=_blank" href='/patients/getHistory/${appointments[i].Patient._id}'>History</a></td>
             <td><a target=_blank" href='/patients/getPrescription/${appointments[i]._id}'>Prescription</a></td>
             <td>
                 <div class="form-check form-switch">

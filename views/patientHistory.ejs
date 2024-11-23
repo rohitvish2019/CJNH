@@ -40,10 +40,28 @@
             <p for=""><%=patient.Mobile%></p>
         </div>
     </div>
-    <main style="padding: 20px;">
-        <div id="visit-container">
+    <main style="padding: 20px;width: 100%;display: flex;justify-content: space-between;">
+        
+        <div style="width: 85%;" id="visit-container">
             
             <!-- New visit blocks will be added here -->
+        </div>
+        <div class="card" style="width: 14%;margin-top: 2%; height: fit-content;">
+            <div class="card-header text-white">
+                <h6><strong><i class="fa-regular fa-file-powerpoint"></i> Pathalogy Reports</strong></h6>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <th>Date</th>
+                    <th>Report</th>
+                </thead>
+                <tbody id="pathReports">
+                    <tr>
+                        <td>22-11-2024</td>
+                        <td>RPT145</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
     <script src="/js/patientHistory.js"></script>

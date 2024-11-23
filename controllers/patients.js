@@ -3,6 +3,7 @@ const VisitData = require('../models/visits');
 const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
 const AdmittedPatients = require('../models/admittedPatients');
+const Reportsdata = require('../models/reports')
 const ServicesData = require('../models/servicesAndCharges')
 const SalesData = require('../models/sales');
 const MedsData = require('../models/meds');
@@ -410,11 +411,13 @@ module.exports.getAdmissionBillItems = async function(req, res){
         let Items = await ServicesData.find({Type:'AdmissionBill'},'Name Price');
         let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
+        let advancedPayments = visit.advancedPayments;
         return res.status(200).json({
             visit,
             Items,
             daysCount,
-            roomRent : room.Price
+            roomRent : room.Price,
+            advancedPayments
         })
     }catch(err){
         console.log(err)
@@ -450,6 +453,7 @@ module.exports.saveDischargeBill = async function(req, res){
                 Gender:visit.Patient.Gender,
                 PatiendID:visit.Patient.Id,
                 Doctor:visit.Doctor,
+                PaymentType:req.body.paymentType,
                 type:'DischargeBill',
                 Items:billItems,
                 ReportNo:"DSCH"+newBillNo,
@@ -558,8 +562,11 @@ module.exports.patientHistoryHome = async function(req, res){
 module.exports.getAllVisits = async function(req, res){
     try{
         let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions').sort({createdAt:-1});
+        //let patient = await PatientData.findOne({Id:});
+        let reports = await Reportsdata.find({Patient:req.params.patientId, isCancelled:false, isValid:true});
         return res.status(200).json({
             visits,
+            reports
         })
     }catch(err){
         console.log(err);
@@ -644,6 +651,60 @@ module.exports.saveBirthDetails = async function(req, res){
     }catch(err){
         return res.status(500).json({
             message:'Unable to generate birth certificate',
+        })
+    }
+}
+
+
+module.exports.addAdvancePayment = async function(req, res){
+    try{
+        let day = new Date().getDate()
+        let month = +new Date().getMonth()
+        let year = new Date().getFullYear()
+        let date = day +'-'+ (month+1) +'-'+ year
+        let visit = await VisitData.findById(req.body.visitId).populate('Patient');
+        visit.advancedPayments.push("Advance Received$-"+req.body.Amount+"$"+date);
+        await visit.save();
+        let bill = await Tracker.findOne();
+        let newBillNo = +bill.AdvancePaymentNumber + 1;
+        let sale = await SalesData.create({
+            Patient:visit.Patient,
+            Name:visit.Patient.Name,
+            Age:visit.Patient.Age,
+            Address:visit.Patient.Address,
+            Mobile:visit.Patient.Mobile,
+            Gender:visit.Patient.Gender,
+            PatiendID:visit.Patient.Id,
+            Doctor:visit.Doctor,
+            PaymentType:req.body.paymentType,
+            type:'IPDAdvance',
+            Items:["Advanced Received$1$"+req.body.Amount],
+            ReportNo:"IPDAD"+newBillNo,
+            Total:req.body.Amount
+        })
+        await bill.updateOne({AdvancePaymentNumber:newBillNo})
+        return res.status(200).json({
+            message:'advance payment added',
+            saledId : sale._id
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to add in advance payments'
+        })
+    }
+}
+
+module.exports.saveWeight = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.visitId,{weight:req.body.weight});
+        return res.status(200).json({
+            message:'Weight saved'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'unable to save weight'
         })
     }
 }

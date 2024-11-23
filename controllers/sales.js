@@ -21,7 +21,14 @@ module.exports.newPathologyBill = async function(req, res){
     }
 }
 
-
+module.exports.newUltrasoundBill = async function(req, res){
+    try{
+        let services = await ServicesData.find({Type:'Ultrasound'}, 'Name');
+        return res.render('ultrasoundBilling', {services, user:req.user})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
 
 module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
@@ -56,11 +63,24 @@ module.exports.addSales = async function(req, res){
         }
 
         let tracker = await Tracker.findOne({});
-        let PathologyBillNo = +tracker.PathologyBillNo + 1
+        
         let day = new Date().getDate()
         let month = +new Date().getMonth()
         let year = new Date().getFullYear()
         let date = year +'-'+ (month+1) +'-'+ day; 
+        let rptType = 'NA'
+        let PathologyBillNo = 0 
+        let BillNo
+        if(req.body.Type == 'Ultrasound'){
+            rptType = 'USG'
+            BillNo = tracker.USGBillNumber + 1
+            await tracker.updateOne({USGBillNumber:BillNo});
+        }else if(req.body.Type == 'Pathology'){
+            rptType = 'PATH'
+            BillNo = tracker.PathologyBillNo + 1
+            await tracker.updateOne({PathologyBillNo:BillNo});
+        }
+        
         let sale = await SalesData.create({
             Patient:Id,
             Name:Name,
@@ -69,8 +89,8 @@ module.exports.addSales = async function(req, res){
             Gender:Gender,
             Address:Address,
             PatiendID:Id,
-            type:'Pathology',
-            ReportNo:"PATH"+PathologyBillNo,
+            type:req.body.Type,
+            ReportNo:rptType+BillNo,
             Patient:Patient,
             UserName:req.user.Name,
             User:req.user._id,
@@ -78,8 +98,9 @@ module.exports.addSales = async function(req, res){
             BillDate:date,
             Total:req.body.Total,
             Items:req.body.Items,
+            PaymentType:req.body.paymentMode
         })
-        await tracker.updateOne({PathologyBillNo:PathologyBillNo});
+        
     return res.status(200).json({
         message:'Bill created successfully',
         Bill_id : sale._id
@@ -195,7 +216,7 @@ module.exports.cancelSale = async function(req, res){
 
 module.exports.validateBill = async function(req , res){
     try{
-        let bill = await SalesData.findOne({ReportNo:req.query.billNumber, Name:req.query.Name});
+        let bill = await SalesData.findOne({ReportNo:req.query.billNumber, Name:req.query.Name, isValid:true, isCancelled:false});
         console.log(bill)
         if(bill){
             return res.status(200).json({

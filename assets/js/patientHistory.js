@@ -111,7 +111,7 @@ function getAllVisits(){
                 </div>
             </div>
                 `
-                visitsContainer.appendChild(cardContainer)
+            visitsContainer.appendChild(cardContainer)
                 /*let keys = Object.keys(visitData);
                 for(let i=0;i<keys.length;i++){
                     if(document.getElementById(keys[i])){
@@ -120,6 +120,17 @@ function getAllVisits(){
                     
                 }
                     */
+            }
+            let container = document.getElementById('pathReports');
+            container.innerHTML=``;
+            for(let i=0;i<data.reports.length;i++){
+                let item = document.createElement('tr');
+                item.innerHTML=
+                `
+                    <td>${data.reports[i].Date.split('-')[2]}-${data.reports[i].Date.split('-')[1]}-${data.reports[i].Date.split('-')[0]}</td>
+                    <td><a target='_blank' href='/reports/view/${data.reports[i]._id}'>${data.reports[i].ReportNo}</a></td>
+                `
+                container.appendChild(item)
             }
             /*
             

@@ -5,6 +5,7 @@ let year = new Date().getFullYear()
 let date = year +'-'+ (month+1) +'-'+ day; 
 const Sales = new mongoose.Schema({
     Patient:mongoose.Schema.Types.ObjectId,
+    Visit: mongoose.Schema.Types.ObjectId,
     Name:String,
     Age:Number,
     Address:String,

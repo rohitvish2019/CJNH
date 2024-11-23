@@ -55,3 +55,38 @@ function convertTo12HourFormat(time24) {
     return `${hours12}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
 
+
+function addAdvancePayment(){
+    $.ajax({
+        url:'/patients/add/advancePayment',
+        data:{
+            visitId : document.getElementById('visitId').value,
+            Amount : document.getElementById('amount').value,
+            paymentType : document.getElementById('paymentType').value
+        },
+        type:'POST',
+        success:function(data){
+            new Noty({
+                theme: 'relax',
+                text: 'Advance payment saved',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            closePopup()
+            return
+        },
+        error:function(err){}
+    })
+}
+
+function openAdvancePayment(id,Name, visitId){
+    document.getElementById('addPaymentPopup').style.display='block'
+    document.getElementById('pid').value = id
+    document.getElementById('Name').value = Name
+    document.getElementById('visitId').value=visitId
+}
+
+function closePopup(){
+    document.getElementById('addPaymentPopup').style.display='none'
+}

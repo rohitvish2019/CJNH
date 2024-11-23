@@ -1,10 +1,15 @@
 let counter = 1
 function SaveDischargeBill(){
+    let paymentType = window.prompt('Please enter payment type')
+    if(paymentType == null || paymentType == ''){
+        return
+    }
     $.ajax({
         url:'/patients/saveDischargeBill',
         data:{
             visitId : document.getElementById('visitId').value,
             dischargeItems,
+            paymentType
         },
         type:'Post',
         success:function(data){
@@ -88,6 +93,21 @@ function getDischargeBillItems(){
             `
             container.appendChild(rooRentRow)
             dischargeItems['roomRent'] = {"Name":"roomRent","Price":data.daysCount*data.roomRent}
+
+            for(i=0;i<data.advancedPayments.length;i++){
+                let item = data.advancedPayments[i].split('$');
+                let rowItem = document.createElement('tr');
+                rowItem.id = item[0]+item[2]
+                rowItem.innerHTML=
+                `
+                    <td>${counter++}</td>
+                    <td style="text-align: left;">${item[0]}</td>
+                    <td>₹${item[1]}</td>
+                    <td onclick='deleteItems("${item[0]+item[2]}")'><button>Delete</button></td>
+                `
+                container.appendChild(rowItem);
+                dischargeItems[item[0]+item[2]] = {"Name":item[0],"Price":item[1]}
+            }
         },
         error:function(err){}
     })

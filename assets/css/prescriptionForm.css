@@ -13,15 +13,19 @@ body{
     height: 1040px;
     overflow-x: hidden;
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .header{
-    height: 7%;
+    height: 6%;
     width: 99.9%;
     display: flex;
 }
 
 .doctors-info{
-    height: 12%;
+    height: 10%;
     width: 99.9%;
     display: flex;
     margin-top: 5%;
@@ -40,19 +44,19 @@ body{
 
 
 .doc-info-left{
-    width: 33%;
+    width: 39%;
     text-align: left;
     margin-left: 1%;
 }
 
 .doc-info-right{
-    width: 33%;
+    width: 41%;
     text-align: right;
     margin-right: 1%;
 }
 
 .hospital-photo{
-    width: 34%;
+    width: 20%;
 }
 
 .old-info{
@@ -67,7 +71,7 @@ body{
 .doc-name{
     font-weight: bold;
     font-size: 23px;
-    margin-bottom: 1%;
+    margin-bottom: .5%;
     margin-top: 2%;
 }
 
@@ -78,10 +82,7 @@ body{
     padding-left: 1%;
     padding-right: 1%;
 }
-.prescriptions{
-    width: 73%;
-    height: 100%;
-}
+
 .logo{
     width: 12%;
     height: 70%;
@@ -107,9 +108,17 @@ body{
 }
 .patient-data label{
     display: block;
-    font-size: medium;
+    font-size: 14px;
     padding: 1%;
 }
+
+.patient-data small{
+    display: block;
+    font-size: 13px;
+    padding: 1%;
+    font-weight: bold;
+}
+
 
 .patient-address label{
     display: block;
@@ -126,27 +135,22 @@ body{
 .patient-address{
     width: 40%;
 }
-.special-services-list li{
-    margin-bottom: 2%;
-    font-size: 12px;
-}
-p{
-    font-size: 12px;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-.data-body{
-    height: 55%;
+
+.prescription-data{
+    height: 100%;
     display: flex;
-    border-bottom: 1px dotted black;
-    flex-direction: column;
 }
-.prescription{
-    display: flex;
-    width: 100%;
-    padding-left: 5px;
-    
+.left-side{
+    width: 73%;
+    height: 100%;
 }
+
+.right-side{
+    width: 27%;
+    height: 100%;
+}
+
+
 .investigationItems label{
     margin-top: 4px;
 }
@@ -158,4 +162,7 @@ textarea{
     border: none;
     border-bottom: .5px dotted black;
     resize: none !important;
+}
+td, th{
+    border-bottom: 1px dotted black !important;
 }

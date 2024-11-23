@@ -21,18 +21,18 @@
     <div class="main-body">
         <div class="header">
             <div class="name">
-                <label style="font-size: 35px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन
+                <label style="font-size: 31px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन
                     &nbsp;नर्सिंग &nbsp;होम</label>
-                <label style="font-size: 20px; font-weight: 500;margin-top: 0.3%;">सिविल वार्ड नंबर 7 दमोह (म.
+                <label style="font-size: 18px; font-weight: 500;margin-top: 0.3%;">सिविल वार्ड नंबर 7 दमोह (म.
                     प्र.)</label>
-                <label style="font-size: 17px;">Mob: 6263169195, Ph No: 07812-222441</label>
+                <label style="font-size: 14px;">Mob: 6263169195, Ph No: 07812-222441</label>
             </div>
             
         </div>
         <div class="doctors-info">
             <div class="doc-info-left">
                 <label class="doc-name">डॉ. अनुज जैन</label>
-                <label style="font-weight: bold;margin-bottom: 2%;">MBBS, DGO</label>
+                <label style="font-weight: bold;">MBBS, DGO</label>
                 <label class="old-info">स्त्री रोग विशेषज्ञ</label>
                 <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
                 <label class="old-info">मिलने का समय</label>
@@ -45,11 +45,11 @@
             </div>
             <div class="doc-info-right">
                 <label class="doc-name">डॉ. स्वाति जैन</label>
-                <label style="font-weight: bold;margin-bottom: 2%;">MBBS, DGO</label>
+                <label style="font-weight: bold;">MBBS, DGO</label>
                 <label class="old-info">स्त्री रोग विशेषज्ञ</label>
                 <label class="old-info">CF. SR. No. Addl./MPMC-6978</label>
-                <label class="old-info">मिलने का समय</label>
-                <label class="old-info">सुबह 11बजे से 1 बजे तक, 1:30 से शाम 3 बजे तक</label>
+                <label class="old-info">मिलने का समय सुबह 11बजे से 1 बजे तक, 1:30 से शाम 3 बजे तक</label>
+                <label class="old-info"></label>
 
             </div>
         </div>
@@ -67,9 +67,9 @@
                 <small for=""><b>Age</b></small>
                 <label for=""><%=visit.Patient.Age%></label>
             </div>
-            <div class="patient-data" style="width: 8%;">
+            <div class="patient-data" style="width: 12%;">
                 <small for=""><b>Weight</b></small>
-                <label for="" style="margin-bottom: 5px;"><input style="width: 100%;margin-bottom: 5px;" type="number" name="" id=""></label>
+                <label for="" style="margin-bottom: 5px;"><input onchange='saveWeight("<%=visit._id%>")' style="width: 32%;margin-bottom: 5px; display: inline;" type="number" name="" id="pweight" value="<%=visit.weight%>">Kg</label>
             </div>
             <div class="patient-data" style="width: 29%;">
                 <small for=""><b>Address</b></small>
@@ -84,46 +84,77 @@
                 </label>
             </div>
         </div>
-        <div style="height: 13%;font-size: 14px;">
-            <b>Complaint</b>
-            <textarea contenteditable="true" style="width: 100%; height: 78%;" name="" id="complaint" placeholder=""></textarea>
-            
-        </div>
-        <div class="data-body">
-            <div class="prescription" style="height: 73%;margin-top: 4px;">
-                <div style="width: 77%;display: flex;justify-content: space-between;">
-                    <div style="width: 54%;border-right: 1px solid black;font-size: 14px; border-collapse: collapse !important;">
-                        <b>History</b>
-                        <textarea rows="8" style="width: 100%;" name="" id="history" placeholder=""></textarea>
-                        <b>O/E</b>
-                        <textarea rows="9" style="width: 100%;" name="" id="OEs" placeholder=""></textarea>
-                    </div>
-                    <div style="width: 45%;">
-                        <div style="display: flex;">
-                            <input type="search" placeholder="Medicine" id="searchBox" list="meds">
-                            <datalist id="meds">
-                                <%for(let i=0;i<medsList.length;i++){%>
-                                <option value="<%=medsList[i].Name%> <%=medsList[i].Dosage%> for <%=medsList[i].Duration%>"></option>
-                                <%}%>
-                            </datalist>
-                            
-                            <input type="button" id="AddMed" value="Add" onclick="addMed()">
-                        </div>
-                        <div>
-                            <b style="font-size: large;">Prescribed Medicines: </b>
-                            <div  style="font-size: 14px !important;">
-                                <ul id="prescribedMeds">
 
-                                </ul>
+        <div class="prescription-data">
+            <div class="left-side">
+                <div style="font-size: 13px;">
+                    <div>
+                        <b>Complaint</b>
+                        <textarea rows="3" style="width: 100%;" name="" id="complaint" placeholder=""></textarea>
+                    </div>
+                    <div>
+                        <b>History</b>
+                        <textarea rows="7" style="width: 100%;" name="" id="history" placeholder=""></textarea>
+                    </div>
+                    <div>
+                        <b>O/E</b>
+                        <textarea rows="7" style="width: 100%;" name="" id="OEs" placeholder=""></textarea>
+                    </div>
+                    
+                </div>
+                <div class="medicines" style="padding-left: 3px;">
+                    <div style="display: flex;justify-content: space-between;">
+                        <div style="width: 99.5%;">
+                            <div style="display: flex;">
+                                <input style="width: 95% !important;" type="text" placeholder="Medicine" id="searchBox" list="meds">
+                                <datalist id="meds">
+                                    <%for(let i=0;i<medsList.length;i++){%>
+                                    <option value="<%=medsList[i].Name%>***<%=medsList[i].Dosage%>***<%=medsList[i].Duration%>***<%=medsList[i].Composition%>"></option>
+                                    <%}%>
+                                </datalist>
+                                
+                                <input style="font-size: large;" type="button" id="AddMed" value="Add" onclick="addMed()">
+                            </div>
+                            <div>
+                                <div  style="font-size: 14px !important;">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Medicine</th>
+                                                <th>Dosage</th>
+                                                <th>Time-Freq-Duration</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="prescribedMeds" style="font-size: small;">
+                                            <!--
+                                            <tr>
+                                                <td style="width: 41%;">
+                                                    <label style="display: block;">Ecosprinb-AV 75/10 Capsule</label>
+                                                    <small style="font-size: 10px !important;"><b>Comp. </b>Aspirin 75 MG + Atorvastatin 10 MG</small>
+                                                </td>
+                                                <td style="width: 10%;">
+                                                    0--0--1
+                                                </td>
+                                                <td style="font-size: 12px;width: 41%;">
+                                                    Night-After food everyday for 6 months
+                                                </td>
+                                            </tr>
+                                            -->
+                                        </tbody>
+                                    </table>
+                                    <ul id="">
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-
+    
                     </div>
-
                 </div>
+            </div>
 
-                <div class="investigationItems" style="width: 23%;font-size: 14px;">
-                    <div style="text-align: left;">
+            <div class="right-side">
+                <div class="investigationItems" style="font-size: 13px;">
+                    <div style="text-align: center;">
                         <label style="text-align: center;font-weight: bold;margin-top: 0%;">Investigation Advice</label>
                     </div>
                     <div style="text-align: left;">
@@ -131,90 +162,92 @@
                             Tests</label>
                     </div>
                     <div>
-                        <label style="width: 58%;">CBC</label>
-                        <input style="width: 35%;border: none;border-bottom: 1px dotted black;" type="text"
+                        <label style="width: 41%;">CBC</label>
+                        <input style="width: 56%;border: none;border-bottom: 1px dotted black;" type="text"
                             onchange="addChanges('CBC')" id="CBC">
                     </div>
                     <div>
-                        <label style="width: 58%;">Bl gr & Rh</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">Bl gr & Rh</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Blgr')" id="Blgr">
                     </div>
                     <div>
-                        <label style="width: 58%;">RBS</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">RBS</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('RBS')" id="RBS">
                     </div>
                     <div>
-                        <label style="width: 58%;">HIV</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">HIV</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('HIV')" id="HIV">
                     </div>
                     <div>
-                        <label style="width: 58%;">HBsAg</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">HBsAg</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('HBsAg')" id="HBsAg">
                     </div>
                     <div>
-                        <label style="width: 58%;">TSH</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">TSH</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('TSH')" id="TSH">
                     </div>
                     <div>
-                        <label style="width: 58%;">Urine P.test</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">Urine P.test</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Urine-Ptest')" id="Urine-Ptest">
                     </div>
                     <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; R/M</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; R/M</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Urine-RM')" id="Urine-RM">
                     </div>
                     <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; Cult & Sens.</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; Cult & Sens.</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Urine-CultureSens')" id="Urine-CultureSens">
                     </div>
 
                     <div>
-                        <label style="width: 58%;">USG Obst</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">USG Obst</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('USG-Obst')" id="USG-Obst">
                     </div>
                     <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; Colour Dop.</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; Colour Dop.</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('USG-ColourDop')" id="USG-ColourDop">
                     </div>
                     <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; L.Abd</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; L.Abd</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('USG-LAbd')" id="USG-LAbd">
                     </div>
                     <div>
-                        <label style="width: 58%;">&nbsp&nbsp;&nbsp; W.Abd</label>
-                        <input style="width: 35%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; W.Abd</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('USG-WAbd')" id="USG-WAbd">
                     </div>
                     <div>
-                        <label style="width: 60%;">Semen Analysis</label>
-                        <input style="width: 33%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 41%;">Semen Analysis</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('SemenAnalysis')" id="SemenAnalysis">
                     </div>
                 </div>
-            </div>
-            <div class="prescription" style="height: 23%;">
+
                 <div
-                    style="font-size: 13px; width: 25%;padding-left: 5px;margin-top: 3px;display: flex;flex-direction: column;justify-content: space-between;">
+                    style="font-size: 13px;padding-left: 5px;margin-top: 20px;display: flex;flex-direction: column;justify-content: space-between;">
+                    <div style="text-align: center;">
+                        <label style="text-align: center;font-weight: bold;margin-top: 0%;">Mislenious</label>
+                    </div>
                     <div>
-                        <label style="width: 35%;">T1</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 56%;">T1</label>
+                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('T1')" id="T1" list="vals">
                     </div>
 
                     <div>
-                        <label style="width: 35%;">T2</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2" list="vals">
+                        <label style="width: 56%;">T2</label>
+                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2" list="vals">
                         <datalist id="vals">
                             <option value="Yes"></option>
                             <option value="No"></option>
@@ -222,51 +255,39 @@
                     </div>
 
                     <div>
-                        <label style="width: 35%;">NT on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 56%;">NT on</label>
+                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('NT')" id="NT">
                     </div>
 
                     <div>
-                        <label style="width: 35%;">TS on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 56%;">TS on</label>
+                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('TS')" id="TS">
                     </div>
 
                     <div>
-                        <label style="width: 35%;">CD on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 56%;">CD on</label>
+                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('CD')" id="CD">
                     </div>
                     <div>
-                        <label style="width: 35%;">F/up on</label>
-                        <input style="width: 58%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 56%;">F/up on</label>
+                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
                             onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP">
                     </div>
                 </div>
-                <div style="width: 75%;">
-
+                <div style="margin-top: 10px;">
+                    <b>Other advice</b>
+                    <textarea rows="4" style="width: 99%;border-bottom: none;" name="" id="OtherAdvice" placeholder=""></textarea>
                 </div>
             </div>
-        </div>
-        <div class="footer" style="padding-left: 1%;">
-            <label>
-                <p style="font-size: 20px;padding:0;margin: 0;font-weight: bold;">Dr R.K. Jain <span
-                        style="font-weight: 400; font-size: 15px;padding:0;margin: 0;">(B.sc. MBBS, DNT, MCGP)</span>
-                </p>
-                <p style="font-size: 14px;padding:0;margin: 0;">323, Civil ward No. 7, Damoh(M.P.) Ph No : 07812-222441
-                </p>
-            </label>
         </div>
     </div>
     <div style="width: 730px;display: flex;justify-content: center;margin-top: 15px;">
         <button class="btn btn-success" style="width: 70%;" id="printButton" onclick="printPrescription()">Save &
             Print</button>
     </div>
-
-    <script>
-        
-    </script>
     <script src="/js/prescriptionForm.js"></script>
 </body>
 

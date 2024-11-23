@@ -27,10 +27,9 @@ const Patients = new mongoose.Schema({
         }
     ],
     
-    Bills:[
+    AdvancePaymentBills:[
         {
-            type: mongoose.Schema.Types.ObjectId,
-            ref:'Bill'
+            type: Array,
         }
     ],
     Reports:[

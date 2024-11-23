@@ -6,6 +6,8 @@ const Trackers = new mongoose.Schema({
     AppointmentNumber:Number,
     AdmissionNo:Number,
     BirthCertificateNumber:Number,
+    USGBillNumber:Number,
+    AdvancePaymentNumber:Number,
 },
 {
     timestamps:true

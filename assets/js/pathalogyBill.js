@@ -23,6 +23,16 @@ function addItems() {
     let itemPrice = document.getElementById('Price').value
     let quantity = document.getElementById('Quantity').value
     let Notes = document.getElementById('Notes').value == 'undefined' ? '' : document.getElementById('Notes').value
+    if(!itemName || itemName == '' || !itemPrice || itemPrice == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Name and price is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return 
+    }
     let rowItem = document.createElement('tr');
     rowItem.id='rowItem_'+ (counter+1)
     rowItem.innerHTML =
@@ -58,9 +68,11 @@ function highlight(x) {
 
 function deleteItem(counter){
     console.log('deleting item on position '+ (counter - 1))
-    console.log(typeof(counter))
     Items.splice(counter-1, 1, '');
-    total = total - +document.getElementById('price_'+counter).value
+    let itemPrice = parseInt(document.getElementById('price_'+counter).innerText)
+    console.log(itemPrice)
+    console.log(typeof(itemPrice))
+    total = total - itemPrice
     document.getElementById('rowItem_'+counter).remove()
 }
 
@@ -73,7 +85,6 @@ function saveBill() {
         Address: document.getElementById('address').value,
         Mobile: document.getElementById('mobile').value,
         Doctor: document.getElementById('docName').value,
-        
     }
     console.log('TEST')
     console.log(patient)
@@ -97,13 +108,21 @@ function saveBill() {
         }).show();
         return
     }
+
+    let paymentMode = window.prompt("Please enter payment mode");
+    console.log(paymentMode)
+    if(paymentMode == '' || paymentMode == null){
+        return;
+    }
     $.ajax({
         url: '/sales/saveBill',
         type: 'Post',
         data: {
+            Type:document.getElementById('billType').value,
             Items,
             patient,
             Total:total,
+            paymentMode,
             id
         },
         success: function (data) {
@@ -113,6 +132,7 @@ function saveBill() {
         error: function (err) {}
     })
 }
+
 
 function autoFillPatients() {
     let id = document.getElementById('patientId').value
