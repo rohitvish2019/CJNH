@@ -90,3 +90,8 @@ function openAdvancePayment(id,Name, visitId){
 function closePopup(){
     document.getElementById('addPaymentPopup').style.display='none'
 }
+
+
+function getAdmitted(){
+    let selectedOption = document.getElementById('')
+}

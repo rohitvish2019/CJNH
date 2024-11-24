@@ -8,6 +8,7 @@ const Trackers = new mongoose.Schema({
     BirthCertificateNumber:Number,
     USGBillNumber:Number,
     AdvancePaymentNumber:Number,
+    IPDNumber:Number,
 },
 {
     timestamps:true

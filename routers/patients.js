@@ -25,8 +25,9 @@ Router.post('/saveVisitPrescriptions', passport.checkAuthentication, PatientsCon
 Router.get('/getHistory/:patientId', passport.checkAuthentication, PatientsController.patientHistoryHome);
 Router.get('/getAllVisits/:patientId', passport.checkAuthentication,  PatientsController.getAllVisits);
 Router.get('/getDischargeBillItems', passport.checkAuthentication, PatientsController.getAdmissionBillItems);
-Router.get('/birthCertificate/home', passport.checkAuthentication, PatientsController.birthCertificateHome);
+Router.get('/birthCertificate/:pid', passport.checkAuthentication, PatientsController.birthCertificateHome);
 Router.post('/birthCertificate/save', passport.checkAuthentication, PatientsController.saveBirthDetails);
 Router.post('/add/advancePayment', passport.checkAuthentication, PatientsController.addAdvancePayment);
 Router.post('/saveWeight', passport.checkAuthentication, PatientsController.saveWeight);
+Router.get('/birthCertificate/view/:certId', passport.checkAuthentication, PatientsController.viewBirthCertificate);
 module.exports = Router;

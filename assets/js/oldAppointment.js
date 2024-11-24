@@ -28,7 +28,7 @@ function setAppointmentsOnUi(appointments){
         let child = document.createElement('tr');
         child.innerHTML=
         `
-            <td colspan='8'>No Data Found</td>
+            <td colspan='10'>No Data Found</td>
         `
         parent.appendChild(child);
         return

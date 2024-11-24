@@ -20,40 +20,41 @@
         <div class="inputContent">
             <div class="inputDivs">
                 <label class="heading">Patient Details</label>
+                <input type="hidden" id="patient" value="<%=patient._id%>">
                 <div class="form-floating mb-2">
-                    <input disabled type="text" class="form-control mb2" id="patientId" placeholder="name@example.com">
+                    <input disabled type="text" class="form-control mb2" id="patientId" value="<%=patient.Id%>" placeholder="name@example.com">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Patient ID <span>*</span></label>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control mb2" id="Name" placeholder="name@example.com">
+                    <input type="text" class="form-control mb2" id="Name" value="<%=patient.Name%>" placeholder="name@example.com">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Patient Name <span>*</span></label>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control mb2" id="Husband" placeholder="name@example.com">
+                    <input type="text" class="form-control mb2" id="Husband" value="<%=patient.Husband%>" placeholder="name@example.com">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Husband Name <span>*</span></label>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input type="number" class="form-control mb2" id="Age" placeholder="name@example.com">
+                    <input type="number" class="form-control mb2" id="Age" value="<%=patient.Age%>" placeholder="name@example.com">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Patient Age <span>*</span></label>
                 </div>
             </div>
             <div class="inputDivs">
                 <label class="heading">Address Details</label>
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control mb2" id="Village" placeholder="name@example.com">
+                    <input type="text" class="form-control mb2" id="Village" placeholder="name@example.com" value="<%=certificate == null ? '' : certificate.Village%>">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Village <span>*</span></label>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control mb2" id="Tahsil" placeholder="name@example.com">
+                    <input type="text" class="form-control mb2" id="Tahsil" placeholder="name@example.com" value="<%=certificate == null ? '' : certificate.Tahsil%>">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Tahsil <span>*</span></label>
                 </div>
                 
                 <div class="form-floating mb-2">
-                    <input type="text" class="form-control mb2" id="District" placeholder="name@example.com">
+                    <input type="text" class="form-control mb2" id="District" placeholder="name@example.com" value="<%=certificate == null ? '' : certificate.District%>">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> District <span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
@@ -64,8 +65,8 @@
             <div class="inputDivs">
                 <label class="heading">Delivery/Child Details</label>
                 <div class="form-floating">
-                    <select class="form-select" id="DeliveryType" aria-label="Floating label select example">
-                        <option selected disabled value="">--Select--</option>
+                    <select class="form-select" id="DeliveryType" aria-label="Floating label select example" value = "<%=certificate == null ? '' : certificate.DeliveryType %>">
+                        <option disabled value="">--Select--</option>
                         <option value="Vaginal">Vaginal</option>
                         <option value="Caesarean">Caesarean</option>
                         <option value="Instrumental">Instrumental</option>
@@ -74,8 +75,7 @@
                 </div>
 
                 <div class="form-floating">
-                    <select class="form-select" id="Gender" aria-label="Floating label select example">
-                        <option selected disabled value="">--Select--</option>
+                    <select class="form-select" id="Gender" aria-label="Floating label select example" value = "<%=certificate == null ? '' : certificate.Gender %>">
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -84,15 +84,15 @@
                 </div>
                 
                 <div class="form-floating mb-2">
-                    <input type="time" class="form-control mb2" id="BirthTime" placeholder="name@example.com">
+                    <input type="time" class="form-control mb2" id="BirthTime" placeholder="name@example.com" value = "<%=certificate == null ? '' : certificate.BirthTime %>">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Birth Time <span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
-                    <input type="date" class="form-control mb2" id="BirthDate" placeholder="name@example.com">
+                    <input type="date" class="form-control mb2" id="BirthDate" placeholder="name@example.com" value = "<%=certificate == null ? '' : certificate.BirthDate %>">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Birth Date <span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
-                    <input type="number" class="form-control mb2" id="ChildWeight" placeholder="name@example.com">
+                    <input type="text" class="form-control mb2" id="ChildWeight" placeholder="name@example.com" value = "<%=certificate == null ? 'kg' : certificate.ChildWeight %>">
                     <label for="Mobile"><i class="fa-solid fa-user"></i> Child Weight <span>*</span></label>
                 </div>
             </div>
@@ -102,7 +102,7 @@
             </div>
         </div>
         <div style="display: flex;justify-content: center;margin-top: 2%;">
-            <button style="width: 30%;" onclick="saveBirthDetails()">Save and Print</button>
+            <button style="width: 30%;" onclick="saveBirthDetails()">Save</button>
         </div>
     </div>
     <script src="/js/birthCertificateHome.js"></script>

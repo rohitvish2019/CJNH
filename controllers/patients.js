@@ -310,9 +310,11 @@ module.exports.admitPatient = async function(req, res){
     try{
           let patient = await PatientData.create(req.body);
           let newId = Number(id.patientId) + 1
-          await id.updateOne({patientId:newId})
+          let newIPDNumber = Number(id.IPDNumber) + 1;
+          await id.updateOne({patientId:newId, IPDNumber: newIPDNumber})
           let visit = await VisitData.create({
             Patient:patient._id,
+            IPDNumber: newIPDNumber,
             Visit_date:req.body.AdmissionDate,
             Doctor:req.body.Doctor,
             Type:'IPD',
@@ -577,9 +579,11 @@ module.exports.getAllVisits = async function(req, res){
 }
 
 
-module.exports.birthCertificateHome = function(req, res){
+module.exports.birthCertificateHome = async function(req, res){
     try{
-        return res.render('birthCertificateHome');
+        let patient = await PatientData.findById(req.params.pid);
+        let certificate = await BirthData.findOne({OPDId:patient.Id});
+        return res.render('birthCertificateHome', {patient, certificate});
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -588,17 +592,38 @@ module.exports.birthCertificateHome = function(req, res){
 
 module.exports.saveBirthDetails = async function(req, res){
     try{
-        let pid = req.body.id;
-        let patient
-        let birthCertNumber = await Tracker.findOne({});
-        let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
-        if(pid && pid != null && pid != ''){
-            patient = await PatientData.findOne({Id:pid});
-            if(patient){
+        let pid = req.body.OPDId;
+        
+        /*
+        let cert = await BirthData.findOne({OPDId:pid});
+        if(cert){
+            await cert.updateOne({
+                Name:req.body.Name,
+                Husband:req.body.Husband,
+                Age:req.body.Age,
+                Village:req.body.Village,
+                Tahsil:req.body.Tahsil,
+                District:req.body.District,
+                State:req.body.State,
+                DeliveryType:req.body.DeliveryType,
+                Gender:req.body.Gender,
+                BirthTime:req.body.BirthTime,
+                BirthDate:req.body.BirthDate,
+                ChildWeight:req.body.ChildWeight,
+            })
+            return res.status(200).json({
+                message:'Birth details updated',
+                id:cert._id
+            })
+        }else{
+        */
+            if(pid && pid != null && pid != ''){
+                let birthCertNumber = await Tracker.findOne({});
+                let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
+                let patient = await PatientData.findOne({Id:pid});
                 let bcert = await BirthData.create({
                     CertificateNumber:newBirthCertNumber,
                     OPDId:pid,
-                    //IPDId:Number,
                     Name:patient.Name,
                     Husband:patient.Husband,
                     Age:patient.Age,
@@ -613,7 +638,6 @@ module.exports.saveBirthDetails = async function(req, res){
                     ChildWeight:req.body.ChildWeight,
                     GeneratedOn:req.body.GeneratedOn,
                 })
-                await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber})
                 return res.status(200).json({
                     message:'Birth Certificate created',
                     id:bcert._id
@@ -623,38 +647,24 @@ module.exports.saveBirthDetails = async function(req, res){
                     message:'Invalid patient ID'
                 })
             }
-        }else{
-            let bcert = await BirthData.create({
-                //OPDId:pid,
-                //IPDId:Number,
-                CertificateNumber:newBirthCertNumber,
-                Name:req.body.Name,
-                Husband:req.body.Husband,
-                Age:req.body.Age,
-                Village:req.body.Village,
-                Tahsil:req.body.Tahsil,
-                District:req.body.District,
-                State:req.body.State,
-                DeliveryType:req.body.DeliveryType,
-                Gender:req.body.Gender,
-                BirthTime:req.body.BirthTime,
-                BirthDate:req.body.BirthDate,
-                ChildWeight:req.body.ChildWeight,
-                GeneratedOn:req.body.GeneratedOn,
-            })
-            await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber});
-            return res.status(200).json({
-                message:'Birth Certificate created',
-                id:bcert._id
-            })
-        }
+        //}
     }catch(err){
+        console.log(err)
         return res.status(500).json({
             message:'Unable to generate birth certificate',
         })
     }
 }
 
+module.exports.viewBirthCertificate = async function(req, res){
+    try{
+        let cert = await BirthData.findById(req.params.certId);
+        return res.render('birthCertificateTemplate',{cert})
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
 
 module.exports.addAdvancePayment = async function(req, res){
     try{

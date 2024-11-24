@@ -45,8 +45,27 @@ function saveBirthDetails(){
             BirthDate,
             ChildWeight
         },
-        success:function(data){},
-        error:function(err){}
+        success:function(data){
+            window.open('/patients/birthCertificate/view/'+data.id)
+            new Noty({
+                theme: 'relax',
+                text: data.message,
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
+        },
+        error:function(err){
+            new Noty({
+                theme: 'relax',
+                text: 'Unable to save',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            return
+        }
     })
 }
 

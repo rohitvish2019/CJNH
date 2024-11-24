@@ -354,7 +354,11 @@
                 <label style="font-size: larger;font-weight: bold;margin-right: 12%;">Signature</label>
             </div>
         </div>
+        <div id="printSection" style="display: flex;justify-content: center;padding-bottom: 3% !important;">
+            <button onclick="printReport()" style="background-color: green; width: 50%; color: white;font-size: large;margin-top: 2%;">Print</button>
+        </div>
     </div>
+    
 </body>
 <script>
     function enableSections(){
@@ -362,6 +366,11 @@
         for(let i=0;i<sections.length;i++){
             document.getElementById(sections[i].value).style.display='block'
         }
+    }
+
+    function printReport(){
+        document.getElementById('printSection').style.display='none'
+        window.print()
     }
 </script>
 </html>

@@ -92,7 +92,13 @@
                     </div>
                 </div>
                 <div class="button-container">
-                    <button id="register" class="btn btn-success" type="submit" value="" onclick="admitPatient()"><i
+                    <div style="display: flex;">
+                        <input type="text" id="patientID" style="width: 50%;">
+                        <button onclick="searchById()" class="btn btn-success" style="margin-left: 5%;">Autofill</button>
+                    </div>
+                    
+
+                    <button style="margin-top: 40%;" id="register" class="btn btn-success" type="submit" value="" onclick="admitPatient()"><i
                             class="fas fa-user-plus"></i><br> Register Admission</button>
                 </div>
 

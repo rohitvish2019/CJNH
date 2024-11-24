@@ -9,7 +9,7 @@ const Certificate = new mongoose.Schema({
     },
     Name:String,
     Husband:String,
-    Age:Number,
+    Age:String,
     Village:String,
     Tahsil:String,
     District:String,
