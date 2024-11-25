@@ -1,0 +1,14 @@
+Install openssl in your machine
+
+Open powershell or command prompt as admin and go to the bin location inside installation directory of openssl
+
+Generate a private key:
+openssl.exe genrsa -out private.key 2048
+
+Generate CSR from private key :
+openssl.exe req -new -key private.key -out request.csr
+
+Generate certificate from private key and CSR.
+openssl.exe x509 -req -days 365 -in request.csr -signkey private.key -out certificate.crt
+
+

@@ -383,6 +383,7 @@ function getMedicineData() {
                         <td style="padding-left:10px; ">${data.medsList[i].Composition}</td>
                         <td style="text-align:center">${data.medsList[i].Dosage}</td>
                         <td style="text-align:center">${data.medsList[i].Duration}</td>
+                        <td style="text-align:center">${data.medsList[i].Type == 'DischargeMed' ? "Yes":"No"}</td>
                         <td style="text-align:center">
                             <div onclick = "deleteMedicine('${data.medsList[i]._id}')">
                             <label id="dustbinLight${data.medsList[i]._id}" onmouseover = "highlight('${data.medsList[i]._id}')" onmouseout = "unhighlight('${data.medsList[i]._id}')" ><i class="fa-solid fa-trash-can"></i></label>
@@ -405,6 +406,7 @@ function AddNewMedicine() {
     let Composition = document.getElementById('Composition').value;
     let Dosage = document.getElementById('Dosage').value;
     let Duration = document.getElementById('Duration').value;
+    let Type = document.getElementById('medType').value
     
     if (!Name || Name == '') {
         new Noty({
@@ -434,6 +436,7 @@ function AddNewMedicine() {
             Composition,
             Dosage,
             Duration,
+            Type
         },
         type: 'POST',
         success: function (data) {

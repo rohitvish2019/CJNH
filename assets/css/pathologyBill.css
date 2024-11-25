@@ -4,6 +4,11 @@
     margin-left: 0.5%;
     width: 11.76%;
 }
+.patient-data-usg{
+    font-size: small;
+    margin-left: 0.5%;
+    width: 10.80%;
+}
 .patient-data input{
     font-size: small;
     text-align: center;

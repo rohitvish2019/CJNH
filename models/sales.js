@@ -18,6 +18,7 @@ const Sales = new mongoose.Schema({
     ReportNo:String,
     Total:Number,
     PaymentType:String,
+    IdProof:String,
     BillDate:{
         type:String,
         default:date,

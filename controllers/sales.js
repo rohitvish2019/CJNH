@@ -34,7 +34,7 @@ module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
     //ItemName$Quantity$Price$Notes
     try{
-        let Name, Age, Address, Mobile, Id, Gender, Patient
+        let Name, Age, Address, Mobile, Id, Gender, Patient, IdProof
         if(req.body.id){
             console.log('Getting by id')
             let patient = await PatientData.findOne({Id:req.body.id});
@@ -49,15 +49,15 @@ module.exports.addSales = async function(req, res){
             Mobile = patient.Mobile,
             Id = patient.Id
             Gender = patient.Gender
-            Patient = patient._id
+            Patient = patient._id,
+            IdProof = patient.IdProof
         }else{
-            console.log('Getting by req body')
-            console.log(req.body)
             Name = req.body.patient.Name,
             Age = req.body.patient.Age,
             Address = req.body.patient.Address,
             Mobile = req.body.patient.Mobile,
-            Gender = req.body.patient.Gender
+            Gender = req.body.patient.Gender,
+            IdProof = req.body.patient.IdProof
             Id = null,
             Patient = null
         }
@@ -80,7 +80,7 @@ module.exports.addSales = async function(req, res){
             BillNo = tracker.PathologyBillNo + 1
             await tracker.updateOne({PathologyBillNo:BillNo});
         }
-        
+        console.log(IdProof);
         let sale = await SalesData.create({
             Patient:Id,
             Name:Name,
@@ -98,7 +98,8 @@ module.exports.addSales = async function(req, res){
             BillDate:date,
             Total:req.body.Total,
             Items:req.body.Items,
-            PaymentType:req.body.paymentMode
+            PaymentType:req.body.paymentMode,
+            IdProof:IdProof == '' ? req.body.IdProof : IdProof
         })
         
     return res.status(200).json({

@@ -147,3 +147,37 @@ function saveWeight(visitId){
         type:'POST'
     })
 }
+
+function uploadReport(visitId, patient_id){
+    var formData = new FormData();
+    let file = document.getElementById('file').files[0];
+    formData.append('file',file)
+    console.log(file);
+    /*
+    $.ajax({
+        url:'/uploads/report',
+        type:'Post',
+        data:formData,
+        success:function(data){console.log(data)},
+        error:function(err){console.log(err)}
+    })
+*/
+    var formData = new FormData();
+    formData.append("visitId",visitId);
+    formData.append("patientId",patient_id);
+    formData.append("timeStamp", Date.now());
+    formData.append('fileName', document.getElementById('fileName').value)
+    formData.append('file', document.getElementById('file').files[0]);
+    $.ajax({
+        url : '/uploads/report',
+        type : 'POST',
+        data : formData,
+        processData: false,   // tell jQuery not to process the data            
+        contentType: false,  // tell jQuery not to set contentType            
+        success : function(data) {                
+            console.log(data);                
+            //alert(data);
+        }
+    });
+        
+  }

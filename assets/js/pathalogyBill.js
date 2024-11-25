@@ -78,6 +78,10 @@ function deleteItem(counter){
 
 function saveBill() {
     let id = document.getElementById('patientId').value;
+    let idProof=''
+    if(document.getElementById('IdProof')){
+        idProof = document.getElementById('IdProof').value;
+    }
     let patient = {
         Name: document.getElementById('patName').value,
         Age: document.getElementById('age').value,
@@ -85,6 +89,7 @@ function saveBill() {
         Address: document.getElementById('address').value,
         Mobile: document.getElementById('mobile').value,
         Doctor: document.getElementById('docName').value,
+        IdProof : idProof
     }
     console.log('TEST')
     console.log(patient)
@@ -127,7 +132,7 @@ function saveBill() {
         },
         success: function (data) {
             window.open('/sales/bill/view/' + data.Bill_id)
-            window.location.href = '/sales/bill/pathology'
+            window.location.reload()
         },
         error: function (err) {}
     })

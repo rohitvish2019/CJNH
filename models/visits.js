@@ -25,6 +25,11 @@ const Visits = new mongoose.Schema({
     PaymentType:String,
     weight:Number,
     PathReports:Array,
+    OtherDocs:[
+        {
+            type:Array
+        }
+    ],
     SaleId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Sale'

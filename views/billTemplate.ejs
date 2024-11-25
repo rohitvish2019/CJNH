@@ -31,11 +31,12 @@
                     <label for="">Date :
                         <%=bill.BillDate.split('-')[2]%>-<%=bill.BillDate.split('-')[1]%>-<%=bill.BillDate.split('-')[0]%></label>
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
+                    
                 </div>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
                     <label for="" style="font-weight: bold;">Doctor :
                         <%=bill.Doctor%></label>
-                    
+                        <label for="">Patient Id : <%=bill.PatiendID%></label>
                 </div>
             </header>
 
@@ -72,8 +73,8 @@
                                     <td><%=bill.Address%></td>
                                 </tr>
                                 <tr>
-                                    <th>Id</th>
-                                    <td><%=bill.PatiendID%></td>
+                                    <th>Id Proof</th>
+                                    <td><%=bill.IdProof%></td>
                                 </tr>
                             </table>
                         </div>

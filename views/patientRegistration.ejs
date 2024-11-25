@@ -94,7 +94,8 @@
             <label for="Mobile"><i class="fa-solid fa-phone"></i> Mobile No<span>*</span></label>
           </div>
           <div class="form-floating mb-2">
-            <input type="date" class="form-control" id="AppointmentDate" placeholder="name@example.com">
+            <%let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString() + '-' + new Date().getDate() %>
+            <input type="date" class="form-control" id="AppointmentDate" placeholder="name@example.com" value="<%=date%>">
             <label for="Fees"><i class="fa-solid fa-calendar"></i> Appointment Date <span>*</span></label>
           </div>
           <div class="form-floating mb-2">

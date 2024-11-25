@@ -59,9 +59,13 @@
                 <small for=""><b>ID</b></small>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data" style="width: 23%;">
+            <div class="patient-data" style="width: 20%;">
                 <small for=""><b>Name</b></small>
                 <label for=""><%=visit.Patient.Name%></label>
+            </div>
+            <div class="patient-data" style="width: 20%;">
+                <small for=""><b>Husband</b></small>
+                <label for=""><%=visit.Patient.Husband%></label>
             </div>
             <div class="patient-data" style="width: 7%;">
                 <small for=""><b>Age</b></small>
@@ -71,16 +75,21 @@
                 <small for=""><b>Weight</b></small>
                 <label for="" style="margin-bottom: 5px;"><input onchange='saveWeight("<%=visit._id%>")' style="width: 32%;margin-bottom: 5px; display: inline;" type="number" name="" id="pweight" value="<%=visit.weight%>">Kg</label>
             </div>
-            <div class="patient-data" style="width: 29%;">
+            <div class="patient-data" style="width: 24%;">
                 <small for=""><b>Address</b></small>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            <div class="patient-data" style="width: 18%; ">
+            <div class="patient-data" style="width: 25%; ">
                 <small for=""><b>Date & Time</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
                 <label style="font-size: small;">
-                    <%let dateTime = visit.createdAt.toString().substring(4,21)%>
-                    <%=dateTime %>
+                    
+                    <%= new Date(visit.createdAt).getDate()%>-<%= Number(new Date(visit.createdAt).getMonth()) + 1%>-<%= new Date(visit.createdAt).getFullYear()%>
+                    <% let n = new Date(visit.createdAt).toLocaleString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        });%>
+                    <%=n%>
                 </label>
             </div>
         </div>
@@ -202,7 +211,7 @@
                             onchange="addChanges('Urine-RM')" id="Urine-RM">
                     </div>
                     <div>
-                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; Cult & Sens.</label>
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; CNS.</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Urine-CultureSens')" id="Urine-CultureSens">
                     </div>
@@ -213,7 +222,7 @@
                             onchange="addChanges('USG-Obst')" id="USG-Obst">
                     </div>
                     <div>
-                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; Colour Dop.</label>
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; Col. Dop.</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('USG-ColourDop')" id="USG-ColourDop">
                     </div>
@@ -289,6 +298,15 @@
             Print</button>
     </div>
     <script src="/js/prescriptionForm.js"></script>
+
+    
 </body>
+<div style="position: absolute;top: 5%; left: 50%;">
+    Enter file name <input type="text" name="" id="fileName">
+    <input  type="file" id="file" accept=".pdf">
+    <button onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
+
+</div>
+
 
 </html>
