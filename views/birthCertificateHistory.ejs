@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathalogy History</title>
+    <title>Birth Certificates</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
         integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -27,39 +27,37 @@
     </header>
     <div class="main-body">
         <div class="heading">
-            <h2>Pathology History</h2>
+            <h2>Find Birth Certificates</h2>
         </div>
         <div class="searchElements text-center py-1 d-flex align-items-center">
+            
             <div style="margin-right: 2%;margin-top: 2px;">
                 <label for=""><b>Filter type : </b>&nbsp;</label>
                 <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
+                    <!--
                     <option value="byDate" selected>Exact Date</option>
+                    -->
                     <option value="byDateRange">Date Range</option>
-                    <option value="byId">By Mobile/Id</option>
+                    
+                    <option value="byId">By Id</option>
                 </select>
             </div>
 
             <div id="dateRangeInputs" style="margin-right: 2%;">
-                <label for=""><b>Report Date Range : </b>&nbsp;</label>
+                <label for=""><b>Generated between : </b>&nbsp;</label>
                 <input type="date" name="" id="startDate">
                 <input type="date" name="" id="endDate">
             </div>
             <div id="dateInput" style="margin-right: 2%; margin-top: 2px;">
-                <label for=""><b>Report Date : </b>&nbsp;</label>
+                <label for=""><b>Generated on : </b>&nbsp;</label>
                 <input type="date" name="" id="selectedDate">
             </div>
             <div id="idInput">
-                <input type="number" placeholder="Enter Mobile or Id" id="idToSearch">
+                <input type="number" placeholder="Enter OPD Id" id="idToSearch">
             </div>
-            <div style="margin-top: 2px;margin-right: 2%;">
-                <label for=""><b>Billing Status : </b>&nbsp;</label>
-                <select name="Billing Status" id="status" style="height: 70%;">
-                    <option value="generated" selected>Generated</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </div>
+            
             <button class="btn btn-success" style="margin-bottom: 0.5%;"
-                onclick="getReportsHistory()">Search</button>
+                onclick="getBirthHistory()">Search</button>
             <b style="margin-left: 3%;" id="tvalue"></b>
             
             
@@ -76,8 +74,10 @@
                     <tr class="bg">
                         <th>#</th>
                         <th><i class="fas fa-user"></i> Patient Name</th>
-                        <th><i class="fa-solid fa-book-medical"></i> Report</th>
-                        <th><i class="fa-regular fa-calendar"></i> Date</th>
+                        <th><i class="fas fa-user"></i> Id</th>
+                        <th><i class="fa-solid fa-book-medical"></i> Age</th>
+                        <th><i class="fa-regular fa-calendar"></i> Certificate</th>
+                        <th><i class="fa-regular fa-calendar"></i> Child DOB</th>
                         <th><i class="fa-regular fa-calendar"></i> Action</th>
                     </tr>
                 </thead>

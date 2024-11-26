@@ -201,6 +201,11 @@
                             onchange="addChanges('TSH')" id="TSH">
                     </div>
                     <div>
+                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; DM</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('DM')" id="DM">
+                    </div>
+                    <div>
                         <label style="width: 41%;">Urine P.test</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Urine-Ptest')" id="Urine-Ptest">
@@ -210,11 +215,7 @@
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('Urine-RM')" id="Urine-RM">
                     </div>
-                    <div>
-                        <label style="width: 41%;">&nbsp&nbsp;&nbsp; CNS.</label>
-                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('Urine-CultureSens')" id="Urine-CultureSens">
-                    </div>
+                    
 
                     <div>
                         <label style="width: 41%;">USG Obst</label>
@@ -249,14 +250,14 @@
                         <label style="text-align: center;font-weight: bold;margin-top: 0%;">Mislenious</label>
                     </div>
                     <div>
-                        <label style="width: 56%;">T1</label>
-                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 35%;">T1</label>
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('T1')" id="T1" list="vals">
                     </div>
 
                     <div>
-                        <label style="width: 56%;">T2</label>
-                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2" list="vals">
+                        <label style="width: 35%;">T2</label>
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text" onchange="addChanges('T2')" id="T2" list="vals">
                         <datalist id="vals">
                             <option value="Yes"></option>
                             <option value="No"></option>
@@ -264,25 +265,25 @@
                     </div>
 
                     <div>
-                        <label style="width: 56%;">NT on</label>
-                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 35%;">NT on</label>
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('NT')" id="NT">
                     </div>
 
                     <div>
-                        <label style="width: 56%;">TS on</label>
-                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 35%;">TS on</label>
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('TS')" id="TS">
                     </div>
 
                     <div>
-                        <label style="width: 56%;">CD on</label>
-                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 35%;">CD on</label>
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('CD')" id="CD">
                     </div>
                     <div>
-                        <label style="width: 56%;">F/up on</label>
-                        <input style="width: 41%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <label style="width: 35%;">F/up on</label>
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
                             onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP">
                     </div>
                 </div>
@@ -301,11 +302,28 @@
 
     
 </body>
-<div style="position: absolute;top: 5%; left: 50%;">
+<div id="fileInputs" style="position: absolute;top: 5%; left: 50%;">
     Enter file name <input type="text" name="" id="fileName">
     <input  type="file" id="file" accept=".pdf">
     <button onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
-
+    <div style="margin-top: 5%;">
+        <label for="">Other documents</label>
+        <table border="1px solid gray">
+            <thead>
+                <tr>
+                    <th>Documents List</th>
+                </tr>
+            </thead>
+            
+            <tbody id="otherDocs">
+                <%for(let i=0;i<visit.OtherDocs.length;i++){%>
+                    <tr>
+                        <td><a href="<%=visit.OtherDocs[i]%>"><%=visit.OtherDocs[i].toString().split('_')[3]%></a></td>
+                    </tr>
+                <%}%>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 

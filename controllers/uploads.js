@@ -7,8 +7,8 @@ module.exports.uploadTest = async function(req, res){
     console.log(req.body)
     try{
         let visit = await VisitData.findById(req.body.visitId);
-        let date = new Date().toLocaleDateString().split("/").join("_")+'abc'
-        let link = "/uploads/"+date+"/"+req.body.timeStamp+req.body.fileName+'.pdf'
+        let date = new Date().toLocaleDateString().split("/").join("_")
+        let link = "/uploads/"+date+"/"+req.body.timeStamp+'_'+req.body.fileName+'.pdf'
         visit.OtherDocs.push(link);
         visit.save();
         return res.status(200).json({

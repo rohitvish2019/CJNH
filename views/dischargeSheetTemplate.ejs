@@ -23,25 +23,27 @@
         <label style="text-align: center; margin-bottom: 5px;">323, सिविल वार्ड नंबर 7 दमोह (म. प्र.). Mob : 6263169195, Ph. No :
             07812-222441</label>
         <label style="font-size: 22px;font-weight: bold;text-align: center;">Discharge Sheet</label>
+        
         <!-- Patient Information-->
         <div class="patient-info">
             <label hidden for="" id="visitId"><%=visit._id%></label>
             <div class="patient-data" style="width: 8%; ">
-                <span for=""><b>IPD No</b></span>
+                <span for=""><b>Id</b></span>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
             <div class="patient-data" style="width: 25%;">
                 <span for=""><b>Name</b></span>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
-            <div class="patient-data" style="width: 10%;">
-                <span for=""><b>Age:</b></span>
-                <label for=""><%=visit.Patient.Age%></label>
-            </div>
             <div class="patient-data" style="width: 25%; ">
                 <span for=""><b>Husband:</b></span>
                 <label for=""><%=visit.Patient.Husband%></label>
             </div>
+            <div class="patient-data" style="width: 10%;">
+                <span for=""><b>Age:</b></span>
+                <label for=""><%=visit.Patient.Age%></label>
+            </div>
+            
             <div class="patient-data" style="width: 33%;">
                 <span for=""><b>Address:</b></span>
                 <label for=""><%=visit.Patient.Address%></label>
@@ -58,7 +60,9 @@
                 <label>Date Of Discharge : <%=visit.DischargeDate.split('-')[2]%>-<%=visit.DischargeDate.split('-')[1]%>-<%=visit.DischargeDate.split('-')[0]%> at <%=visit.DischargeTime%></label>
             </div>
         </div>  
-
+        <div style="margin-bottom: 4px;">
+            <input style="width: 99.5%;text-align: left;" type="text" name="" id="" placeholder="Diagnosis">
+        </div>
         <!-- Conditions Input Text Box-->
         <div class="condition" style="height: 14%; display: flex;justify-content: space-between;">
             <div style="text-align: left; width: 49%;">
@@ -76,7 +80,7 @@
             <div>
                 <div class="ohms" style="width:95%; height: 20%;text-align: center;margin-right: 2%;">
                     <span><b>O/H MS-</b></span>
-                    <table class="table" style="text-align: center;width: 100%;">
+                    <table class="table" style="text-align: center;width: 100%;padding: 0;">
                         <tr>
                             <td>G</td>
                             <td>P</td>
@@ -90,38 +94,30 @@
                             <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
                         </tr>
                     </table>
+                    <div style="text-align: left;margin-left: 5px;">
+                        <textarea name="" id="" rows="3" cols="65" placeholder="MS"></textarea>
+                    </div>
                 </div>
-                <div class="invstdone" style="width:95%;  height: 75%; text-align: center;">
+                <div class="invstdone" style="width:95%;  height: 75%; text-align: center;margin-top: 70px;">
                     <span><b>Invst Done:</b></span>
-                    <table class="table" style="height: 89%;width: 100%; ">
-                        <tr class="b2">
-                            <th>Hb%</th>
-                            <td><input type="text"></td>
+                    <table class="table" style="height: 40%;width: 100%; ">
+                        <tr>
+                            <td>Hb%</td>
+                            <td>Bl gr & Rh</td>
+                            <td>RBS</td>
+                            <td>HIV</td>
+                            <td>HbsAg</td>
+                            <td>TSH</td>
+                            <td>Others</td>
                         </tr>
-                        <tr class="b2">
-                            <th>Bl gr <br> & Rh</th>
-                            <td><input type="text"></td>
-                        </tr>
-    
-                        <tr class="b2">
-                            <th>RBS</th>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr class="b2">
-                            <th>HIV</th>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr class="b2">
-                            <th>HbsAg</th>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr class="b2">
-                            <th>TSH</th>
-                            <td><input type="text"></td>
-                        </tr>
-                        <tr class="b2">
-                            <th>Others</th>
-                            <td><input type="text"></td>
+                        <tr>
+                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input style="width: 96%;" type="text"></td>
                         </tr>
                     </table>
                 </div>
@@ -140,23 +136,27 @@
                             <td><input type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>i.v Antibiotic XL 1.5 gm iv. 12 hrly X</th>
+                            <td>i.v Antibiotic XL 1.5 gm iv.</th>
                             <td><input type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>I.M Aquagesic 75mg im 8 hrly</th>
+                            <td>I.M Aquagesic 75mg</th>
                             <td><input type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>Tab. Mahacef XL BD x 5 Days</th>
+                            <td>Tab. Mahacef XL</th>
                             <td><input type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>Tab Camrox D BD x 5 Days</th>
+                            <td>Tab Camrox D</th>
                             <td><input type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>Symptomatic t/t</th>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr class="b3">
+                            <td>Others</th>
                             <td><input type="text"></td>
                         </tr>
                     </tbody>
@@ -181,7 +181,7 @@
         <div class="dischargePrescription" 
             style="height: 25%; display: flex; padding-top:5px;border-top: .5px dashed black;">
             <div style="width: 70%; height: 100%;">
-                <table style="text-align: center; width: 100%;">
+                <table style="text-align: center; width: 100%; font-size: small;">
                     <thead>
                         <tr class="b4">
                             <th></th>
@@ -192,71 +192,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="b4">
-                            <td>Tab. Hepataglobin / Anofer SP</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>6 month. तक</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Tab. Maxical/Caly ZM</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>6 month. तक</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Tab. Limcee/Vit. C</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>15 Days. तक</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Tab. Camrox-D (दर्द निवारक)</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>x 5 days तक <br> आवश्यकता पड़ने पर</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Cap. Alamine M Forte/ Amino Rich</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>15 Days. तक</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Syp. Evict / Eva Q</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>(कब्ज़ में)</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Powder Pro RD</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td>1 कप दूध में</td>
-                        </tr>
-                        <tr class="b4">
-                            <td>Oint. Drez-s</td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td></td>
-                        </tr>
+                        <%for(let i=0;i<meds.length;i++){%>
+                            <tr class="b4">
+                                <td><%=meds[i].Name%></td>
+                                <%let dosage = meds[i].Dosage.split('-')%>
+                                <td><input type="text" value="<%=dosage[0]%>"></td>
+                                <td><input type="text" value="<%=dosage[1]%>"></td>
+                                <td><input type="text" value="<%=dosage[2]%>"></td>
+                                <td><%=meds[i].Duration%></td>
+                            </tr>
+                        <%}%>
+                        
                     </tbody>
                 </table>
             </div>
-
-            <div style="width: 30%; height: 100%; padding-left:8px ; text-align: center; margin-top: 7%;">
-                <span>- बच्चे का टीकाकरण नियमित करायें ।</span><br><hr>
-                <span>- ⁠परिवार नियोजन अपनाए ।</span><br><hr>
-                <span>- ⁠आवश्यकता पड़ने पर या 1 - 1/2 माह बाद दिखाये ।</span>
+            <div>
+                <div style="margin-left: 5px;">
+                    <textarea name="" id="" rows="5" cols="35" placeholder="Other Advice"></textarea>
+                </div>
+                <div style=" width: 100%; height: 55%; padding-left:8px ; text-align: center; margin-top: 7%;">
+                    <span>- बच्चे का टीकाकरण नियमित करायें ।</span><br><hr>
+                    <span>- ⁠परिवार नियोजन अपनाए ।</span><br><hr>
+                    <span>- ⁠आवश्यकता पड़ने पर या 1 - 1/2 माह बाद दिखाये ।</span>
+                </div>
+                
             </div>
+            
         </div>
         
         <span style="text-align: center;"><b> बच्चे का जन्म पंजीयन 15 दिवस के अंदर नगर पालिका या ग्राम पंचायत से करवाये ।<b></span>

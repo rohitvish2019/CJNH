@@ -16,10 +16,9 @@ function changeInputs(){
 }
 
 
-function getSalesHistoryRange(){
+function getBirthHistoryRange(){
     let startDate = document.getElementById('startDate').value
     let endDate = document.getElementById('endDate').value
-    let status = document.getElementById('status').value
     if(!startDate || startDate == null || startDate == ''){
         new Noty({
             theme: 'relax',
@@ -63,12 +62,11 @@ function getSalesHistoryRange(){
     }
     document.getElementById('loader').style.display='block'
     $.ajax({
-        url:'/reports/getHistoryByRange',
+        url:'/reports/getBirthHistoryByRange',
         type:'Get',
         data:{
             startDate,
             endDate,
-            status
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
@@ -101,9 +99,8 @@ function getSalesHistoryRange(){
         }
     })
 }
-function getSalesHistoryDate(){
+function getBirthHistoryDate(){
     let selectedDate = document.getElementById('selectedDate').value
-    let status = document.getElementById('status').value
     if(!selectedDate || selectedDate == null || selectedDate == ''){
         new Noty({
             theme: 'relax',
@@ -116,11 +113,10 @@ function getSalesHistoryDate(){
     }
     document.getElementById('loader').style.display='block'
     $.ajax({
-        url:'/reports/getHistoryByDate',
+        url:'/reports/getBirthHistoryByDate',
         type:'Get',
         data:{
             selectedDate,
-            status
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
@@ -133,11 +129,9 @@ function getSalesHistoryDate(){
                 `
                 return
             }
-            if(status == 'pending'){
-                showReportOnUICancelled(data.reportsList)
-            }else{
-                showReportOnUI(data.reportsList) 
-            }
+            
+            showReportOnUI(data.reportsList) 
+            
               
              
         },
@@ -158,25 +152,24 @@ function getSalesHistoryDate(){
 
 changeInputs()
 
-function getReportsHistory(){
+function getBirthHistory(){
     let value = document.getElementById('filterType').value
     if(value == 'byDate'){
-        getSalesHistoryDate()
+        getBirthHistoryDate()
     }else if (value == 'byDateRange'){
-        getSalesHistoryRange()
+        getBirthHistoryRange()
     }
     else if(value == 'byId'){
-        getReportsById();
+        getBirthHistoryById();
     }
 }
-function getReportsById(){
+function getBirthHistoryById(){
 
     let id = document.getElementById('idToSearch').value
-    let status = document.getElementById('status').value
     if(!id || id == null || id == ''){
         new Noty({
             theme: 'relax',
-            text: 'ID / Mobile is mandatory',
+            text: 'ID is mandatory',
             type: 'error',
             layout: 'topRight',
             timeout: 1500
@@ -185,7 +178,7 @@ function getReportsById(){
     }
     document.getElementById('loader').style.display='block'
     $.ajax({
-        url:'/reports/getHistoryById',
+        url:'/reports/getBirthHistoryById',
         type:'Get',
         data:{
             id,
@@ -202,11 +195,8 @@ function getReportsById(){
                 `
                 return
             }
-            if(status == 'pending'){
-                showReportOnUICancelled(data.reportsList)
-            }else{
-                showReportOnUI(data.reportsList) 
-            }
+            showReportOnUI(data.reportsList) 
+            
               
              
         },
@@ -216,7 +206,7 @@ function getReportsById(){
             document.getElementById("historyBody").innerHTML=
             `
             <tr>
-                <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
+                <td rowspan="3" colspan="9" style="text-align: center;">Unable to fetch inofrmation</td>
             </tr>
             `
             return
@@ -234,8 +224,10 @@ function showReportOnUI(reports){
         `
             <td>${i+1}</td>
             <td>${reports[i].Name}</td>
-            <td><a target='_blank' href='/reports/view/${reports[i]._id}'>${reports[i].ReportNo}</a></td>
-            <td>${reports[i].Date.split('-')[2]}-${reports[i].Date.split('-')[1]}-${reports[i].Date.split('-')[0]}</td>
+            <td>${reports[i].OPDId}</td>
+            <td>${reports[i].Age}</td>
+            <td><a target='_blank' href='/patients/birthCertificate/view/${reports[i]._id}'>${reports[i].CertificateNumber}</a></td>
+            <td>${reports[i].BirthDate.split('-')[2]}-${reports[i].BirthDate.split('-')[1]}-${reports[i].BirthDate.split('-')[0]}</td>
             <td><button class='btn btn-danger' onclick='cancelReport("${reports[i]._id}")'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button></td>
             
         `

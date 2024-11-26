@@ -25,6 +25,7 @@ function printPrescription() {
             document.getElementById('OtherAdvice').style.border='none'
             document.getElementById('searchBox').style.display = 'none'
             document.getElementById('AddMed').style.display = 'none'
+            document.getElementById('fileInputs').style.display='none'
             window.print()
         }
     })
@@ -151,32 +152,34 @@ function saveWeight(visitId){
 function uploadReport(visitId, patient_id){
     var formData = new FormData();
     let file = document.getElementById('file').files[0];
+    let timeStamp = Date.now()
     formData.append('file',file)
     console.log(file);
-    /*
-    $.ajax({
-        url:'/uploads/report',
-        type:'Post',
-        data:formData,
-        success:function(data){console.log(data)},
-        error:function(err){console.log(err)}
-    })
-*/
     var formData = new FormData();
     formData.append("visitId",visitId);
     formData.append("patientId",patient_id);
-    formData.append("timeStamp", Date.now());
+    formData.append("timeStamp", timeStamp);
     formData.append('fileName', document.getElementById('fileName').value)
     formData.append('file', document.getElementById('file').files[0]);
+    let date = new Date().toLocaleDateString().split("/").join("_");
+    let fileName = document.getElementById('fileName').value;
+    let link = "/uploads/"+date+"/"+timeStamp+'_'+fileName+'.pdf'
     $.ajax({
         url : '/uploads/report',
         type : 'POST',
         data : formData,
         processData: false,   // tell jQuery not to process the data            
         contentType: false,  // tell jQuery not to set contentType            
-        success : function(data) {                
-            console.log(data);                
-            //alert(data);
+        success : function(data) { 
+            let container= document.getElementById('otherDocs');
+            let item = document.createElement('tr');
+            item.innerHTML=
+            `
+                <td><a href='${link}' target='_blank'>${fileName}</a></td>
+            `    
+            container.appendChild(item)
+            document.getElementById('fileName').value=''
+            document.getElementById('file').files[0] = null
         }
     });
         

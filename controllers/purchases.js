@@ -91,3 +91,15 @@ module.exports.getPurchaseHistory = async function(req, res){
     }
 }
 
+module.exports.cancelPurchases = async function(req, res){
+    try{
+        await PurchaseData.findByIdAndDelete(req.params.id,{isCancelled:true});
+        return res.status(200).json({
+            message:'Purchase cancelled'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to cancel purchase'
+        })
+    }
+}

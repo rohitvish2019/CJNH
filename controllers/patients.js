@@ -243,6 +243,7 @@ module.exports.bookVisitToday = async function(req, res){
             Name:patient.Name,
             Age:patient.Age,
             Address:patient.Address,
+            IdProof:req.body.IdProof,
             Mobile:patient.Mobile,
             Doctor:req.body.Doctor,
             Gender:patient.Gender,
@@ -532,7 +533,8 @@ module.exports.showPrescription = async function(req, res){
 module.exports.dischargeSheet = async function(req, res){
     try{
         let visit = await VisitData.findById(req.params.id).populate('Patient');
-        return res.render('dischargeSheetTemplate', {visit, user:req.user})
+        let meds = await MedsData.find({Type:'DischargeMed'});
+        return res.render('dischargeSheetTemplate', {visit, user:req.user, meds})
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -563,7 +565,7 @@ module.exports.patientHistoryHome = async function(req, res){
 
 module.exports.getAllVisits = async function(req, res){
     try{
-        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions').sort({createdAt:-1});
+        let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions OtherDocs').sort({createdAt:-1});
         //let patient = await PatientData.findOne({Id:});
         let reports = await Reportsdata.find({Patient:req.params.patientId, isCancelled:false, isValid:true});
         return res.status(200).json({

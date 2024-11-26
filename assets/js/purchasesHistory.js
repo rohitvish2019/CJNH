@@ -23,6 +23,7 @@ function showPurchaseHistory(purchases){
     container.innerHTML = ``;
     for(let i=0;i<purchases.length;i++){
         let rowItem = document.createElement('tr');
+        rowItem.id=purchases[i]._id
         rowItem.innerHTML=
         `
             <td>${i+1}</td>
@@ -32,6 +33,7 @@ function showPurchaseHistory(purchases){
             <td>${purchases[i].Quantity}</td>
             <td>${purchases[i].Bought_Date.split('-')[2]}-${purchases[i].Bought_Date.split('-')[1]}-${purchases[i].Bought_Date.split('-')[0]}</td>
             <td>${purchases[i].Seller}</td>
+            <td><button onclick="cancelPurchase('${purchases[i]._id}')">cancel</button></td>
         `
         container.appendChild(rowItem);
     }
@@ -45,5 +47,21 @@ function changeInputs(){
     }else if(selected == 'byDateRange'){
         document.getElementById('itemNameInputs').style.display='none'
         document.getElementById('dateRangeInputs').style.display='block'
+    }
+}
+
+function cancelPurchase(id){
+    let confirmation = window.confirm('Purchase will be cancelled permanently !!!')
+    if(confirmation){
+        $.ajax({
+            url:'/purchases/cancel/'+id,
+            type:'POST',
+            success:function(data){
+                document.getElementById(id).remove();
+            },
+            error:function(err){
+    
+            }
+        })
     }
 }

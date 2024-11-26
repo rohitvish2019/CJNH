@@ -4,6 +4,7 @@ const Tracker = require('../models/tracker');
 const ServicesData = require('../models/servicesAndCharges');
 const SalesData = require('../models/sales')
 const VisitData = require('../models/visits')
+const BirthData = require('../models/birthCertificates')
 
 module.exports.PathalogyHome = async function(req, res){
     try{
@@ -452,3 +453,92 @@ module.exports.dashboard = async function(req, res){
     }
 }
 
+module.exports.birthCertificateHistory = async function(req, res){
+    try{
+        return res.render('birthCertificateHistory');
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports.getBirthHistoryByRange = async function(req, res){
+    try{
+        let reportsList;
+        reportsList = await BirthData.find({
+            $and: [
+                {createdAt:{$gte :new Date(req.query.startDate)}},
+                {createdAt: {$lte : new Date(req.query.endDate)}},
+                {isCancelled:false, isValid:true}
+            ]
+        }).sort("createdAt");
+        
+        return res.status(200).json({
+            message:reportsList.length+' reports found',
+            reportsList
+        })          
+        
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find receipts'
+        })
+    }
+}
+
+module.exports.getBirthHistoryByDate = async function(req, res){
+    console.log(req.query)
+    try{
+        let reportsList
+        reportsList = await BirthData.find({
+            Date:req.query.selectedDate,
+            isCancelled:false, isValid:true
+        }).sort("createdAt");
+        
+        return res.status(200).json({
+            message:reportsList.length+' reports found',
+            reportsList
+        }) 
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find receipts'
+        })
+    }
+}
+
+
+
+
+module.exports.getBirthHistoryById = async function(req, res){
+    try{        
+        let reportsList = await BirthData.find({
+            OPDId:req.query.id,
+            isCancelled:false, isValid:true
+        }).sort("createdAt");
+        return res.status(200).json({
+            message:reportsList.length+' reports found',
+            reportsList
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to find receipts'
+        })
+    }
+}

@@ -9,7 +9,8 @@ function getAllVisits(){
                     continue
                 }
                 let visitData = replaceUndefinedValues(data.visits[k].VisitData)
-                console.log(visitData)
+                let otherDocs = data.visits[k].OtherDocs
+                console.log(otherDocs)
                 let visitsContainer = document.getElementById('visit-container')
                 let cardContainer = document.createElement('div');
                 cardContainer.classList.add('cardOne')
@@ -48,9 +49,9 @@ function getAllVisits(){
                                     <th>HIV</th>
                                     <th>HBsAg</th>
                                     <th>TSH</th>
+                                    <th>DM</th>
                                     <th>Urine P.test</th>
                                     <th>Urine-R/M</th>
-                                    <th>Urine-Culture & Sensitivity</th>
                                     <th>USG Obst</th>
                                     <th>USG -Colour Dop.</th>
                                     <th>USG - L.Abd</th>
@@ -66,9 +67,9 @@ function getAllVisits(){
                                     <td id="HIV">${visitData['HIV'] == undefined ? '' : visitData['HIV']}</td>
                                     <td id="HBsAg">${visitData['HBsAg'] == undefined ? '' : visitData['HBsAg']}</td>
                                     <td id="TSH">${visitData['TSH'] == undefined ? '' : visitData['TSH']}</td>
+                                    <td id="DM">${visitData['DM'] == undefined ? '' : visitData['DM']}</td>
                                     <td id="Urine-Ptest">${visitData['Urine-Ptest'] == undefined ? '' : visitData['Urine-Ptest']}</td>
                                     <td id="Urine-RM">${visitData['Urine-RM'] == undefined ? '' : visitData['Urine-RM']}</td>
-                                    <td id="Urine-Culture">${visitData['Urine-CultureSens'] == undefined ? '' : visitData['Urine-CultureSens']}</td>
                                     <td id="USG-Obst">${visitData['USG-Obst'] == undefined ? '' : visitData['USG-Obst']}</td>
                                     <td id="USG-ColourDop">${visitData['USG-ColourDop'] == undefined ? '' : visitData['USG-ColourDop']}</td>
                                     <td id="USG-LAbd">${visitData['USG-LAbd'] == undefined ? '' : visitData['USG-LAbd']}</td>
@@ -105,21 +106,27 @@ function getAllVisits(){
                         </table>
                     </div>
                     <div>
-                        <h5><strong><i class="fa-regular fa-file-powerpoint"></i> Pathalogy Reports</strong></h5>
-                        <a href="">Reports</a>
+                        <h5><strong><i class="fa-regular fa-file-powerpoint"></i> Other uploaded documents</strong></h5>
+                        <div id='otherDocs_${data.visits[k]._id}'>
+                            
+                        </div>
                     </div>
                 </div>
             </div>
-                `
+            `
+            
+            /*
+            
+            */
             visitsContainer.appendChild(cardContainer)
-                /*let keys = Object.keys(visitData);
-                for(let i=0;i<keys.length;i++){
-                    if(document.getElementById(keys[i])){
-                        document.getElementById(keys[i]).innerText=visitData[keys[i]]
-                    }
-                    
-                }
-                    */
+            let otherDocsContainer = document.getElementById('otherDocs_'+data.visits[k]._id);
+            for(let r=0;r<otherDocs.length;r++){
+                let item = document.createElement('a');
+                item.style.marginRight='25px'
+                item.href=otherDocs[r]
+                item.innerText=otherDocs[r].toString().split('_')[3]
+                otherDocsContainer.appendChild(item)
+            }
             }
             let container = document.getElementById('pathReports');
             container.innerHTML=``;

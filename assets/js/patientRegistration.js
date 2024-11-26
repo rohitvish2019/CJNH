@@ -65,14 +65,21 @@ function searchById() {
             let lastVisitDate = new Date(data.visit[0].createdAt)
             let daysBetween = Math.floor(Math.abs(today-lastVisitDate) / (1000*86400));
             let todaysFees = 400;
+            
             if(daysBetween < 31){
                 todaysFees = 200
             }
+            let day = new Date().getDay();
+            if(day == 0){
+                todaysFees = 500
+            }
+            let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString() + '-' + new Date().getDate()
             document.getElementById('Fees').value = todaysFees
             document.getElementById('lastFeesPaid').innerText = data.visit[0].Fees
             document.getElementById('lastVisitDate').innerText = visitDate[2] + '-' + visitDate[1] + '-' + visitDate[0]
             document.getElementById('register').setAttribute('disabled', 'true');
             document.getElementById('bookAppointment').removeAttribute('disabled')
+            document.getElementById('AppointmentDate').value=date
         },
         error: function (err) {
             new Noty({
@@ -104,6 +111,7 @@ function bookAppointmentWithId() {
     let AppointmentDate = document.getElementById('AppointmentDate').value;
     let paymentType = document.getElementById('paymentType').value;
     let Doctor = document.getElementById('Doctor').value
+    IdProof = document.getElementById('IdProof').value
     if (!fees || fees == '') {
         new Noty({
             theme: 'relax',
@@ -152,7 +160,8 @@ function bookAppointmentWithId() {
             date: AppointmentDate,
             Fees: fees,
             Doctor,
-            paymentType
+            paymentType,
+            IdProof,
         },
         success: function (data) {
             new Noty({

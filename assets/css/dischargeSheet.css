@@ -7,7 +7,6 @@
     margin-bottom: 3px;
 }
 
-
 .treatmentgiven, .invstdone, .ohms{
     margin: 0px 5px 0px 5px;
 }
@@ -65,9 +64,10 @@ input{
 
 .b3 td{
     width: auto;
-    height: 38px;
+    height: 32px;
     border-collapse: collapse;
     padding-left: 4px;
+    font-size: 15px;
 }
 .b4 input{
 
