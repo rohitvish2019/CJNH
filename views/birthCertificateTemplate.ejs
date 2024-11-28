@@ -38,11 +38,11 @@
             </div>
         </div>
         <div class="content">
-            
+            <%let birthDateTime  = cert.BirthDate +' '+cert.BirthTime%>
             This is to certified that <b>smt. <%=cert.Name%></b>  W/O <b>Shri <%=cert.Husband%></b> Age <b><%=cert.Age%></b> years of 
             village <b><%=cert.Village%></b> Tahsil <b><%=cert.Tahsil%></b> District <b><%=cert.District%></b> state <b><%=cert.State%></b> 
-            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child at  <b><%=cert.BirthTime%></b> at <b><%=cert.BirthDate.split('-')[2]%>-<%=cert.BirthDate.split('-')[1]%>-<%=cert.BirthDate.split('-')[0]%></b>
-            Birth weight <b><%=cert.ChildWeight%></b> in my nursing home 
+            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child on  <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0]%></b> at <b><%=new Date(birthDateTime).toLocaleString().split(', ')[1]%></b>
+            Child weight was <b><%=cert.ChildWeight%></b> in my nursing home 
         </div>
 
         <div class="footer">
