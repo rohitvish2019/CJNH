@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birth Certificate</title>
     <link rel="stylesheet" href="/css/birthCertificateTemplate.css">
+    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
 </head>
 
 <body style="text-align: center;">
@@ -40,7 +41,7 @@
                 <label for="">Date : <%=new Date().toLocaleDateString();%></label>
             </div>
         </div>
-            <%let birthDateTime = cert.BirthDate + ' '+ cert.BirthTime%>
+        <%let birthDateTime = cert.BirthDate + ' '+ cert.BirthTime%>
         <div class="content">
 
             This is to certify that <b>Smt. <%=cert.Name%></b>, W/O <b>Shri. <%=cert.Husband%></b> age
@@ -49,7 +50,7 @@
             Village: <b><%=cert.Village%></b>, Tahsil: <b><%=cert.Tahsil%></b>, District: <b><%=cert.District%></b>.
             State:
             <b><%=cert.State%></b>
-            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child  on
+            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child on
             <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0]%></b>, At
             <b><%=new Date(birthDateTime).toLocaleString().split(', ')[1]%></b>
             Birth weight <b><%=cert.ChildWeight%></b> in my Nursing Home
@@ -79,7 +80,7 @@
 
     <button id="printButton" onclick="printMe()"
         style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
-        class="btn btn-success"><b>Save & Print</b></button>
+        class="btn btn-success"><i class="fa-solid fa-print"></i> <b>Print</b></button>
 
 </body>
 <script>

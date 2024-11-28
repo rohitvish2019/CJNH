@@ -151,21 +151,24 @@
       <%}%>
         </tbody>
       </table>
-      <div id="addPaymentPopup" style="display: none;">
+      <div id="addPaymentPopup" style="display: none; text-align: center;">
+        <div style="text-align: right;">
+            <i style="font-size: 20px;" onclick="closePopup()" class="fa-regular fa-circle-xmark"></i>
+        </div>
         <div style="font-size: large; font-weight: bold;text-align: center;">
-          <label>Add Advance Payment</label>
+          <label><i class="fa-regular fa-credit-card"></i> Record Advance Payment</label>
         </div>
         <div class="form-floating mb-2">
           <input disabled type="text" class="form-control" id="pid" placeholder="name@example.com">
-          <label><i class="fa-solid fa-calendar"></i> Id<span>*</span></label>
+          <label><i class="fa-solid fa-id-card"></i> Id<span>*</span></label>
         </div>
         <div class="form-floating mb-2">
           <input disabled type="text" class="form-control" id="Name" placeholder="name@example.com">
-          <label><i class="fa-solid fa-calendar"></i> Name<span>*</span></label>
+          <label><i class="fa-solid fa-user"></i> Name<span>*</span></label>
         </div>
         <div class="form-floating mb-2">
           <input type="number" class="form-control" id="amount" placeholder="name@example.com">
-          <label><i class="fa-solid fa-calendar"></i> Amount<span>*</span></label>
+          <label><b>₹</b> Amount<span>*</span></label>
         </div>
         <div class="form-floating mb-2">
           <select class="form-select" id="paymentType" aria-label="Floating label select example">
@@ -174,11 +177,11 @@
               <option value="Online">Online</option>
               <option value="NA">NA</option>
           </select>
-          <label for="Gender"><i class="fa-solid fa-user-doctor"></i> Payment Type <span>*</span></label>
+          <label for="Gender"><i class="fa-solid fa-list"></i> Payment Type <span>*</span></label>
         </div>
-        <div style="display: flex;justify-content: space-between;padding-left: 20%; padding-right: 20%;">
+        <div style="display: inline-block;">
           <button onclick="closePopup()" class="btn btn-danger">Cancel</button>
-          <button onclick="addAdvancePayment()" id="addPayment" class="btn btn-success">Add</button>
+          <button onclick="addAdvancePayment()" id="addPayment" class="btn btn-success">Add Payment</button>
         </div>
       </div>
       <script src="/js/showAdmittedPatients.js"></script>
