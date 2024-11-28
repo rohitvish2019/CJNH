@@ -19,6 +19,7 @@
       <%-include('_header')%>
     </header>
     <input type="hidden" id="visitId">
+    <!--
     <div style="display: flex; justify-content: space-between; width: 30%;padding-left: 1%;padding-top: 2%;">
       <select name="" id="" onchange="getAdmitted()">
         <option value="oneYear">Last one year</option>
@@ -29,6 +30,7 @@
         <input type="date" name="" id="endDate">
       </div>
     </div>
+    -->
     <table class="table table-striped table-bordered text-center align-items-center" style="margin: 8px 0px;">
       <caption> List of Admitted Patients</caption>
         <thead>
@@ -46,6 +48,7 @@
             <th scope="col"><i class="fa-solid fa-file"></i> Discharge Sheet</th>
             <th scope="col"><i class="fa-solid fa-file"></i> Birth Certificate</th>
             <th>Payment</th>
+            <th>Cancel</th>
           </tr>
         </thead>
         <tbody>
@@ -101,7 +104,6 @@
                             <%}else{%>
                               <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
                             <%}%>
-                            
                           <%}%>
                         </select>
                       </td>
@@ -116,11 +118,10 @@
                       <td>
                         <a href="/patients/birthCertificate/<%=visits[i].Patient._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Generate</a>
                       </td>
-                        
                     <%}%>
                     <td><button onclick="openAdvancePayment('<%=visits[i].Patient.Id%>','<%=visits[i].Patient.Name%>','<%=visits[i]._id%>')">Add Payment</button></td>
+                    <td><button onclick="CancelIPD('<%=visits[i]._id%>','<%=visits[i].Patient._id%>')">Cancel</button></td>
                 </tr>
-                
             <%}%>
         </tbody>
       </table>

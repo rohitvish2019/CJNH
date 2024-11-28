@@ -20,6 +20,7 @@ const Visits = new mongoose.Schema({
     isDischarged:Boolean,
     RoomType:String,
     VisitData:Object,
+    DischargeData:Object,
     prescribedMeds:Array,
     advancedPayments:Array,
     PaymentType:String,

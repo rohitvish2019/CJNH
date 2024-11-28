@@ -220,6 +220,7 @@ function showReportOnUI(reports){
     container.innerHTML=``
     for(let i=0;i<reports.length;i++){
         let rowItem = document.createElement('tr');
+        rowItem.id=reports[i]._id
         rowItem.innerHTML=
         `
             <td>${i+1}</td>
@@ -228,7 +229,7 @@ function showReportOnUI(reports){
             <td>${reports[i].Age}</td>
             <td><a target='_blank' href='/patients/birthCertificate/view/${reports[i]._id}'>${reports[i].CertificateNumber}</a></td>
             <td>${reports[i].BirthDate.split('-')[2]}-${reports[i].BirthDate.split('-')[1]}-${reports[i].BirthDate.split('-')[0]}</td>
-            <td><button class='btn btn-danger' onclick='cancelReport("${reports[i]._id}")'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button></td>
+            <td><button class='btn btn-danger' onclick='cancelBirthReport("${reports[i]._id}")'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button></td>
             
         `
         container.appendChild(rowItem)
@@ -236,11 +237,11 @@ function showReportOnUI(reports){
 }
 
 
-function cancelReport(id){
-    let confirmation = window.confirm("Report will be cancelled permanently");
+function cancelBirthReport(id){
+    let confirmation = window.confirm("Certificate will be cancelled permanently");
     if(confirmation){
         $.ajax({
-            url:'/reports/cancel/',
+            url:'/reports/birthCertificate/cancel/',
             type:'post',
             data:{
                 id
@@ -253,6 +254,7 @@ function cancelReport(id){
                     layout: 'topRight',
                     timeout: 1500
                 }).show();
+                document.getElementById(id).remove();
                 return
             },
             error: function(err){

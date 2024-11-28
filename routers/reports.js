@@ -25,6 +25,7 @@ Router.post('/saveServiceSettings', passport.checkAuthentication, reportsControl
 Router.get('/getDashboardData', passport.checkAuthentication, reportsController.dashboard);
 Router.delete('/deleteService/:serviceId', passport.checkAuthentication, reportsController.deleteService);
 Router.post('/cancel', passport.checkAuthentication, reportsController.cancelReport);
+Router.post('/birthCertificate/cancel/', passport.checkAuthentication, reportsController.cancelBirthReport);
 Router.get('/birthCertificates', passport.checkAuthentication, reportsController.birthCertificateHistory)
 
 

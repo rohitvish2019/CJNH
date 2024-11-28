@@ -9,7 +9,7 @@
     <title>Discharge Sheet</title>
 </head>
 
-<body class="container">
+<body class="container" onload="getDischargeData()">
     <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #d29f9b;">
 
         <div class="hospital-details" style="height: 6%;text-align:left; display: flex;">
@@ -61,17 +61,17 @@
             </div>
         </div>  
         <div style="margin-bottom: 4px;">
-            <input style="width: 99.5%;text-align: left;" type="text" name="" id="" placeholder="Diagnosis">
+            <input onchange="addChanged('Diagnosis')" style="width: 99.5%;text-align: left;" type="text" name="" id="Diagnosis" placeholder="Diagnosis">
         </div>
         <!-- Conditions Input Text Box-->
         <div class="condition" style="height: 14%; display: flex;justify-content: space-between;">
             <div style="text-align: left; width: 49%;">
                 <span style="padding-left: 10px;"><b>Condition on Admission</b></span>
-                <textarea rows="6" cols="44"></textarea>
+                <textarea onchange="addChanged('coa')" id="coa" rows="6" cols="44"></textarea>
             </div>
             <div style="text-align: left; width: 49%; border-left: .5px dotted black;padding-left: 13px;">
                 <span><b>Condition on Discharge</b></span>
-                <textarea rows="6" cols="44"></textarea>
+                <textarea rows="6" cols="44" onchange="addChanged('cod')" id="cod"></textarea>
             </div>
         </div>
 
@@ -82,20 +82,20 @@
                     <span><b>O/H MS-</b></span>
                     <table class="table" style="text-align: center;width: 100%;padding: 0;">
                         <tr>
-                            <td>G</td>
-                            <td>P</td>
-                            <td>L</td>
-                            <td>A</td>
+                            <td >G</td>
+                            <td >P</td>
+                            <td >L</td>
+                            <td >A</td>
                         </tr>
                         <tr class="ohms-inputs">
-                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
-                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
-                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
-                            <td style="width: 25%;"><input style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_g')" id="oh_g" style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_p')" id="oh_p" style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_l')" id="oh_l" style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_a')" id="oh_a" style="width: 90%;" type="text"></td>
                         </tr>
                     </table>
                     <div style="text-align: left;margin-left: 5px;">
-                        <textarea name="" id="" rows="3" cols="65" placeholder="MS"></textarea>
+                        <textarea name="" onchange="addChanged('oh_ms')" id="oh_ms" rows="3" cols="65" placeholder="MS"></textarea>
                     </div>
                 </div>
                 <div class="invstdone" style="width:95%;  height: 75%; text-align: center;margin-top: 70px;">
@@ -111,13 +111,13 @@
                             <td>Others</td>
                         </tr>
                         <tr>
-                            <td><input style="width: 96%;" type="text"></td>
-                            <td><input style="width: 96%;" type="text"></td>
-                            <td><input style="width: 96%;" type="text"></td>
-                            <td><input style="width: 96%;" type="text"></td>
-                            <td><input style="width: 96%;" type="text"></td>
-                            <td><input style="width: 96%;" type="text"></td>
-                            <td><input style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('hb_per')" id="hb_per" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('blgr')" id="blgr" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('rbs')" id="rbs" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('hiv')" id="hiv" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('hbsag')" id="hbsag" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('tsh')" id="tsh" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('otherinvest')" id="otherinvest" style="width: 96%;" type="text"></td>
                         </tr>
                     </table>
                 </div>
@@ -133,31 +133,31 @@
                     <tbody>
                         <tr class="b3">
                             <td>I.V Fluids</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('ivfluids')" id="ivfluids" type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>i.v Antibiotic XL 1.5 gm iv.</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('ivantibiotic')" id="ivantibiotic" type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>I.M Aquagesic 75mg</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('imaquagesic')" id="imaquagesic" type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>Tab. Mahacef XL</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('mahacef')" id="mahacef" type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>Tab Camrox D</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('camrox')" id="camrox" type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>Symptomatic t/t</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('symptomatic')" id="symptomatic" type="text"></td>
                         </tr>
                         <tr class="b3">
                             <td>Others</th>
-                            <td><input type="text"></td>
+                            <td><input onchange="addChanged('otherTreatment')" id="otherTreatment" type="text"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -168,11 +168,11 @@
         <div class="notes" style="height: 14%; display: flex;justify-content: space-between;">
             <div style="text-align: left; width: 49%;">
                 <span style="padding-left: 10px;"><b>Operative Notes</b></span>
-                <textarea rows="6" cols="44"></textarea>
+                <textarea rows="6" cols="44" id="opnotes" onchange="addChanged('opnotes')"></textarea>
             </div>
             <div style="text-align: left; width: 49%;border-left: .5px dotted black;padding-left: 13px;">
                 <span><b>Baby Notes</b></span>
-                <textarea  rows="6" cols="44"></textarea>
+                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')"></textarea>
             </div>
         </div>
 
@@ -194,11 +194,11 @@
                     <tbody>
                         <%for(let i=0;i<meds.length;i++){%>
                             <tr class="b4">
-                                <td><%=meds[i].Name%></td>
+                                <td id="<%=meds[i]._id%>" onchange="addChanged('<%=meds[i]._id%>')"><%=meds[i].Name%></td>
                                 <%let dosage = meds[i].Dosage.split('-')%>
-                                <td><input type="text" value="<%=dosage[0]%>"></td>
-                                <td><input type="text" value="<%=dosage[1]%>"></td>
-                                <td><input type="text" value="<%=dosage[2]%>"></td>
+                                <td><input id="<%=meds[i]._id%>_d0" onchange="addChanged('<%=meds[i]._id%>_d0')" type="text" value="<%=dosage[0]%>"></td>
+                                <td><input id="<%=meds[i]._id%>_d1" onchange="addChanged('<%=meds[i]._id%>_d1')" type="text" value="<%=dosage[1]%>"></td>
+                                <td><input id="<%=meds[i]._id%>_d2" onchange="addChanged('<%=meds[i]._id%>_d2')" type="text" value="<%=dosage[2]%>"></td>
                                 <td><%=meds[i].Duration%></td>
                             </tr>
                         <%}%>
@@ -208,7 +208,7 @@
             </div>
             <div>
                 <div style="margin-left: 5px;">
-                    <textarea name="" id="" rows="5" cols="35" placeholder="Other Advice"></textarea>
+                    <textarea name="" id="otherAdvices" onchange="addChanged('otherAdvices')" rows="5" cols="35" placeholder="Other Advice"></textarea>
                 </div>
                 <div style=" width: 100%; height: 55%; padding-left:8px ; text-align: center; margin-top: 7%;">
                     <span>- बच्चे का टीकाकरण नियमित करायें ।</span><br><hr>
@@ -241,16 +241,65 @@
     </div>
 
     <div style="display: flex;justify-content: center; margin-top: 10px;">
-        <button id="printButton" onclick="printMe()"
+        <button id="saveButton" onclick="saveChanges()"
             style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
-            class="btn btn-success"><b>Print</b></button>
+            class="btn btn-success"><b>Save draft</b></button>
+
+        <button id="printButton" onclick="printMe()"
+        style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
+        class="btn btn-success"><b>Save & Print</b></button>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        function printMe() {
+        let changes = new Object();
+        function saveChanges(){
+            $.ajax({
+                url:'/patients/save/dischargeData',
+                data:{
+                    changes,
+                    id:document.getElementById('visitId').innerText
+                },
+                type:'POST',
+                success:function(data){
+                    return 0;
+                },
+                error:function(err){
+                    return -1;
+                },
+            })
+        }
+        function getDischargeData(){
+            $.ajax({
+                url:'/patients/get/dischargeData/'+document.getElementById('visitId').innerText,
+                type:'GET',
+                success:function(data){
+                    let keys = Object.keys(data.dd);
+                    for(let i=0;i<keys.length;i++){
+                        document.getElementById(keys[i]).value = data.dd[keys[i]]
+                        document.getElementById(keys[i]).innerText = data.dd[keys[i]]
+                        changes[keys[i]] = data.dd[keys[i]]
+                    }
+                },
+                error:function(err){
+                    console.log(err)
+                }
+            })
+        }
+        async function printMe() {
+            await saveChanges();
+            document.getElementById('saveButton').style.display = 'none'
             document.getElementById('printButton').style.display = 'none'
             window.print()
         }
+
+        function addChanged(id){
+            //console.log(document.getElementById(id))
+            changes[id] = document.getElementById(id).value == '' ? document.getElementById(id).innerText : document.getElementById(id).value
+        }
     </script>
+
 </body>
 
 </html>

@@ -341,8 +341,8 @@ module.exports.admitPatient = async function(req, res){
 
 module.exports.showAdmitted = async function(req, res){
     try{
-        let oneYearOld = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-        let visits = await VisitData.find({Type:'IPD', createdAt :{$gte : oneYearOld}}).populate('Patient').sort([['createdAt',-1]]);
+        let threeYearOld = new Date(new Date().setFullYear(new Date().getFullYear() - 3));
+        let visits = await VisitData.find({isCancelled:false,isValid:true,Type:'IPD', createdAt :{$gte : threeYearOld}}).populate('Patient').sort([['createdAt',-1]]);
         let rooms = await ServicesData.find({Type:'RoomCharges'});
         return res.render('showAdmittedPatients',{visits, rooms, user:req.user})
         
@@ -350,7 +350,6 @@ module.exports.showAdmitted = async function(req, res){
         console.log(err)
         return res.render('Error_500')
     }
-    
 }
 
 module.exports.admittedPatientProfile = function(req, res){
@@ -717,6 +716,49 @@ module.exports.saveWeight = async function(req, res){
         console.log(err);
         return res.status(500).json({
             message:'unable to save weight'
+        })
+    }
+}
+
+module.exports.cancelIPD = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.params.id,{isCancelled:true});
+        return res.status(200).json({
+            message:'IPD cancelled'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to cancel IPD'
+        })
+    }
+}
+
+
+module.exports.saveDischargeData = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.id, {DischargeData:req.body.changes});
+        return res.status(200).json({
+            message:'Discharge Data saved'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message :'Unable to save discharge data'
+        })
+    }
+}
+
+module.exports.getDischargeData = async function(req, res){
+    try{
+        let visit = await VisitData.findByIdAndUpdate(req.params.id);
+        return res.status(200).json({
+            dd:visit.DischargeData,
+            message:'result found'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to find data'
         })
     }
 }

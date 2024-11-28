@@ -30,4 +30,7 @@ Router.post('/birthCertificate/save', passport.checkAuthentication, PatientsCont
 Router.post('/add/advancePayment', passport.checkAuthentication, PatientsController.addAdvancePayment);
 Router.post('/saveWeight', passport.checkAuthentication, PatientsController.saveWeight);
 Router.get('/birthCertificate/view/:certId', passport.checkAuthentication, PatientsController.viewBirthCertificate);
+Router.post('/cancel/IPD/:id', passport.checkAuthentication, PatientsController.cancelIPD);
+Router.post('/save/dischargeData', passport.checkAuthentication, PatientsController.saveDischargeData);
+Router.get('/get/dischargeData/:id', passport.checkAuthentication, PatientsController.getDischargeData)
 module.exports = Router;

@@ -97,10 +97,10 @@ function getSalesHistoryRange(){
         return
     }
     let days = (new Date(endDate).getTime() - new Date(startDate).getTime())/(60*24*60*1000)
-    if( days > 31){
+    if( days > 365){
         new Noty({
             theme: 'relax',
-            text: 'Max 1 Month allowed',
+            text: 'Max 1 year allowed',
             type: 'error',
             layout: 'topRight',
             timeout: 1500

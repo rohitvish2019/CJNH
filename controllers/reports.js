@@ -180,6 +180,26 @@ module.exports.cancelReport = async function(req,res){
     }
 }
 
+module.exports.cancelBirthReport = async function(req,res){
+    try{
+        let report = await BirthData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
+        if(report){
+            return res.status(200).json({
+                message:'Certificate cancelled'
+            })
+        }else{
+            return res.status(404).json({
+                message:'No certificate found'
+            })
+        }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : Unable to cancel certificate'
+        })
+    }
+}
+
 
 
 

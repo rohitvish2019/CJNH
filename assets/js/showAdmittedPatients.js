@@ -95,3 +95,17 @@ function closePopup(){
 function getAdmitted(){
     let selectedOption = document.getElementById('')
 }
+
+function CancelIPD(id, pid){
+    let confirmation = window.confirm("This IPD will be cancelled permanently !!!")
+    if(confirmation){
+        $.ajax({
+            url:'/patients/cancel/IPD/'+id,
+            type:'POST',
+            success:function(data){
+                document.getElementById(pid).style.display='none'
+            },
+            error:function(err){}
+        })
+    }
+}
