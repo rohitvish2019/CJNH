@@ -33,7 +33,7 @@ function showPurchaseHistory(purchases){
             <td>${purchases[i].Quantity}</td>
             <td>${purchases[i].Bought_Date.split('-')[2]}-${purchases[i].Bought_Date.split('-')[1]}-${purchases[i].Bought_Date.split('-')[0]}</td>
             <td>${purchases[i].Seller}</td>
-            <td><button onclick="cancelPurchase('${purchases[i]._id}')">cancel</button></td>
+            <td><button class="btn btn-danger" onclick="cancelPurchase('${purchases[i]._id}')"><i class="fa-solid fa-ban"></i></button></td>
         `
         container.appendChild(rowItem);
     }

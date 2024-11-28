@@ -10,7 +10,8 @@
   }
 
 .bg th{
-    font-size: 15px;
+    font-size: small;
+    text-align: center;
     align-items: center;
     background-color: #025E73 !important;
     border-right: 1px dotted black;

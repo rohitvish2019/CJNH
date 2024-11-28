@@ -229,7 +229,8 @@ function showReportOnUI(reports){
             <td>${reports[i].Age}</td>
             <td><a target='_blank' href='/patients/birthCertificate/view/${reports[i]._id}'>${reports[i].CertificateNumber}</a></td>
             <td>${reports[i].BirthDate.split('-')[2]}-${reports[i].BirthDate.split('-')[1]}-${reports[i].BirthDate.split('-')[0]}</td>
-            <td><button class='btn btn-danger' onclick='cancelBirthReport("${reports[i]._id}")'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button></td>
+            <td><button class='btn btn-danger' onclick='cancelBirthReport("${reports[i]._id}")'><i
+              class="fa-solid fa-ban"></i> Cancel</button></td>
             
         `
         container.appendChild(rowItem)
@@ -238,7 +239,7 @@ function showReportOnUI(reports){
 
 
 function cancelBirthReport(id){
-    let confirmation = window.confirm("Certificate will be cancelled permanently");
+    let confirmation = window.confirm("Certificate will be cancelled permanently.");
     if(confirmation){
         $.ajax({
             url:'/reports/birthCertificate/cancel/',
