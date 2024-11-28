@@ -53,6 +53,10 @@ function addNewItems(){
         <td style="text-align: left;">${itemName}</td>
         <td>₹${itemPrice}</td>
         <td onclick='deleteItems("${itemName+'newItem'}")'><button>Delete</button></td>
+        <td>
+            <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-solid fa-trash-can"></i> </span>
+            <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-regular fa-trash-can"></i> </span>
+        </td>
     `
     document.getElementById('billingDetails').appendChild(rowItem);
     closepopup()
@@ -77,7 +81,10 @@ function getDischargeBillItems(){
                     <td>${counter++}</td>
                     <td style="text-align: left;">${data.Items[i].Name}</td>
                     <td>₹${data.Items[i].Price}</td>
-                    <td onclick='deleteItems("${data.Items[i]._id}")'><button>Delete</button></td>
+                    <td>
+                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-solid fa-trash-can"></i> </span>
+                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-regular fa-trash-can"></i> </span>
+                    </td>
                 `
                 container.appendChild(rowItem);
                 dischargeItems[data.Items[i]._id] = data.Items[i]
@@ -89,7 +96,11 @@ function getDischargeBillItems(){
                 <td>${counter}</td>
                 <td style="text-align: left;">Room Rent</td>
                 <td>₹${data.daysCount * data.roomRent}</td>
-                <td onclick='deleteItems("roomRent")'><button>Delete</button></td>
+                <td>
+                
+                <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-solid fa-trash-can"></i> </span>
+                <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-regular fa-trash-can"></i> </span>
+                </td>
             `
             container.appendChild(rooRentRow)
             dischargeItems['roomRent'] = {"Name":"roomRent","Price":data.daysCount*data.roomRent}
@@ -103,7 +114,10 @@ function getDischargeBillItems(){
                     <td>${counter++}</td>
                     <td style="text-align: left;">${item[0]}</td>
                     <td>₹${item[1]}</td>
-                    <td onclick='deleteItems("${item[0]+item[2]}")'><button>Delete</button></td>
+                    <td>
+                    <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-solid fa-trash-can"></i> </span>
+                    <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-regular fa-trash-can"></i> </span>
+                    </td>
                 `
                 container.appendChild(rowItem);
                 dischargeItems[item[0]+item[2]] = {"Name":item[0],"Price":item[1]}
@@ -116,4 +130,15 @@ function deleteItems(id){
     document.getElementById(id).remove();
     delete dischargeItems[id]
 }
+
+function unhighlight(x) {
+    document.getElementById('dustbinDark'+x).style.display = "block";
+    document.getElementById('dustbinLight'+x).style.display = "none";
+}
+
+function highlight(x) {
+    document.getElementById('dustbinDark'+x).style.display = "none";
+    document.getElementById('dustbinLight'+x).style.display = "block";
+}
+
 getDischargeBillItems();
