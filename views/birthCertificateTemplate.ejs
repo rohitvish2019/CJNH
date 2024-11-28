@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birth Certificate</title>
     <link rel="stylesheet" href="/css/birthCertificateTemplate.css">
 </head>
-<body>
-    <div>
-        <header>
-            <div
-                style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;">
-                <span style="font-size: medium;"><i></i></span>
-                <span>Reg No. NH/9255/JUN-2023</span>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-                <div style="justify-content: left;">
-                    <img style="height: 60px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
+
+<body style="text-align: center;">
+    <div style="margin:15px; padding: 10px; border: 2px solid black;">
+        <div>
+            <header>
+                <div
+                    style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;">
+                    <span style="font-size: medium;"><i></i></span>
+                    <span>Reg No. NH/9255/JUN-2023</span>
                 </div>
-                <span style="margin-top: 1.5%;" class="heading">Dr. Chanda Jain Nursing Home</span>
-                <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
-            </div>
-            <div style="text-align: center;">
-                <label class="sub-heading">323, Civil Ward No. 7, Damoh. (MP) Pin - 470661</label>
-            </div>
-        </header>
-            
+                <div style="margin-top: 1.5%; display: flex; justify-content: space-between;">
+                    <div style="justify-content: left;">
+                        <img style="height: 60px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
+                    </div>
+                    <h1>Dr. Chanda Jain Nursing Home</h1>
+                    <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
+                </div>
+                <div style="text-align: center;">
+                    <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH)</label>
+                </div>
+            </header>
+
         </div>
         <div class="heading" style="margin-top: 3%;">
-            <label style="display: block;">Birth Certificate</label>
+            <h3 style="display: block;">Birth Certificate</h3>
             <label style="display: block;">जन्म प्रमाण पत्र</label>
         </div>
         <div class="date">
@@ -38,32 +41,50 @@
             </div>
         </div>
         <div class="content">
-            
-            This is to certified that <b>smt. <%=cert.Name%></b>  W/O <b>Shri <%=cert.Husband%></b> Age <b><%=cert.Age%></b> years of 
-            village <b><%=cert.Village%></b> Tahsil <b><%=cert.Tahsil%></b> District <b><%=cert.District%></b> state <b><%=cert.State%></b> 
-            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child at  <b><%=cert.BirthTime%></b> at <b><%=cert.BirthDate.split('-')[2]%>-<%=cert.BirthDate.split('-')[1]%>-<%=cert.BirthDate.split('-')[0]%></b>
-            Birth weight <b><%=cert.ChildWeight%></b> in my nursing home 
+
+            This is to certify that <b>Smt. <%=cert.Name%></b>, W/O <b>Shri. <%=cert.Husband%></b> age
+            <b><%=cert.Age%></b>
+            years resident of
+            Village: <b><%=cert.Village%></b>, Tahsil: <b><%=cert.Tahsil%></b>, District: <b><%=cert.District%></b>.
+            State:
+            <b><%=cert.State%></b>
+            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child at <b><%=cert.BirthTime%></b> on
+            <b><%=cert.BirthDate.split('-')[2]%>-<%=cert.BirthDate.split('-')[1]%>-<%=cert.BirthDate.split('-')[0]%></b>
+            Birth weight <b><%=cert.ChildWeight%></b> Kg. in my Nursing Home
         </div>
 
         <div class="footer">
-            <div style="display: flex;justify-content: space-between;margin-top: 9%;">
-                <div style="width: 40%;font-size: 20px;">
-                    <label>Parents sign</label>
+            <div style="display: flex;justify-content: space-between;margin-top: 10%;">
+                <div style="text-align: left !important;; width: 40%;font-size: 20px;">
+                    <label>Signature of Parent</label>
                 </div>
                 <div>
-                    <label style="display: block;font-size: 22px;">(Dr Swati Jain)</label>
+                    <label style="display: block;font-size: 22px;"><b>(Dr Swati Jain)</b></label>
                     <label>MBBS, DGO</label>
                 </div>
                 <div>
-                    <label style="display: block;font-size: 22px;">(Dr Anuj Jain)</label>
-                    <label >MBBS, DGO</label>
+                    <label style="display: block;font-size: 22px;"><b>(Dr Anuj Jain)</b></label>
+                    <label>MBBS, DGO</label>
                 </div>
             </div>
-            <div style="display: flex;justify-content: end;margin-top: 3%;">
-                Prop. Dr. Chanda Jain Nursing Home
+            <div style="display: flex;justify-content: end;">
+                <i>Prop. Dr. Chanda Jain Nursing Home</i>
             </div>
 
         </div>
     </div>
+    </div>
+
+    <button id="printButton" onclick="printMe()"
+        style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
+        class="btn btn-success"><b>Save & Print</b></button>
+
 </body>
+<script>
+    function printMe() {
+        document.getElementById('printButton').style.display = 'none'
+        window.print()
+    }
+</script>
+
 </html>
