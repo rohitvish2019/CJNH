@@ -30,7 +30,10 @@ function addMedications(){
         <td>${Quantity}</td>
         <td>${Price * Quantity}</td>
         <td>${SellerName}</td>
-        <td><button onclick='removeItem(${countTracker})'>Delete</button></td>
+        <td>
+            <span id="dustbinDark${countTracker}" onmouseover = "highlight(${countTracker})" onmouseout = "unhighlight(${countTracker})" style="display:inline-block; margin: 1%;" onclick='removeItem(${countTracker})'><i class="fa-solid fa-trash-can"></i> </span>
+            <span id="dustbinLight${countTracker}" onmouseover = "highlight(${countTracker})" onmouseout = "unhighlight(${countTracker})" style="display:none; margin: 1%;" onclick='removeItem(${countTracker})'><i class="fa-regular fa-trash-can"></i> </span>
+        </td>
     `
     container.appendChild(rowItem);
     countTracker++
@@ -39,6 +42,15 @@ function addMedications(){
     document.getElementById('Price').value=''
     document.getElementById('Quantity').value=''
     document.getElementById('SellerName').value=''
+}
+function unhighlight(x) {
+    document.getElementById('dustbinDark'+x).style.display = "block";
+    document.getElementById('dustbinLight'+x).style.display = "none";
+}
+
+function highlight(x) {
+    document.getElementById('dustbinDark'+x).style.display = "none";
+    document.getElementById('dustbinLight'+x).style.display = "block";
 }
 function removeItem(counter){
     purchases[counter-1] = '';

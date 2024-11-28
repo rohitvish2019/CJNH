@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admitted Patients</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admitted Patients</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+    integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+    integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="/css/showAdmittedPatients.css">
 
-    
-  
+
+
 </head>
+
 <body>
-    <header>
-      <%-include('_header')%>
-    </header>
-    <input type="hidden" id="visitId">
-    <!--
+  <header>
+    <%-include('_header')%>
+  </header>
+  <input type="hidden" id="visitId">
+  <!--
     <div style="display: flex; justify-content: space-between; width: 30%;padding-left: 1%;padding-top: 2%;">
       <select name="" id="" onchange="getAdmitted()">
         <option value="oneYear">Last one year</option>
@@ -31,98 +37,118 @@
       </div>
     </div>
     -->
-    <table class="table table-striped table-bordered text-center align-items-center" style="margin: 8px 0px;">
-      <caption> List of Admitted Patients</caption>
-        <thead>
-          <tr class="bg">
-            <th scope="col">#</th>
-            <th scope="col">Id</th>
-            <th scope="col"><i class="fas fa-user"></i> Name</th>
-            <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
-            <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
-            <th scope="col"><i class="fas fa-phone"></i> Mobile</th>
-            <th scope="col"><i class="fa-solid fa-calendar"></i> Admission on</th>
-            <th scope="col"><i class="fa-solid fa-calendar"></i> Discharge on</th>
-            <th scope="col"> Room Type</th>
-            <th scope="col"><i class="fa-solid fa-file"></i> Bill</th>
-            <th scope="col"><i class="fa-solid fa-file"></i> Discharge Sheet</th>
-            <th scope="col"><i class="fa-solid fa-file"></i> Birth Certificate</th>
-            <th>Payment</th>
-            <th>Cancel</th>
-          </tr>
-        </thead>
-        <tbody>
-            <%for(let i=0;i<visits.length;i++){%>
-                <tr id="<%=visits[i].Patient._id%>">
-                  <%if(visits[i].isDischarged == true){%>
-                    <th style="width: 2%;" scope="row"><%=i+1%></th>
-                      <td style="width: 4%;"><%=visits[i].Patient.Id%></td>
-                      <td style="width: 9%;"><%=visits[i].Patient.Name%></td>
-                      <td style="width: 2%;"><%=visits[i].Patient.Age%></td>
-                      <td style="width: 10%;"><%=visits[i].Patient.Address%></td>
-                      <td style="width: 10%;"><%=visits[i].Patient.Mobile%></td>
-                      <td style="width: 10%;"><%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%>, At <%=visits[i].AdmissionTime%></td>
-                      <td><input disabled type="datetime-local" name="" id="dischargeDate_<%=visits[i]._id%>" onchange="changeDischargeDate('<%=visits[i]._id%>')" value="<%=visits[i].DischargeDate%>T<%=visits[i].DischargeTime%>"></td>
-                      <td style="width: 10%;">
-                        <select disabled name="" id="RoomType_<%=visits[i]._id%>" value="<%=visits[i].RoomType%>" onchange="changeRoom('<%=visits[i]._id%>')">
-                          <option value="none">--select room--</option>
-                          <%for(let j=0;j<rooms.length;j++){%>
-                            <%if(rooms[j].Name == visits[i].RoomType){%>
-                              <option selected value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-                            <%}else{%>
-                              <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-                            <%}%>
-                          <%}%>
-                        </select>
-                      </td>
-                      <%if( visits[i].RoomType == null || visits[i].DischargeDate == null) {%>
-                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" style="pointer-events: none" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
-                      <%}else{%>
-                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
-                      <%}%>
-                      <td>
-                        <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
-                      </td>
-                      <td>
-                        <a href="/patients/birthCertificate/<%=visits[i].Patient._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Generate</a>
-                      </td>
-                    <%}else{%>
-                      <th style="width: 2%;" scope="row"><%=i+1%></th>
-                      <td style="width: 4%;"><%=visits[i].Patient.Id%></td>
-                      <td style="width: 9%;"><%=visits[i].Patient.Name%></td>
-                      <td style="width: 2%;"><%=visits[i].Patient.Age%></td>
-                      <td style="width: 10%;"><%=visits[i].Patient.Address%></td>
-                      <td style="width: 10%;"><%=visits[i].Patient.Mobile%></td>
-                      <td style="width: 10%;"><%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%>, At <%=visits[i].AdmissionTime%></td>
-                      <td><input type="datetime-local" name="" id="dischargeDate_<%=visits[i]._id%>" onchange="changeDischargeDate('<%=visits[i]._id%>')" value="<%=visits[i].DischargeDate%>T<%=visits[i].DischargeTime%>"></td>
-                      <td style="width: 10%;">
-                        <select name="" id="RoomType_<%=visits[i]._id%>" value="<%=visits[i].RoomType%>" onchange="changeRoom('<%=visits[i]._id%>')">
-                          <option value="none">--select room--</option>
-                          <%for(let j=0;j<rooms.length;j++){%>
-                            <%if(rooms[j].Name == visits[i].RoomType){%>
-                              <option selected value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-                            <%}else{%>
-                              <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-                            <%}%>
-                          <%}%>
-                        </select>
-                      </td>
-                      <%if(visits[i].RoomType == null || visits[i].DischargeDate == null){%>
-                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" style="pointer-events: none" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
-                      <%}else{%>
-                        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
-                      <%}%>
-                      <td>
-                        <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
-                      </td>
-                      <td>
-                        <a href="/patients/birthCertificate/<%=visits[i].Patient._id%>" style="margin-top: 5% !important;font-size: small;font-weight: bold;">Generate</a>
-                      </td>
-                    <%}%>
-                    <td><button onclick="openAdvancePayment('<%=visits[i].Patient.Id%>','<%=visits[i].Patient.Name%>','<%=visits[i]._id%>')">Add Payment</button></td>
-                    <td><button onclick="CancelIPD('<%=visits[i]._id%>','<%=visits[i].Patient._id%>')">Cancel</button></td>
-                </tr>
+  <table class="table table-striped table-bordered text-center align-items-center" style="margin: 8px 0px;">
+    <caption> List of Admitted Patients</caption>
+    <thead>
+      <tr class="bg">
+        <th scope="col">#</th>
+        <th scope="col">Id</th>
+        <th scope="col"><i class="fas fa-user"></i> Name</th>
+        <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
+        <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
+        <th scope="col"><i class="fas fa-phone"></i> Mobile</th>
+        <th scope="col"><i class="fa-solid fa-calendar"></i> Admission on</th>
+        <th scope="col"><i class="fa-solid fa-calendar"></i> Discharge on</th>
+        <th scope="col"><i class="fa-solid fa-bed-pulse"></i> Room Type</th>
+        <th scope="col"><i class="fa-solid fa-file-invoice-dollar"></i> Bill</th>
+        <th scope="col"><i class="fa-solid fa-sheet-plastic"></i> Discharge Sheet</th>
+        <th scope="col"><i class="fa-solid fa-file-lines"></i> Birth Certificate</th>
+        <th><b>₹</b> Payment</th>
+        <th>Cancel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%for(let i=0;i<visits.length;i++){%>
+      <tr id="<%=visits[i].Patient._id%>">
+        <%if(visits[i].isDischarged == true){%>
+        <th style="width: 2%;" scope="row"><%=i+1%></th>
+        <td style="width: 4%;"><%=visits[i].Patient.Id%></td>
+        <td style="width: 9%;"><%=visits[i].Patient.Name%></td>
+        <td style="width: 2%;"><%=visits[i].Patient.Age%></td>
+        <td style="width: 10%;"><%=visits[i].Patient.Address%></td>
+        <td style="width: 10%;"><%=visits[i].Patient.Mobile%></td>
+        <td style="width: 10%;">
+          <%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%>,
+          At <%=visits[i].AdmissionTime%></td>
+        <td><input disabled type="datetime-local" name="" id="dischargeDate_<%=visits[i]._id%>"
+            onchange="changeDischargeDate('<%=visits[i]._id%>')"
+            value="<%=visits[i].DischargeDate%>T<%=visits[i].DischargeTime%>"></td>
+        <td style="width: 10%;">
+          <select disabled name="" id="RoomType_<%=visits[i]._id%>" value="<%=visits[i].RoomType%>"
+            onchange="changeRoom('<%=visits[i]._id%>')">
+            <option value="none">--select room--</option>
+            <%for(let j=0;j<rooms.length;j++){%>
+            <%if(rooms[j].Name == visits[i].RoomType){%>
+            <option selected value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
+            <%}else{%>
+            <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
             <%}%>
+                          <%}%>
+          </select>
+        </td>
+        <%if( visits[i].RoomType == null || visits[i].DischargeDate == null) {%>
+        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" style="pointer-events: none"
+            href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
+        <%}else{%>
+        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor"
+            href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
+        <%}%>
+                      <td>
+                        <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5%
+        !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+        </td>
+        <td>
+          <a href="/patients/birthCertificate/<%=visits[i].Patient._id%>"
+            style="margin-top: 5% !important;font-size: small;font-weight: bold;">Generate</a>
+        </td>
+        <%}else{%>
+        <th style="width: 2%;" scope="row"><%=i+1%></th>
+        <td style="width: 4%;"><%=visits[i].Patient.Id%></td>
+        <td style="width: 9%;"><%=visits[i].Patient.Name%></td>
+        <td style="width: 2%;"><%=visits[i].Patient.Age%></td>
+        <td style="width: 10%;"><%=visits[i].Patient.Address%></td>
+        <td style="width: 10%;"><%=visits[i].Patient.Mobile%></td>
+        <td style="width: 10%;">
+          <%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%>,
+          At <%=visits[i].AdmissionTime%></td>
+        <td><input type="datetime-local" name="" id="dischargeDate_<%=visits[i]._id%>"
+            onchange="changeDischargeDate('<%=visits[i]._id%>')"
+            value="<%=visits[i].DischargeDate%>T<%=visits[i].DischargeTime%>"></td>
+        <td style="width: 10%;">
+          <select name="" id="RoomType_<%=visits[i]._id%>" value="<%=visits[i].RoomType%>"
+            onchange="changeRoom('<%=visits[i]._id%>')">
+            <option value="none">--select room--</option>
+            <%for(let j=0;j<rooms.length;j++){%>
+            <%if(rooms[j].Name == visits[i].RoomType){%>
+            <option selected value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
+            <%}else{%>
+            <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
+            <%}%>
+                          <%}%>
+          </select>
+        </td>
+        <%if(visits[i].RoomType == null || visits[i].DischargeDate == null){%>
+        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor" style="pointer-events: none"
+            href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
+        <%}else{%>
+        <td style="width: 10%;"><a id="<%=visits[i]._id%>_anchor"
+            href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></td>
+        <%}%>
+                      <td>
+                        <a href="/patients/dischargeSheet/<%=visits[i]._id%>" style="margin-top: 5%
+        !important;font-size: small;font-weight: bold;">Discharge Sheet</a>
+        </td>
+        <td>
+          <a href="/patients/birthCertificate/<%=visits[i].Patient._id%>"
+            style="margin-top: 5% !important;font-size: small;font-weight: bold;">Generate</a>
+        </td>
+        <%}%>
+                    <td><button class="btn btn-info" onclick="openAdvancePayment('<%=visits[i].Patient.Id%>','<%=visits[i].Patient.Name%>','<%=visits[i]._id%>')">Add
+        Payment</button></td>
+        <td><button class="btn-danger btn" onclick="CancelIPD('<%=visits[i]._id%>','<%=visits[i].Patient._id%>')"><i
+              class="fa-solid fa-ban"></i></button></td>
+      </tr>
+      <%}%>
         </tbody>
       </table>
       <div id="addPaymentPopup" style="display: none;">
