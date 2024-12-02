@@ -73,7 +73,7 @@ function searchById() {
             if(day == 0){
                 todaysFees = 500
             }
-            let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString() + '-' + new Date().getDate()
+            let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date().getDate().toString().padStart(2,'0')
             document.getElementById('Fees').value = todaysFees
             document.getElementById('lastFeesPaid').innerText = data.visit[0].Fees
             document.getElementById('lastVisitDate').innerText = visitDate[2] + '-' + visitDate[1] + '-' + visitDate[0]
