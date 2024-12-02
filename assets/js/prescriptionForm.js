@@ -57,19 +57,19 @@ function getVisitdata() {
                 for (let i = 0; i < data.Prescriptions.length; i++) {
                     let item = document.createElement('tr');
                     let itemInfo = data.Prescriptions[i]
-                    itemData = itemInfo.split('***')
+                    itemData = itemInfo.split('$')
                     item.id = removeSpaces(itemInfo)+'_tr'
                     item.innerHTML=
                     `
                         <td style="width: 40%;" ondblclick='deleteMed("${removeSpaces(itemInfo)}","${itemInfo}")' >
                             <label style="display: block;">${itemData[0]}</label>
-                            <small style="font-size: 10px !important;"><b>Comp. </b>${itemData[3]}</small>
+                            <small style="font-size: 10px !important;"><b>Comp. </b>${itemData[3] == undefined ? '':itemData[3]}</small>
                         </td>
                         <td style="width: 10%;">
-                            ${itemData[1]}
+                            ${itemData[1] == undefined ? '' : itemData[1]}
                         </td>
                         <td style="font-size: 12px;width: 40%;">
-                            ${itemData[2]}
+                            ${itemData[2] == undefined ? '' : itemData[2]}
                         </td>
                     `
                     container.appendChild(item);
@@ -96,14 +96,14 @@ function addMed() {
     `
     
     <td style="width: 40%;" ondblclick='deleteMed("${removeSpaces(itemInfo)}","${itemInfo}")' >
-        <label style="display: block;">${itemData[0].split('***')[1]}</label>
-        <small style="font-size: 10px !important;"><b>Comp. </b>${itemData[3]}</small>
+        <label style="display: block;">${itemData[0]}</label>
+        <small style="font-size: 10px !important;"><b>Comp. </b>${itemData[3]==undefined ? '':itemData[3]}</small>
     </td>
     <td style="width: 10%;">
-        ${itemData[1]}
+        ${itemData[1] == undefined ? '' : itemData[1]}
     </td>
     <td style="font-size: 12px;width: 40%;">
-        ${itemData[2]}
+        ${itemData[2] == undefined ? '' : itemData[2]}
     </td>
     
     `
