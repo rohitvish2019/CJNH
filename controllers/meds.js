@@ -6,7 +6,8 @@ module.exports.addMeds = async function(req, res){
             Composition:req.body.Composition,
             Dosage:req.body.Dosage,
             Duration:req.body.Duration,
-            Type:req.body.Type
+            Type:req.body.Type,
+            Category:req.body.Category
         });
         return res.status(200).json({
             message:'Medicine record created'

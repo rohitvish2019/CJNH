@@ -63,8 +63,8 @@
 
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control mb2" id="District" placeholder="name@example.com"
-                        value="<%=certificate == null ? '' : certificate.District%>">
-                    <label for="Mobile"><i class="fas fa-map-marker-alt"></i> District <span>*</span></label>
+                        value="<%=certificate == null ? 'Damoh' : certificate.District%>">
+                    <label><i class="fas fa-map-marker-alt"></i> District <span>*</span></label>
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control mb2" id="State" placeholder="name@example.com"
@@ -80,7 +80,7 @@
                         <option disabled value="">--Select--</option>
                         <option value="Vaginal">Vaginal</option>
                         <option value="Caesarean">Caesarean</option>
-                        <option value="Instrumental">Instrumental</option>
+                        <option value="Vaginal Instrumental">Vaginal Instrumental</option>
                     </select>
                     <label><i class="fa-solid fa-notes-medical"></i> Delivery Type <span>*</span></label>
                 </div>
@@ -88,6 +88,7 @@
                 <div class="form-floating">
                     <select class="form-select" id="Gender" aria-label="Floating label select example"
                         value="<%=certificate == null ? '' : certificate.Gender %>">
+                        <option value="" disabled selected>--Select--</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -107,7 +108,7 @@
                 </div>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control mb2" id="ChildWeight" placeholder="name@example.com"
-                        value="<%=certificate == null ? 'kg' : certificate.ChildWeight %>">
+                        value="<%=certificate == null ? ' kg' : certificate.ChildWeight %>">
                     <label for="Mobile"><i class="fa-solid fa-arrow-up-1-9"></i> Child Weight <span>*</span></label>
                 </div>
             </div>
@@ -117,7 +118,20 @@
                 onclick="saveBirthDetails()"><i class="fa-regular fa-file-pdf"></i> Save</button>
         </div>
     </div>
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </div>
+      
     <script src="/js/birthCertificateHome.js"></script>
+    
 </body>
 
 </html>

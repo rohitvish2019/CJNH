@@ -100,19 +100,19 @@ module.exports.addVisitAndPatient = async function(req, res){
 
 module.exports.getAppointmentsToday = async function(req, res){
     try{
-        let day = new Date().getDate()
+        let day = new Date().getDate().toString().padStart(2,'0')
         let month = +new Date().getMonth()
         let year = new Date().getFullYear()
         //let date =  new Date().toISOString().split('T')[0];
-        let date = year +'-'+ (month+1) +'-'+ day; 
+        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day;
         let visits;
-
+        console.log(date)
         if(req.query.status == 'true'){
             visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
         }else{
             visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient');
         }
-            
+
         if(req.xhr){
             console.log('It is a xhr request')
             return res.status(200).json({
@@ -398,7 +398,7 @@ module.exports.AdmissionBill = async function(req, res){
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         let bill = visit.Patient
         let Items = await ServicesData.find({Type:'AdmissionBill'});
-        let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+        let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount, visit_id:visit._id, isDischarged:visit.isDischarged, user:req.user});
     }catch(err){    
@@ -411,7 +411,7 @@ module.exports.getAdmissionBillItems = async function(req, res){
     try{
         let visit = await VisitData.findById(req.query.visitid).populate('Patient');
         let Items = await ServicesData.find({Type:'AdmissionBill'},'Name Price');
-        let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+        let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         let advancedPayments = visit.advancedPayments;
         return res.status(200).json({
@@ -466,7 +466,7 @@ module.exports.saveDischargeBill = async function(req, res){
             
             let Items = await ServicesData.find({Type:'AdmissionBill'});
             
-            let daysCount = get12HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+            let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
             let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
             
             
@@ -494,7 +494,7 @@ module.exports.saveDischargeBill = async function(req, res){
 }
 
 
-function get12HourTimeframes(startDate, startTime, endDate, endTime) {
+function get24HourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
     const startDateTime = new Date(`${startDate}T${startTime}`);
     const endDateTime = new Date(`${endDate}T${endTime}`);
@@ -507,13 +507,13 @@ function get12HourTimeframes(startDate, startTime, endDate, endTime) {
     const hoursDiff = timeDiff / (1000 * 60 * 60);
     
     // Return the number of 6-hour timeframes (rounding down)
-    return Math.ceil(hoursDiff / 12);
+    return Math.ceil(hoursDiff / 24);
 }
 
 
 module.exports.showPrescription = async function(req, res){
     try{
-        let medsList = await MedsData.find({})
+        let medsList = await MedsData.find({}).sort('Category')
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         if(req.xhr){
             return res.status(200).json({
@@ -623,7 +623,7 @@ module.exports.saveBirthDetails = async function(req, res){
                 let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
                 let patient = await PatientData.findOne({Id:pid});
                 let bcert = await BirthData.create({
-                    CertificateNumber:newBirthCertNumber,
+                    CertificateNumber:"BCERT"+newBirthCertNumber,
                     OPDId:pid,
                     Name:patient.Name,
                     Husband:patient.Husband,
@@ -637,8 +637,9 @@ module.exports.saveBirthDetails = async function(req, res){
                     BirthTime:req.body.BirthTime,
                     BirthDate:req.body.BirthDate,
                     ChildWeight:req.body.ChildWeight,
-                    GeneratedOn:req.body.GeneratedOn,
+                    GeneratedOn:req.body.BirthDate,
                 })
+                await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber})
                 return res.status(200).json({
                     message:'Birth Certificate created',
                     id:bcert._id

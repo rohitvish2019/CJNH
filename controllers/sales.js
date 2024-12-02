@@ -64,10 +64,10 @@ module.exports.addSales = async function(req, res){
 
         let tracker = await Tracker.findOne({});
         
-        let day = new Date().getDate()
+        let day = new Date().getDate().toString().padStart(2,'0')
         let month = +new Date().getMonth()
         let year = new Date().getFullYear()
-        let date = year +'-'+ (month+1) +'-'+ day; 
+        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day; 
         let rptType = 'NA'
         let PathologyBillNo = 0 
         let BillNo

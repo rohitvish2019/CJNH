@@ -91,12 +91,12 @@ function addMed() {
     let container = document.getElementById('prescribedMeds');
     let item = document.createElement('tr');
     let itemInfo = document.getElementById('searchBox').value
-    let itemData = itemInfo.split('***')
+    let itemData = itemInfo.split('$')
     item.innerHTML=
     `
     
     <td style="width: 40%;" ondblclick='deleteMed("${removeSpaces(itemInfo)}","${itemInfo}")' >
-        <label style="display: block;">${itemData[0]}</label>
+        <label style="display: block;">${itemData[0].split('***')[1]}</label>
         <small style="font-size: 10px !important;"><b>Comp. </b>${itemData[3]}</small>
     </td>
     <td style="width: 10%;">

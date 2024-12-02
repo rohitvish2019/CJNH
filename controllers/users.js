@@ -2,8 +2,12 @@ const { emit } = require("../models/patients")
 const Users = require("../models/users")
 module.exports.loginHome = function(req, res){
     if(req.isAuthenticated()){
-        console.log('You have logged in')
-        return res.redirect('/patients/new')
+        if(req.user.Role == 'Admin'){
+            return res.redirect('/patients/getAppointments/today')
+        }else{
+            return res.redirect('/patients/new')
+        }
+        
     }
     else{
         console.log('Unable to authenticate')
@@ -13,7 +17,12 @@ module.exports.loginHome = function(req, res){
 }
 module.exports.createSession = async function(req, res){
     try{
-        return res.redirect('/patients/new');
+        if(req.user.Role == 'Admin'){
+            return res.redirect('/patients/getAppointments/today')
+        }else{
+            return res.redirect('/patients/new');
+        }
+        
     }catch(err){
         console.log(err)
         return res.render('Error_500')

@@ -79,6 +79,7 @@ function searchById() {
             document.getElementById('lastVisitDate').innerText = visitDate[2] + '-' + visitDate[1] + '-' + visitDate[0]
             document.getElementById('register').setAttribute('disabled', 'true');
             document.getElementById('bookAppointment').removeAttribute('disabled')
+            console.log(date)
             document.getElementById('AppointmentDate').value=date
         },
         error: function (err) {

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Certificate = new mongoose.Schema({
-    CertificateNumber:Number,
+    CertificateNumber:String,
     OPDId:Number,
     IPDId:Number,
     Patient:{

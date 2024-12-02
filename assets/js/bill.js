@@ -52,7 +52,6 @@ function addNewItems(){
         <td>${counter++}</td>
         <td style="text-align: left;">${itemName}</td>
         <td>₹${itemPrice}</td>
-        <td onclick='deleteItems("${itemName+'newItem'}")'><button>Delete</button></td>
         <td>
             <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-solid fa-trash-can"></i> </span>
             <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-regular fa-trash-can"></i> </span>
@@ -94,7 +93,7 @@ function getDischargeBillItems(){
             rooRentRow.innerHTML=
             `
                 <td>${counter}</td>
-                <td style="text-align: left;">Room Rent</td>
+                <td style="text-align: left;">Room rent (for ${data.daysCount} days)</td>
                 <td>₹${data.daysCount * data.roomRent}</td>
                 <td>
                 
@@ -103,7 +102,8 @@ function getDischargeBillItems(){
                 </td>
             `
             container.appendChild(rooRentRow)
-            dischargeItems['roomRent'] = {"Name":"roomRent","Price":data.daysCount*data.roomRent}
+            let roomItemName = 'Room rent (for '+ data.daysCount + ') days'
+            dischargeItems['roomRent'] = {"Name":roomItemName,"Price":data.daysCount*data.roomRent}
 
             for(i=0;i<data.advancedPayments.length;i++){
                 let item = data.advancedPayments[i].split('$');

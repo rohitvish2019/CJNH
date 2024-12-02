@@ -24,8 +24,8 @@ module.exports.savePurchase = async function(req, res){
                 let expDate = item[3];
                 let inventoryEntry = await InventoriesData.findOne({Name:item[0]});
                 console.log(inventoryEntry);
-                let day = new Date().getDate()
-                let month = +new Date().getMonth()
+                let day = new Date().getDate().toString().padStart(2,'0')
+                let month = +new Date().getMonth().toString().padStart(2,'0')
                 let year = new Date().getFullYear()
                 let date = year +'-'+ (month+1) +'-'+ day; 
                 if(!inventoryEntry || inventoryEntry == null){

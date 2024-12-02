@@ -26,7 +26,7 @@
                     <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
                 </div>
                 <div style="text-align: center;">
-                    <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH)</label>
+                    <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
                 </div>
             </header>
 
@@ -36,9 +36,11 @@
             <label style="display: block;">जन्म प्रमाण पत्र</label>
         </div>
         <div class="date">
-            <div></div>
             <div>
-                <label for="">Date : <%=new Date().toLocaleDateString();%></label>
+                <label>Certificate No : <%=cert.CertificateNumber%></label>
+            </div>
+            <div>
+                <label for="">Date : <%= cert.BirthDate.split('-')[2] %>-<%= cert.BirthDate.split('-')[1] %>-<%= cert.BirthDate.split('-')[0] %></label>
             </div>
         </div>
         <%let birthDateTime = cert.BirthDate + ' '+ cert.BirthTime%>
@@ -50,10 +52,11 @@
             Village: <b><%=cert.Village%></b>, Tahsil: <b><%=cert.Tahsil%></b>, District: <b><%=cert.District%></b>.
             State:
             <b><%=cert.State%></b>
-            delivered a <b><%=cert.DeliveryType%></b>, <b><%=cert.Gender%></b> child on
-            <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0]%></b>, At
-            <b><%=new Date(birthDateTime).toLocaleString().split(', ')[1]%></b>
-            Birth weight <b><%=cert.ChildWeight%></b> in my Nursing Home
+            delivered a <b><%=cert.Gender%></b> child on
+            <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[0].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[1].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[2]%></b>, At
+            <b><%=new Date(birthDateTime).toLocaleString().split(', ')[1]%>.</b>
+            Mode of Delivery : <b><%=cert.DeliveryType%></b>
+            , Baby weight <b><%=cert.ChildWeight%></b> in my Nursing Home
         </div>
 
         <div class="footer">
@@ -83,6 +86,7 @@
         class="btn btn-success"><i class="fa-solid fa-print"></i> <b>Print</b></button>
 
 </body>
+
 <script>
     function printMe() {
         document.getElementById('printButton').style.display = 'none'

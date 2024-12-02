@@ -121,10 +121,10 @@ module.exports.saveReport = async function(req, res){
         }
         let tracker = await Tracker.findOne({});
         let newReportNo = +tracker.ReportNo + 1
-        let day = new Date().getDate()
+        let day = new Date().getDate().toString().padStart(2,'0')
         let month = +new Date().getMonth()
         let year = new Date().getFullYear()
-        let date = year +'-'+ (month+1) +'-'+ day; 
+        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day; 
         let report = await ReportsData.create({
             Patient:Id,
             Name:Name,
@@ -441,12 +441,12 @@ module.exports.getServiceByName = async function(req, res){
 module.exports.dashboard = async function(req, res){
     try{
         if(req.user.Role == 'Admin'){
-            let day = new Date().getDate()
+            let day = new Date().getDate().toString().padStart(2,'0')
             let month = +new Date().getMonth()
             let year = new Date().getFullYear()
 
             //let today = new Date().toISOString().split('T')[0]
-            let today = year +'-'+ (month+1) +'-'+ day; 
+            let today = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day;
             let appointments = await SalesData.find({type:'Appointment', BillDate:today}).countDocuments()
             let cancelledApt = await SalesData.find({type:'Appointment', BillDate:today, isValid:false}).countDocuments()
             let pathBills = await SalesData.find({type:'Pathology', BillDate:today}).countDocuments()

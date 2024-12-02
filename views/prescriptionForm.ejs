@@ -118,7 +118,7 @@
                                 <input style="width: 95% !important;" type="text" placeholder="Medicine" id="searchBox" list="meds">
                                 <datalist id="meds">
                                     <%for(let i=0;i<medsList.length;i++){%>
-                                    <option value="<%=medsList[i].Name%>***<%=medsList[i].Dosage%>***<%=medsList[i].Duration%>***<%=medsList[i].Composition%>"></option>
+                                    <option value="<%=medsList[i].Category%>***<%=medsList[i].Name%>$<%=medsList[i].Dosage%>$<%=medsList[i].Duration%>$<%=medsList[i].Composition%>"></option>
                                     <%}%>
                                 </datalist>
                                 

@@ -382,6 +382,7 @@ function getMedicineData() {
                         <td style="padding-left:10px; font-weight:bold;">${data.medsList[i].Name}</td>
                         <td style="padding-left:10px; ">${data.medsList[i].Composition}</td>
                         <td style="text-align:center">${data.medsList[i].Dosage}</td>
+                        <td style="text-align:center">${data.medsList[i].Category}</td>
                         <td style="text-align:center">${data.medsList[i].Duration}</td>
                         <td style="text-align:center">${data.medsList[i].Type == 'DischargeMed' ? "Yes":"No"}</td>
                         <td style="text-align:center">
@@ -407,6 +408,7 @@ function AddNewMedicine() {
     let Dosage = document.getElementById('Dosage').value;
     let Duration = document.getElementById('Duration').value;
     let Type = document.getElementById('medType').value
+    let Category = document.getElementById('Category').value
     
     if (!Name || Name == '') {
         new Noty({
@@ -436,7 +438,8 @@ function AddNewMedicine() {
             Composition,
             Dosage,
             Duration,
-            Type
+            Type,
+            Category
         },
         type: 'POST',
         success: function (data) {
@@ -453,6 +456,7 @@ function AddNewMedicine() {
             document.getElementById('Composition').value = ''
             document.getElementById('Dosage').value = ''
             document.getElementById('Duration').value = ''
+            document.getElementById('Category').value = ''
             return
         },
         error: function (data) {
