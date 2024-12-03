@@ -1,8 +1,4 @@
 
-.table{
-    font-size: small;
-
-}
 .tr, td, tr, th{
     text-align: center;
     border: 1px dotted;
@@ -11,16 +7,32 @@
 
 .bg th{
     font-size: small;
-    text-align: center;
-    align-items: center;
+    text-align: center !important;
+    vertical-align: middle !important;
     background-color: #025E73 !important;
     border-right: 1px dotted black;
     color: white !important;
   }
 
+  .bg td{
+    text-align: left;
+    vertical-align: middle !important;
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom:1px solid black;
+  }
+#closeButton{
+  font-size: larger;
+}
 
+#closeButton:hover{
+  font-size: large;
+  cursor: pointer;
+
+}
 .tbody {
     overflow: auto;
+    
 }
 
 #addPaymentPopup{
