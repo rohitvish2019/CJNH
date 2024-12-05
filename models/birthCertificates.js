@@ -7,6 +7,10 @@ const Certificate = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Patient'
     },
+    Visit:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Visit'
+    },
     Name:String,
     Husband:String,
     Age:String,

@@ -58,7 +58,24 @@ module.exports.savePurchase = async function(req, res){
     }
      
 }
+function addOneDay(date) {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        throw new Error("Input must be a valid Date object.");
+    }
 
+    // Create a new Date object to avoid modifying the original
+    const newDate = new Date(date);
+    
+    // Add one day
+    newDate.setDate(newDate.getDate() + 1);
+
+    // Check if the date is still within JavaScript's supported range
+    if (Math.abs(newDate.getTime()) > 8.64e15) {
+        throw new Error("Resulting date is out of range for JavaScript Date object.");
+    }
+
+    return newDate;
+}
 module.exports.getPurchaseHistory = async function(req, res){
     try{
         let purchases;
@@ -71,7 +88,7 @@ module.exports.getPurchaseHistory = async function(req, res){
             purchases = await PurchaseData.find({
                 $and : [
                     {createdAt:{$gte : req.query.startDate}},
-                    {createdAt : {$lte: req.query.endDate}},
+                    {createdAt : {$lte: addOneDay(req.query.endDate)}},
                     {isCancelled:false, isValid:true}
                 ]
             }).sort('createdAt');

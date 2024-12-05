@@ -14,10 +14,11 @@ function admitPatient(){
             return;
         }
     }
+    let id = document.getElementById('patientID').value;
     $.ajax({
         url:'/patients/admit',
         type:'POST',
-        data:data,
+        data:{data, id},
         success:function(data){
             new Noty({
                 theme: 'relax',
@@ -29,6 +30,7 @@ function admitPatient(){
             for(let i=0;i<inputData.length;i++){
                 document.getElementById(inputData[i]).value=''
             }
+            window.location.href='/patients/IPD/new'
             window.open('/appointments/receipt/'+data.appointment._id)
         },
         error:function(err){console.log(err.responseText)}
@@ -50,23 +52,12 @@ function searchById() {
                 timeout: 1500
             }).show();
             for (let i = 0; i < inputData.length; i++) {
-                if (document.getElementById(inputData[i])) {
-                    document.getElementById(inputData[i]).value = data.patient[inputData[i]];
+                if (document.getElementById(inputData[i]) && data.patient[inputData[i]]) {
+                    document.getElementById(inputData[i]).value = data.patient[inputData[i]] == undefined ? '' : data.patient[inputData[i]];
+                    document.getElementById(inputData[i]).setAttribute('readonly','true')
                 }
             }
-            let visitDate = data.visit[0].createdAt.toString().split('T')[0].split('-');
-            let today = new Date();
-            let lastVisitDate = new Date(data.visit[0].createdAt)
-            let daysBetween = Math.floor(Math.abs(today-lastVisitDate) / (1000*86400));
-            let todaysFees = 400;
-            if(daysBetween < 31){
-                todaysFees = 200
-            }
-            document.getElementById('Fees').value = todaysFees
-            document.getElementById('lastFeesPaid').innerText = data.visit[0].Fees
-            document.getElementById('lastVisitDate').innerText = visitDate[2] + '-' + visitDate[1] + '-' + visitDate[0]
-            document.getElementById('register').setAttribute('disabled', 'true');
-            document.getElementById('bookAppointment').removeAttribute('disabled')
+
         },
         error: function (err) {
             new Noty({
@@ -81,13 +72,8 @@ function searchById() {
                     document.getElementById(inputData[i]).value = '';
                 }
             }
-            document.getElementById('Fees').value = 400 
+            
             document.getElementById('patientID').value ='';
-            document.getElementById('lastFeesPaid').innerText = 'NA'
-            document.getElementById('lastVisitDate').innerText = 'NA'
-
-            document.getElementById('bookAppointment').setAttribute('disabled', 'true');
-            document.getElementById('register').removeAttribute('disabled');
         }
     })
 }

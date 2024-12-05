@@ -113,6 +113,7 @@ function bookAppointmentWithId() {
     let paymentType = document.getElementById('paymentType').value;
     let Doctor = document.getElementById('Doctor').value
     IdProof = document.getElementById('IdProof').value
+    let patient = new Object();
     if (!fees || fees == '') {
         new Noty({
             theme: 'relax',
@@ -153,6 +154,9 @@ function bookAppointmentWithId() {
         }).show();
         return
     }
+    for(let i=0;i<inputData.length;i++){
+        patient[inputData[i]] = document.getElementById(inputData[i]).value;
+    }
     $.ajax({
         url: '/patients/visits/bookToday',
         type: 'Post',
@@ -160,6 +164,7 @@ function bookAppointmentWithId() {
             PatientId: document.getElementById('patientID').value,
             date: AppointmentDate,
             Fees: fees,
+            patient,
             Doctor,
             paymentType,
             IdProof,

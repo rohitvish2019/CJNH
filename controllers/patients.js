@@ -82,7 +82,8 @@ module.exports.addVisitAndPatient = async function(req, res){
             PatiendID:newPatientId,
             Items:['OPD$1$'+req.body.Fees],
             type:'Appointment',
-            Total:req.body.Fees
+            Total:req.body.Fees,
+            PaymentType:req.body.paymentType
         })
         await visit.updateOne({SaleId:sale._id})
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
@@ -209,23 +210,25 @@ module.exports.getPatientById = async function(req, res){
 
 
 module.exports.bookVisitToday = async function(req, res){
-    let patient = await PatientData.findOne({
-        $or: [
-            {Id:req.body.PatientId},
-            {Mobile:req.body.PatientId},
-            
-        ],
-        isCancelled:false, isValid:true
-        
-    })
-    let tracker = await Tracker.findOne({});
-    
-    if(!patient || patient == null){
-        return res.status(404).json({
-            message:'Invalid Patient Id'
-        })
-    }
     try{
+        let patient = await PatientData.findOne({
+            $or: [
+                {Id:req.body.PatientId},
+                {Mobile:req.body.PatientId},
+                
+            ],
+            isCancelled:false, isValid:true
+            
+        })
+        let tracker = await Tracker.findOne({});
+        
+        if(!patient || patient == null){
+            return res.status(404).json({
+                message:'Invalid Patient Id'
+            })
+        }
+        console.log(req.body.patient)
+        await patient.updateOne(req.body.patient);
         let visit = await VisitData.create({
             Patient:patient._id,
             Type:'OPD',
@@ -302,40 +305,56 @@ module.exports.admitPatient = async function(req, res){
     console.log(req.body);
     let id;
     try{
-          id = await Tracker.findOne({});
+        id = await Tracker.findOne({});
     }catch(err){
-          return res.status(500).json({
-                message:'Unable to generate patient ID'
-          })
+        return res.status(500).json({
+            message:'Unable to generate patient ID'
+        })
     }
     try{
-          let patient = await PatientData.create(req.body);
-          let newId = Number(id.patientId) + 1
-          let newIPDNumber = Number(id.IPDNumber) + 1;
-          await id.updateOne({patientId:newId, IPDNumber: newIPDNumber})
-          let visit = await VisitData.create({
-            Patient:patient._id,
-            IPDNumber: newIPDNumber,
-            Visit_date:req.body.AdmissionDate,
-            Doctor:req.body.Doctor,
-            Type:'IPD',
-            AdmissionDate:req.body.AdmissionDate,
-            AdmissionTime:req.body.AdmissionTime,
-            Reason:req.body.Reason,
-            BroughtBy:req.body.BroughtBy
-          })
-          await patient.updateOne({$push:{Visits:visit._id}, Id:newId});
-          patient.Visits.push(visit._id);
-          return res.status(200).json({
-                message:'Patient Admitted'
-          })
-
-          
+        let patient = null;
+        let newId
+        let newIPDNumber
+        if(req.body.id != ''){
+            patient = await PatientData.findOne({Id:req.body.id})
+            newId = patient.Id
+            newIPDNumber = Number(id.IPDNumber) + 1;
+            await id.updateOne({IPDNumber: newIPDNumber})
+            if(!patient || patient == null){
+                return res.status(400).json({
+                    message:'Invalid patient ID'
+                })
+            }
+        }else{
+            patient = await PatientData.create(req.body.data);
+            newId = Number(id.patientId) + 1
+            newIPDNumber = Number(id.IPDNumber) + 1;
+            await id.updateOne({patientId:newId, IPDNumber: newIPDNumber})
+        }
+        
+        
+        
+        let visit = await VisitData.create({
+        Patient:patient._id,
+        IPDNumber: newIPDNumber,
+        Visit_date:req.body.data.AdmissionDate,
+        Doctor:req.body.data.Doctor,
+        Type:'IPD',
+        AdmissionDate:req.body.data.AdmissionDate,
+        AdmissionTime:req.body.data.AdmissionTime,
+        Reason:req.body.data.Reason,
+        BroughtBy:req.body.data.BroughtBy
+        })
+        await patient.updateOne({$push:{Visits:visit._id}, Id:newId});
+        patient.Visits.push(visit._id);
+        return res.status(200).json({
+            message:'Patient Admitted'
+        })
     }catch(err){
-          console.log(err)
-          return res.status(500).json({
-                message:'Unable to admit patient'
-          })
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to admit patient'
+        })
     }
 }
 
@@ -622,8 +641,11 @@ module.exports.saveBirthDetails = async function(req, res){
                 let birthCertNumber = await Tracker.findOne({});
                 let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
                 let patient = await PatientData.findOne({Id:pid});
+                let visits = await VisitData.find({Patient:patient._id, Type:'IPD'}).sort({createdAt:-1})
+
                 let bcert = await BirthData.create({
                     CertificateNumber:"BCERT"+newBirthCertNumber,
+                    Visit:visits[0]._id,
                     OPDId:pid,
                     Name:patient.Name,
                     Husband:patient.Husband,
@@ -640,6 +662,7 @@ module.exports.saveBirthDetails = async function(req, res){
                     GeneratedOn:req.body.BirthDate,
                 })
                 await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber})
+                
                 return res.status(200).json({
                     message:'Birth Certificate created',
                     id:bcert._id

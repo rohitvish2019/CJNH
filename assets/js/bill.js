@@ -51,7 +51,7 @@ function addNewItems(){
     `
         <td>${counter++}</td>
         <td style="text-align: left;">${itemName}</td>
-        <td>₹${itemPrice}</td>
+        <td><input id='${itemName}newItem_p' onchange='saveChanges(${itemName}newItem)' value = '${itemPrice}'></td>
         <td>
             <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-solid fa-trash-can"></i> </span>
             <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-regular fa-trash-can"></i> </span>
@@ -79,7 +79,7 @@ function getDischargeBillItems(){
                 `
                     <td>${counter++}</td>
                     <td style="text-align: left;">${data.Items[i].Name}</td>
-                    <td>₹${data.Items[i].Price}</td>
+                    <td><input id='${data.Items[i]._id}_p' type='number' onchange=saveChanges('${data.Items[i]._id}') value='${data.Items[i].Price}'></td>
                     <td>
                         <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-solid fa-trash-can"></i> </span>
                         <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-regular fa-trash-can"></i> </span>
@@ -94,7 +94,7 @@ function getDischargeBillItems(){
             `
                 <td>${counter}</td>
                 <td style="text-align: left;">Room rent (for ${data.daysCount} days)</td>
-                <td>₹${data.daysCount * data.roomRent}</td>
+                <td><input id='roomRent_p' type='number' onchange=saveChanges('roomRent') value='${data.daysCount * data.roomRent}'></td>
                 <td>
                 
                 <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-solid fa-trash-can"></i> </span>
@@ -142,3 +142,7 @@ function highlight(x) {
 }
 
 getDischargeBillItems();
+
+function saveChanges(id){
+    dischargeItems[id].Price = parseInt(document.getElementById(id+'_p').value)
+}

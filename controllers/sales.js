@@ -147,10 +147,14 @@ module.exports.getBillById = async function(req, res){
 module.exports.getBillsByDate = async function(req, res){
     try{
         //date to be fixed to handle all date formats
-        console.log(req.query)
+        let BillType = req.query.BillType;
         let date = req.query.selectedDate;
-        console.log(req.query)
-        let billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
+        let billsList;
+        if(BillType == 'all'){
+            billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true});
+        }else{
+            billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
+        }
         return res.status(200).json({
             message:'Bills fetched',
             billsList
@@ -164,15 +168,47 @@ module.exports.getBillsByDate = async function(req, res){
     }
 }
 
+function addOneDay(date) {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        throw new Error("Input must be a valid Date object.");
+    }
+
+    // Create a new Date object to avoid modifying the original
+    const newDate = new Date(date);
+    
+    // Add one day
+    newDate.setDate(newDate.getDate() + 1);
+
+    // Check if the date is still within JavaScript's supported range
+    if (Math.abs(newDate.getTime()) > 8.64e15) {
+        throw new Error("Resulting date is out of range for JavaScript Date object.");
+    }
+
+    return newDate;
+}
+
+
 module.exports.getBillsByDateRange = async function(req, res){
     try{
-        let billsList = await SalesData.find({
-            $and: [
-                {createdAt:{$gte :new Date(req.query.startDate)}},
-                {createdAt: {$lte : new Date(req.query.endDate)}},
-                {type:req.query.BillType,isCancelled:false, isValid:true}
-            ]
-        })
+        let BillType = req.query.BillType;
+        let billsList;
+        if(BillType == 'all'){
+            billsList = await SalesData.find({
+                $and: [
+                    {createdAt:{$gte :new Date(req.query.startDate)}},
+                    {createdAt: {$lte : addOneDay(new Date(req.query.endDate))}},
+                    {isCancelled:false, isValid:true}
+                ]
+            })
+        }else{
+            billsList = await SalesData.find({
+                $and: [
+                    {createdAt:{$gte :new Date(req.query.startDate)}},
+                    {createdAt: {$lte : new Date(req.query.endDate)}},
+                    {type:req.query.BillType,isCancelled:false, isValid:true}
+                ]
+            })
+        }
         
         return res.status(200).json({
             message:'Bills fetched',

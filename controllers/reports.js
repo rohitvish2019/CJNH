@@ -261,6 +261,25 @@ module.exports.pathologyHistoryHome = function(req, res){
     }
 }
 
+function addOneDay(date) {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        throw new Error("Input must be a valid Date object.");
+    }
+
+    // Create a new Date object to avoid modifying the original
+    const newDate = new Date(date);
+    
+    // Add one day
+    newDate.setDate(newDate.getDate() + 1);
+
+    // Check if the date is still within JavaScript's supported range
+    if (Math.abs(newDate.getTime()) > 8.64e15) {
+        throw new Error("Resulting date is out of range for JavaScript Date object.");
+    }
+
+    return newDate;
+}
+
 module.exports.getHistoryByRange = async function(req, res){
     try{
         console.log(req.query)
@@ -271,7 +290,7 @@ module.exports.getHistoryByRange = async function(req, res){
             reportsList = await ReportsData.find({
                 $and: [
                     {createdAt:{$gte :new Date(req.query.startDate)}},
-                    {createdAt: {$lte : new Date(req.query.endDate)}},
+                    {createdAt: {$lte : addOneDay(new Date(req.query.endDate))}},
                     {isCancelled:false, isValid:true}
                 ]
             }).populate('Patient').sort("createdAt");
@@ -482,28 +501,13 @@ module.exports.birthCertificateHistory = async function(req, res){
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports.getBirthHistoryByRange = async function(req, res){
     try{
         let reportsList;
         reportsList = await BirthData.find({
             $and: [
                 {createdAt:{$gte :new Date(req.query.startDate)}},
-                {createdAt: {$lte : new Date(req.query.endDate)}},
+                {createdAt: {$lte : addOneDay(new Date(req.query.endDate))}},
                 {isCancelled:false, isValid:true}
             ]
         }).sort("createdAt");

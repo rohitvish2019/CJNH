@@ -54,11 +54,13 @@
         <!-- Admission and Discharge Date Section-->
         <div class="dischargeItems" style="height: 3%; display: flex;justify-content: space-between;">
             <div style="width: 50%; padding: 5px; text-align: left;">
-                <label>Date Of Admission : <%=visit.AdmissionDate.split('-')[2]%>-<%=visit.AdmissionDate.split('-')[1]%>-<%=visit.AdmissionDate.split('-')[0]%> at <%=visit.AdmissionTime%></label>
+                <%let admDT = visit.AdmissionDate + ' '+visit.AdmissionTime%>
+                <label>Date Of Admission : <%=new Date(admDT).toLocaleString()%></label>
             </div>
             <div style="width: 50%;text-align: right;  padding: 5px; ">
+                <%let dchDT = visit.DischargeDate + ' '+visit.DischargeTime%>
                 <%if(visit && visit.DischargeDate){%>
-                    <label>Date Of Discharge : <%=visit.DischargeDate.split('-')[2]%>-<%=visit.DischargeDate.split('-')[1]%>-<%=visit.DischargeDate.split('-')[0]%> at <%=visit.DischargeTime%></label>
+                    <label>Date Of Discharge :<%=new Date(dchDT).toLocaleString()%></label>
                 <%}%>
             </div>
         </div>  
@@ -82,6 +84,9 @@
             <div>
                 <div class="ohms" style="width:95%; height: 20%;text-align: center;margin-right: 2%;">
                     <span><b>O/H MS-</b></span>
+                    <div style="text-align: left;margin-left: 5px;">
+                        <textarea name="" onchange="addChanged('oh_ms')" id="oh_ms" rows="3" cols="65" placeholder="MS"></textarea>
+                    </div>
                     <table class="table" style="text-align: center;width: 100%;padding: 0;">
                         <tr>
                             <td >G</td>
@@ -96,9 +101,7 @@
                             <td style="width: 25%;"><input onchange="addChanged('oh_a')" id="oh_a" style="width: 90%;" type="text"></td>
                         </tr>
                     </table>
-                    <div style="text-align: left;margin-left: 5px;">
-                        <textarea name="" onchange="addChanged('oh_ms')" id="oh_ms" rows="3" cols="65" placeholder="MS"></textarea>
-                    </div>
+                    
                 </div>
                 <div class="invstdone" style="width:95%;  height: 75%; text-align: center;margin-top: 70px;">
                     <span><b>Invst Done:</b></span>
