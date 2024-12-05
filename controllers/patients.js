@@ -786,3 +786,13 @@ module.exports.getDischargeData = async function(req, res){
         })
     }
 }
+
+module.exports.dischargeReceipt = async function(req, res){
+    try{
+        let visit = await VisitData.findById(req.params.id).populate('Patient');
+        return res.render('paymentReceiptTemplate', {visit, user:req.user})
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
+    }
+}

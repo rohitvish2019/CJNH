@@ -94,7 +94,7 @@
 
         <td style="width: 29%; background-color: #bef5be; text-align: center;">
           <select class="form-select" id="DeliveryType" aria-label="Floating label select example">
-            <option disabled value="">--Select--</option>
+            <option disabled selected value="">--Select--</option>
             <option value="Vaginal">Vaginal</option>
             <option value="Caesarean">Caesarean</option>
             <option value="Vaginal Instrumental">Vaginal Instrumental</option>
@@ -114,7 +114,7 @@
               <%}else{%>
               <li><a class="dropdown-item" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></li>
               <%}%>
-              <li><a class="dropdown-item" href="#">Generate Receipt</a></li>
+              <li><a class="dropdown-item" href="/patients/DischargeReceipt/<%=visits[i]._id%>">Generate Receipt</a></li>
               <li><a class="dropdown-item" href="/patients/dischargeSheet/<%=visits[i]._id%>">Discharge Sheet</a></li>
               <li><a class="dropdown-item" href="/patients/birthCertificate/<%=visits[i].Patient._id%>">Generate Birth
                   Certificate</a></li>
@@ -151,7 +151,7 @@
 
         <td>
           <select class="form-select" id="DeliveryType" aria-label="Floating label select example">
-            <option disabled value="">--Select--</option>
+            <option disabled selected value="">--Select--</option>
             <option value="Vaginal">Vaginal</option>
             <option value="Caesarean">Caesarean</option>
             <option value="Vaginal Instrumental">Vaginal Instrumental</option>
@@ -171,7 +171,7 @@
               <%}else{%>
               <li><a class="dropdown-item" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></li>
               <%}%>
-              <li><a class="dropdown-item" href="#">Generate Receipt</a></li>
+              <li><a class="dropdown-item" href="/patients/DischargeReceipt/<%=visits[i]._id%>">Generate Receipt</a></li>
               <li><a class="dropdown-item" href="/patients/dischargeSheet/<%=visits[i]._id%>">Discharge Sheet</a></li>
               <li><a class="dropdown-item" href="/patients/birthCertificate/<%=visits[i].Patient._id%>">Generate Birth
                   Certificate</a></li>
