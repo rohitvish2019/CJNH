@@ -796,3 +796,56 @@ module.exports.dischargeReceipt = async function(req, res){
         return res.render('Error_500')
     }
 }
+
+module.exports.saveDeliveryType = async function(req, res){
+    try{
+        await VisitData.findByIdAndUpdate(req.body.visitId,{DeliveryType:req.body.DeliveryType});
+        return res.status(200).json({
+            message:'Delivery type updated'
+        })
+    }catch(err){
+        return res.status(500).json({
+            message:'Unable to update delivery type'
+        })
+    }
+}
+function addOneDay(date) {
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+        throw new Error("Input must be a valid Date object.");
+    }
+
+    // Create a new Date object to avoid modifying the original
+    const newDate = new Date(date);
+    
+    // Add one day
+    newDate.setDate(newDate.getDate() + 1);
+
+    // Check if the date is still within JavaScript's supported range
+    if (Math.abs(newDate.getTime()) > 8.64e15) {
+        throw new Error("Resulting date is out of range for JavaScript Date object.");
+    }
+
+    return newDate;
+}
+
+module.exports.getIPDData = async function(req, res){
+    try{
+        let IPDs = await VisitData.find({
+            $and:[
+                {createdAt :{$gte : new Date(req.query.startDate)}},
+                {createdAt : {$lte : addOneDay(new Date(req.query.endDate))}},
+                {isValid:true, isCancelled:false}
+            ]
+        }).populate('Patient');
+        let rooms = await ServicesData.find({Type:'RoomCharges'});
+        return res.status(200).json({
+            IPDs,
+            rooms
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to find IPDs'
+        })
+    }
+}

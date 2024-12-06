@@ -26,6 +26,7 @@ const Visits = new mongoose.Schema({
     PaymentType:String,
     weight:Number,
     PathReports:Array,
+    DeliveryType:String,
     OtherDocs:[
         {
             type:Array

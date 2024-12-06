@@ -25,6 +25,19 @@
     <%-include('_header')%>
   </header>
   <input type="hidden" id="visitId">
+  <div>
+    <div>
+      <label>Start Date</label>
+      <input id="startdate" type="date" value="2024-12-06">
+    </div>
+    <div>
+      <label>End Date</label>
+      <input id="endDate" type="date" value="2024-12-06">
+    </div>
+    <div>
+      <input onclick="getIPDDataRange()" type="button" value="Filter">
+    </div>
+  </div>
   <!--
     <div style="display: flex; justify-content: space-between; width: 30%;padding-left: 1%;padding-top: 2%;">
       <select name="" id="" onchange="getAdmitted()">
@@ -61,135 +74,8 @@
         <th>Cancel</th>
       </tr>
     </thead>
-    <tbody>
-      <%for(let i=0;i<visits.length;i++){%>
-      <tr class="bg" id="<%=visits[i].Patient._id%>">
-        <%if(visits[i].isDischarged == true){%>
-        <th style="width: 2%;background-color: #bef5be;" scope="row"><%=i+1%></th>
-        <td style="width: 4%;background-color: #bef5be; text-align: center; font-weight: bolder;">
-          <%=visits[i].Patient.Id%></td>
-        <td style="width: 9%;background-color: #bef5be;"><%=visits[i].Patient.Name%></td>
-        <td style="width: 2%;background-color: #bef5be;"><%=visits[i].Patient.Age%></td>
-        <td style="width: 10%;background-color: #bef5be;"><%=visits[i].Patient.Address%></td>
-        <td style="width: 10%;background-color: #bef5be;"><%=visits[i].Patient.Mobile%></td>
-        <td style="width: 10%;background-color: #bef5be;">
-          <%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%>,
-          At <%=visits[i].AdmissionTime%></td>
-        <td style="background-color: #bef5be;"><input disabled type="datetime-local" name=""
-            id="dischargeDate_<%=visits[i]._id%>" onchange="changeDischargeDate('<%=visits[i]._id%>')"
-            value="<%=visits[i].DischargeDate%>T<%=visits[i].DischargeTime%>"></td>
-        <td style="width: 10%;background-color: #bef5be;">
-          <select disabled name="" id="RoomType_<%=visits[i]._id%>" value="<%=visits[i].RoomType%>"
-            onchange="changeRoom('<%=visits[i]._id%>')">
-            <option value="none">--select room--</option>
-            <%for(let j=0;j<rooms.length;j++){%>
-            <%if(rooms[j].Name == visits[i].RoomType){%>
-            <option selected value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-            <%}else{%>
-            <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-            <%}%>
-              <%}%>
-          </select>
-        </td>
-
-        <td style="width: 29%; background-color: #bef5be; text-align: center;">
-          <select class="form-select" id="DeliveryType" aria-label="Floating label select example">
-            <option disabled selected value="">--Select--</option>
-            <option value="Vaginal">Vaginal</option>
-            <option value="Caesarean">Caesarean</option>
-            <option value="Vaginal Instrumental">Vaginal Instrumental</option>
-          </select>
-        </td>
-
-        <td style="border-right:1px solid black;width: 10%;background-color: #bef5be; text-align: center !important;">
-          <div class="dropdown">
-            <button style="color: white;" class="btn btn-info dropdown-toggle" type="button" id="actions"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              Actions
-            </button>
-            <ul class="dropdown-menu">
-              <%if(visits[i].RoomType == null || visits[i].DischargeDate == null){%>
-              <li><a class="dropdown-item" style="pointer-events: none;"
-                  href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></li>
-              <%}else{%>
-              <li><a class="dropdown-item" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></li>
-              <%}%>
-              <li><a class="dropdown-item" href="/patients/DischargeReceipt/<%=visits[i]._id%>">Generate Receipt</a></li>
-              <li><a class="dropdown-item" href="/patients/dischargeSheet/<%=visits[i]._id%>">Discharge Sheet</a></li>
-              <li><a class="dropdown-item" href="/patients/birthCertificate/<%=visits[i].Patient._id%>">Generate Birth
-                  Certificate</a></li>
-            </ul>
-          </div>
-        </td>
-
-        <%}else{%>
-        <th style="width: 2%;" scope="row"><%=i+1%></th>
-        <td style="width: 4%; text-align: center; font-weight: bolder"><%=visits[i].Patient.Id%></td>
-        <td style="width: 9%;"><%=visits[i].Patient.Name%></td>
-        <td style="width: 2%;"><%=visits[i].Patient.Age%></td>
-        <td style="width: 10%;"><%=visits[i].Patient.Address%></td>
-        <td style="width: 10%;"><%=visits[i].Patient.Mobile%></td>
-        <td style="width: 10%;">
-          <%=String(visits[i].AdmissionDate).split('-')[2]%>-<%=String(visits[i].AdmissionDate).split('-')[1]%>-<%=String(visits[i].AdmissionDate).split('-')[0]%>,
-          At <%=visits[i].AdmissionTime%></td>
-        <td><input type="datetime-local" name="" id="dischargeDate_<%=visits[i]._id%>"
-            onchange="changeDischargeDate('<%=visits[i]._id%>')"
-            value="<%=visits[i].DischargeDate%>T<%=visits[i].DischargeTime%>"></td>
-        <td style="width: 10%;">
-          <select name="" id="RoomType_<%=visits[i]._id%>" value="<%=visits[i].RoomType%>"
-            onchange="changeRoom('<%=visits[i]._id%>')">
-            <option value="none">--select room--</option>
-            <%for(let j=0;j<rooms.length;j++){%>
-            <%if(rooms[j].Name == visits[i].RoomType){%>
-            <option selected value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-            <%}else{%>
-            <option value="<%=rooms[j].Name%>"><%=rooms[j].Name%> (₹ <%=rooms[j].Price%>)</option>
-            <%}%>
-                <%}%>
-          </select>
-        </td>
-
-        <td>
-          <select class="form-select" id="DeliveryType" aria-label="Floating label select example">
-            <option disabled selected value="">--Select--</option>
-            <option value="Vaginal">Vaginal</option>
-            <option value="Caesarean">Caesarean</option>
-            <option value="Vaginal Instrumental">Vaginal Instrumental</option>
-          </select>
-        </td>
-
-        <td style=" text-align: center !important; border-right:1px solid black ;">
-          <div class=" dropdown">
-            <button style="color: white;" class="btn btn-info dropdown-toggle" type="button" id="actions"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              Actions
-            </button>
-            <ul class="dropdown-menu">
-              <%if(visits[i].RoomType == null || visits[i].DischargeDate == null){%>
-              <li><a class="dropdown-item" style="pointer-events: none;"
-                  href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></li>
-              <%}else{%>
-              <li><a class="dropdown-item" href="/patients/AdmissionBill/<%=visits[i]._id%>">Discharge Bill</a></li>
-              <%}%>
-              <li><a class="dropdown-item" href="/patients/DischargeReceipt/<%=visits[i]._id%>">Generate Receipt</a></li>
-              <li><a class="dropdown-item" href="/patients/dischargeSheet/<%=visits[i]._id%>">Discharge Sheet</a></li>
-              <li><a class="dropdown-item" href="/patients/birthCertificate/<%=visits[i].Patient._id%>">Generate Birth
-                  Certificate</a></li>
-            </ul>
-          </div>
-        </td>
-
-        <%}%>
-        
-        <td style="text-align: center !important;"><button class="btn btn-info"
-            onclick="openAdvancePayment('<%=visits[i].Patient.Id%>','<%=visits[i].Patient.Name%>','<%=visits[i]._id%>')">Add
-        Payment</button></td>
-        <td style="text-align: center !important;"><button class="btn-danger btn"
-            onclick="CancelIPD('<%=visits[i]._id%>','<%=visits[i].Patient._id%>')"><i
-              class="fa-solid fa-ban"></i></button></td>
-
-      </tr>
-      <%}%>
+    <tbody id="table-content">
+      
         </tbody>
       </table>
       <div id="addPaymentPopup" style="display: none; text-align: center;">
@@ -225,6 +111,8 @@
           <button onclick="addAdvancePayment()" id="addPayment" class="btn btn-success">Add Payment</button>
         </div>
       </div>
+
+      
       <script src="/js/showAdmittedPatients.js"></script>
 </body>
 </html>

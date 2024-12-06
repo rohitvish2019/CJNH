@@ -1,4 +1,5 @@
 let counter = 1
+let total = 0
 function SaveDischargeBill(){
     let paymentType = window.prompt('Please enter payment type')
     if(paymentType == null || paymentType == ''){
@@ -87,6 +88,7 @@ function getDischargeBillItems(){
                 `
                 container.appendChild(rowItem);
                 dischargeItems[data.Items[i]._id] = data.Items[i]
+                total = total + data.Items[i].Price
             }
             let rooRentRow = document.createElement('tr');
             rooRentRow.id = 'roomRent'
@@ -104,7 +106,7 @@ function getDischargeBillItems(){
             container.appendChild(rooRentRow)
             let roomItemName = 'Room rent (for '+ data.daysCount + ') days'
             dischargeItems['roomRent'] = {"Name":roomItemName,"Price":data.daysCount*data.roomRent}
-
+            total = total + data.daysCount*data.roomRent
             for(i=0;i<data.advancedPayments.length;i++){
                 let item = data.advancedPayments[i].split('$');
                 let rowItem = document.createElement('tr');
@@ -113,22 +115,27 @@ function getDischargeBillItems(){
                 `
                     <td>${counter++}</td>
                     <td style="text-align: left;">${item[0]}</td>
-                    <td>₹${item[1]}</td>
+                    <td><input readonly type='number' value=${item[1]}></td>
                     <td>
-                    <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-solid fa-trash-can"></i> </span>
-                    <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-regular fa-trash-can"></i> </span>
+                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-solid fa-trash-can"></i> </span>
+                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-regular fa-trash-can"></i> </span>
                     </td>
                 `
                 container.appendChild(rowItem);
+                total = total + parseInt(item[1]);
                 dischargeItems[item[0]+item[2]] = {"Name":item[0],"Price":item[1]}
             }
+            document.getElementById('total').innerText='Total :'+total
         },
         error:function(err){}
     })
 }
 function deleteItems(id){
     document.getElementById(id).remove();
+    let price = dischargeItems[id].Price;
+    total = total - price
     delete dischargeItems[id]
+    document.getElementById('total').innerText='Total :'+total
 }
 
 function unhighlight(x) {
@@ -144,5 +151,9 @@ function highlight(x) {
 getDischargeBillItems();
 
 function saveChanges(id){
+    let oldPrice = dischargeItems[id].Price
+    let newPrice = parseInt(document.getElementById(id+'_p').value)
     dischargeItems[id].Price = parseInt(document.getElementById(id+'_p').value)
+    total = total + newPrice - oldPrice
+    document.getElementById('total').innerText='Total :'+total
 }
