@@ -110,20 +110,21 @@ function getDischargeBillItems(){
             for(i=0;i<data.advancedPayments.length;i++){
                 let item = data.advancedPayments[i].split('$');
                 let rowItem = document.createElement('tr');
-                rowItem.id = item[0]+item[2]
+                rowItem.id = item.toString();
                 rowItem.innerHTML=
                 `
                     <td>${counter++}</td>
-                    <td style="text-align: left;">${item[0]}</td>
+                    <td style="text-align: left;">${item[0]} (${item[2]})</td>
                     <td><input readonly type='number' value=${item[1]}></td>
                     <td>
-                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-solid fa-trash-can"></i> </span>
-                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item[0]+item[2]}")'"><i class="fa-regular fa-trash-can"></i> </span>
+                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-solid fa-trash-can"></i> </span>
+                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-regular fa-trash-can"></i> </span>
                     </td>
                 `
                 container.appendChild(rowItem);
                 total = total + parseInt(item[1]);
-                dischargeItems[item[0]+item[2]] = {"Name":item[0],"Price":item[1]}
+                
+                dischargeItems[item.toString()] = {"Name":item[0]+' on ' +item[2],"Price":item[1]}
             }
             document.getElementById('total').innerText='Total :'+total
         },

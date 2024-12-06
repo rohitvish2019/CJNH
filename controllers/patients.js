@@ -698,7 +698,7 @@ module.exports.addAdvancePayment = async function(req, res){
         let year = new Date().getFullYear()
         let date = day +'-'+ (month+1) +'-'+ year
         let visit = await VisitData.findById(req.body.visitId).populate('Patient');
-        visit.advancedPayments.push("Advance Received$-"+req.body.Amount+"$"+date);
+        visit.advancedPayments.push("Advance Received$-"+req.body.Amount+"$"+date+'$'+new Date().getTime());
         await visit.save();
         let bill = await Tracker.findOne();
         let newBillNo = +bill.AdvancePaymentNumber + 1;
