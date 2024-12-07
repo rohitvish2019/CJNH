@@ -26,7 +26,8 @@
                     <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
                 </div>
                 <div style="text-align: center;">
-                    <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
+                    <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob:
+                        6263169195</label>
                 </div>
             </header>
 
@@ -40,7 +41,8 @@
                 <label>Certificate No : <%=cert.CertificateNumber%></label>
             </div>
             <div>
-                <label for="">Date : <%= cert.BirthDate.split('-')[2] %>-<%= cert.BirthDate.split('-')[1] %>-<%= cert.BirthDate.split('-')[0] %></label>
+                <label for="">Date :
+                    <%= cert.BirthDate.split('-')[2] %>-<%= cert.BirthDate.split('-')[1] %>-<%= cert.BirthDate.split('-')[0] %></label>
             </div>
         </div>
         <%let birthDateTime = cert.BirthDate + ' '+ cert.BirthTime%>
@@ -53,7 +55,8 @@
             State:
             <b><%=cert.State%></b>
             delivered a <b><%=cert.Gender%></b> child on
-            <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[0].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[1].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[2]%></b>, At
+            <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[0].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[1].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[2]%></b>,
+            At
             <b><%=new Date(birthDateTime).toLocaleString().split(', ')[1]%>.</b>
             Mode of Delivery : <b><%=cert.DeliveryType%></b>
             , Baby weight <b><%=cert.ChildWeight%></b> in my Nursing Home

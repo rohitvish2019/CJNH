@@ -1,13 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt</title>
+    <title>Payment Reciept</title>
+    <link rel="stylesheet" href="/css/birthCertificateTemplate.css">
+    <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    Show receipt here
-    Name : <%=visit.Patient.Name%>
-    
+
+<body style="text-align: center;">
+    <div style="text-align: center; border: 1px solid black; padding: 0px 10px 10px 10px; margin-bottom: 10px;">
+        <div id="header">
+            <div style="margin-bottom: 1%; border-bottom: 1px dotted black; text-align: end;">
+                <span style="font-size: small;">Reg No. NH/9255/JUN-2023</span>
+            </div>
+            <label id="Reciept" style="font-size: larger;"><b>· Reciept ·</b></label>
+
+            <div style="display: flex; justify-content: space-between;">
+                <img style="height: 70px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
+                <h1>Dr. Chanda Jain Nursing Home</h1>
+                <img style="height: 60px; " src="/images/doctorLogo.jpg" alt="Doctor-Logo">
+            </div>
+            <div style="padding: 2px;">
+                <label class="sub-heading"">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
+        </div>
+    </div>
+    <div style=" display: flex; justify-content: space-between; padding: 0px 30px 0px 30px;">
+                    <span><b>SI No. :</b> <%=RecieptNo%></span>
+                    <span><b>Date: </b><%=new Date().toLocaleDateString()%></span>
+            </div>
+
+            <div class=" content">
+                Received with Thanks from <%=visit.Patient.Name%>, Rs. <label id="rs"></label>. In words <label
+                    id="result"></label>.
+            </div>
+            <div style=" padding:0px 0px 0px 30px; text-align: left;">
+                <span>Course by Cash / QR Code in Part / Full
+                    Amount.</span>
+            </div>
+
+            <div style=" display: flex; font-size: 20px; margin-top: 5%; height: 25px;">
+                <span style="padding:0px 10px 0px 30px;"><b>Rs.</b></span>
+                <textarea id="amount" onchange="convertToWords(),updaters()"></textarea>
+            </div>
+            <div style="text-align: right; font-size: 20px;">
+                <span style="margin-right: 5%;"><b>Signature</b></span>
+            </div>
+        </div>
+
+        <button id="printButton" onclick="printMe()"
+            style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
+            class="btn btn-success"><i class="fa-solid fa-print"></i> <b>Save & Print</b>
+        </button>
 </body>
+
+<script src="/js/paymentReceiptTemplate.js"></script>
+
+
 </html>

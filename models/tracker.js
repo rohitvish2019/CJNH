@@ -10,6 +10,7 @@ const Trackers = new mongoose.Schema({
     OtherBillNumber:Number,
     AdvancePaymentNumber:Number,
     IPDNumber:Number,
+    RecieptNo:Number,
 },
 {
     timestamps:true
