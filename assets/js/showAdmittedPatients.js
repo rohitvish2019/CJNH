@@ -1,3 +1,4 @@
+document.getElementById('loader').style.display='none'
 function changeDischargeDate(visitId){
     console.log(visitId);
     let dischargeDate = document.getElementById('dischargeDate_'+visitId).value;
@@ -132,13 +133,27 @@ function getIPDDataRange(){
     if(startDate == '' || endDate == ''){
         return 0
     }
+    document.getElementById('loader').style.display='block'
     $.ajax({
         url:'/patients/getIPDData/Range',
         data:{
             startDate,
             endDate
         },
-        success:function(data){setIPDData(data.IPDs, data.rooms)},
+        success:function(data){
+            if(data.IPDs.length < 1){
+                document.getElementById('table-content').innerHTML=
+                `
+                <tr>
+                    <td colspan='13'>No Data Found</td>
+                </tr>
+                `
+                document.getElementById('loader').style.display='none'
+            }else{
+                setIPDData(data.IPDs, data.rooms)
+            }
+            
+        },
         error:function(err){
             console.log(err)
         }
@@ -206,4 +221,5 @@ function setIPDData(visits, rooms){
         selectContainer.value=visits[i].RoomType == ''?'none':visits[i].RoomType
         document.getElementById('DeliveryType_'+visits[i]._id).value=visits[i].DeliveryType
     }
+    document.getElementById('loader').style.display='none'
 }

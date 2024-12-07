@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathology Billing</title>
+    <title>Other Billing</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -20,7 +20,7 @@
         <%-include('_loader')%>
     </div>
     <div style="height: 100px;width: 100%;border: 1px solid white;">
-        <input type="hidden" value="Pathology" id="billType">
+        <input type="hidden" value="Other" id="billType">
         <div class="patient-container text-center" style="padding: 1%; color: white; background-color:#343a40 ;">
             <div class="patient-data">
                 <label class="patient-data-heading">Name</label>
@@ -29,6 +29,10 @@
             <div class="patient-data">
                 <label class="patient-data-heading">Age</label>
                 <input class="patient-data-value" id="age">
+            </div>
+            <div class="patient-data">
+                <label class="patient-data-heading">ID Proof</label>
+                <input class="patient-data-value" id="IdProof">
             </div>
             <div class="patient-data">
                 <label class="patient-data-heading">Gender</label>
@@ -47,16 +51,16 @@
                 <input class="patient-data-value" id="docName">
             </div>
 
-            <div style="text-align: center; padding-left: 8%; border-left: 1px solid white;">
+            <div style="text-align: center; padding-left: 4%; border-left: 1px solid white;">
                 <input style="width:80%; text-align: center; font-size: medium; margin: 2%;" type="text" name="" id="patientId" placeholder="Patient Id"> <br>
                 <button class="btn btn-success" style="margin: 1%;margin-top: 5%; " onclick="autoFillPatients()">Autofill</button>
             </div>  
         </div>
     </div>
     <div style="display: flex; justify-content: space-between; width: 99%; padding-top: 1%;">
-        <div style="width: 71%; margin-left: 0.5%;">
+        <div style="width: 107%; margin-left: 0.5%;">
             <div style="overflow-y: auto; height: 500px;">
-                <h2 style="text-align: center;">Pathology Billing</h2>
+                <h2 style="text-align: center;">Other Billing</h2>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr class="bg">
@@ -110,14 +114,6 @@
                 </div>
                 <input type="text" id="Notes" class="form-control" >
             </div>
-            <!--
-            <div class="input-group input-group-sm mb-1">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroup-sizing-sm">Type</span>
-                </div>
-                <input type="text" id="Type" class="form-control" >
-            </div>
-            -->
             <div style="width: 100%; margin-top: 10%;">
                 <button style="width: 60%; margin-left: 21%; margin-right: 19%;" class="btn btn-success" onclick="addItems()">Add</button>
             </div>
@@ -125,6 +121,8 @@
                 <label id="total">0</label>
             </div>
         </div>
+
+        
     </div>
     <script src="/js/pathalogyBill.js"></script>
 </body>

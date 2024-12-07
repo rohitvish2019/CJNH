@@ -30,6 +30,15 @@ module.exports.newUltrasoundBill = async function(req, res){
     }
 }
 
+module.exports.newOtherBill = async function(req, res){
+    try{
+        let services = await ServicesData.find({}, 'Name');
+        return res.render('otherBills', {services, user:req.user})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
+
 module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
     //ItemName$Quantity$Price$Notes
@@ -79,6 +88,10 @@ module.exports.addSales = async function(req, res){
             rptType = 'PATH'
             BillNo = tracker.PathologyBillNo + 1
             await tracker.updateOne({PathologyBillNo:BillNo});
+        }else if(req.body.Type == 'Other'){
+            rptType = 'DC'
+            BillNo = tracker.OtherBillNumber + 1
+            await tracker.updateOne({OtherBillNumber:BillNo});
         }
         console.log(IdProof);
         let sale = await SalesData.create({

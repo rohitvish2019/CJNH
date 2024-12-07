@@ -54,6 +54,7 @@ function addItems() {
     total = total + +itemPrice
     document.getElementById('Item').value = ''
     document.getElementById('Price').value = ''
+    document.getElementById('total').innerText = total
 }
 
 function unhighlight(x) {
@@ -74,6 +75,7 @@ function deleteItem(counter){
     console.log(typeof(itemPrice))
     total = total - itemPrice
     document.getElementById('rowItem_'+counter).remove()
+    document.getElementById('total').innerText = total
 }
 
 function saveBill() {
@@ -152,6 +154,7 @@ function autoFillPatients() {
             document.getElementById('address').value = data.patient.Address;
             document.getElementById('mobile').value = data.patient.Mobile;
             document.getElementById('docName').value = data.patient.Doctor;
+            document.getElementById('IdProof').value = data.patient.IdProof;
             new Noty({
                 theme: 'relax',
                 text: 'Patient setup done',
@@ -168,6 +171,7 @@ function autoFillPatients() {
             document.getElementById('mobile').value = '';
             document.getElementById('docName').value = '';
             document.getElementById('patientId').value = ''
+            document.getElementById('IdProof').value = '';
             new Noty({
                 theme: 'relax',
                 text: 'No data found',

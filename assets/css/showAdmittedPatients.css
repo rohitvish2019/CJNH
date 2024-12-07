@@ -60,3 +60,12 @@
   overflow-y: auto;
   margin-top: 4%;
 }
+
+#loader{
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 40%;
+  left: 47%;
+  z-index: 10;
+}
