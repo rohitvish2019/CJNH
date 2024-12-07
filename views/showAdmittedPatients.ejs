@@ -28,17 +28,20 @@
     <%-include('_loader')%>
   </div>
   <input type="hidden" id="visitId">
-  <div>
-    <div>
-      <label>Start Date</label>
-      <input id="startdate" type="date" value="2024-12-06">
+  <div style="display: flex;margin-top: 5px;margin-bottom: 3px;">
+    <div style="margin-left: 5px;">
+      <b>Entry Date Range</b>
     </div>
-    <div>
-      <label>End Date</label>
-      <input id="endDate" type="date" value="2024-12-06">
+    <div style="margin-left: 2%;">
+      <label>Start Date : </label>
+      <input id="startdate" type="date" value="">
     </div>
-    <div>
-      <input onclick="getIPDDataRange()" type="button" value="Filter">
+    <div style="margin-left: 2%;">
+      <label>End Date : </label>
+      <input id="endDate" type="date" value="">
+    </div>
+    <div style="margin-left: 2%;">
+      <input class="btn btn-success" onclick="getIPDDataRange()" type="button" value="Filter">
     </div>
   </div>
   <table class="table">
