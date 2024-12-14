@@ -119,7 +119,7 @@ function CancelIPD(id, pid){
             url:'/patients/cancel/IPD/'+id,
             type:'POST',
             success:function(data){
-                document.getElementById(pid).style.display='none'
+                document.getElementById(id+'tr').style.display='none'
             },
             error:function(err){}
         })
@@ -186,9 +186,14 @@ function setIPDData(visits, rooms){
         <td>
             <select id="DeliveryType_${visits[i]._id}" value="${visits[i].DeliveryType}" onchange="changeDeliveryType('${visits[i]._id}')">
                 <option value=''>--Select--</option>
-                <option value="Vaginal">Vaginal</option>
-                <option value="Caesarean">Caesarean</option>
-                <option value="Vaginal Instrumental">Vaginal Instrumental</option>
+                <option value="VAGINAL DELIVERY CHARGES">VAGINAL DELIVERY</option>
+                <option value="VAGINAL INSTRUMENTAL DELIVERY">VAGINAL INSTRUMENTAL DELIVERY</option>
+                <option value="HYSTERECTOMY">HYSTERECTOMY</option>
+                <option value="LSCS">LSCS</option>
+                <option value="LSCS WITH T/L">LSCS WITH T/L</option>
+                <option value="LAPROSCOPY OP">LAPROSCOPY OP</option>
+                <option value="LAPROTOMY">LAPROTOMY</option>
+                
             </select>
         </td>
         <td>
@@ -223,3 +228,7 @@ function setIPDData(visits, rooms){
     }
     document.getElementById('loader').style.display='none'
 }
+
+let startDate = document.getElementById('startdate').value
+let endDate = document.getElementById('endDate').value
+getIPDDataRange(startDate, endDate)

@@ -19,37 +19,47 @@
             <h2>Sales History</h2>
         </div>
         <div class="searchElements" style="display: flex; justify-content:flex-start; margin-top: 1%;">
-                <div style="margin-right: 2%;">
-                    <label for=""><b>Filter type : </b>&nbsp;</label>
+                <div style="margin-right: 1%;">
+                    
                     <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
                         <option value="byDate" selected>Exact Date</option>
                         <option value="byDateRange">Date Range</option>
                     </select>
                 </div>
                 
-                <div id="dateRangeInputs" style="margin-right: 2%;">
-                    <label for=""><b>Sale Date Range : </b>&nbsp;</label>
+                <div id="dateRangeInputs" style="margin-right: 1%;">
+                    <label for=""><b>Date Range : </b>&nbsp;</label>
                     <input type="date" name="" id="startDate">
                     <input type="date" name="" id="endDate">
                 </div>
-                <div id="dateInput" style="margin-right: 2%;">
-                    <label for=""><b>Sale Date : </b>&nbsp;</label>
-                    <input type="date" name="" id="selectedDate">
+                <div id="dateInput" style="margin-right: 1%;">
+                    <label for=""><b>Date : </b>&nbsp;</label>
+                    <input style="height: 32px" type="date" name="" id="selectedDate">
                 </div>
-                <div>
-                    <label for=""><b>Bill type : </b>&nbsp;</label>
+                <div style="margin-right: 1%;">
                     <select name="" id="billType" style="height: 70%;">
-                        <option value="Appointment" selected>Appointment Fees</option>
+                        <option value="all">All Sales</option>
+                        <option value="Appointment">Appointment Fees</option>
                         <option value="Pathology"> Pathology Bill</option>
                         <option value="DischargeBill">Discharge Bills</option>
                         <option value="Ultrasound">Ultrasound Bills</option>
                         <option value="IPDAdvance">IPD Advance payment</option>
                         <option value="Other">Other</option>
-                        <option value="all">All Sales</option>
+                        
+                    </select>
+                </div>
+                <div>
+                    <select name="" id="Doctor" style="height: 70%;">
+                        <option value="">--Select Doctor--</option>
+                        <option value="all" selected>All Doctors</option>
+                        <option value="Dr Anuj Jain">Dr Anuj Jain</option>
+                        <option value="Dr Swati Jain"> Dr Swati Jain</option>
                     </select>
                 </div>
                 <button style="height: 80%;margin-left: 2%; margin-bottom: 1%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>
-                <b style="margin-left: 3%;" id="tvalue"></b>
+                <b style="margin-left: 1%;" id="tvalue"></b>
+                <b style="margin-left: 1%;" id="tvaluecash"></b>
+                <b style="margin-left: 1%;" id="tvalueonline"></b>
             <div>
                 <b id="tvalue"></b>
             </div>
@@ -65,7 +75,8 @@
                         <th>Entry Date</th>
                         <th>Open Bill</th>
                         <th>Doctor</th>
-                        <th>Payment mode</th>
+                        <th>Cash Amount</th>
+                        <th>Online Amount</th>
                         <th>Action</th>
                     </tr>
                 </thead>

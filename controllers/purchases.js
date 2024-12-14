@@ -39,7 +39,6 @@ module.exports.savePurchase = async function(req, res){
                     Batch:item[1],
                     Price:item[2],
                     Quantity:item[3],
-                    //Bought_Date:new Date().toISOString().split('T')[0],
                     Bought_Date: date,
                     Seller:item[4]
                 })
@@ -58,6 +57,7 @@ module.exports.savePurchase = async function(req, res){
     }
      
 }
+/*
 function addOneDay(date) {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
         throw new Error("Input must be a valid Date object.");
@@ -76,6 +76,7 @@ function addOneDay(date) {
 
     return newDate;
 }
+    */
 module.exports.getPurchaseHistory = async function(req, res){
     try{
         let purchases;
@@ -87,8 +88,8 @@ module.exports.getPurchaseHistory = async function(req, res){
         }else if(searchType == 'byDateRange'){
             purchases = await PurchaseData.find({
                 $and : [
-                    {createdAt:{$gte : req.query.startDate}},
-                    {createdAt : {$lte: addOneDay(req.query.endDate)}},
+                    {Bought_Date:{$gte : req.query.startDate}},
+                    {Bought_Date : {$lte: req.query.endDate}},
                     {isCancelled:false, isValid:true}
                 ]
             }).sort('createdAt');
@@ -110,10 +111,16 @@ module.exports.getPurchaseHistory = async function(req, res){
 
 module.exports.cancelPurchases = async function(req, res){
     try{
-        await PurchaseData.findByIdAndDelete(req.params.id,{isCancelled:true});
-        return res.status(200).json({
-            message:'Purchase cancelled'
-        })
+        if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
+            await PurchaseData.findByIdAndDelete(req.params.id,{isCancelled:true});
+            return res.status(200).json({
+                message:'Purchase cancelled'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unautorized action'
+            })
+        }
     }catch(err){
         return res.status(500).json({
             message:'Unable to cancel purchase'

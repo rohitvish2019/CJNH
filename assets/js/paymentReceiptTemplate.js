@@ -54,3 +54,6 @@ function printMe() {
     document.getElementById('printButton').style.display = 'none'
     window.print()
 }
+
+convertToWords()
+updaters()

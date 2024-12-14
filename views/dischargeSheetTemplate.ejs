@@ -10,7 +10,7 @@
 </head>
 
 <body class="container" onload="getDischargeData()">
-    <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #d29f9b;">
+    <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #e9aca8;">
 
         <div class="hospital-details" style="height: 6%;text-align:left; display: flex;">
             <div style="height: 100%; width: 30%;">
@@ -177,7 +177,11 @@
             </div>
             <div style="text-align: left; width: 49%;border-left: .5px dotted black;padding-left: 13px;">
                 <span><b>Baby Notes</b></span>
-                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')"></textarea>
+                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')"><%=birthInfo.Gender%> Child
+At <%=birthInfo.BirthTime%> On <%=birthInfo.BirthDate%>
+Baby Weight : <%=birthInfo.ChildWeight%> Kg
+
+                </textarea>
             </div>
         </div>
 

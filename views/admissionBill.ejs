@@ -4,7 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bill</title>
+    <title>Bill Generate</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+        integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/bill.css">
 </head>
 
@@ -65,48 +71,36 @@
                             </tr>
                         </thead>
                         <tbody id="billingDetails">
-                            <!--
-                            <% let total = 0%>
-                            <% let counter = 1%>
-                            <%for(let i=0;i<Items.length;i++){%>
-                                <% total = total + Items[i].Price%>
-                                <tr>
-                                    <td><%=counter++%></td>
-                                    <td style="text-align: left;"><%=Items[i].Name%></td>
-                                    <td>₹<%=Items[i].Price%></td>
-                                    <td><%=Items[i].Notes%></td>
-                                </tr>
-                            <%}%>
-                            <tr>
-                                <% total = total + (roomCharges * daysCount)%>
-                                <td><%=counter++%></td>
-                                <td style="text-align: left;">Room charges (<%=daysCount%> days)</td>
-                                <td>₹<%=roomCharges * daysCount%></td>
-                                <td></td>
-                            </tr>
-                            <tr style="border-top: 1px solid black;">
-                                <td style="text-align: right;" colspan="2"><b>Grand Total</b></td>   
-                                <td style="border-left:1px solid black; border-right:1px solid black;"><b>₹<%=total%></b></td>
-                                <td></td>
-                            </tr>
-                            -->
+                            
                         </tbody>
                     </table>
                 </section>
             </div>
-            <div style="margin-top: 1.3%;">
-                <button class="btn btn-primary" onclick="openNewItemPopup()">Add New Item</button>
+            <div>
+                <div style="display: flex;">
+                    <div style="margin-top: 1.3%;margin-right: 10%;">
+                        <button class="btn btn-primary" onclick="openNewItemPopup()">Add New Item</button>
+                    </div>
+                    <div style="margin-top: 1.3%;margin-left: 3%;">
+                        <b id="total"></b>
+                    </div>
+                </div>
+                <div style="margin-top: 5%;">
+                    <div class="input-group input-group-sm mb-1">
+                        <span class="input-group-text" id="basic-addon1">&nbsp;&nbsp;Cash &nbsp;Payment</span>
+                        <input onchange="setuppayments()" id="cashPayment" type="number" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group input-group-sm mb-1">
+                        <span class="input-group-text" id="basic-addon1">Online Payment</span>
+                        <input id="onlinePayment" type="number" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
             </div>
-            <div style="margin-top: 1.3%;margin-left: 3%;">
-                <b id="total"></b>
-            </div>
+            
         </div>
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="/js/bill.js"></script>
+        
         <div class="printButtonContainer" style="width: 70%;"> <button id="printButton" onclick="SaveDischargeBill()"
                 class="btn btn-success">Save & Print</button></div>
 
@@ -131,12 +125,15 @@
 
             </div>
 
-            <div style="text-align: left; padding-left: 3%;font-size: small;color: red; "><span><i>* Mandatory
-                        Fields</i></span><br></div>
-            <button class="btn"
-                style="margin: 2%;margin-left: 0% !important; padding: 10px; width: 40% !important; background-color: #025E73 ;"
-                onclick="addNewItems()"><i class="fa-solid fa-file-circle-plus"></i> Add Item</button>
+            <div style="text-align: left; padding-left: 3%;font-size: small;color: red; ">
+                <span><i>* Mandatory Fields</i></span><br>
+            </div>
+            <button class="btn" style="margin: 2%;margin-left: 0% !important; padding: 10px; width: 40% !important; background-color: #025E73 ;" onclick="addNewItems()"><i class="fa-solid fa-file-circle-plus"></i> Add Item</button>
         </div>
+        
     </body>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="/js/bill.js"></script>
 </html>

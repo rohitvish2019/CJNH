@@ -1,16 +1,25 @@
 let counter = 1
 let total = 0
 function SaveDischargeBill(){
-    let paymentType = window.prompt('Please enter payment type')
-    if(paymentType == null || paymentType == ''){
-        return
+    let cashPayment = parseInt(document.getElementById('cashPayment').value)
+    let onlinePayment = parseInt(document.getElementById('onlinePayment').value)
+    if(cashPayment + onlinePayment != parseInt(total)){
+        new Noty({
+            theme: 'relax',
+            text: 'Total mismatch',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return;
     }
     $.ajax({
         url:'/patients/saveDischargeBill',
         data:{
             visitId : document.getElementById('visitId').value,
             dischargeItems,
-            paymentType
+            cashPayment,
+            onlinePayment
         },
         type:'Post',
         success:function(data){
@@ -59,6 +68,8 @@ function addNewItems(){
         </td>
     `
     document.getElementById('billingDetails').appendChild(rowItem);
+    total = total + parseInt(item.Price)
+    document.getElementById('total').innerText='Total :'+total
     closepopup()
 }
 function getDischargeBillItems(){
@@ -157,4 +168,9 @@ function saveChanges(id){
     dischargeItems[id].Price = parseInt(document.getElementById(id+'_p').value)
     total = total + newPrice - oldPrice
     document.getElementById('total').innerText='Total :'+total
+}
+
+function setuppayments(){
+    let cash = parseInt(document.getElementById('cashPayment').value);
+    document.getElementById('onlinePayment').value = total - cash
 }

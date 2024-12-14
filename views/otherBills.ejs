@@ -78,7 +78,7 @@
                 </table>
             </div>
             <div style="display: flex; justify-content: center; margin: 2%;">
-                <button onclick="saveBill()" style="width: 30%;" class="btn btn-success">Save</button>
+                <button onclick="checkValidations()" style="width: 30%;" class="btn btn-success">Save</button>
             </div>
             
         </div>
@@ -119,6 +119,20 @@
             </div>
             <div style="margin-top: 10%;">Total : 
                 <label id="total">0</label>
+            </div>
+            <div class="paymentPoppup" id="paymentPoppup" style="display: none;">
+                <div class="input-group input-group-sm mb-1">
+                    <span class="input-group-text" id="basic-addon1">Cash Payment</span>
+                    <input onchange="setuppayments()" id="cashPayment" type="number" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group input-group-sm mb-1">
+                    <span class="input-group-text" id="basic-addon1">Online Payment</span>
+                    <input id="onlinePayment" type="number" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div style="display: flex;justify-content: center;margin-top: 10%;">
+                    <button style="margin-right: 2%;" onclick="closePopup()" class="btn btn-danger">Cancel</button>
+                    <button style="margin-left: 2%;" onclick="saveBill()" id="addPayment" class="btn btn-success">Save</button>
+                </div>
             </div>
         </div>
 

@@ -19,6 +19,8 @@ const Sales = new mongoose.Schema({
     Total:Number,
     PaymentType:String,
     IdProof:String,
+    CashPaid:Number,
+    OnlinePaid:Number,
     BillDate:{
         type:String,
         default:date,

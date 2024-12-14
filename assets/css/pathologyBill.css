@@ -50,3 +50,17 @@ td {
 .input-group-text{
     width: 120px;
 }
+
+.paymentPoppup{
+    position: fixed;
+    top: 30%;
+    left: 25%;
+    width: 20%;
+    font-size: small;
+    background-color:#d0d0d0;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
+    overflow-y: auto;
+    margin-top: 4%;
+}

@@ -32,6 +32,10 @@ module.exports.oldAppointmentsHome = function(req, res){
 // This methods add a visit for old patient and also creates a patient if its new.
 module.exports.addVisitAndPatient = async function(req, res){
     try{
+        let day = new Date().getDate().toString().padStart(2,'0')
+        let month = +new Date().getMonth()
+        let year = new Date().getFullYear()
+        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day; 
         console.log(req.body);
         let patient;
         let tracker = await Tracker.findOne({});
@@ -71,6 +75,13 @@ module.exports.addVisitAndPatient = async function(req, res){
         });
         let updatedReportNo = +tracker.AppointmentNumber + 1
         await patient.updateOne({$push:{Visits:visit._id}});
+        let CashPaid = 0;
+        let OnlinePaid = 0;
+        if(req.body.paymentType == 'Cash'){
+            CashPaid = req.body.Fees
+        }else if(req.body.paymentType == 'Online'){
+            OnlinePaid = req.body.Fees
+        }
         let sale = await Sales.create({
             ReportNo:'OPD'+tracker.AppointmentNumber,
             Name:req.body.Name,
@@ -83,7 +94,10 @@ module.exports.addVisitAndPatient = async function(req, res){
             Items:['OPD$1$'+req.body.Fees],
             type:'Appointment',
             Total:req.body.Fees,
-            PaymentType:req.body.paymentType
+            CashPaid:CashPaid,
+            OnlinePaid:OnlinePaid,
+            BillDate:date,
+            IdProof:req.body.IdProof
         })
         await visit.updateOne({SaleId:sale._id})
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
@@ -101,35 +115,37 @@ module.exports.addVisitAndPatient = async function(req, res){
 
 module.exports.getAppointmentsToday = async function(req, res){
     try{
-        let day = new Date().getDate().toString().padStart(2,'0')
-        let month = +new Date().getMonth()
-        let year = new Date().getFullYear()
-        //let date =  new Date().toISOString().split('T')[0];
-        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day;
-        let visits;
-        console.log(date)
-        if(req.query.status == 'true'){
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
-        }else{
-            visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient');
-        }
+        if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
+            let day = new Date().getDate().toString().padStart(2,'0')
+            let month = +new Date().getMonth()
+            let year = new Date().getFullYear()
+            let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day;
+            let visits;
+            console.log(date)
+            if(req.query.status == 'true'){
+                visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
+            }else{
+                visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient');
+            }
 
-        if(req.xhr){
-            console.log('It is a xhr request')
-            return res.status(200).json({
-                visits
-            })
+            if(req.xhr){
+                console.log('It is an xhr request')
+                return res.status(200).json({
+                    visits
+                })
+            }else{
+                return res.render('showAppointments',{visits,user:req.user});
+            }
         }else{
-            return res.render('showAppointments',{visits,user:req.user});
+            return res.render('Error_403')
         }
-        
     }catch(err){
         console.log(err)
         return res.render('Error_500');
     }
 }
 
-
+/*
 module.exports.getAppointmentsByDateRange = async function(req, res){
     try{
 
@@ -152,11 +168,12 @@ module.exports.getAppointmentsByDateRange = async function(req, res){
     }
 }
 
+*/
+
 
 module.exports.getAppointmentsByDate = async function(req, res){
     console.log(req.query);
     try{
-        //Date formart to be fixed to handle all types of formats
         let date = req.query.date;
         let visits;
         if(req.query.status == 'true'){
@@ -211,6 +228,10 @@ module.exports.getPatientById = async function(req, res){
 
 module.exports.bookVisitToday = async function(req, res){
     try{
+        let day = new Date().getDate().toString().padStart(2,'0')
+        let month = +new Date().getMonth()
+        let year = new Date().getFullYear()
+        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day; 
         let patient = await PatientData.findOne({
             $or: [
                 {Id:req.body.PatientId},
@@ -241,6 +262,13 @@ module.exports.bookVisitToday = async function(req, res){
         patient.Visits.push(visit._id);
         await patient.save();
         let updatedReportNo = +tracker.AppointmentNumber + 1
+        let CashPaid = 0;
+        let OnlinePaid = 0;
+        if(req.body.paymentType == 'Cash'){
+            CashPaid = req.body.Fees
+        }else if(req.body.paymentType == 'Online'){
+            OnlinePaid = req.body.Fees
+        }
         let sale = await Sales.create({
             ReportNo:'OPD'+tracker.AppointmentNumber,
             Name:patient.Name,
@@ -254,7 +282,9 @@ module.exports.bookVisitToday = async function(req, res){
             Items:['OPD$1$'+req.body.Fees],
             type:'Appointment',
             Total:req.body.Fees,
-            PaymentType:req.body.paymentType
+            CashPaid:CashPaid,
+            OnlinePaid:OnlinePaid,
+            BillDate:date,
         })
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         await visit.updateOne({SaleId:sale._id})
@@ -302,7 +332,6 @@ module.exports.IPDpatientRegistration = function(req, res){
 }
 
 module.exports.admitPatient = async function(req, res){
-    console.log(req.body);
     let id;
     try{
         id = await Tracker.findOne({});
@@ -331,20 +360,17 @@ module.exports.admitPatient = async function(req, res){
             newIPDNumber = Number(id.IPDNumber) + 1;
             await id.updateOne({patientId:newId, IPDNumber: newIPDNumber})
         }
-        
-        
-        
         let visit = await VisitData.create({
-        Patient:patient._id,
-        IPDNumber: newIPDNumber,
-        Visit_date:req.body.data.AdmissionDate,
-        Doctor:req.body.data.Doctor,
-        Type:'IPD',
-        AdmissionDate:req.body.data.AdmissionDate,
-        AdmissionTime:req.body.data.AdmissionTime,
-        Reason:req.body.data.Reason,
-        BroughtBy:req.body.data.BroughtBy
-        })
+                Patient:patient._id,
+                IPDNumber: newIPDNumber,
+                Visit_date:req.body.data.AdmissionDate,
+                Doctor:req.body.data.Doctor,
+                Type:'IPD',
+                AdmissionDate:req.body.data.AdmissionDate,
+                AdmissionTime:req.body.data.AdmissionTime,
+                Reason:req.body.data.Reason,
+                BroughtBy:req.body.data.BroughtBy
+            })
         await patient.updateOne({$push:{Visits:visit._id}, Id:newId});
         patient.Visits.push(visit._id);
         return res.status(200).json({
@@ -360,10 +386,12 @@ module.exports.admitPatient = async function(req, res){
 
 module.exports.showAdmitted = async function(req, res){
     try{
+        /*
         let threeYearOld = new Date(new Date().setFullYear(new Date().getFullYear() - 3));
         let visits = await VisitData.find({isCancelled:false,isValid:true,Type:'IPD', createdAt :{$gte : threeYearOld}}).populate('Patient').sort([['createdAt',-1]]);
         let rooms = await ServicesData.find({Type:'RoomCharges'});
-        return res.render('showAdmittedPatients',{visits, rooms, user:req.user})
+        */
+        return res.render('showAdmittedPatients',{user:req.user})
         
     }catch(err){
         console.log(err)
@@ -414,12 +442,16 @@ module.exports.saveRoomType = async function(req, res){
     
 module.exports.AdmissionBill = async function(req, res){
     try{
-        let visit = await VisitData.findById(req.params.visitId).populate('Patient');
-        let bill = visit.Patient
+        /*
+        
         let Items = await ServicesData.find({Type:'AdmissionBill'});
         let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         return res.render('AdmissionBill',{bill, Items, roomCharges:room.Price,daysCount, visit_id:visit._id, isDischarged:visit.isDischarged, user:req.user});
+        */
+        let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        let bill = visit.Patient
+       return res.render('AdmissionBill', {bill,visit_id:visit._id,user:req.user})
     }catch(err){    
         console.log(err);
         return res.render('Error_500')
@@ -429,7 +461,7 @@ module.exports.AdmissionBill = async function(req, res){
 module.exports.getAdmissionBillItems = async function(req, res){
     try{
         let visit = await VisitData.findById(req.query.visitid).populate('Patient');
-        let Items = await ServicesData.find({Type:'AdmissionBill'},'Name Price');
+        let Items = await ServicesData.find({Type:'AdmissionBill'},'Name Price').sort('createdAt');
         let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         let advancedPayments = visit.advancedPayments;
@@ -450,6 +482,11 @@ module.exports.getAdmissionBillItems = async function(req, res){
 
 module.exports.saveDischargeBill = async function(req, res){
     try{
+        let day = new Date().getDate().toString().padStart(2,'0')
+        let month = +new Date().getMonth()
+        let year = new Date().getFullYear()
+        let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day; 
+
         let visit = await VisitData.findById(req.body.visitId).populate('Patient');
         let billItems = new Array()
         let total = 0
@@ -461,7 +498,6 @@ module.exports.saveDischargeBill = async function(req, res){
                 total = total + +req.body.dischargeItems[keys[i]].Price
                 billItems.push(item)
             }
-            await visit.updateOne({isDischarged:true});
             let bill = await Tracker.findOne();
             let newBillNo = +bill.AdmissionNo + 1;
             await bill.updateOne({AdmissionNo:newBillNo});
@@ -474,26 +510,15 @@ module.exports.saveDischargeBill = async function(req, res){
                 Gender:visit.Patient.Gender,
                 PatiendID:visit.Patient.Id,
                 Doctor:visit.Doctor,
-                PaymentType:req.body.paymentType,
+                CashPaid:req.body.cashPayment,
+                OnlinePaid:req.body.onlinePayment,
                 type:'DischargeBill',
                 Items:billItems,
                 ReportNo:"DSCH"+newBillNo,
-                Total:total
+                Total:total,
+                BillDate:date
             })
-            
-            /*
-            
-            let Items = await ServicesData.find({Type:'AdmissionBill'});
-            
-            let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
-            let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
-            
-            
-            billItems.push('Room Charges ('+daysCount+' days)$1$'+ +room.Price*daysCount+'$');
-            total = total + +room.Price*daysCount
-            
-            
-                */
+            await visit.updateOne({isDischarged:true,DischargeBillNumber:sale.ReportNo,FinalBillAmount:sale.Total});
             return res.status(200).json({
                 sale:sale._id,
                 message:'Bill Saved'
@@ -517,14 +542,10 @@ function get24HourTimeframes(startDate, startTime, endDate, endTime) {
     // Combine the date and time into full Date objects
     const startDateTime = new Date(`${startDate}T${startTime}`);
     const endDateTime = new Date(`${endDate}T${endTime}`);
-    console.log(startDateTime)
-    console.log(endDateTime)
     // Calculate the total difference in milliseconds
     const timeDiff = endDateTime - startDateTime;
-    
     // Convert the difference to hours (1 hour = 3,600,000 milliseconds)
     const hoursDiff = timeDiff / (1000 * 60 * 60);
-    
     // Return the number of 6-hour timeframes (rounding down)
     return Math.ceil(hoursDiff / 24);
 }
@@ -551,8 +572,9 @@ module.exports.showPrescription = async function(req, res){
 module.exports.dischargeSheet = async function(req, res){
     try{
         let visit = await VisitData.findById(req.params.id).populate('Patient');
+        let birthCerts = await BirthData.find({Visit:visit._id, isCancelled:false, isValid:true}).sort({createdAt:-1});
         let meds = await MedsData.find({Type:'DischargeMed'});
-        return res.render('dischargeSheetTemplate', {visit, user:req.user, meds})
+        return res.render('dischargeSheetTemplate', {visit, user:req.user, meds, birthInfo:birthCerts[0]})
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -584,7 +606,6 @@ module.exports.patientHistoryHome = async function(req, res){
 module.exports.getAllVisits = async function(req, res){
     try{
         let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions OtherDocs').sort({createdAt:-1});
-        //let patient = await PatientData.findOne({Id:});
         let reports = await Reportsdata.find({Patient:req.params.patientId, isCancelled:false, isValid:true});
         return res.status(200).json({
             visits,
@@ -613,14 +634,18 @@ module.exports.birthCertificateHome = async function(req, res){
 module.exports.saveBirthDetails = async function(req, res){
     try{
         let pid = req.body.OPDId;
-        
-        /*
-        let cert = await BirthData.findOne({OPDId:pid});
-        if(cert){
-            await cert.updateOne({
-                Name:req.body.Name,
-                Husband:req.body.Husband,
-                Age:req.body.Age,
+        if(pid && pid != null && pid != ''){
+            let birthCertNumber = await Tracker.findOne({});
+            let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
+            let patient = await PatientData.findOne({Id:pid});
+            let visits = await VisitData.find({Patient:patient._id, Type:'IPD'}).sort({createdAt:-1})
+            let bcert = await BirthData.create({
+                CertificateNumber:"BCERT"+newBirthCertNumber,
+                Visit:visits[0]._id,
+                OPDId:pid,
+                Name:patient.Name,
+                Husband:patient.Husband,
+                Age:patient.Age,
                 Village:req.body.Village,
                 Tahsil:req.body.Tahsil,
                 District:req.body.District,
@@ -630,49 +655,18 @@ module.exports.saveBirthDetails = async function(req, res){
                 BirthTime:req.body.BirthTime,
                 BirthDate:req.body.BirthDate,
                 ChildWeight:req.body.ChildWeight,
+                GeneratedOn:req.body.BirthDate,
             })
+            await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber})
             return res.status(200).json({
-                message:'Birth details updated',
-                id:cert._id
+                message:'Birth Certificate created',
+                id:bcert._id
             })
         }else{
-        */
-            if(pid && pid != null && pid != ''){
-                let birthCertNumber = await Tracker.findOne({});
-                let newBirthCertNumber = +birthCertNumber.BirthCertificateNumber + 1;
-                let patient = await PatientData.findOne({Id:pid});
-                let visits = await VisitData.find({Patient:patient._id, Type:'IPD'}).sort({createdAt:-1})
-
-                let bcert = await BirthData.create({
-                    CertificateNumber:"BCERT"+newBirthCertNumber,
-                    Visit:visits[0]._id,
-                    OPDId:pid,
-                    Name:patient.Name,
-                    Husband:patient.Husband,
-                    Age:patient.Age,
-                    Village:req.body.Village,
-                    Tahsil:req.body.Tahsil,
-                    District:req.body.District,
-                    State:req.body.State,
-                    DeliveryType:req.body.DeliveryType,
-                    Gender:req.body.Gender,
-                    BirthTime:req.body.BirthTime,
-                    BirthDate:req.body.BirthDate,
-                    ChildWeight:req.body.ChildWeight,
-                    GeneratedOn:req.body.BirthDate,
-                })
-                await birthCertNumber.updateOne({BirthCertificateNumber:newBirthCertNumber})
-                
-                return res.status(200).json({
-                    message:'Birth Certificate created',
-                    id:bcert._id
-                })
-            }else{
-                return res.status(400).json({
-                    message:'Invalid patient ID'
-                })
-            }
-        //}
+            return res.status(400).json({
+                message:'Invalid patient ID'
+            })
+        }
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -696,10 +690,18 @@ module.exports.addAdvancePayment = async function(req, res){
         let day = new Date().getDate()
         let month = +new Date().getMonth()
         let year = new Date().getFullYear()
-        let date = day +'-'+ (month+1) +'-'+ year
+        let date = year +'-'+ (month+1) +'-'+ day
         let visit = await VisitData.findById(req.body.visitId).populate('Patient');
+        let CashPaid = 0
+        let OnlinePaid = 0
+        if(req.body.paymentType == 'Cash'){
+            CashPaid = req.body.Amount
+        }else if(req.body.paymentType == 'Online'){
+            OnlinePaid = req.body.Amount
+        }
         visit.advancedPayments.push("Advance Received$-"+req.body.Amount+"$"+date+'$'+new Date().getTime());
         await visit.save();
+        
         let bill = await Tracker.findOne();
         let newBillNo = +bill.AdvancePaymentNumber + 1;
         let sale = await SalesData.create({
@@ -711,11 +713,13 @@ module.exports.addAdvancePayment = async function(req, res){
             Gender:visit.Patient.Gender,
             PatiendID:visit.Patient.Id,
             Doctor:visit.Doctor,
-            PaymentType:req.body.paymentType,
+            CashPaid:CashPaid,
+            OnlinePaid:OnlinePaid,
             type:'IPDAdvance',
             Items:["Advanced Received$1$"+req.body.Amount],
             ReportNo:"IPDAD"+newBillNo,
-            Total:req.body.Amount
+            Total:req.body.Amount,
+            BillDate:date,
         })
         await bill.updateOne({AdvancePaymentNumber:newBillNo})
         return res.status(200).json({
@@ -746,10 +750,16 @@ module.exports.saveWeight = async function(req, res){
 
 module.exports.cancelIPD = async function(req, res){
     try{
-        await VisitData.findByIdAndUpdate(req.params.id,{isCancelled:true});
-        return res.status(200).json({
-            message:'IPD cancelled'
-        })
+        if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
+            await VisitData.findByIdAndUpdate(req.params.id,{isCancelled:true});
+            return res.status(200).json({
+                message:'IPD cancelled'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unautorized action'
+            })
+        }
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -789,7 +799,7 @@ module.exports.getDischargeData = async function(req, res){
 
 module.exports.dischargeReceipt = async function(req, res){
     try{
-        let visit = await VisitData.findById(req.params.id).populate('Patient');
+        let visit = await VisitData.findById(req.params.id,'Patient DischargeBillNumber FinalBillAmount').populate('Patient');
         let RecieptNo = await Tracker.findOne({});
         return res.render('paymentReceiptTemplate', {visit, user:req.user,RecieptNo:RecieptNo.RecieptNo})
     }catch(err){
@@ -810,6 +820,7 @@ module.exports.saveDeliveryType = async function(req, res){
         })
     }
 }
+/*
 function addOneDay(date) {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
         throw new Error("Input must be a valid Date object.");
@@ -828,16 +839,16 @@ function addOneDay(date) {
 
     return newDate;
 }
-
+*/
 module.exports.getIPDData = async function(req, res){
     try{
         let IPDs = await VisitData.find({
             $and:[
-                {createdAt :{$gte : new Date(req.query.startDate)}},
-                {createdAt : {$lte : addOneDay(new Date(req.query.endDate))}},
-                {isValid:true, isCancelled:false}
+                {Visit_date :{$gte : req.query.startDate}},
+                {Visit_date : {$lte : req.query.endDate}},
+                {isValid:true, isCancelled:false, Type:'IPD'}
             ]
-        }).populate('Patient');
+        }).sort({createdAt:-1}).populate('Patient');
         let rooms = await ServicesData.find({Type:'RoomCharges'});
         return res.status(200).json({
             IPDs,

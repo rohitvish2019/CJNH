@@ -13,6 +13,7 @@ changeInputs();
 function getSalesHistoryDate(){
     let selectedDate = document.getElementById('selectedDate').value
     let BillType = document.getElementById('billType').value
+    let Doctor = document.getElementById('Doctor').value
     if(!selectedDate || selectedDate == null || selectedDate == ''){
         new Noty({
             theme: 'relax',
@@ -29,7 +30,8 @@ function getSalesHistoryDate(){
         type:'Get',
         data:{
             selectedDate,
-            BillType
+            BillType,
+            Doctor
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
@@ -66,6 +68,7 @@ function getSalesHistoryRange(){
     let startDate = document.getElementById('startDate').value
     let endDate = document.getElementById('endDate').value
     let BillType = document.getElementById('billType').value
+    let Doctor = document.getElementById('Doctor').value
     if(!startDate || startDate == null || startDate == ''){
         new Noty({
             theme: 'relax',
@@ -114,7 +117,8 @@ function getSalesHistoryRange(){
         data:{
             startDate,
             endDate,
-            BillType
+            BillType,
+            Doctor
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
@@ -137,6 +141,8 @@ function getSalesHistoryRange(){
 
 function showHistory(items){
     let total = 0
+    let cashTotal = 0
+    let onlineTotal = 0
     let container = document.getElementById('historyBody');
     container.innerHTML=``;
     for(let i=0;i<items.length;i++){
@@ -152,7 +158,8 @@ function showHistory(items){
             <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
             <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
-            <td>${items[i].PaymentType}</td>
+            <td>${items[i].CashPaid}</td>
+            <td>${items[i].OnlinePaid}</td>
             <td style='width:15%'><button disabled onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
             </td>   
         `
@@ -166,7 +173,8 @@ function showHistory(items){
             <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
             <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
-            <td>${items[i].PaymentType}</td>
+            <td>${items[i].CashPaid}</td>
+            <td>${items[i].OnlinePaid}</td>
             <td style='width:15%'><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
             </td>   
         `
@@ -174,9 +182,13 @@ function showHistory(items){
         
         container.appendChild(rowItem);
         total = total  + +items[i].Total
+        cashTotal = cashTotal + +items[i].CashPaid
+        onlineTotal = onlineTotal + +items[i].OnlinePaid
     }
 
     document.getElementById('tvalue').innerText='Total : ₹ '+total
+    document.getElementById('tvaluecash').innerText='Cash Total : ₹ '+cashTotal
+    document.getElementById('tvalueonline').innerText='Online Total : ₹ '+onlineTotal
 }
 
 

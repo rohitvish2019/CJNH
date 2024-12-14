@@ -27,6 +27,8 @@ const Visits = new mongoose.Schema({
     weight:Number,
     PathReports:Array,
     DeliveryType:String,
+    DischargeBillNumber:String,
+    FinalBillAmount:Number,
     OtherDocs:[
         {
             type:Array

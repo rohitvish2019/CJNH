@@ -75,11 +75,11 @@
                 <small for=""><b>Weight</b></small>
                 <label for="" style="margin-bottom: 5px;"><input onchange='saveWeight("<%=visit._id%>")' style="width: 32%;margin-bottom: 5px; display: inline;" type="number" name="" id="pweight" value="<%=visit.weight%>">Kg</label>
             </div>
-            <div class="patient-data" style="width: 24%;">
+            <div class="patient-data" style="width: 28%;">
                 <small for=""><b>Address</b></small>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            <div class="patient-data" style="width: 25%; ">
+            <div class="patient-data" style="width: 21%; ">
                 <small for=""><b>Date & Time</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
                 <label style="font-size: small;">
@@ -180,7 +180,20 @@
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">Bl gr & Rh</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('Blgr')" id="Blgr">
+                            onchange="addChanges('Blgr')" id="Blgr" list="values">
+                        <datalist id="values">
+                            <option value="Nil"></option>
+                            <option value="Reactive"></option>
+                            <option value="Non-Reactive"></option>
+                            <option value="A Positive"></option>
+                            <option value="B Positive"></option>
+                            <option value="AB Positive"></option>
+                            <option value="O Positive"></option>
+                            <option value="A Negative"></option>
+                            <option value="B Negative"></option>
+                            <option value="AB Negative"></option>
+                            <option value="O Negative"></option>
+                        </datalist>
                     </div>
                     <div>
                         <input type="checkbox" name="" id="">
@@ -192,7 +205,11 @@
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">HIV</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('HIV')" id="HIV">
+                            onchange="addChanges('HIV')" id="HIV" list="negpos">
+                        <datalist id="negpos">
+                            <option value="Negative">Negative</option>
+                            <option value="Positive">Positive</option>
+                        </datalist>
                     </div>
                     <div>
                         <input type="checkbox" name="" id="">
@@ -256,10 +273,15 @@
                         <input style="width: 46%;border: none;border-bottom: .5px dotted black;" type="text"
                             onchange="addChanges('SemenAnalysis')" id="SemenAnalysis">
                     </div>
+                    <div>
+                        <label style="width: 19%;">Other</label>
+                        <input style="width: 78%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('otheInv')" id="otheInv">
+                    </div>
                 </div>
                 <div style="margin-top: 25px;margin-left: 2%;">
                     <b>Other advice</b>
-                    <textarea rows="6" style="width: 99%;border-bottom: none;" name="" id="OtherAdvice" placeholder=""></textarea>
+                    <textarea rows="5" style="width: 99%;border-bottom: none;" name="" id="OtherAdvice" placeholder=""></textarea>
                 </div>
 
                 <div

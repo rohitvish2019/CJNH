@@ -67,7 +67,7 @@ function getAppointmentsToday(){
                         <td>${data.visits[i].Patient.Address}</td>
                         <td>${data.visits[i].Fees}</td>
                         <td><a target='_blank' href="/patients/getHistory/${data.visits[i].Patient._id}">Patient History</a></td>
-                        <td><a href="/patients/getPrescription/${data.visits[i]._id}">Prescription</a></td>
+                        <td><a target='_blank' href="/patients/getPrescription/${data.visits[i]._id}">Prescription</a></td>
                         <td>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" onchange="enableDisableAppointMent('${data.visits[i]._id}')" role="switch" id="checkbox_${data.visits[i]._id}" ${checkStatus}>

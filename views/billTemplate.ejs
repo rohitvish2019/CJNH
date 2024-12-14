@@ -87,6 +87,8 @@
                             <th>#</th>
                             <th style="text-align: left;">Description</th>
                             <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
                             <th>Notes</th>
                         </tr>
                     </thead>
@@ -96,20 +98,22 @@
                         <%for(let i=0;i<bill.Items.length;i++){%>
                         <% if(bill.Items[i].length > 0) {%>
                         <% let item = bill.Items[i].split('$')%>
-                        <% total = total + +item[2]%>
+                        <% total = total + +(item[2] * item[1])%>
                         <tr>
                             <td><%=counter++%></td>
                             <td style="text-align: left;"><%=item[0]%></td>
                             <td>₹<%=item[2]%></td>
+                            <td><%=item[1]%></td>
+                            <td><%=parseInt(item[1]) * parseInt(item[2])%></td>
                             <td><%=item[3]%></td>
                         </tr>
                         <%}%>
                             
                         <%}%>
                         <tr>
-                            <td style="text-align: right;" colspan="2"><b>Grand Total</b></td>
+                            <td style="text-align: right;" colspan="4"><b>Grand Total</b></td>
                             <td><b>₹<%=total%></b></td>
-                            <td>Paid <%=bill.PaymentType%></td>
+                            <td>Cash : ₹<%=bill.CashPaid%>, Online : ₹<%=bill.OnlinePaid%></td>
                         </tr>
                     </tbody>
                 </table>

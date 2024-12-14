@@ -11,7 +11,29 @@ module.exports.salesHistoryHome = function(req, res){
     }
     
 }
+/*
+function convertIstToUtc(istDate) {
+    // Parse the IST date string into a Date object
+    const [year, month, day] = istDate.split('-').map(Number);
 
+    // Check if the date is valid
+    if (!year || !month || !day) {
+        throw new Error("Invalid IST date format. Use 'YYYY-MM-DD'.");
+    }
+
+    // Create IST date object
+    const istDateObj = new Date(year, month - 1, day, 0, 0, 0); // Month is 0-indexed
+
+    // Convert to UTC by subtracting 5 hours and 30 minutes (330 minutes)
+    const utcOffsetMinutes = 330;
+    const utcDate = new Date(istDateObj.getTime() - utcOffsetMinutes * 60 * 1000);
+
+    // Format the UTC date into a readable string
+    //const utcDateString = utcDate.toISOString().split('T')[0]; // Extract only the date part
+
+    return utcDate;
+}
+*/
 module.exports.newPathologyBill = async function(req, res){
     try{
         let services = await ServicesData.find({}, 'Name');
@@ -78,7 +100,6 @@ module.exports.addSales = async function(req, res){
         let year = new Date().getFullYear()
         let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day; 
         let rptType = 'NA'
-        let PathologyBillNo = 0 
         let BillNo
         if(req.body.Type == 'Ultrasound'){
             rptType = 'USG'
@@ -93,7 +114,6 @@ module.exports.addSales = async function(req, res){
             BillNo = tracker.OtherBillNumber + 1
             await tracker.updateOne({OtherBillNumber:BillNo});
         }
-        console.log(IdProof);
         let sale = await SalesData.create({
             Patient:Id,
             Name:Name,
@@ -107,12 +127,14 @@ module.exports.addSales = async function(req, res){
             Patient:Patient,
             UserName:req.user.Name,
             User:req.user._id,
-            //BillDate:new Date().toISOString().split('T')[0],
             BillDate:date,
             Total:req.body.Total,
             Items:req.body.Items,
             PaymentType:req.body.paymentMode,
-            IdProof:IdProof == '' ? req.body.IdProof : IdProof
+            IdProof : req.body.patient.IdProof,
+            Doctor:req.body.patient.Doctor,
+            OnlinePaid:req.body.onlinePayment,
+            CashPaid:req.body.cashPayment
         })
         
     return res.status(200).json({
@@ -162,11 +184,22 @@ module.exports.getBillsByDate = async function(req, res){
         //date to be fixed to handle all date formats
         let BillType = req.query.BillType;
         let date = req.query.selectedDate;
+        let Doctor = req.query.Doctor;
         let billsList;
         if(BillType == 'all'){
-            billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true});
+            if(Doctor == 'all'){
+                billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true});
+            }else{
+                billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true, Doctor:Doctor});
+            }
+            
         }else{
-            billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
+            if(Doctor == 'all'){
+                billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
+            }else{
+                billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true, Doctor:Doctor});
+            }
+            
         }
         return res.status(200).json({
             message:'Bills fetched',
@@ -180,7 +213,7 @@ module.exports.getBillsByDate = async function(req, res){
         })
     }
 }
-
+/*
 function addOneDay(date) {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
         throw new Error("Input must be a valid Date object.");
@@ -199,28 +232,51 @@ function addOneDay(date) {
 
     return newDate;
 }
-
+*/
 
 module.exports.getBillsByDateRange = async function(req, res){
     try{
         let BillType = req.query.BillType;
+        let Doctor = req.query.Doctor;
         let billsList;
         if(BillType == 'all'){
-            billsList = await SalesData.find({
-                $and: [
-                    {createdAt:{$gte :new Date(req.query.startDate)}},
-                    {createdAt: {$lte : addOneDay(new Date(req.query.endDate))}},
-                    {isCancelled:false, isValid:true}
-                ]
-            })
+            if(Doctor == 'all'){
+                billsList = await SalesData.find({
+                    $and: [
+                        {BillDate:{$gte :req.query.startDate}},
+                        {BillDate: {$lte : req.query.endDate}},
+                        {isCancelled:false, isValid:true}
+                    ]
+                })
+            }else{
+                billsList = await SalesData.find({
+                    $and: [
+                        {BillDate:{$gte :req.query.startDate}},
+                        {BillDate: {$lte : req.query.endDate}},
+                        {isCancelled:false, isValid:true, Doctor:req.query.Doctor}
+                    ]
+                })
+            }
+            
         }else{
-            billsList = await SalesData.find({
-                $and: [
-                    {createdAt:{$gte :new Date(req.query.startDate)}},
-                    {createdAt: {$lte : new Date(req.query.endDate)}},
-                    {type:req.query.BillType,isCancelled:false, isValid:true}
-                ]
-            })
+            if(Doctor == 'all'){
+                billsList = await SalesData.find({
+                    $and: [
+                        {BillDate:{$gte :req.query.startDate}},
+                        {BillDate: {$lte : req.query.endDate}},
+                        {type:req.query.BillType,isCancelled:false, isValid:true}
+                    ]
+                })
+            }else{
+                billsList = await SalesData.find({
+                    $and: [
+                        {BillDate:{$gte :req.query.startDate}},
+                        {BillDate: {$lte : req.query.endDate}},
+                        {type:req.query.BillType,isCancelled:false, isValid:true, Doctor:req.query.Doctor}
+                    ]
+                })
+            }
+            
         }
         
         return res.status(200).json({
@@ -239,22 +295,27 @@ module.exports.getBillsByDateRange = async function(req, res){
 
 module.exports.cancelSale = async function(req, res){
     try{
-        console.log(req.body)
-        let sale = await SalesData.findById(req.body.saleId);
-        let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled')
-        await sale.updateOne({isCancelled:true})
-        if(appointment){
-            if(appointment.VisitData && appointment.VisitData.complaint.length > 0){
-                return res.status(424).json({
-                    message:'Appointment already completed'
-                })
-            }else{
-                await appointment.updateOne({isCancelled:true})
+        if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
+            let sale = await SalesData.findById(req.body.saleId);
+            let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled')
+            await sale.updateOne({isCancelled:true})
+            if(appointment){
+                if(appointment.VisitData && appointment.VisitData.complaint.length > 0){
+                    return res.status(424).json({
+                        message:'Appointment already completed'
+                    })
+                }else{
+                    await appointment.updateOne({isCancelled:true})
+                }
             }
+            return res.status(200).json({
+                message:'Sales cancelled'
+            })
+        }else{
+            return res.status(403).json({
+                message:'Unauthorized action'
+            })
         }
-        return res.status(200).json({
-            message:'Sales cancelled'
-        })
     }catch(err){
         console.log(err)
         return res.status(500).json({

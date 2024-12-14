@@ -14,10 +14,13 @@
     color: white !important;
   }
 
+  tr{
+    font-size: 14px;
+  }
   .bg td{
     text-align: left;
     vertical-align: middle !important;
-    font-size: 13px;
+    font-size: small;
     font-weight: 500;
     border-bottom:1px solid black;
   }

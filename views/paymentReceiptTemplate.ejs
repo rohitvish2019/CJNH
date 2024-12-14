@@ -9,8 +9,8 @@
     <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
 </head>
 
-<body style="text-align: center;">
-    <div style="text-align: center; border: 1px solid black; padding: 0px 10px 10px 10px; margin-bottom: 10px;">
+<body style="text-align: center;border: 1px solid black; padding: 0px 10px 10px 10px; ">
+    <div style="text-align: center; margin-bottom: 5px;">
         <div id="header">
             <div style="margin-bottom: 1%; border-bottom: 1px dotted black; text-align: end;">
                 <span style="font-size: small;">Reg No. NH/9255/JUN-2023</span>
@@ -22,37 +22,32 @@
                 <h1>Dr. Chanda Jain Nursing Home</h1>
                 <img style="height: 60px; " src="/images/doctorLogo.jpg" alt="Doctor-Logo">
             </div>
-            <div style="padding: 2px;">
-                <label class="sub-heading"">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
+            <div style="padding: 2px;margin-top: 0;">
+                <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
+            </div>
         </div>
     </div>
-    <div style=" display: flex; justify-content: space-between; padding: 0px 30px 0px 30px;">
-                    <span><b>SI No. :</b> <%=RecieptNo%></span>
-                    <span><b>Date: </b><%=new Date().toLocaleDateString()%></span>
-            </div>
+    <div class=" content">
+        Received with Thanks from <%=visit.Patient.Name%>, Rs. <label id="rs"></label>. In words <label id="result"></label>.
+    </div>
+    <div class="content">
+        <span>Course by Cash / QR Code in Part / Full
+            Amount on <%=new Date().toLocaleDateString()%> <!--Against Bill no <%=visit.DischargeBillNumber%>--></span>
+    </div>
 
-            <div class=" content">
-                Received with Thanks from <%=visit.Patient.Name%>, Rs. <label id="rs"></label>. In words <label
-                    id="result"></label>.
-            </div>
-            <div style=" padding:0px 0px 0px 30px; text-align: left;">
-                <span>Course by Cash / QR Code in Part / Full
-                    Amount.</span>
-            </div>
+    <div style=" display: flex; font-size: 20px; margin-top: 5%; height: 25px;">
+        <span style="padding:0px 10px 0px 30px;"><b>Rs.</b></span>
+        <textarea rows="1" style="resize: none;" id="amount" onchange="convertToWords(),updaters()"><%=visit.FinalBillAmount%></textarea>
+    </div>
+    <div style="text-align: right; font-size: 20px;">
+        <span style="margin-right: 5%;"><b>Signature</b></span>
+    </div>
 
-            <div style=" display: flex; font-size: 20px; margin-top: 5%; height: 25px;">
-                <span style="padding:0px 10px 0px 30px;"><b>Rs.</b></span>
-                <textarea id="amount" onchange="convertToWords(),updaters()"></textarea>
-            </div>
-            <div style="text-align: right; font-size: 20px;">
-                <span style="margin-right: 5%;"><b>Signature</b></span>
-            </div>
-        </div>
 
-        <button id="printButton" onclick="printMe()"
-            style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
-            class="btn btn-success"><i class="fa-solid fa-print"></i> <b>Save & Print</b>
-        </button>
+    <button id="printButton" onclick="printMe()"
+        style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
+        class="btn btn-success"><i class="fa-solid fa-print"></i> <b>Print</b>
+    </button>
 </body>
 
 <script src="/js/paymentReceiptTemplate.js"></script>

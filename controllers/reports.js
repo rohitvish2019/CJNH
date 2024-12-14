@@ -135,7 +135,6 @@ module.exports.saveReport = async function(req, res){
             ReportNo:'RPT'+newReportNo,
             Items: req.body.tests,
             Doctor:req.body.patient.Doctor,
-            //Date:new Date().toISOString().split('T')[0],
             Date: date,
             User:req.user._id,
             Username:req.user.Name
@@ -162,16 +161,23 @@ module.exports.saveReport = async function(req, res){
 
 module.exports.cancelReport = async function(req,res){
     try{
-        let report = await ReportsData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
-        if(report){
-            return res.status(200).json({
-                message:'Report cancelled'
-            })
+        if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
+            let report = await ReportsData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
+            if(report){
+                return res.status(200).json({
+                    message:'Report cancelled'
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No report found'
+                })
+            }
         }else{
-            return res.status(404).json({
-                message:'No report found'
+            return res.status(403).json({
+                message:'Unauthorized action'
             })
         }
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -182,16 +188,23 @@ module.exports.cancelReport = async function(req,res){
 
 module.exports.cancelBirthReport = async function(req,res){
     try{
-        let report = await BirthData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
-        if(report){
-            return res.status(200).json({
-                message:'Certificate cancelled'
-            })
+        if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
+            let report = await BirthData.findByIdAndUpdate(req.body.id, {$set:{isCancelled:true}});
+            if(report){
+                return res.status(200).json({
+                    message:'Certificate cancelled'
+                })
+            }else{
+                return res.status(404).json({
+                    message:'No certificate found'
+                })
+            }
         }else{
-            return res.status(404).json({
-                message:'No certificate found'
+            return res.status(403).json({
+                message:'Unauthorized actiom'
             })
         }
+        
     }catch(err){
         console.log(err)
         return res.status(500).json({
@@ -260,7 +273,7 @@ module.exports.pathologyHistoryHome = function(req, res){
         return res.render('Error_500')
     }
 }
-
+/*
 function addOneDay(date) {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
         throw new Error("Input must be a valid Date object.");
@@ -279,7 +292,7 @@ function addOneDay(date) {
 
     return newDate;
 }
-
+*/
 module.exports.getHistoryByRange = async function(req, res){
     try{
         console.log(req.query)
@@ -289,8 +302,8 @@ module.exports.getHistoryByRange = async function(req, res){
         if(status == 'generated'){
             reportsList = await ReportsData.find({
                 $and: [
-                    {createdAt:{$gte :new Date(req.query.startDate)}},
-                    {createdAt: {$lte : addOneDay(new Date(req.query.endDate))}},
+                    {Date:{$gte :req.query.startDate}},
+                    {Date: {$lte : req.query.endDate}},
                     {isCancelled:false, isValid:true}
                 ]
             }).populate('Patient').sort("createdAt");
@@ -303,8 +316,8 @@ module.exports.getHistoryByRange = async function(req, res){
         }else if(status == 'cancelled'){
             reportsList = await ReportsData.find({
                 $and: [
-                    {createdAt:{$gte :new Date(req.query.startDate)}},
-                    {createdAt: {$lte : new Date(req.query.endDate)}},
+                    {Date:{$gte :req.query.startDate}},
+                    {Date: {$lte : req.query.endDate}},
                     {isCancelled:true, isValid:true}
                 ]
             }).populate('Patient').sort("createdAt");
@@ -418,8 +431,6 @@ module.exports.getHistoryById = async function(req, res){
                 message:'No reports found'
             })
         }
-        
-        
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -506,8 +517,8 @@ module.exports.getBirthHistoryByRange = async function(req, res){
         let reportsList;
         reportsList = await BirthData.find({
             $and: [
-                {createdAt:{$gte :new Date(req.query.startDate)}},
-                {createdAt: {$lte : addOneDay(new Date(req.query.endDate))}},
+                {GeneratedOn:{$gte :req.query.startDate}},
+                {GeneratedOn: {$lte : req.query.endDate}},
                 {isCancelled:false, isValid:true}
             ]
         }).sort("createdAt");
@@ -530,7 +541,7 @@ module.exports.getBirthHistoryByDate = async function(req, res){
     try{
         let reportsList
         reportsList = await BirthData.find({
-            Date:req.query.selectedDate,
+            GeneratedOn:req.query.selectedDate,
             isCancelled:false, isValid:true
         }).sort("createdAt");
         

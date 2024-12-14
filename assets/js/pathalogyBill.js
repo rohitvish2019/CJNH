@@ -17,6 +17,7 @@ function setPriceAndNotes() {
 let Items = new Array();
 let counter = 0
 let total = 0
+let patient
 function addItems() {
     let container = document.getElementById('itemsTableBody');
     let itemName = document.getElementById('Item').value
@@ -41,7 +42,7 @@ function addItems() {
             <td>${++counter}</td>
             <td>${itemName}</td>
             <td id='price_${counter}'>${itemPrice}</td>
-            <td>${quantity}</td>
+            <td id='qty_${counter}'>${quantity}</td>
             <td>${Notes}</td>
             <td>
                 <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-solid fa-trash-can"></i> </span>
@@ -51,7 +52,7 @@ function addItems() {
     `
     container.appendChild(rowItem)
     Items.push(itemName + '$' + quantity + '$' + itemPrice + '$' + Notes);
-    total = total + +itemPrice
+    total = total + +itemPrice*quantity
     document.getElementById('Item').value = ''
     document.getElementById('Price').value = ''
     document.getElementById('total').innerText = total
@@ -71,54 +72,24 @@ function deleteItem(counter){
     console.log('deleting item on position '+ (counter - 1))
     Items.splice(counter-1, 1, '');
     let itemPrice = parseInt(document.getElementById('price_'+counter).innerText)
-    console.log(itemPrice)
-    console.log(typeof(itemPrice))
-    total = total - itemPrice
+    let itemQty = parseInt(document.getElementById('qty_'+counter).innerText)
+    total = total - itemPrice*itemQty
     document.getElementById('rowItem_'+counter).remove()
     document.getElementById('total').innerText = total
 }
 
 function saveBill() {
     let id = document.getElementById('patientId').value;
-    let idProof=''
-    if(document.getElementById('IdProof')){
-        idProof = document.getElementById('IdProof').value;
-    }
-    let patient = {
-        Name: document.getElementById('patName').value,
-        Age: document.getElementById('age').value,
-        Gender: document.getElementById('gender').value,
-        Address: document.getElementById('address').value,
-        Mobile: document.getElementById('mobile').value,
-        Doctor: document.getElementById('docName').value,
-        IdProof : idProof
-    }
-    console.log('TEST')
-    console.log(patient)
-    if (patient.Name == '' || patient.Age == '' || patient.Gender == '' || patient.Address == '' || patient.Mobile == '' || patient.Doctor == '') {
+    let cashPayment = parseInt(document.getElementById('cashPayment').value)
+    let onlinePayment = parseInt(document.getElementById('onlinePayment').value)
+    if(cashPayment + onlinePayment != parseInt(total)){
         new Noty({
             theme: 'relax',
-            text: 'All Patient details are mandatory',
+            text: 'Total mismatch',
             type: 'error',
             layout: 'topRight',
             timeout: 1500
         }).show();
-        return
-    }
-    if (Items.length < 1) {
-        new Noty({
-            theme: 'relax',
-            text: 'Can not save empty report',
-            type: 'error',
-            layout: 'topRight',
-            timeout: 1500
-        }).show();
-        return
-    }
-
-    let paymentMode = window.prompt("Please enter payment mode");
-    console.log(paymentMode)
-    if(paymentMode == '' || paymentMode == null){
         return;
     }
     $.ajax({
@@ -129,7 +100,8 @@ function saveBill() {
             Items,
             patient,
             Total:total,
-            paymentMode,
+            cashPayment,
+            onlinePayment,
             id
         },
         success: function (data) {
@@ -147,7 +119,6 @@ function autoFillPatients() {
         url: '/patients/getPatientById/' + id,
         type: 'Get',
         success: function (data) {
-
             document.getElementById('patName').value = data.patient.Name;
             document.getElementById('age').value = data.patient.Age;
             document.getElementById('gender').value = data.patient.Gender;
@@ -181,4 +152,58 @@ function autoFillPatients() {
             }).show();
         }
     })
+}
+
+function closePopup(){
+    document.getElementById('paymentPoppup').style.display='none'
+}
+
+function openPopup(){
+    document.getElementById('paymentPoppup').style.display='block'
+}
+
+function setuppayments(){
+    let cash = parseInt(document.getElementById('cashPayment').value);
+    document.getElementById('onlinePayment').value = total - cash
+}
+
+function checkValidations(){
+    
+    let idProof=''
+    if(document.getElementById('IdProof')){
+        idProof = document.getElementById('IdProof').value;
+    }
+    patient = {
+        Name: document.getElementById('patName').value,
+        Age: document.getElementById('age').value,
+        Gender: document.getElementById('gender').value,
+        Address: document.getElementById('address').value,
+        Mobile: document.getElementById('mobile').value,
+        Doctor: document.getElementById('docName').value,
+        IdProof : idProof
+    }
+    
+    if (patient.Name == '' || patient.Age == '' || patient.Gender == '' || patient.Address == '' || patient.Mobile == '' || patient.Doctor == '') {
+        new Noty({
+            theme: 'relax',
+            text: 'All Patient details are mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if (Items.length < 1) {
+        new Noty({
+            theme: 'relax',
+            text: 'Can not save empty report',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+
+    openPopup();
+    
 }

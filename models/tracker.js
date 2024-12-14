@@ -11,6 +11,8 @@ const Trackers = new mongoose.Schema({
     AdvancePaymentNumber:Number,
     IPDNumber:Number,
     RecieptNo:Number,
+    YearlyIPDCounter:Number,
+    MonthlyIPDCounter:Number,
 },
 {
     timestamps:true

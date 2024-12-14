@@ -27,7 +27,7 @@ body{
     color: white !important;
   }
 th, td,tr{
-    font-size: small;
+    font-size: medium;
     text-align: center;
     border-bottom: 1px solid #ddd !important;
 }
@@ -69,3 +69,4 @@ th, td,tr{
     display: none;
     background-color: #f2f2f2;
 }
+

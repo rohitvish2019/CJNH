@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body onload="getIPDDataRange()">
   <header>
     <%-include('_header')%>
   </header>
@@ -34,11 +34,11 @@
     </div>
     <div style="margin-left: 2%;">
       <label>Start Date : </label>
-      <input id="startdate" type="date" value="">
+      <input id="startdate" type="date" value="<%=new Date(new Date().getTime() - 864000000).getFullYear() + '-' + (Number(new Date(new Date().getTime() - 864000000).getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date(new Date().getTime() - 864000000).getDate().toString().padStart(2,'0');%>">
     </div>
     <div style="margin-left: 2%;">
       <label>End Date : </label>
-      <input id="endDate" type="date" value="">
+      <input id="endDate" type="date" value="<%=new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date().getDate().toString().padStart(2,'0')%>">
     </div>
     <div style="margin-left: 2%;">
       <input class="btn btn-success" onclick="getIPDDataRange()" type="button" value="Filter">
