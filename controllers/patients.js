@@ -461,10 +461,14 @@ module.exports.AdmissionBill = async function(req, res){
 module.exports.getAdmissionBillItems = async function(req, res){
     try{
         let visit = await VisitData.findById(req.query.visitid).populate('Patient');
-        let Items = await ServicesData.find({Type:'AdmissionBill'},'Name Price').sort('createdAt');
+        let Items = await ServicesData.find({
+            
+            $or:[{Category:'Operation-Delivery Charges',Name:"Delivery/Operation Charges ("+visit.DeliveryType+")"},{Type:'AdmissionBill'}],
+        },'Name Price').sort('createdAt');
         let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         let advancedPayments = visit.advancedPayments;
+        console.log(Items);
         return res.status(200).json({
             visit,
             Items,

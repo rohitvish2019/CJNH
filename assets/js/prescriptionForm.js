@@ -184,3 +184,68 @@ function uploadReport(visitId, patient_id){
     });
         
   }
+  let speechToTextResultDiv;
+  function speechToText(){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        alert("Your browser does not support Speech Recognition. Please use a modern browser like Chrome.");
+    } else {
+        const recognition = new SpeechRecognition();
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        
+
+        // Set recognition properties
+        recognition.lang = 'en-US'; // Language set to English (US)
+        recognition.interimResults = false; // Complete results only
+        recognition.continuous = false; // Stop after one utterance
+
+        // Start recognition
+        startButton.addEventListener('click', () => {
+            recognition.start();
+            startButton.disabled = true;
+            stopButton.disabled = false;
+            speechToTextResultDiv.textContent = "Listening...";
+        });
+
+        // Stop recognition
+        stopButton.addEventListener('click', () => {
+            recognition.stop();
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+
+        // Process recognition result
+        recognition.addEventListener('result', (event) => {
+            const transcript = event.results[0][0].transcript;
+            speechToTextResultDiv.textContent = `${transcript}`;
+        });
+
+        // Handle recognition errors
+        recognition.addEventListener('error', (event) => {
+            console.error('Speech recognition error:', event.error);
+            speechToTextResultDiv.textContent = `Error: ${event.error}`;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+
+        // Handle recognition end
+        recognition.addEventListener('end', () => {
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+    }
+
+  }
+document.addEventListener('click', () => {
+    const activeElement = document.activeElement;
+    if (activeElement.id) {
+        console.log('The ID of the currently focused element:', activeElement.id);
+        setResultDivForSpeechToText(activeElement.id)
+    } else {
+        console.log('The currently focused element has no ID.');
+    }
+});
+  function setResultDivForSpeechToText(id){
+    speechToTextResultDiv = document.getElementById(id);
+  }

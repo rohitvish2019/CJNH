@@ -17,7 +17,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
-<body onload="getVisitdata()">
+<body onload="getVisitdata(), speechToText()">
     <div class="main-body">
         <div class="header">
             <div class="name">
@@ -360,6 +360,13 @@
                 <%}%>
             </tbody>
         </table>
+        <div id="audioInput" style="position: fixed;top: 60%;left: 65%;display: none;">
+            <h1>Audio input</h1>
+            <button id="startButton">Start Listening</button>
+            <button id="stopButton" disabled>Stop Listening</button>
+        </div>
+        
+    
     </div>
 </div>
 

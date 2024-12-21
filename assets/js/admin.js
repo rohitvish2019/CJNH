@@ -228,7 +228,7 @@ function saveSettings(id) {
         url: '/reports/saveServiceSettings',
         data: {
         id: id,
-        Price: document.getElementById(id + 'price').value.split('₹')[1]
+        Price:  document.getElementById(id + 'price').value.toString().indexOf('₹') == -1 ? document.getElementById(id + 'price').value : document.getElementById(id + 'price').value.split('₹')[1]
         },
         type: 'POST',
         success: function (data) {

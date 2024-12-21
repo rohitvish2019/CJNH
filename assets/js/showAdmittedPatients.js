@@ -185,15 +185,10 @@ function setIPDData(visits, rooms){
         </td>
         <td>
             <select id="DeliveryType_${visits[i]._id}" value="${visits[i].DeliveryType}" onchange="changeDeliveryType('${visits[i]._id}')">
-                <option value=''>--Select--</option>
-                <option value="VAGINAL DELIVERY CHARGES">VAGINAL DELIVERY</option>
-                <option value="VAGINAL INSTRUMENTAL DELIVERY">VAGINAL INSTRUMENTAL DELIVERY</option>
-                <option value="HYSTERECTOMY">HYSTERECTOMY</option>
-                <option value="LSCS">LSCS</option>
-                <option value="LSCS WITH T/L">LSCS WITH T/L</option>
-                <option value="LAPROSCOPY OP">LAPROSCOPY OP</option>
-                <option value="LAPROTOMY">LAPROTOMY</option>
-                
+                <option disabled value="">--Select--</option>
+                <option value="Vaginal">Vaginal</option>
+                <option value="Caesarean">Caesarean</option>
+                <option value="Vaginal Instrumental">Vaginal Instrumental</option>
             </select>
         </td>
         <td>
