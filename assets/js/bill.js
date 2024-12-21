@@ -174,3 +174,50 @@ function setuppayments(){
     let cash = parseInt(document.getElementById('cashPayment').value);
     document.getElementById('onlinePayment').value = total - cash
 }
+
+function numberToWords(num) {
+    if (typeof num !== 'number' || isNaN(num)) return "Invalid input";
+    if (num === 0) return "zero";
+
+    const belowTwenty = [
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
+    ];
+    const tens = [
+        "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
+    ];
+    const thousands = ["", "thousand", "million", "billion", "trillion"];
+
+    function helper(n) {
+        if (n === 0) return "";
+        if (n < 20) return belowTwenty[n - 1] + " ";
+        if (n < 100) return tens[Math.floor(n / 10)] + " " + helper(n % 10);
+        if (n < 1000) return belowTwenty[Math.floor(n / 100) - 1] + " hundred " + helper(n % 100);
+        return "";
+    }
+
+    function convertDecimals(decimals) {
+        return decimals.split('').map(digit => belowTwenty[parseInt(digit) - 1]).join(" ");
+    }
+
+    if (num < 0) return "negative " + numberToWords(Math.abs(num));
+
+    let word = "";
+    let i = 0;
+
+    while (num >= 1) {
+        const chunk = num % 1000;
+        if (chunk > 0) {
+            word = helper(chunk) + thousands[i] + " " + word;
+        }
+        num = Math.floor(num / 1000);
+        i++;
+    }
+
+    if (num.toString().includes('.')) {
+        const [whole, fraction] = num.toString().split('.');
+        return numberToWords(parseInt(whole)) + " point " + convertDecimals(fraction);
+    }
+
+    return word.trim();
+}

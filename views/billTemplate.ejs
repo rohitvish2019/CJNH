@@ -33,11 +33,14 @@
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
                     
                 </div>
-                <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
-                    <label for="" style="font-weight: bold;">Doctor :
-                        <%=bill.Doctor%></label>
-                        <label for="">Patient Id : <%=bill.PatiendID%></label>
-                </div>
+                <%if(bill.type != 'DischargeBill' && bill.type != 'IPDAdvance'){%>
+                    <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
+                        <label for="" style="font-weight: bold;">Doctor :
+                            <%=bill.Doctor%></label>
+                            <label for="">Patient Id : <%=bill.PatiendID%></label>
+                    </div>
+                <%}%>
+                
             </header>
 
             <div>
@@ -111,6 +114,7 @@
                             
                         <%}%>
                         <tr>
+                            
                             <td style="text-align: right;" colspan="4"><b>Grand Total</b></td>
                             <td><b>₹<%=total%></b></td>
                             <td>Cash : ₹<%=bill.CashPaid%>, Online : ₹<%=bill.OnlinePaid%></td>
