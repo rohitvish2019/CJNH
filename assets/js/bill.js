@@ -221,3 +221,15 @@ function numberToWords(num) {
 
     return word.trim();
 }
+
+function convertUTCToIST(utcDateTimeStr) {
+    // Parse the UTC datetime string to a Date object
+    const utcDate = new Date(utcDateTimeStr);
+
+    // Get the UTC time in milliseconds and add the IST offset (5 hours 30 minutes in milliseconds)
+    const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+    const istDate = new Date(utcDate.getTime() + istOffset);
+
+    // Format the IST date to ISO string with time zone offset
+    return istDate.toISOString().replace('Z', '+05:30');
+}

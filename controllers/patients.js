@@ -628,7 +628,7 @@ module.exports.birthCertificateHome = async function(req, res){
     try{
         let patient = await PatientData.findById(req.params.pid);
         let certificate = await BirthData.findOne({OPDId:patient.Id});
-        return res.render('birthCertificateHome', {patient, certificate});
+        return res.render('birthCertificateHome', {patient, certificate, user:req.user});
     }catch(err){
         console.log(err);
         return res.render('Error_500')

@@ -81,7 +81,7 @@ function getAllVisits(){
                     </div>
 
                     <div class="table">
-                        <h5><strong><i class="fas fa-calendar-alt"></i> Miscellaneous</strong></h5>
+                        <h5><strong><i class="fa-solid fa-circle-info"></i> Miscellaneous</strong></h5>
                         <table class="table table-bordered">
                             <thead>
                                 <tr class="bg">

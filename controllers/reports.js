@@ -505,7 +505,7 @@ module.exports.dashboard = async function(req, res){
 
 module.exports.birthCertificateHistory = async function(req, res){
     try{
-        return res.render('birthCertificateHistory');
+        return res.render('birthCertificateHistory', {user:req.user});
     }catch(err){
         console.log(err);
         return res.render('Error_500')

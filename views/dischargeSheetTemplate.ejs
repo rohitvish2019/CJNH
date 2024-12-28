@@ -4,14 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
+        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
+        integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/dischargeSheet.css">
     <title>Discharge Sheet</title>
 </head>
 
 <body class="container" onload="getDischargeData()">
     <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #e9aca8;">
-
         <div class="hospital-details" style="height: 6%;text-align:left; display: flex;">
             <div style="height: 100%; width: 30%;">
                 <img style="width: 110px; height: auto;" src="/images/CJNH_Logo_Black.png" alt="">
@@ -117,13 +121,23 @@
                         </tr>
                         <tr>
                             <td><input onchange="addChanged('hb_per')" id="hb_per" style="width: 96%;" type="text"></td>
-                            <td><input onchange="addChanged('blgr')" id="blgr" style="width: 96%;" type="text"></td>
+                            <td style="width: 20%;"><input onchange="addChanged('blgr')" id="blgr" style="width: 96%;font-size: 13px !important;" type="text" list="values"></td>
                             <td><input onchange="addChanged('rbs')" id="rbs" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('hiv')" id="hiv" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('hbsag')" id="hbsag" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('tsh')" id="tsh" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('otherinvest')" id="otherinvest" style="width: 96%;" type="text"></td>
                         </tr>
+                        <datalist id="values">
+                            <option value="A Positive"></option>
+                            <option value="B Positive"></option>
+                            <option value="AB Positive"></option>
+                            <option value="O Positive"></option>
+                            <option value="A Negative"></option>
+                            <option value="B Negative"></option>
+                            <option value="AB Negative"></option>
+                            <option value="O Negative"></option>
+                        </datalist>
                     </table>
                 </div>
             </div>
@@ -176,10 +190,11 @@
                 <textarea rows="6" cols="44" id="opnotes" onchange="addChanged('opnotes')"></textarea>
             </div>
             <div style="text-align: left; width: 49%;border-left: .5px dotted black;padding-left: 13px;">
+                <%let dt = birthInfo.BirthDate + ' '+birthInfo.BirthTime%>
                 <span><b>Baby Notes</b></span>
                 <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')"><%=birthInfo.Gender%> Child
-At <%=birthInfo.BirthTime%> On <%=birthInfo.BirthDate%>
-Baby Weight : <%=birthInfo.ChildWeight%> Kg
+On <%=new Date(dt).toLocaleString()%>
+Baby Weight : <%=birthInfo.ChildWeight%> Kg 
 
                 </textarea>
             </div>
@@ -272,10 +287,23 @@ Baby Weight : <%=birthInfo.ChildWeight%> Kg
                 },
                 type:'POST',
                 success:function(data){
-                    return 0;
+                    new Noty({
+                        theme: 'relax',
+                        text: 'data saved',
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                    }).show();
+                    return;
                 },
                 error:function(err){
-                    return -1;
+                    new Noty({
+                        theme: 'relax',
+                        text: 'Unable to save data',
+                        type: 'error',
+                        layout: 'topRight',
+                        timeout: 1500
+                    }).show();
                 },
             })
         }

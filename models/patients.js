@@ -11,7 +11,7 @@ const Patients = new mongoose.Schema({
     IdProof:String,
     Gender:{
         type:String,
-        enum:['Male','Female']
+        enum:['Male','Female','Other']
     },
     isValid:{
         type:Boolean,

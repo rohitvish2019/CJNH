@@ -17,6 +17,7 @@
     <%-include('_loader')%>
   </header>
   <div style="display: flex;justify-content: flex-end; padding-right: 4%; padding-top: 1%;">
+    <button class="btn btn-success" style="margin-right: 2%;" onclick="getAppointmentsToday()"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
     <input type="checkbox" name="" id="ShowHideDisabled" onchange="getAppointmentsToday()">&nbsp;&nbsp; Show Disabled Appointments
   </div>
   
@@ -25,20 +26,20 @@
     <thead>
       <tr class="bg">
         <th scope="col">#</th>
-        <th scope="col">Id</th>
+        <th scope="col"><i class="fa-solid fa-id-badge"></i> Id</th>
         <th scope="col"><i class="fa-solid fa-stethoscope"></i> Dr. Name</th>
         <th scope="col"><i class="fas fa-user"></i> Name</th>
-        <th scope="col"><i class="fa-solid fa-people-group"></i> Age</th>
-        <th scope="col"><i class="fa-solid fa-people-group"></i> Husband</th>
+        <th scope="col"><i class="fa-solid fa-arrow-up-1-9"></i></i> Age</th>
+        <th scope="col"><i class="fa-solid fa-person-rays"></i> Husband</th>
         <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
         <th scope="col">₹ Fees</th>
-        <th> <i class="fa-solid fa-calendar-plus"></i> History</th>
-        <th> <i class="fa-solid fa-calendar-plus"></i> Open</th>
+        <th> <i class="fa-solid fa-notes-medical"></i> History</th>
+        <th> <i class="fa-regular fa-clipboard"></i> Open</th>
         <!--
         <th> <i class="fa-solid fa-syringe"></i> Pathalogy</th>
         -->
         <th> <i class="fa-solid fa-eye-slash"></i> Disable</th>
-        <th> <i class="fa-solid fa-eye-slash"></i> Status</th>
+        <th> <i class="fa-solid fa-calendar-check"></i> Status</th>
       </tr>
     </thead>
     <tbody id="tableBody">
