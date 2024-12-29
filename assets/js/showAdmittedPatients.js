@@ -195,10 +195,10 @@ function setIPDData(visits, rooms){
             <div class=" dropdown">
                 <button style="color: white;" class="btn btn-info dropdown-toggle" type="button" id="actions" data-bs-toggle="dropdown" aria-expanded="false"> Generate </button>
                 <ul class="dropdown-menu">
+                <li><a target='_blank' class="dropdown-item" href="/patients/birthCertificate/${visits[i].Patient._id}">Birth Certificate</a></li>
+                <li><a target='_blank' class="dropdown-item" href="/patients/dischargeSheet/${visits[i]._id}">Discharge Sheet</a></li>
                 <li><a target='_blank' class="dropdown-item" href="/patients/AdmissionBill/${visits[i]._id}">Discharge Bill</a></li>
                 <li><a target='_blank' class="dropdown-item" href="/patients/DischargeReceipt/${visits[i]._id}">Final Receipt</a></li>
-                <li><a target='_blank' class="dropdown-item" href="/patients/dischargeSheet/${visits[i]._id}">Discharge Sheet</a></li>
-                <li><a target='_blank' class="dropdown-item" href="/patients/birthCertificate/${visits[i].Patient._id}">Birth Certificate</a></li>
                 </ul>
             </div>
         </td>

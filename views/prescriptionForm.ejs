@@ -97,17 +97,35 @@
         <div class="prescription-data">
             <div class="left-side">
                 <div style="font-size: 13px;">
-                    <div>
-                        <b>Complaint</b>
-                        <textarea rows="3" style="width: 100%;" name="" id="complaint" placeholder=""></textarea>
+                    <div style="width: 100%;display: flex;">
+                        <div style="width: 60%;">
+                            <b style="display: block;">Complaint</b>
+                            <textarea rows="3" cols="40" name="" id="complaint" placeholder=""></textarea>
+                        </div>
+                        <div style="width: 40% !important;margin-left: 5px;">
+                            <div style="margin-top: 2px;">
+                                LMP : <input type="date" name="" id="">
+                            </div>
+                            <div style="margin-top: 2px;">
+                                EDD : <input type="date" name="" id="">
+                            </div>
+                        </div>
+                        
+                        
                     </div>
                     <div>
                         <b>History</b>
-                        <textarea rows="7" style="width: 100%;" name="" id="history" placeholder=""></textarea>
+                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""></textarea>
                     </div>
                     <div>
                         <b>O/E</b>
-                        <textarea rows="7" style="width: 100%;" name="" id="OEs" placeholder=""></textarea>
+                        <textarea rows="7" style="width: 100%;" name="" id="OEs" placeholder="">
+AFEBRILE
+BP =       MM OF HG  P =   BPM
+PALLOR 
+P/A 
+P/V
+                        </textarea>
                     </div>
                     
                 </div>
@@ -180,11 +198,8 @@
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">Bl gr & Rh</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('Blgr')" id="Blgr" list="values">
-                        <datalist id="values">
-                            <option value="Nil"></option>
-                            <option value="Reactive"></option>
-                            <option value="Non-Reactive"></option>
+                            onchange="addChanges('Blgr')" id="Blgr" list="values1">
+                        <datalist id="values1">
                             <option value="A Positive"></option>
                             <option value="B Positive"></option>
                             <option value="AB Positive"></option>
@@ -205,7 +220,7 @@
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">HIV</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('HIV')" id="HIV" list="negpos">
+                            onchange="addChanges('HIV')" id="HIV" list="values2">
                         <datalist id="negpos">
                             <option value="Negative">Negative</option>
                             <option value="Positive">Positive</option>
@@ -215,8 +230,13 @@
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">HBsAg</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('HBsAg')" id="HBsAg">
+                            onchange="addChanges('HBsAg')" id="HBsAg" list="values2">
                     </div>
+                    <datalist id="values2">
+                        <option value="Nil"></option>
+                        <option value="Reactive"></option>
+                        <option value="Non-Reactive"></option>
+                    </datalist>
                     <div>
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">TSH</label>
@@ -233,28 +253,45 @@
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">Urine P.test</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('Urine-Ptest')" id="Urine-Ptest">
+                            onchange="addChanges('Urine-Ptest')" id="Urine-Ptest" list="negpos">
                     </div>
                     <div>
                         <input type="checkbox" name="" id="">
-                        <label style="width: 33%;">&nbsp&nbsp;&nbsp; R/M</label>
+                        <label style="width: 33%;">&nbsp&nbsp;&nbsp; Albumin</label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('Urine-RM')" id="Urine-RM">
+                            onchange="addChanges('Urine-alb')" id="Urine-alb" list="uri">
+                    </div>
+                    <datalist id="uri">
+                        <option value="Nil">Nil</option>
+                        <option value="Traces">Traces</option>
+                        <option value="+">+</option>
+                        <option value="++">++</option>
+                        <option value="+++">+++</option>
+                    </datalist>
+                    <div>
+                        <input type="checkbox" name="" id="">
+                        <label style="width: 33%;">&nbsp&nbsp;&nbsp; Sugar</label>
+                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
+                            onchange="addChanges('Urine-sugar')" id="Urine-sugar" list="uri">
                     </div>
                     
 
                     <div>
                         <input type="checkbox" name="" id="">
-                        <label style="width: 33%;">USG Obst</label>
+                        <label style="width: 33%;"><b>USG Obst</b></label>
                         <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('USG-Obst')" id="USG-Obst">
+                            onchange="addChanges('USG-Obst')" id="USG-Obst" list="usglist">
                     </div>
-                    <div>
-                        <input type="checkbox" name="" id="">
-                        <label style="width: 33%;">&nbsp&nbsp;&nbsp; Col. Dop.</label>
-                        <input style="width: 56%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onchange="addChanges('USG-ColourDop')" id="USG-ColourDop">
-                    </div>
+                    <datalist id="usglist">
+                        <option value="GA"></option>
+                        <option value="FWB"></option>
+                        <option value="NT/NB/PE Screening"></option>
+                        <option value="Target Scan"></option>
+                        <option value="Growth Scan"></option>
+                        <option value="Col. Dop."></option>
+                        <option value="2D Foetal echo"></option>
+                    </datalist>
+                    
                     <div>
                         <input type="checkbox" name="" id="">
                         <label style="width: 33%;">&nbsp&nbsp;&nbsp; L.Abd</label>
@@ -324,7 +361,16 @@
                     <div>
                         <label style="width: 35%;">F/up on</label>
                         <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
-                            onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP">
+                            onload="addEmptyValues('FUP')" onchange="addChanges('FUP')" id="FUP" list="fuplist">
+
+                        <datalist id="fuplist">
+                            <option value="1 महीने में"></option>
+                            <option value="15 दिन में"></option>
+                            <option value="10 दिन में"></option>
+                            <option value="7 दिन में"></option>
+                            <option value="महीने के D2-D3 scan"></option>
+                            <option value="महीने के D5-D10 scan"></option>
+                        </datalist>
                     </div>
                 </div>
                 

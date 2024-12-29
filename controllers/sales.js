@@ -65,7 +65,7 @@ module.exports.addSales = async function(req, res){
     //Items should be an array and each value of array will be in below format
     //ItemName$Quantity$Price$Notes
     try{
-        let Name, Age, Address, Mobile, Id, Gender, Patient, IdProof
+        let Name, Age, Address, Mobile, Id, Gender, Patient, IdProof,Husband
         if(req.body.id){
             console.log('Getting by id')
             let patient = await PatientData.findOne({Id:req.body.id});
@@ -81,14 +81,16 @@ module.exports.addSales = async function(req, res){
             Id = patient.Id
             Gender = patient.Gender
             Patient = patient._id,
-            IdProof = patient.IdProof
+            IdProof = patient.IdProof,
+            Husband = patient.Husband
         }else{
             Name = req.body.patient.Name,
             Age = req.body.patient.Age,
             Address = req.body.patient.Address,
             Mobile = req.body.patient.Mobile,
             Gender = req.body.patient.Gender,
-            IdProof = req.body.patient.IdProof
+            IdProof = req.body.patient.IdProof,
+            Husband = req.body.patient.Husband
             Id = null,
             Patient = null
         }
@@ -120,6 +122,7 @@ module.exports.addSales = async function(req, res){
             Age:Age,
             Mobile:Mobile,
             Gender:Gender,
+            Husband:Husband,
             Address:Address,
             PatiendID:Id,
             type:req.body.Type,

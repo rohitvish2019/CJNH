@@ -15,7 +15,12 @@
 </head>
 
 <body class="container" onload="getDischargeData()">
-    <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #e9aca8;">
+    <%if(birthInfo.Gender == 'Male'){%>
+        <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #93d8f1;">
+    <%}else{%>
+        <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #e9aca8;">
+    <%}%>
+    
         <div class="hospital-details" style="height: 6%;text-align:left; display: flex;">
             <div style="height: 100%; width: 30%;">
                 <img style="width: 110px; height: auto;" src="/images/CJNH_Logo_Black.png" alt="">
@@ -79,12 +84,16 @@
             </div>
             <div style="text-align: left; width: 49%; border-left: .5px dotted black;padding-left: 13px;">
                 <span><b>Condition on Discharge</b></span>
-                <textarea rows="6" cols="44" onchange="addChanged('cod')" id="cod"></textarea>
+                <textarea rows="6" cols="44" onchange="addChanged('cod')" id="cod">O/E AFEBRILE
+VITALS STABLE
+P/A UT RETRACTED
+L/E NO ACTIVE BLEEDING
+                </textarea>
             </div>
         </div>
 
         <!-- Investigation Section-->
-        <div class="investigation-tables" style="height: 32%; display: flex; border-top: .5px dashed black;border-bottom: .5px dashed black;">
+        <div class="investigation-tables" style="height: 22%; display: flex; border-top: .5px dashed black;border-bottom: .5px dashed black;">
             <div>
                 <div class="ohms" style="width:95%; height: 20%;text-align: center;margin-right: 2%;">
                     <span><b>O/H MS-</b></span>
@@ -107,17 +116,16 @@
                     </table>
                     
                 </div>
-                <div class="invstdone" style="width:95%;  height: 75%; text-align: center;margin-top: 70px;">
+                <div class="invstdone" style="width:95%;  height: 70%; text-align: center;margin-top: 70px;">
                     <span><b>Invst Done:</b></span>
                     <table class="table" style="height: 40%;width: 100%; ">
                         <tr>
                             <td>Hb%</td>
                             <td>Bl gr & Rh</td>
-                            <td>RBS</td>
+                            <td>RBS(mg/dl)</td>
                             <td>HIV</td>
                             <td>HbsAg</td>
-                            <td>TSH</td>
-                            <td>Others</td>
+                            <td>TSH(μIU/mL)</td>
                         </tr>
                         <tr>
                             <td><input onchange="addChanged('hb_per')" id="hb_per" style="width: 96%;" type="text"></td>
@@ -126,7 +134,6 @@
                             <td><input onchange="addChanged('hiv')" id="hiv" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('hbsag')" id="hbsag" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('tsh')" id="tsh" style="width: 96%;" type="text"></td>
-                            <td><input onchange="addChanged('otherinvest')" id="otherinvest" style="width: 96%;" type="text"></td>
                         </tr>
                         <datalist id="values">
                             <option value="A Positive"></option>
@@ -146,43 +153,38 @@
             
 
 
-            <div class="treatmentgiven" style="height: 104%; width: 70%; align-items:center;">
+            <div class="treatmentgiven" style="width: 70%; align-items:center;">
                 <label><b>Treatment Given:</b></label><br>
-                <table style="width: 100%; height: 89%;">
+                <table style="width: 100%; height: 70% !important;">
                     <tbody>
                         <tr class="b3">
-                            <td>I.V Fluids</th>
+                            <td>I.V Fluids/Symptomatic t/t</th>
                             <td><input onchange="addChanged('ivfluids')" id="ivfluids" type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>i.v Antibiotic XL 1.5 gm iv.</th>
+                            <td>I.V. Antibiotic XL 1.5 gm(12 hrly)</th>
                             <td><input onchange="addChanged('ivantibiotic')" id="ivantibiotic" type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>I.M Aquagesic 75mg</th>
+                            <td>I.M Aquagesic 75mg(12 hrly) </th>
                             <td><input onchange="addChanged('imaquagesic')" id="imaquagesic" type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>Tab. Mahacef XL</th>
+                            <td>Tab. Mahacef XL(BD)</th>
                             <td><input onchange="addChanged('mahacef')" id="mahacef" type="text"></td>
                         </tr>
                         <tr class="b3">
-                            <td>Tab Camrox D</th>
+                            <td>Tab Camrox D(BD)</th>
                             <td><input onchange="addChanged('camrox')" id="camrox" type="text"></td>
                         </tr>
-                        <tr class="b3">
-                            <td>Symptomatic t/t</th>
-                            <td><input onchange="addChanged('symptomatic')" id="symptomatic" type="text"></td>
-                        </tr>
-                        <tr class="b3">
-                            <td>Others</th>
-                            <td><input onchange="addChanged('otherTreatment')" id="otherTreatment" type="text"></td>
-                        </tr>
+                        
                     </tbody>
                 </table>
-
+                
             </div>
+            
         </div>
+        <textarea name="" id="" rows="4"></textarea>
         <!-- Notes-->
         <div class="notes" style="height: 14%; display: flex;justify-content: space-between;">
             <div style="text-align: left; width: 49%;">
@@ -192,18 +194,21 @@
             <div style="text-align: left; width: 49%;border-left: .5px dotted black;padding-left: 13px;">
                 <%let dt = birthInfo.BirthDate + ' '+birthInfo.BirthTime%>
                 <span><b>Baby Notes</b></span>
-                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')"><%=birthInfo.Gender%> Child
+                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')">Attended By:
+<%=birthInfo.Gender%> Child
 On <%=new Date(dt).toLocaleString()%>
 Baby Weight : <%=birthInfo.ChildWeight%> Kg 
-
+Cried immediately
                 </textarea>
             </div>
         </div>
 
 
         <!-- Discharge Advice-->
+        
         <div class="dischargePrescription" 
             style="height: 25%; display: flex; padding-top:5px;border-top: .5px dashed black;">
+            <span style="padding-left: 10px;"><b>Treatment Advice</b></span>
             <div style="width: 70%; height: 100%;">
                 <table style="text-align: center; width: 100%; font-size: small;">
                     <thead>
