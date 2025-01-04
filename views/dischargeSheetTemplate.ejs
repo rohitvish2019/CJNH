@@ -15,7 +15,7 @@
 </head>
 
 <body class="container" onload="getDischargeData()">
-    <%if(birthInfo.Gender == 'Male'){%>
+    <%if(birthInfo && birthInfo.Gender == 'Male'){%>
         <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #93d8f1;">
     <%}else{%>
         <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #e9aca8;">
@@ -74,7 +74,7 @@
             </div>
         </div>  
         <div style="margin-bottom: 4px;">
-            <input onchange="addChanged('Diagnosis')" style="width: 99.5%;text-align: left;" type="text" name="" id="Diagnosis" placeholder="Diagnosis">
+            <input onchange="addChanged('Diagnosis'), updateOP()" style="width: 99.5%;text-align: left;" type="text" name="" id="Diagnosis" placeholder="Diagnosis">
         </div>
         <!-- Conditions Input Text Box-->
         <div class="condition" style="height: 14%; display: flex;justify-content: space-between;">
@@ -93,13 +93,14 @@ L/E NO ACTIVE BLEEDING
         </div>
 
         <!-- Investigation Section-->
-        <div class="investigation-tables" style="height: 22%; display: flex; border-top: .5px dashed black;border-bottom: .5px dashed black;">
-            <div>
-                <div class="ohms" style="width:95%; height: 20%;text-align: center;margin-right: 2%;">
-                    <span><b>O/H MS-</b></span>
-                    <div style="text-align: left;margin-left: 5px;">
-                        <textarea name="" onchange="addChanged('oh_ms')" id="oh_ms" rows="3" cols="65" placeholder="MS"></textarea>
-                    </div>
+        <div class="investigation-tables" style="height: 22%; display: flex; border-top: .5px dashed black;">
+            <div class="ohms" style="width:95%; height: 20%;text-align: center;margin-right: 2%;">
+                <span><b>O/H MS-</b></span>
+                <div style="text-align: left;margin-left: 1px;">
+                    <textarea name="" onchange="addChanged('oh_ms')" id="oh_ms" rows="1" cols="40" placeholder="MS" style="border: 1px solid black;">MS : </textarea>
+                    <textarea name="" id="edd" cols="21" rows="1" onchange="addChanged('edd')" style="border: 1px solid black;">EDD : </textarea>
+                </div>
+                <div>
                     <table class="table" style="text-align: center;width: 100%;padding: 0;">
                         <tr>
                             <td >G</td>
@@ -114,10 +115,12 @@ L/E NO ACTIVE BLEEDING
                             <td style="width: 25%;"><input onchange="addChanged('oh_a')" id="oh_a" style="width: 90%;" type="text"></td>
                         </tr>
                     </table>
-                    
                 </div>
-                <div class="invstdone" style="width:95%;  height: 70%; text-align: center;margin-top: 70px;">
-                    <span><b>Invst Done:</b></span>
+                <div style="text-align: left;margin-top: 10px;">
+                    <textarea name="" onchange="addChanged('oh_other')" id="oh_other" rows="2" cols="67" placeholder="Other" style="border: 1px solid black;"></textarea>
+                </div>
+                <span><b>Invst Done:</b></span>
+                <div class="invstdone" style="width:100%;  height: 65%; text-align: center;margin-left: 0 !important;">
                     <table class="table" style="height: 40%;width: 100%; ">
                         <tr>
                             <td>Hb%</td>
@@ -128,7 +131,7 @@ L/E NO ACTIVE BLEEDING
                             <td>TSH(μIU/mL)</td>
                         </tr>
                         <tr>
-                            <td><input onchange="addChanged('hb_per')" id="hb_per" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('hb_per')" id="hb_per" style="width: 96%;border: none;" type="text"></td>
                             <td style="width: 20%;"><input onchange="addChanged('blgr')" id="blgr" style="width: 96%;font-size: 13px !important;" type="text" list="values"></td>
                             <td><input onchange="addChanged('rbs')" id="rbs" style="width: 96%;" type="text"></td>
                             <td><input onchange="addChanged('hiv')" id="hiv" style="width: 96%;" type="text"></td>
@@ -148,6 +151,7 @@ L/E NO ACTIVE BLEEDING
                     </table>
                 </div>
             </div>
+            
             
             
             
@@ -177,27 +181,29 @@ L/E NO ACTIVE BLEEDING
                             <td>Tab Camrox D(BD)</th>
                             <td><input onchange="addChanged('camrox')" id="camrox" type="text"></td>
                         </tr>
-                        
                     </tbody>
                 </table>
-                
             </div>
-            
         </div>
-        <textarea name="" id="" rows="4"></textarea>
+        <textarea name="" id="" rows="4" placeholder="Other Information--" style="border: 1px solid black;"></textarea>
+
         <!-- Notes-->
+        <%let dt = '' %>
         <div class="notes" style="height: 14%; display: flex;justify-content: space-between;">
             <div style="text-align: left; width: 49%;">
                 <span style="padding-left: 10px;"><b>Operative Notes</b></span>
                 <textarea rows="6" cols="44" id="opnotes" onchange="addChanged('opnotes')"></textarea>
             </div>
             <div style="text-align: left; width: 49%;border-left: .5px dotted black;padding-left: 13px;">
-                <%let dt = birthInfo.BirthDate + ' '+birthInfo.BirthTime%>
+
+                <% if(birthInfo){%>
+                <%dt = birthInfo.BirthDate + ' '+birthInfo.BirthTime%>
+                <%}%>
                 <span><b>Baby Notes</b></span>
-                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')">Attended By:
-<%=birthInfo.Gender%> Child
-On <%=new Date(dt).toLocaleString()%>
-Baby Weight : <%=birthInfo.ChildWeight%> Kg 
+                <textarea  rows="6" cols="44" id="babynotes" onchange="addChanged('babynotes')"><%if(birthInfo){%>Attended By:<%}%>
+<%if(birthInfo){%><%=birthInfo.Gender%> Child<%}%>
+On <%=new Date(dt).toLocaleString().split(',')[0]%> at<%=new Date(dt).toLocaleString().split(',')[1]%>
+Baby Weight : <%if(birthInfo){%><%=birthInfo.ChildWeight%> Kg <%}%>
 Cried immediately
                 </textarea>
             </div>
@@ -208,8 +214,12 @@ Cried immediately
         
         <div class="dischargePrescription" 
             style="height: 25%; display: flex; padding-top:5px;border-top: .5px dashed black;">
-            <span style="padding-left: 10px;"><b>Treatment Advice</b></span>
+            
+            
             <div style="width: 70%; height: 100%;">
+                <div style="display: block;">
+                    <span style="padding-left: 10px;"><b>Treatment Advice</b></span>
+                </div>
                 <table style="text-align: center; width: 100%; font-size: small;">
                     <thead>
                         <tr class="b4">
@@ -339,6 +349,10 @@ Cried immediately
         function addChanged(id){
             //console.log(document.getElementById(id))
             changes[id] = document.getElementById(id).value == '' ? document.getElementById(id).innerText : document.getElementById(id).value
+        }
+
+        function updateOP(){
+            document.getElementById('opnotes').value = document.getElementById('Diagnosis').value
         }
     </script>
 

@@ -104,10 +104,13 @@
                         </div>
                         <div style="width: 40% !important;margin-left: 5px;">
                             <div style="margin-top: 2px;">
-                                LMP : <input type="date" name="" id="">
+                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="lmpdate" onchange="addChanges('lmpdate'),updateEdd()" value="<%=lastVisit.VisitData.lmpdate%>">
                             </div>
                             <div style="margin-top: 2px;">
-                                EDD : <input type="date" name="" id="">
+                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%=lastVisit.VisitData.edddate%>">
+                            </div>
+                            <div style="margin-top: 2px;">
+                                C. EDD: <input type="date" name="" id="cedddate" onchange="addChanges('cedddate')" value="<%=lastVisit.VisitData.cedddate%>">
                             </div>
                         </div>
                         
@@ -115,7 +118,7 @@
                     </div>
                     <div>
                         <b>History</b>
-                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""></textarea>
+                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit.VisitData.history%></textarea>
                     </div>
                     <div>
                         <b>O/E</b>
@@ -124,8 +127,7 @@ AFEBRILE
 BP =       MM OF HG  P =   BPM
 PALLOR 
 P/A 
-P/V
-                        </textarea>
+P/V</textarea>
                     </div>
                     
                 </div>

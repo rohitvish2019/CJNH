@@ -11,6 +11,7 @@
 
 <body style="text-align: center;border: 1px solid black; padding: 0px 10px 10px 10px; ">
     <div style="text-align: center; margin-bottom: 5px;">
+        
         <div id="header">
             <div style="margin-bottom: 1%; border-bottom: 1px dotted black; text-align: end;">
                 <span style="font-size: small;">Reg No. NH/9255/JUN-2023</span>
@@ -32,7 +33,7 @@
     </div>
     <div class="content">
         <span>Course by Cash / QR Code in Part / Full
-            Amount on <%=new Date().toLocaleDateString()%> <!--Against Bill no <%=visit.DischargeBillNumber%>--></span>
+            Amount between <%=(new Date(visit.AdmissionDate)).toLocaleDateString()%> and <%=(new Date(visit.DischargeDate)).toLocaleDateString()%> <!--Against Bill no <%=visit.DischargeBillNumber%> --></span>
     </div>
 
     <div style=" display: flex; font-size: 20px; margin-top: 5%; height: 25px;">

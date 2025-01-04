@@ -246,6 +246,23 @@ document.addEventListener('click', () => {
         console.log('The currently focused element has no ID.');
     }
 });
-  function setResultDivForSpeechToText(id){
-    speechToTextResultDiv = document.getElementById(id);
-  }
+function setResultDivForSpeechToText(id){
+speechToTextResultDiv = document.getElementById(id);
+}
+function addDaysToDate(inputDate, daysToAdd) {
+    // Parse the input date string into a Date object
+    let date = new Date(inputDate);
+
+    // Add the specified number of days
+    date.setDate(date.getDate() + daysToAdd);
+
+    // Format the result as YYYY-MM-DD
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+function updateEdd(){
+    document.getElementById('edddate').value = addDaysToDate(document.getElementById('lmpdate').value, 280);
+}

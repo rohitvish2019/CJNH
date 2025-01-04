@@ -185,10 +185,21 @@ function setIPDData(visits, rooms){
         </td>
         <td>
             <select id="DeliveryType_${visits[i]._id}" value="${visits[i].DeliveryType}" onchange="changeDeliveryType('${visits[i]._id}')">
-                <option disabled value="">--Select--</option>
-                <option value="Vaginal">Vaginal</option>
-                <option value="Caesarean">Caesarean</option>
-                <option value="Vaginal Instrumental">Vaginal Instrumental</option>
+                <option value=''>--Select--</option>
+                <option value="VAGINAL DELIVERY(Day)">VAGINAL DELIVERY(Day)</option>
+                <option value="VAGINAL INSTRUMENTAL DELIVERY(Day)">VAGINAL INSTRUMENTAL DELIVERY(Day)</option>
+                <option value="HYSTERECTOMY(Day)">HYSTERECTOMY(Day)</option>
+                <option value="LSCS(Day)">LSCS(Day)</option>
+                <option value="LSCS WITH T/L(Day)">LSCS WITH T/L(Day)</option>
+                <option value="LAPROSCOPY OP(Day)">LAPROSCOPY OP(Day)</option>
+                <option value="LAPROTOMY(Day)">LAPROTOMY(Day)</option>
+                <option value="VAGINAL DELIVERY(Night)">VAGINAL DELIVERY(Night)</option>
+                <option value="VAGINAL INSTRUMENTAL DELIVERY(Night)">VAGINAL INSTRUMENTAL DELIVERY(Night)</option>
+                <option value="HYSTERECTOMY(Night)">HYSTERECTOMY(Night)</option>
+                <option value="LSCS(Night)">LSCS(Night)</option>
+                <option value="LSCS WITH T/L(Night)">LSCS WITH T/L(Night)</option>
+                <option value="LAPROSCOPY OP(Night)">LAPROSCOPY OP(Night)</option>
+                <option value="LAPROTOMY(Night)">LAPROTOMY(Night)</option>
             </select>
         </td>
         <td>

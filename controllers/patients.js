@@ -463,10 +463,7 @@ module.exports.AdmissionBill = async function(req, res){
 module.exports.getAdmissionBillItems = async function(req, res){
     try{
         let visit = await VisitData.findById(req.query.visitid).populate('Patient');
-        let Items = await ServicesData.find({
-            
-            $or:[{Category:'Operation-Delivery Charges',Name:"Delivery/Operation Charges ("+visit.DeliveryType+")"},{Type:'AdmissionBill'}],
-        },'Name Price').sort('createdAt');
+        let Items = await ServicesData.find({Category:visit.DeliveryType, Type:'AdmissionBill'},'Name Price').sort('createdAt');
         let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         let advancedPayments = visit.advancedPayments;
@@ -562,14 +559,20 @@ module.exports.showPrescription = async function(req, res){
     try{
         let medsList = await MedsData.find({}).sort('Category')
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        let visits = await VisitData.find({Patient:visit.Patient},'VisitData').sort({createdAt:-1});
+        let lastVisit = null
+        if(visits.length > 1){
+            lastVisit = visits[1]
+        }
         if(req.xhr){
             return res.status(200).json({
                 visitData:visit.VisitData,
                 Prescriptions: visit.Prescriptions,
+                lastVisit,
                 medsList
             })
         }
-        return res.render('prescriptionForm', {visit, user:req.user, medsList})
+        return res.render('prescriptionForm', {visit, user:req.user, medsList, lastVisit})
     }catch(err){
         console.log(err)
         return res.render('Error_500')
@@ -807,7 +810,7 @@ module.exports.getDischargeData = async function(req, res){
 
 module.exports.dischargeReceipt = async function(req, res){
     try{
-        let visit = await VisitData.findById(req.params.id,'Patient DischargeBillNumber FinalBillAmount').populate('Patient');
+        let visit = await VisitData.findById(req.params.id,'Patient DischargeBillNumber FinalBillAmount AdmissionDate DischargeDate').populate('Patient');
         let RecieptNo = await Tracker.findOne({});
         return res.render('paymentReceiptTemplate', {visit, user:req.user,RecieptNo:RecieptNo.RecieptNo})
     }catch(err){
