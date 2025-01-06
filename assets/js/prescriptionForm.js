@@ -149,12 +149,27 @@ function saveWeight(visitId){
     })
 }
 
-function uploadReport(visitId, patient_id){
-    var formData = new FormData();
+function setname(){
     let file = document.getElementById('file').files[0];
+    document.getElementById('fileName').value = file.name
+}
+function uploadReport(visitId, patient_id){
+    let fname = document.getElementById('fileName').value;
+    let file = document.getElementById('file').files[0];
+    if(fname == '' || !file){
+        new Noty({
+            theme: 'relax',
+            text: 'Invalid input',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    var formData = new FormData();
+    
     let timeStamp = Date.now()
     formData.append('file',file)
-    console.log(file);
     var formData = new FormData();
     formData.append("visitId",visitId);
     formData.append("patientId",patient_id);
@@ -163,7 +178,7 @@ function uploadReport(visitId, patient_id){
     formData.append('file', document.getElementById('file').files[0]);
     let date = new Date().toLocaleDateString().split("/").join("_");
     let fileName = document.getElementById('fileName').value;
-    let link = "/uploads/"+date+"/"+timeStamp+'_'+fileName+'.pdf'
+    let link = "/uploads/"+date+"/"+timeStamp+'_'+fileName
     $.ajax({
         url : '/uploads/report',
         type : 'POST',
@@ -263,6 +278,48 @@ function addDaysToDate(inputDate, daysToAdd) {
 
     return `${year}-${month}-${day}`;
 }
+
+
+function countWeeksAndDays() {
+    let startDate = new Date().getFullYear()+"-"+(parseInt(new Date().getMonth())+1).toString().padStart(2,'0')+'-'+(parseInt(new Date().getDate())+1).toString().padStart(2,'0')
+    endDate = document.getElementById('edddate').value
+    // Parse the dates into JavaScript Date objects
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    console.log("Start date is "+startDate);
+    console.log("End date is "+endDate)
+    // Check if either of the dates is invalid
+    if (isNaN(start) || isNaN(end)) {
+        console.error("One or both of the provided dates are invalid.");
+        return null;
+    }
+
+    // Ensure the end date is after or equal to the start date
+    if (end < start) {
+        console.error("End date should be greater than or equal to start date.");
+        return null;
+    }
+
+    // Calculate the difference in milliseconds
+    const diffInMillis = end - start;
+
+    // Convert milliseconds to days
+    const diffInDays = diffInMillis / (1000 * 60 * 60 * 24);
+
+    // Calculate the number of weeks and remaining days
+    const weeks = Math.floor(diffInDays / 7);
+    const days = diffInDays % 7;
+
+    // If the dates are the same
+    if (diffInDays === 0) {
+        return { weeks: 0, days: 0 };
+    }
+
+    document.getElementById('calculatedTime').innerHTML=weeks + ' Weeks and '+ days + ' days'
+}
+
+
+
 function updateEdd(){
     document.getElementById('edddate').value = addDaysToDate(document.getElementById('lmpdate').value, 280);
 }

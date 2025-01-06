@@ -15,6 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
 </head>
 
 <body onload="getVisitdata(), speechToText()">
@@ -104,13 +107,16 @@
                         </div>
                         <div style="width: 40% !important;margin-left: 5px;">
                             <div style="margin-top: 2px;">
-                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="lmpdate" onchange="addChanges('lmpdate'),updateEdd()" value="<%=lastVisit.VisitData.lmpdate%>">
+                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%=lastVisit.VisitData == undefined? '' :lastVisit.VisitData.lmpdate%>">
                             </div>
                             <div style="margin-top: 2px;">
-                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%=lastVisit.VisitData.edddate%>">
+                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="edddate" onchange="countWeeksAndDays('edddate')" value="<%=lastVisit.VisitData == undefined ? '' :lastVisit.VisitData.edddate%>">
+                            </div>
+                            <div>
+                                <label id="calculatedTime"></label>
                             </div>
                             <div style="margin-top: 2px;">
-                                C. EDD: <input type="date" name="" id="cedddate" onchange="addChanges('cedddate')" value="<%=lastVisit.VisitData.cedddate%>">
+                                C. EDD: <input type="date" name="" id="cedddate" onchange="addChanges('cedddate')" value="<%=lastVisit.VisitData == undefined ? '':lastVisit.VisitData.cedddate%>">
                             </div>
                         </div>
                         
@@ -118,7 +124,7 @@
                     </div>
                     <div>
                         <b>History</b>
-                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit.VisitData.history%></textarea>
+                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit.VisitData == undefined ? '' : lastVisit.VisitData.history%></textarea>
                     </div>
                     <div>
                         <b>O/E</b>
@@ -387,9 +393,9 @@ P/V</textarea>
 
     
 </body>
-<div id="fileInputs" style="position: absolute;top: 5%; left: 50%;">
+<div id="fileInputs" style="position: absolute;top: 5%; left: 55%;">
     Enter file name <input type="text" name="" id="fileName">
-    <input  type="file" id="file" accept=".pdf">
+    <input  type="file" id="file" accept=".pdf" onchange="setname()">
     <button onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
     <div style="margin-top: 5%;">
         <label for="">Other documents</label>
@@ -403,12 +409,12 @@ P/V</textarea>
             <tbody id="otherDocs">
                 <%for(let i=0;i<visit.OtherDocs.length;i++){%>
                     <tr>
-                        <td><a href="<%=visit.OtherDocs[i]%>"><%=visit.OtherDocs[i].toString().split('_')[3]%></a></td>
+                        <td><a target="_blank" href="<%=visit.OtherDocs[i]%>"><%=visit.OtherDocs[i].toString().split('_')[3]%></a></td>
                     </tr>
                 <%}%>
             </tbody>
         </table>
-        <div id="audioInput" style="position: fixed;top: 60%;left: 65%;display: none;">
+        <div id="audioInput" style="position: fixed;top: 60%;left: 55%;display: none;">
             <h1>Audio input</h1>
             <button id="startButton">Start Listening</button>
             <button id="stopButton" disabled>Stop Listening</button>

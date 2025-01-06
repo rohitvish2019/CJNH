@@ -7,7 +7,7 @@ var fs = require('fs');
 const storage = multer.diskStorage({
     destination:'assets/uploads/'+new Date().toLocaleDateString().split("/").join("_"),
     filename: function (req, file, cb) {
-      cb(null, req.body.timeStamp+'_'+req.body.fileName+'.pdf')
+      cb(null, req.body.timeStamp+'_'+req.body.fileName)
     }
 })
   
