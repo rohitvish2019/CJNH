@@ -360,6 +360,7 @@ module.exports.admitPatient = async function(req, res){
             patient = await PatientData.create(req.body.data);
             newId = Number(id.patientId) + 1
             newIPDNumber = Number(id.IPDNumber) + 1;
+            await patient.updateOne({IPDNumber:newIPDNumber})
             await id.updateOne({patientId:newId, IPDNumber: newIPDNumber})
         }
         let visit = await VisitData.create({

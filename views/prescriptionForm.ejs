@@ -23,6 +23,7 @@
 <body onload="getVisitdata(), speechToText()">
     <div class="main-body">
         <div class="header">
+            <label for="" style="font-size: small;">Reg No. NH/9255/JUN-2023</label>
             <div class="name">
                 <label style="font-size: 31px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन
                     &nbsp;नर्सिंग &nbsp;होम</label>
@@ -32,10 +33,20 @@
             </div>
             
         </div>
+        <%let boldTure = 'bold'%>
+        <%let boldFalse = '100'%>
         <div class="doctors-info">
             <div class="doc-info-left">
-                <label class="doc-name">डॉ. अनुज जैन</label>
-                <label style="font-weight: bold;">MBBS, DGO</label>
+                <%if(user.Name == 'Dr Anuj Jain'){%>
+                    <label class="doc-name" style="font-weight: bold;">डॉ. अनुज जैन</label>
+                    <label style="font-weight: bold;">MBBS, DGO</label>
+                    <br>
+                <%}else{%>
+                    <label class="doc-name" style="font-weight: 100;">डॉ. अनुज जैन</label>
+                    <label style="font-weight: 100;">MBBS, DGO</label>
+                <%}%>
+                
+                
                 <label class="old-info">स्त्री रोग विशेषज्ञ</label>
                 <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
                 <label class="old-info">मिलने का समय</label>
@@ -47,8 +58,15 @@
                 <label style="color: red;font-weight: bolder;">* रविवार अवकाश *</label>
             </div>
             <div class="doc-info-right">
-                <label class="doc-name">डॉ. स्वाति जैन</label>
-                <label style="font-weight: bold;">MBBS, DGO</label>
+                <%if(user.Name == 'Dr Swati Jain'){%>
+                    <label class="doc-name" style="font-weight: bold;">डॉ. स्वाति जैन</label>
+                    <label style="font-weight: bold;">MBBS, DGO</label>
+                <%}else{%>
+                    <label class="doc-name" style="font-weight: 100;">डॉ. स्वाति जैन</label>
+                    <label style="font-weight: 100;">MBBS, DGO</label>
+                    <br>
+                <%}%>
+                
                 <label class="old-info">स्त्री रोग विशेषज्ञ</label>
                 <label class="old-info">CF. SR. No. Addl./MPMC-6978</label>
                 <label class="old-info">मिलने का समय सुबह 11बजे से 1 बजे तक, 1:30 से शाम 3 बजे तक</label>
@@ -58,36 +76,36 @@
         </div>
         <div class="patient-info">
             <label hidden for="" id="visitId"><%=visit._id%></label>
-            <div class="patient-data" style="width: 9%; ">
+            <div class="patient-data" style="width: 7%;">
                 <small for=""><b>ID</b></small>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data" style="width: 20%;">
+            <div class="patient-data" style="width: 18%;">
                 <small for=""><b>Name</b></small>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
-            <div class="patient-data" style="width: 20%;">
+            <div class="patient-data" style="width: 18%;">
                 <small for=""><b>Husband</b></small>
                 <label for=""><%=visit.Patient.Husband%></label>
             </div>
-            <div class="patient-data" style="width: 7%;">
+            <div class="patient-data" style="width: 5%;">
                 <small for=""><b>Age</b></small>
-                <label for=""><%=visit.Patient.Age%></label>
+                <label for=""><%=visit.Patient.Age%>Y</label>
             </div>
-            <div class="patient-data" style="width: 12%;">
+            <div class="patient-data" style="width: 10%;">
                 <small for=""><b>Weight</b></small>
                 <label for="" style="margin-bottom: 5px;"><input onchange='saveWeight("<%=visit._id%>")' style="width: 32%;margin-bottom: 5px; display: inline;" type="number" name="" id="pweight" value="<%=visit.weight%>">Kg</label>
             </div>
-            <div class="patient-data" style="width: 28%;">
+            <div class="patient-data" style="width: 24%;">
                 <small for=""><b>Address</b></small>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            <div class="patient-data" style="width: 21%; ">
+            <div class="patient-data" style="width: 18%; ">
                 <small for=""><b>Date & Time</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
                 <label style="font-size: small;">
                     
-                    <%= new Date(visit.createdAt).getDate()%>-<%= Number(new Date(visit.createdAt).getMonth()) + 1%>-<%= new Date(visit.createdAt).getFullYear()%>
+                    <%= new Date(visit.Visit_date).toLocaleDateString('en-IN',{year: 'numeric', month: '2-digit', day: '2-digit'})%>
                     <% let n = new Date(visit.createdAt).toLocaleString([], {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -107,20 +125,19 @@
                         </div>
                         <div style="width: 40% !important;margin-left: 5px;">
                             <div style="margin-top: 2px;">
-                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%=lastVisit.VisitData == undefined? '' :lastVisit.VisitData.lmpdate%>">
+                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%=lastVisit.VisitData == undefined? '' :lastVisit.VisitData.lmpdate%>">
                             </div>
                             <div style="margin-top: 2px;">
-                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input type="date" name="" id="edddate" onchange="countWeeksAndDays('edddate')" value="<%=lastVisit.VisitData == undefined ? '' :lastVisit.VisitData.edddate%>">
+                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%=lastVisit.VisitData == undefined ? '' :lastVisit.VisitData.edddate%>">
                             </div>
-                            <div>
-                                <label id="calculatedTime"></label>
+                            
+                            <div style="margin-top: 2px;">
+                                C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="<%=lastVisit.VisitData == undefined ? '':lastVisit.VisitData.cedddate%>">
                             </div>
                             <div style="margin-top: 2px;">
-                                C. EDD: <input type="date" name="" id="cedddate" onchange="addChanges('cedddate')" value="<%=lastVisit.VisitData == undefined ? '':lastVisit.VisitData.cedddate%>">
+                                GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="<%=lastVisit.VisitData == undefined ? '' :lastVisit.VisitData.edddate%>">
                             </div>
                         </div>
-                        
-                        
                     </div>
                     <div>
                         <b>History</b>
@@ -129,11 +146,11 @@
                     <div>
                         <b>O/E</b>
                         <textarea rows="7" style="width: 100%;" name="" id="OEs" placeholder="">
-AFEBRILE
-BP =       MM OF HG  P =   BPM
+AFEBRILE 
+BP =  MM OF HG  P = BPM
 PALLOR 
 P/A 
-P/V</textarea>
+P/V </textarea>
                     </div>
                     
                 </div>
@@ -177,9 +194,10 @@ P/V</textarea>
                                             -->
                                         </tbody>
                                     </table>
-                                    <ul id="">
-                                    </ul>
+                                    
+                                    
                                 </div>
+                                
                             </div>
                         </div>
     
@@ -393,10 +411,10 @@ P/V</textarea>
 
     
 </body>
-<div id="fileInputs" style="position: absolute;top: 5%; left: 55%;">
+<div id="fileInputs" style="position: absolute;top: 5%; left: 65%;">
     Enter file name <input type="text" name="" id="fileName">
-    <input  type="file" id="file" accept=".pdf" onchange="setname()">
-    <button onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
+    <input  type="file" id="file" accept="*" onchange="setname()">
+    <button style="padding: 5px;" onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
     <div style="margin-top: 5%;">
         <label for="">Other documents</label>
         <table border="1px solid gray">

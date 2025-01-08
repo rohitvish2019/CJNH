@@ -36,9 +36,9 @@ input::-webkit-inner-spin-button {
     border-bottom: 1px dotted rgb(20, 19, 19);
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    padding-left: 1%;
-    padding-right: 1%;
+    justify-content: center;
+    padding-left: 2px;
+    padding-right: 1px;
 }
 
 
@@ -67,6 +67,7 @@ input::-webkit-inner-spin-button {
 .name label{
     text-align: center;
     display: block;
+    margin-left: -20%;
 }
 .doc-name{
     font-weight: bold;
@@ -99,9 +100,7 @@ input::-webkit-inner-spin-button {
 }
 
 
-.patient-data{
-    width: 15%;
-}
+
 .patient-data input{
     border: none;
     height: 20% !important;

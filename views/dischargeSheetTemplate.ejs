@@ -42,11 +42,11 @@
                 <span for=""><b>Id</b></span>
                 <label for="" id=""><%=visit.Patient.Id%></label>
             </div>
-            <div class="patient-data" style="width: 25%;">
+            <div class="patient-data" style="width: 22%;">
                 <span for=""><b>Name</b></span>
                 <label for=""><%=visit.Patient.Name%></label>
             </div>
-            <div class="patient-data" style="width: 25%; ">
+            <div class="patient-data" style="width: 22%; ">
                 <span for=""><b>Husband:</b></span>
                 <label for=""><%=visit.Patient.Husband%></label>
             </div>
@@ -55,28 +55,32 @@
                 <label for=""><%=visit.Patient.Age%></label>
             </div>
             
-            <div class="patient-data" style="width: 33%;">
+            <div class="patient-data" style="width: 28%;">
                 <span for=""><b>Address:</b></span>
                 <label for=""><%=visit.Patient.Address%></label>
             </div>
-            
+            <div class="patient-data" style="width: 8%;margin-right: 2%;">
+                <span for=""><b>IPD No</b></span>
+                <label for=""><%=visit.Patient.IPDNumber%></label>
+            </div>
         </div>
 
         <!-- Admission and Discharge Date Section-->
+         <% let dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',hour: '2-digit', minute: '2-digit',}%>
         <div class="dischargeItems" style="height: 3%; display: flex;justify-content: space-between;">
             <div style="width: 50%; padding: 5px; text-align: left;">
                 <%let admDT = visit.AdmissionDate + ' '+visit.AdmissionTime%>
-                <label>Date Of Admission : <%=new Date(admDT).toLocaleString()%></label>
+                <label>Date Of Admission : <%=new Date(admDT).toLocaleString('en-IN', dateOptions)%></label>
             </div>
             <div style="width: 50%;text-align: right;  padding: 5px; ">
                 <%let dchDT = visit.DischargeDate + ' '+visit.DischargeTime%>
                 <%if(visit && visit.DischargeDate){%>
-                    <label>Date Of Discharge :<%=new Date(dchDT).toLocaleString()%></label>
+                    <label>Date Of Discharge :<%=new Date(dchDT).toLocaleString('en-IN', dateOptions)%></label>
                 <%}%>
             </div>
         </div>  
         <div style="margin-bottom: 4px;">
-            <input onchange="addChanged('Diagnosis'), updateOP()" style="width: 99.5%;text-align: left;" type="text" name="" id="Diagnosis" placeholder="Diagnosis">
+            <input onchange="addChanged('Diagnosis'), updateOP()" style="width: 99.5%;text-align: left;border-bottom: 1px solid black;" type="text" name="" id="Diagnosis" placeholder="Diagnosis" value="Diagnosis :- ">
         </div>
         <!-- Conditions Input Text Box-->
         <div class="condition" style="height: 14%; display: flex;justify-content: space-between;">
@@ -249,7 +253,7 @@ Cried immediately
             </div>
             <div>
                 <div style="margin-left: 5px;">
-                    <textarea name="" id="otherAdvices" onchange="addChanged('otherAdvices')" rows="5" cols="35" placeholder="Other Advice"></textarea>
+                    <textarea name="" id="otherAdvices" onchange="addChanged('otherAdvices')" rows="5" cols="35" placeholder="Other Advice"> Other Advice :- </textarea>
                 </div>
                 <div style=" width: 100%; height: 55%; padding-left:8px ; text-align: center; margin-top: 7%;">
                     <span>- बच्चे का टीकाकरण नियमित करायें ।</span><br><hr>
@@ -354,7 +358,7 @@ Cried immediately
         }
 
         function updateOP(){
-            document.getElementById('opnotes').value = document.getElementById('Diagnosis').value
+            document.getElementById('opnotes').value = document.getElementById('Diagnosis').value.split(':-')[1]
         }
     </script>
 

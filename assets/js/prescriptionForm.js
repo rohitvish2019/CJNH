@@ -279,10 +279,12 @@ function addDaysToDate(inputDate, daysToAdd) {
     return `${year}-${month}-${day}`;
 }
 
-
+/*
 function countWeeksAndDays() {
-    let startDate = new Date().getFullYear()+"-"+(parseInt(new Date().getMonth())+1).toString().padStart(2,'0')+'-'+(parseInt(new Date().getDate())+1).toString().padStart(2,'0')
-    endDate = document.getElementById('edddate').value
+    
+    let startDate = document.getElementById('lmpdate').value
+    let endDate =new Date().getFullYear()+"-"+(parseInt(new Date().getMonth())+1).toString().padStart(2,'0')+'-'+(parseInt(new Date().getDate())+1).toString().padStart(2,'0')
+     
     // Parse the dates into JavaScript Date objects
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -315,10 +317,54 @@ function countWeeksAndDays() {
         return { weeks: 0, days: 0 };
     }
 
-    document.getElementById('calculatedTime').innerHTML=weeks + ' Weeks and '+ days + ' days'
+    document.getElementById('calculatedTime').innerHTML='GA(EDD) : '+ weeks + ' Weeks and '+ days + ' days'
 }
 
+*/
 
+function calculateFullGAA() {
+    let EDD = document.getElementById('cedddate').value
+    // Validate EDD format (YYYY-MM-DD)
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!datePattern.test(EDD)) {
+      throw new Error("Invalid date format. Please use 'YYYY-MM-DD'.");
+    }
+    
+    // Convert EDD (Expected Due Date) to a Date object
+    const eddDate = new Date(EDD);
+    
+    // Check if the EDD is a valid date
+    if (isNaN(eddDate)) {
+      throw new Error("Invalid date. Please provide a valid date.");
+    }
+  
+    // Subtract 40 weeks (280 days) from EDD to get the start of the pregnancy
+    const pregnancyStartDate = new Date(eddDate);
+    pregnancyStartDate.setDate(eddDate.getDate() - 280); // 40 weeks * 7 days = 280 days
+  
+    // Get today's date
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to midnight for accurate comparison
+  
+    // Ensure that the pregnancy start date is not in the future
+    if (pregnancyStartDate > today) {
+      throw new Error("pregnancy Start Date cannot be in the future. Please provide a valid EDD.");
+    }
+  
+    // Calculate the difference in time between today and the pregnancy start date
+    const timeDifference = today - pregnancyStartDate;
+  
+    // Convert the time difference to days
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
+  
+    // Calculate the full weeks and remaining days
+    const fullWeeks = Math.floor(daysDifference / 7);
+    const remainingDays = Math.floor(daysDifference % 7);
+  
+    // Return the full GAA as weeks and days
+    document.getElementById('calculatedTime').value= fullWeeks + ' Weeks and '+ remainingDays + ' days'
+
+  }
 
 function updateEdd(){
     document.getElementById('edddate').value = addDaysToDate(document.getElementById('lmpdate').value, 280);
