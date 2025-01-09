@@ -134,7 +134,7 @@ module.exports.addSales = async function(req, res){
             Total:req.body.Total,
             Items:req.body.Items,
             PaymentType:req.body.paymentMode,
-            IdProof : req.body.patient.IdProof,
+            IdProof :IdProof,
             Doctor:req.body.patient.Doctor,
             OnlinePaid:req.body.onlinePayment,
             CashPaid:req.body.cashPayment

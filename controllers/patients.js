@@ -7,7 +7,8 @@ const Reportsdata = require('../models/reports')
 const ServicesData = require('../models/servicesAndCharges')
 const SalesData = require('../models/sales');
 const MedsData = require('../models/meds');
-const BirthData = require('../models/birthCertificates')
+const BirthData = require('../models/birthCertificates');
+const Patient = require('../models/patients');
 module.exports.patientRegistartionHome = function(req, res){
     try{
         return res.render('patientRegistration',{user:req.user})
@@ -515,6 +516,7 @@ module.exports.saveDischargeBill = async function(req, res){
                 PatiendID:visit.Patient.Id,
                 Husband:visit.Patient.Husband,
                 Doctor:visit.Doctor,
+                IdProof:visit.Patient.IdProof,
                 CashPaid:req.body.cashPayment,
                 OnlinePaid:req.body.onlinePayment,
                 type:'DischargeBill',
@@ -724,6 +726,7 @@ module.exports.addAdvancePayment = async function(req, res){
             Gender:visit.Patient.Gender,
             Husband:visit.Patient.Husband,
             PatiendID:visit.Patient.Id,
+            IdProof:visit.Patient.IdProof,
             Doctor:visit.Doctor,
             CashPaid:CashPaid,
             OnlinePaid:OnlinePaid,

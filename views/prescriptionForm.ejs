@@ -125,23 +125,23 @@
                         </div>
                         <div style="width: 40% !important;margin-left: 5px;">
                             <div style="margin-top: 2px;">
-                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%=lastVisit.VisitData == undefined? '' :lastVisit.VisitData.lmpdate%>">
+                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%=lastVisit == undefined? '' :lastVisit.VisitData.lmpdate%>">
                             </div>
                             <div style="margin-top: 2px;">
-                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%=lastVisit.VisitData == undefined ? '' :lastVisit.VisitData.edddate%>">
+                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%=lastVisit == undefined ? '' :lastVisit.VisitData.edddate%>">
                             </div>
                             
                             <div style="margin-top: 2px;">
-                                C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="<%=lastVisit.VisitData == undefined ? '':lastVisit.VisitData.cedddate%>">
+                                C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="<%=lastVisit == undefined ? '':lastVisit.VisitData.cedddate%>">
                             </div>
                             <div style="margin-top: 2px;">
-                                GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="<%=lastVisit.VisitData == undefined ? '' :lastVisit.VisitData.edddate%>">
+                                GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="<%=lastVisit == undefined ? '' :lastVisit.VisitData.edddate%>">
                             </div>
                         </div>
                     </div>
                     <div>
                         <b>History</b>
-                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit.VisitData == undefined ? '' : lastVisit.VisitData.history%></textarea>
+                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit == undefined ? '' : lastVisit.VisitData.history%></textarea>
                     </div>
                     <div>
                         <b>O/E</b>
