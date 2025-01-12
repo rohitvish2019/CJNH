@@ -344,7 +344,7 @@ function calculateFullGAA() {
   
     // Get today's date
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set the time to midnight for accurate comparison
+    //today.setHours(0, 0, 0, 0); // Set the time to midnight for accurate comparison
   
     // Ensure that the pregnancy start date is not in the future
     if (pregnancyStartDate > today) {

@@ -1,5 +1,5 @@
 
-
+getAppointmentsToday()
 function keepOnHold(id){
     document.getElementById(id +'_rea').style.display='block'
     document.getElementById(id+'_koh').style.display='none'
@@ -42,8 +42,15 @@ function getAppointmentsToday(){
             status
         },
         success:function(data){
-            
+            let color=''
             for(let i=0;i<data.visits.length;i++){
+                if(data.visits[i].Fees == 400){
+                    color = '#75f690'
+                }else if(data.visits[i].Fees == 200){
+                    color = '#edf675'
+                }else{
+                    color='#ffb0b0'
+                }
                 let rowItem = document.createElement('tr');
                 let checkStatus = data.visits[i].isValid == true?'checked':null;
                 let bgcolor = 'yellow'
@@ -65,7 +72,7 @@ function getAppointmentsToday(){
                         <td>${data.visits[i].Patient.Age}</td>
                         <td>${data.visits[i].Patient.Husband}</td>
                         <td>${data.visits[i].Patient.Address}</td>
-                        <td>${data.visits[i].Fees}</td>
+                        <td style='background-color:${color};font-weight:bold;color:black'>${data.visits[i].Fees}</td>
                         <td><a target='_blank' href="/patients/getHistory/${data.visits[i].Patient._id}">Patient History</a></td>
                         <td><a target='_blank' href="/patients/getPrescription/${data.visits[i]._id}">Prescription</a></td>
                         <td>

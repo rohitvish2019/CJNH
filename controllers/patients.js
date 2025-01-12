@@ -562,6 +562,12 @@ module.exports.showPrescription = async function(req, res){
     try{
         let medsList = await MedsData.find({}).sort('Category')
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        let today = new Date().toLocaleDateString();
+        let updateddate = new Date(visit.updatedAt).toLocaleDateString();
+        if(!visit.isOpened){
+            await visit.updateOne({isOpened:true});
+            visit = await VisitData.findById(req.params.visitId).populate('Patient');
+        }
         let visits = await VisitData.find({Patient:visit.Patient},'VisitData').sort({createdAt:-1});
         let lastVisit = null
         if(visits.length > 1){

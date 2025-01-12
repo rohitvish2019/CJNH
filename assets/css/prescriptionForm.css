@@ -25,7 +25,7 @@ input::-webkit-inner-spin-button {
 }
 
 .doctors-info{
-    height: 10%;
+    height: 11%;
     width: 99.9%;
     display: flex;
     margin-top: 5%;
@@ -44,13 +44,13 @@ input::-webkit-inner-spin-button {
 
 
 .doc-info-left{
-    width: 35%;
+    width: 41%;
     text-align: left;
     margin-left: 1%;
 }
 
 .doc-info-right{
-    width: 41%;
+    width: 40%;
     text-align: right;
     margin-right: 1%;
 }
@@ -161,6 +161,7 @@ textarea{
     border: none;
     border-bottom: .5px dotted black;
     resize: none !important;
+    overflow: hidden;
 }
 td, th{
     border-bottom: 1px dotted black !important;

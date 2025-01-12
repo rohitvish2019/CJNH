@@ -145,10 +145,28 @@ function showHistory(items){
     let onlineTotal = 0
     let container = document.getElementById('historyBody');
     container.innerHTML=``;
+    let color = ''
     for(let i=0;i<items.length;i++){
+        if(items[i].type == 'Appointment'){
+            color='#ffb0b0'
+        }else if(items[i].type == 'Pathology'){
+            color='#f4c6fc'
+        }else if(items[i].type == 'DischargeBill'){
+            color='#f258d5b3'
+        }else if(items[i].type == 'Ultrasound'){
+            color='#55f2f4'
+        }else if(items[i].type == 'IPDAdvance'){
+            color='#75f690'
+        }else if(items[i].type == 'Other'){
+            color='#edf675' 
+        }else{
+            color='#d6d0d0'
+        }
+        
         let rowItem = document.createElement('tr');
         rowItem.id=items[i]._id+'row'
         if(items[i].type == 'IPDAdvance'){
+            
             rowItem.innerHTML=
         `
             <td>${i+1}</td>
@@ -156,7 +174,7 @@ function showHistory(items){
             <td>${items[i].Name}</td>
             <td>₹ ${items[i].Total}</td>
             <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
-            <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
+            <td style = 'background-color:${color};font-weight:bold'><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
             <td>${items[i].CashPaid}</td>
             <td>${items[i].OnlinePaid}</td>
@@ -171,7 +189,7 @@ function showHistory(items){
             <td>${items[i].Name}</td>
             <td>₹ ${items[i].Total}</td>
             <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
-            <td><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
+            <td style = 'background-color:${color};font-weight:bold'><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
             <td>${items[i].CashPaid}</td>
             <td>${items[i].OnlinePaid}</td>

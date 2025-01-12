@@ -46,11 +46,19 @@
                     <label style="font-weight: 100;">MBBS, DGO</label>
                 <%}%>
                 
+                <div>
+                    <label class="old-info">स्त्री रोग विशेषज्ञ</label>
+                    <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
+                </div>
+
+                <div>
+                    <label class="old-info" style="font-size: 10px;">FMF LONDON(UK) CERTIFIED SONOGRAPHER [FMF ID 17468]</label>
+                </div>
+                <div>
+                    <label class="old-info">मिलने का समय</label>
+                    <label class="old-info">सुबह 10 बजे से शाम 5 बजे तक</label>
+                </div>
                 
-                <label class="old-info">स्त्री रोग विशेषज्ञ</label>
-                <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
-                <label class="old-info">मिलने का समय</label>
-                <label class="old-info">सुबह 10 बजे से शाम 5 बजे तक</label>
 
             </div>
             <div class="hospital-photo" style="display: flex;justify-content: center;flex-direction: column;align-items: center;margin-left: 3%;">
@@ -69,7 +77,10 @@
                 
                 <label class="old-info">स्त्री रोग विशेषज्ञ</label>
                 <label class="old-info">CF. SR. No. Addl./MPMC-6978</label>
-                <label class="old-info">मिलने का समय सुबह 11बजे से 1 बजे तक, 1:30 से शाम 3 बजे तक</label>
+                <div>
+                    <label class="old-info">CERTIFIED COLPOSCOPIST [ MUMBAI ] </label>
+                </div>
+                <label class="old-info">मिलने का समय सुबह 11बजे से 1 बजे, 1:30 से शाम 3 बजे</label>
                 <label class="old-info"></label>
 
             </div>
@@ -106,7 +117,7 @@
                 <label style="font-size: small;">
                     
                     <%= new Date(visit.Visit_date).toLocaleDateString('en-IN',{year: 'numeric', month: '2-digit', day: '2-digit'})%>
-                    <% let n = new Date(visit.createdAt).toLocaleString([], {
+                    <% let n = new Date(visit.updatedAt).toLocaleString('en-IN', {
                         hour: "2-digit",
                         minute: "2-digit",
                         });%>
@@ -124,31 +135,50 @@
                             <textarea rows="3" cols="40" name="" id="complaint" placeholder=""></textarea>
                         </div>
                         <div style="width: 40% !important;margin-left: 5px;">
-                            <div style="margin-top: 2px;">
-                                LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%=lastVisit == undefined? '' :lastVisit.VisitData.lmpdate%>">
-                            </div>
-                            <div style="margin-top: 2px;">
-                                EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%=lastVisit == undefined ? '' :lastVisit.VisitData.edddate%>">
-                            </div>
+                            <% if(lastVisit && lastVisit.VisitData){ %>
+                                <div style="margin-top: 2px;">
+                                    LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="<%= lastVisit.VisitData.lmpdate %>">
+                                </div>
+                                <div style="margin-top: 2px;">
+                                    EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="<%= lastVisit.VisitData.edddate %>">
+                                </div>
+                                
+                                <div style="margin-top: 2px;">
+                                    C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="<%= lastVisit.VisitData.cedddate %>">
+                                </div>
+                                <div style="margin-top: 2px;">
+                                    GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="<%= lastVisit.VisitData.edddate %>">
+                                </div>
+                            <%}else{%>
+                                <div style="margin-top: 2px;">
+                                    LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="">
+                                </div>
+                                <div style="margin-top: 2px;">
+                                    EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="">
+                                </div>
+                                
+                                <div style="margin-top: 2px;">
+                                    C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="">
+                                </div>
+                                <div style="margin-top: 2px;">
+                                    GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="">
+                                </div>
+                            <%}%>
                             
-                            <div style="margin-top: 2px;">
-                                C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="<%=lastVisit == undefined ? '':lastVisit.VisitData.cedddate%>">
-                            </div>
-                            <div style="margin-top: 2px;">
-                                GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="<%=lastVisit == undefined ? '' :lastVisit.VisitData.edddate%>">
-                            </div>
                         </div>
                     </div>
                     <div>
                         <b>History</b>
-                        <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit == undefined ? '' : lastVisit.VisitData.history%></textarea>
+                        <% if(lastVisit && lastVisit.VisitData){ %>
+                            <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""><%=lastVisit == undefined ? '' : lastVisit.VisitData.history%></textarea>
+                        <%}else{%>
+                            <textarea rows="3" style="width: 100%;" name="" id="history" placeholder=""></textarea>
+                        <%}%>
                     </div>
                     <div>
                         <b>O/E</b>
-                        <textarea rows="7" style="width: 100%;" name="" id="OEs" placeholder="">
-AFEBRILE 
-BP =  MM OF HG  P = BPM
-PALLOR 
+                        <textarea rows="5" style="width: 100%;" name="" id="OEs" placeholder="">
+AFEBRILE, &nbsp;BP =  MM OF HG, &nbsp;P = BPM, &nbsp; PALLOR 
 P/A 
 P/V </textarea>
                     </div>
@@ -167,7 +197,7 @@ P/V </textarea>
                                 
                                 <input style="font-size: large;" type="button" id="AddMed" value="Add" onclick="addMed()">
                             </div>
-                            <div>
+                            <div style="height: 400px;">
                                 <div  style="font-size: 14px !important;">
                                     <table>
                                         <thead>
@@ -199,6 +229,10 @@ P/V </textarea>
                                 </div>
                                 
                             </div>
+                            <div style="text-align: end;padding-right: 10px;">
+                                <label><%=visit.Doctor%></label>
+                            </div>
+                            
                         </div>
     
                     </div>

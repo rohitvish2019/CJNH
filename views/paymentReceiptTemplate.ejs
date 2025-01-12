@@ -21,7 +21,10 @@
             <div style="display: flex; justify-content: space-between;">
                 <img style="height: 70px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
                 <h1>Dr. Chanda Jain Nursing Home</h1>
+                <!--
                 <img style="height: 60px; " src="/images/doctorLogo.jpg" alt="Doctor-Logo">
+                -->
+                <%=visit.DischargeBillNumber%>
             </div>
             <div style="padding: 2px;margin-top: 0;">
                 <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
@@ -29,11 +32,11 @@
         </div>
     </div>
     <div class=" content">
-        Received with Thanks from <%=visit.Patient.Name%>, Rs. <label id="rs"></label>. In words <label id="result"></label>.
+        Received with Thanks from <%=visit.Patient.Name%> W/O <%=visit.Patient.Husband%> Rs. <label id="rs"></label>. In words <label id="result"></label>.
     </div>
     <div class="content">
         <span>Course by Cash / QR Code in Part / Full
-            Amount between <%=(new Date(visit.AdmissionDate)).toLocaleDateString()%> and <%=(new Date(visit.DischargeDate)).toLocaleDateString()%> <!--Against Bill no <%=visit.DischargeBillNumber%> --></span>
+            Amount between <%=(new Date(visit.AdmissionDate)).toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'})%> and <%=(new Date(visit.DischargeDate)).toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'})%> <!--Against Bill no <%=visit.DischargeBillNumber%> --></span>
     </div>
 
     <div style=" display: flex; font-size: 20px; margin-top: 5%; height: 25px;">

@@ -10,6 +10,7 @@ const Visits = new mongoose.Schema({
     Visit_date:String,
     Prescriptions:Array,
     Fees:Number,
+    isOpened:{default:false,type:Boolean},
     Doctor:String,
     AdmissionDate:String,
     DischargeDate:String,
