@@ -18,32 +18,53 @@
     <div class="main-body">
         <div class="heading">
             <h4>Purchase History</h4>
+            
         </div>
         <div class="searchElements" style="display: flex; justify-content: flex-start;margin-right: 2%;">
             <div style="margin-right: 2%;">
-                <label for=""><b>Search type : </b>&nbsp;</label>
+                <label for=""><b>Type : </b>&nbsp;</label>
                 <select style="margin-top: 4px;" name="" id="searchType" onchange="changeInputs()">
-                    <option value="byItem">Item Name</option>
+                    <option value="byDate">Exact Date</option>
                     <option value="byDateRange">Date Range</option>
+                </select>
+            </div>
+            <div style="display: none;margin-right: 2%;" id="dateRangeInputs" class=" justify-content-between text-center align-items-center">
+                <label for=""><b>Date Range : </b>&nbsp;</label>
+                <input style="margin-top: 4px;height: 24px;" type="date" name="" id="startDate">
+                <input style="margin-top: 4px;height: 24px;" type="date" name="" id="endDate">
+            </div>
+            <div style="margin-right: 2%;" id="dateInput" class=" justify-content-between text-center align-items-center">
+                <label for=""><b>Date : </b>&nbsp;</label>
+                <input style="margin-top: 4px;height: 24px;" type="date" name="" id="selectedDate">
+            </div>
+            <div id="itemName" style="margin-right: 2%;">
+                <select style="margin-top: 4px;"  name="" id="ItemName">
+                    <option value="All">All</option>
+                    <%for(let i=0;i<inventory.length;i++){%>
+                        <option value="<%=inventory[i]%>"><%=inventory[i]%></option>
+                    <%}%>
                 </select>
                 
             </div>
-            <div style="display: none;margin-right: 2%;" id="dateRangeInputs" class=" justify-content-between text-center align-items-center">
-                <label for=""><b>Purchase Date Range : </b>&nbsp;</label>
-                <input type="date" name="" id="startDate">
-                <input type="date" name="" id="endDate">
-            </div>
-            <div id="itemNameInputs" style="margin-right: 2%;">
-                <input type="text" placeholder="Enter Item Name" name="" id="itemName" list="medicineList">
-                <datalist id="medicineList">
-                    <%for(let i=0;i<inventory.length;i++){%>
-                        <option value="<%=inventory[i]%>"></option>
+            <div id="sellerNameInput" style="margin-right: 2%;">
+                <select style="margin-top: 4px;"  name="" id="sellerName">
+                    <option value="All">All</option>
+                    <%for(let i=0;i<sellers.length;i++){%>
+                        <option value="<%=sellers[i]%>"><%=sellers[i]%></option>
                     <%}%>
-                </datalist>
+                </select>
+                <!--
+                <input type="text" placeholder="Enter Seller Name" name="" id="" list="sellersList">
+                <datalist id="sellersList">
+                    
+                       
+                    
+                </datalist>-->
             </div>
             <div style="align-items: left;">
                 <button class="btn btn-success" style="margin-bottom: 1%;" onclick="getPurchaseHistory()">Search</button>
             </div>
+            <b style="margin-left: 25px;" id="total"></b>
             <div>
                 <b id="tvalue"></b>
             </div>
@@ -58,8 +79,10 @@
                         <th>Batch No</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th>Entry Date</th>
+                        <th>Total</th>
+                        <th>Bought Date</th>
                         <th>Seller Name</th>
+                        <th>Category</th>
                         <th>Cancel</th>
                     </tr>
                 </thead>

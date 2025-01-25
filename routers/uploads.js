@@ -5,7 +5,7 @@ var fs = require('fs');
 
 
 const storage = multer.diskStorage({
-    destination:'assets/uploads/'+new Date().toLocaleDateString().split("/").join("_"),
+    destination:'assets/uploads/'+new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'}).split("/").join("_"),
     filename: function (req, file, cb) {
       cb(null, req.body.timeStamp+'_'+req.body.fileName)
     }

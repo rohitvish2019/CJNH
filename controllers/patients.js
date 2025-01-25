@@ -351,6 +351,7 @@ module.exports.admitPatient = async function(req, res){
             patient = await PatientData.findOne({Id:req.body.id})
             newId = patient.Id
             newIPDNumber = Number(id.IPDNumber) + 1;
+            await patient.updateOne({IPDNumber:newIPDNumber})
             await id.updateOne({IPDNumber: newIPDNumber})
             if(!patient || patient == null){
                 return res.status(400).json({

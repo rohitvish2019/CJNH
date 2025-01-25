@@ -7,6 +7,7 @@ const Purchases = new mongoose.Schema({
     ExpiryDate:Date,
     Batch:String,
     Seller:String,
+    Category:String,
     isValid:{
         type:Boolean,
         default:true

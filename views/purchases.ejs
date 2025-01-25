@@ -41,10 +41,12 @@
                             <th>#</th>
                             <th>Item Name</th>
                             <th>Batch No.</th>
+                            <th>Date</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Total Price</th>
                             <th>Seller Name</th>
+                            <th>Category</th>
                             <th>Remove</th>
                             <!--
                             <th>Del.</th>
@@ -86,6 +88,12 @@
             </div>
             <div class="input-group">
                 <div class="input-group-prepend" style="margin-top: 2px;height: 38px;">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Date</span>
+                </div>
+                <input type="date" id="Date" class="form-control">
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend" style="margin-top: 2px;height: 38px;">
                   <span class="input-group-text" id="inputGroup-sizing-sm">Price</span>
                 </div>
                 <input type="number" id="Price" class="form-control">
@@ -104,6 +112,17 @@
                   <span class="input-group-text" id="inputGroup-sizing-sm">Seller Name </span>
                 </div>
                 <input type="text" id="SellerName" class="form-control" >
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend" style="margin-top: 2px;height: 38px;">
+                  <span class="input-group-text" id="inputGroup-sizing-sm">Category</span>
+                </div>
+                <select name="" id="Category" class="form-control" >
+                    <option value="Medicine">Medicine</option>
+                    <option value="Hospital Exp.">Hospital Exp.</option>
+                    <option value="Machinery">Machinery</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
             <div style="padding-left: 12px;">
                 <label>* Mandatory Details</label>

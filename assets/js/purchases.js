@@ -9,6 +9,8 @@ function addMedications(){
     let Price = document.getElementById('Price').value
     let Quantity = document.getElementById('Quantity').value
     let SellerName = document.getElementById('SellerName').value
+    let Category = document.getElementById('Category').value
+    let date = document.getElementById('Date').value
     if(Item == '' || Quantity == ''){
         new Noty({
             theme: 'relax',
@@ -19,17 +21,19 @@ function addMedications(){
         }).show();
         return
     }
-    purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity+'$'+SellerName);
+    purchases.push(Item+'$'+Batch+'$'+Price+'$'+Quantity+'$'+SellerName+'$'+Category+'$'+date);
     rowItem.id = countTracker + '_items'
     rowItem.innerHTML=
     `
         <td>${countTracker}</td>
         <td>${Item}</td>
         <td>${Batch}</td>
+        <td>${date}</td>
         <td>${Price}</td>
         <td>${Quantity}</td>
         <td>${Price * Quantity}</td>
         <td>${SellerName}</td>
+        <td>${Category}</td>
         <td>
             <span id="dustbinDark${countTracker}" onmouseover = "highlight(${countTracker})" onmouseout = "unhighlight(${countTracker})" style="display:inline-block; margin: 1%;" onclick='removeItem(${countTracker})'><i class="fa-solid fa-trash-can"></i> </span>
             <span id="dustbinLight${countTracker}" onmouseover = "highlight(${countTracker})" onmouseout = "unhighlight(${countTracker})" style="display:none; margin: 1%;" onclick='removeItem(${countTracker})'><i class="fa-regular fa-trash-can"></i> </span>

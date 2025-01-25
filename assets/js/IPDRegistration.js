@@ -54,7 +54,6 @@ function searchById() {
             for (let i = 0; i < inputData.length; i++) {
                 if (document.getElementById(inputData[i]) && data.patient[inputData[i]]) {
                     document.getElementById(inputData[i]).value = data.patient[inputData[i]] == undefined ? '' : data.patient[inputData[i]];
-                    document.getElementById(inputData[i]).setAttribute('readonly','true')
                 }
             }
 

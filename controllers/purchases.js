@@ -11,8 +11,10 @@ module.exports.home = async function(req, res){
 }
 
 module.exports.purchaseHistoryHome = async function(req, res){
-    let inventory = await InventoriesData.find({}).distinct('Name')
-    return res.render('purchaseHistory',{user:req.user, inventory});
+    let inventory = await InventoriesData.find({},'Name').distinct('Name')
+    let sellers = await PurchaseData.find({},'Seller').distinct('Seller');
+    console.log(sellers);
+    return res.render('purchaseHistory',{user:req.user, inventory, sellers});
 }
 
 module.exports.savePurchase = async function(req, res){
@@ -21,7 +23,6 @@ module.exports.savePurchase = async function(req, res){
         for(let i=0;i<purchases.length;i++){
             if(purchases[i].length > 0){
                 let item = purchases[i].split('$');
-                let expDate = item[3];
                 let inventoryEntry = await InventoriesData.findOne({Name:item[0]});
                 console.log(inventoryEntry);
                 let day = new Date().getDate().toString().padStart(2,'0')
@@ -39,8 +40,9 @@ module.exports.savePurchase = async function(req, res){
                     Batch:item[1],
                     Price:item[2],
                     Quantity:item[3],
-                    Bought_Date: date,
-                    Seller:item[4]
+                    Seller:item[4],
+                    Category:item[5],
+                    Bought_Date: item[6]
                 })
             }else{
                 continue;
@@ -81,18 +83,81 @@ module.exports.getPurchaseHistory = async function(req, res){
     try{
         let purchases;
         let searchType = req.query.type
-        if(searchType == 'byItem'){
-            purchases = await PurchaseData.find({
-                Name:req.query.Item
-            });
+        if(searchType == 'byDate'){
+            if(req.query.Seller == 'All'){
+                if(req.query.Item == 'All'){
+                    purchases = await PurchaseData.find({
+                        isCancelled:false, isValid:true,
+                        Bought_Date:req.query.selectedDate,
+                    }).sort('createdAt');
+                }else{
+                    purchases = await PurchaseData.find({
+                        Name:req.query.Item,
+                        Bought_Date:req.query.selectedDate,
+                        isCancelled:false, 
+                        isValid:true
+                    }).sort('createdAt');
+                }
+            }else{
+                if(req.query.Item == 'All'){
+                    purchases = await PurchaseData.find({
+                        Seller:req.query.Seller,
+                        isCancelled:false, isValid:true,
+                        Bought_Date:req.query.selectedDate,
+                    }).sort('createdAt');
+                }else{
+                    purchases = await PurchaseData.find({
+                        Seller:req.query.Seller,
+                        Name:req.query.Item,
+                        isCancelled:false,
+                        isValid:true
+                    }).sort('createdAt');
+                }
+            }
         }else if(searchType == 'byDateRange'){
-            purchases = await PurchaseData.find({
-                $and : [
-                    {Bought_Date:{$gte : req.query.startDate}},
-                    {Bought_Date : {$lte: req.query.endDate}},
-                    {isCancelled:false, isValid:true}
-                ]
-            }).sort('createdAt');
+            if(req.query.Seller == 'All'){
+                if(req.query.Item == 'All'){
+                    purchases = await PurchaseData.find({
+                        $and : [
+                            {Bought_Date:{$gte : req.query.startDate}},
+                            {Bought_Date : {$lte: req.query.endDate}},
+                            {isCancelled:false, isValid:true}
+                        ]
+                    }).sort('createdAt');
+                }else{
+                    purchases = await PurchaseData.find({
+                        Name:req.query.Item,
+                        $and : [
+                            {Bought_Date:{$gte : req.query.startDate}},
+                            {Bought_Date : {$lte: req.query.endDate}},
+                            {isCancelled:false, isValid:true}
+                        ]
+                    }).sort('createdAt');
+                }
+                
+            }else{
+                if(req.query.Item == 'All'){
+                    purchases = await PurchaseData.find({
+                        Seller:req.query.Seller,
+                        $and : [
+                            {Bought_Date:{$gte : req.query.startDate}},
+                            {Bought_Date : {$lte: req.query.endDate}},
+                            {isCancelled:false, isValid:true}
+                        ]
+                    }).sort('createdAt');
+                }else{
+                    purchases = await PurchaseData.find({
+                        Seller:req.query.Seller,
+                        Name:req.query.Item,
+                        $and : [
+                            {Bought_Date:{$gte : req.query.startDate}},
+                            {Bought_Date : {$lte: req.query.endDate}},
+                            {isCancelled:false, isValid:true}
+                        ]
+                    }).sort('createdAt');
+                }
+            }
+            
         }else{
             return res.status(422).json({
                 message:'Invalid search type'

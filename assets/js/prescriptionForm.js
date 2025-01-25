@@ -75,6 +75,7 @@ function getVisitdata() {
                     container.appendChild(item);
                     prescribedMeds.push(data.Prescriptions[i])
                 }
+                calculateFullGAA()
             }
         },
         error: function (err) {
@@ -167,7 +168,6 @@ function uploadReport(visitId, patient_id){
         return
     }
     var formData = new FormData();
-    
     let timeStamp = Date.now()
     formData.append('file',file)
     var formData = new FormData();
@@ -176,7 +176,7 @@ function uploadReport(visitId, patient_id){
     formData.append("timeStamp", timeStamp);
     formData.append('fileName', document.getElementById('fileName').value)
     formData.append('file', document.getElementById('file').files[0]);
-    let date = new Date().toLocaleDateString().split("/").join("_");
+    let date = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'}).split("/").join("_");
     let fileName = document.getElementById('fileName').value;
     let link = "/uploads/"+date+"/"+timeStamp+'_'+fileName
     $.ajax({
