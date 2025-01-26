@@ -81,3 +81,25 @@ function cancelPurchase(id){
         })
     }
 }
+
+function printMe(){
+    document.getElementById('header').style.display='none'
+    //document.getElementById('searchElements').style.display='none'
+    
+    let selects = document.getElementsByTagName('select');
+    for(let i=0;i<selects.length;i++){
+        selects[i].style.display='none'
+    }
+    let inputs = document.getElementsByTagName('input');
+    for(let i=0;i<inputs.length;i++){
+        if(inputs[i].type != 'date'){
+            inputs[i].style.display='none'
+        }
+        
+    }
+    let buttons = document.getElementsByClassName('btn');
+    for(let i=0;i<buttons.length;i++){
+        buttons[i].style.display='none'
+    }
+    window.print()
+}

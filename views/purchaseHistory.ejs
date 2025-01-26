@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="/css/purchasesHistory.css">
 </head>
 <body>
-    <header>
+    <header id="header">
         <%-include('_header')%>
     </header>
     <div class="main-body">
@@ -20,9 +20,8 @@
             <h4>Purchase History</h4>
             
         </div>
-        <div class="searchElements" style="display: flex; justify-content: flex-start;margin-right: 2%;">
+        <div id="searchElements" class="searchElements" style="display: flex; justify-content: flex-start;margin-right: 2%;">
             <div style="margin-right: 2%;">
-                <label for=""><b>Type : </b>&nbsp;</label>
                 <select style="margin-top: 4px;" name="" id="searchType" onchange="changeInputs()">
                     <option value="byDate">Exact Date</option>
                     <option value="byDateRange">Date Range</option>
@@ -65,6 +64,9 @@
                 <button class="btn btn-success" style="margin-bottom: 1%;" onclick="getPurchaseHistory()">Search</button>
             </div>
             <b style="margin-left: 25px;" id="total"></b>
+            <div style="align-items: left;">
+                <button class="btn btn-primary" style="margin-bottom: 1%;margin-left: 15px;" onclick="printMe()">Print</button>
+            </div>
             <div>
                 <b id="tvalue"></b>
             </div>
