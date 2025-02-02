@@ -300,7 +300,11 @@ module.exports.cancelSale = async function(req, res){
     try{
         if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
             let sale = await SalesData.findById(req.body.saleId);
-            let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled')
+            let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled');
+            if(sale.type == 'IPDAdvance'){
+                let pattern = sale.Total + "\\$" + sale.BillDate;
+                await Visits.findByIdAndUpdate(sale.Visit, {$pull : { advancedPayments : { $regex : pattern}}});
+            }
             await sale.updateOne({isCancelled:true})
             if(appointment){
                 if(appointment.VisitData && appointment.VisitData.complaint.length > 0){

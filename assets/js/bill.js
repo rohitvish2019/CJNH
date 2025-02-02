@@ -1,6 +1,9 @@
 let counter = 1
 let total = 0
 function SaveDischargeBill(){
+    if(document.getElementById('printButton')){
+        document.getElementById('printButton').setAttribute('disabled', 'true')
+    }
     let cashPayment = parseInt(document.getElementById('cashPayment').value)
     let onlinePayment = parseInt(document.getElementById('onlinePayment').value)
     if(cashPayment + onlinePayment != parseInt(total)){

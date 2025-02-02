@@ -178,7 +178,7 @@ function showHistory(items){
             <td>${items[i].Doctor}</td>
             <td>${items[i].CashPaid}</td>
             <td>${items[i].OnlinePaid}</td>
-            <td style='width:15%'><button disabled onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
+            <td style='width:15%'><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
             </td>   
         `
         }else{

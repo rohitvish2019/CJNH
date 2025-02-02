@@ -102,15 +102,15 @@ function getUsers() {
                 } else {
                     rowItem.innerHTML =
                         `
-                    <td>${user.email}</td>
-                    <td>${user.Name}</td>
-                    <td>${user.Role}</td>
-                    <td>
+                    <td style="text-align:center">${user.email}</td>
+                    <td style="text-align:center">${user.Name}</td>
+                    <td style="text-align:center">${user.Role}</td>
+                    <td style="text-align:center">
                         <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" onchange="enableDisableUser('${user._id}')" role="switch" id="checkbox_${user._id}">
                         </div>
                     </td>
-                    <td>Reset password</td>
+                    <td style="text-align:center">Reset password</td>
                 `
                 }
 

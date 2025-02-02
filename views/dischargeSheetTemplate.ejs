@@ -100,24 +100,18 @@ L/E NO ACTIVE BLEEDING</textarea>
         <!-- Investigation Section-->
         <div class="investigation-tables" style="height: 22%; display: flex; border-top: .5px dashed black;">
             <div class="ohms" style="width:95%; height: 20%;text-align: center;">
-                <span><b>O/H MS-</b></span>
+                <span><b>O/H</b></span>
                 <div style="text-align: left;margin-left: 1px;">
                     <textarea name="" onchange="addChanged('oh_ms')" id="oh_ms" rows="1" cols="40" placeholder="MS" style="border: 1px solid black;">MS : </textarea>
                     <textarea name="" id="edd" cols="21" rows="1" onchange="addChanged('edd')" style="border: 1px solid black;">EDD : </textarea>
                 </div>
                 <div>
                     <table class="table" style="text-align: center;width: 100%;padding: 0;">
-                        <tr>
-                            <td >G</td>
-                            <td >P</td>
-                            <td >L</td>
-                            <td >A</td>
-                        </tr>
                         <tr class="ohms-inputs">
-                            <td style="width: 25%;"><input onchange="addChanged('oh_g')" id="oh_g" style="width: 90%;" type="text"></td>
-                            <td style="width: 25%;"><input onchange="addChanged('oh_p')" id="oh_p" style="width: 90%;" type="text"></td>
-                            <td style="width: 25%;"><input onchange="addChanged('oh_l')" id="oh_l" style="width: 90%;" type="text"></td>
-                            <td style="width: 25%;"><input onchange="addChanged('oh_a')" id="oh_a" style="width: 90%;" type="text"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_g')" id="oh_g" style="width: 90%;" type="text" value="G-"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_p')" id="oh_p" style="width: 90%;" type="text" value="P-"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_l')" id="oh_l" style="width: 90%;" type="text" value="L-"></td>
+                            <td style="width: 25%;"><input onchange="addChanged('oh_a')" id="oh_a" style="width: 90%;" type="text" value="A-"></td>
                         </tr>
                     </table>
                 </div>

@@ -72,6 +72,7 @@ function convertTo12HourFormat(time24) {
 
 
 function addAdvancePayment(){
+    document.getElementById('addPayment').setAttribute('disabled', 'true')
     $.ajax({
         url:'/patients/add/advancePayment',
         data:{

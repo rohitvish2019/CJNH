@@ -326,17 +326,21 @@ function calculateFullGAA() {
     let EDD = document.getElementById('cedddate').value
     // Validate EDD format (YYYY-MM-DD)
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    
     if (!datePattern.test(EDD)) {
       throw new Error("Invalid date format. Please use 'YYYY-MM-DD'.");
     }
+      
     
     // Convert EDD (Expected Due Date) to a Date object
     const eddDate = new Date(EDD);
     
     // Check if the EDD is a valid date
+    
     if (isNaN(eddDate)) {
       throw new Error("Invalid date. Please provide a valid date.");
     }
+    
   
     // Subtract 40 weeks (280 days) from EDD to get the start of the pregnancy
     const pregnancyStartDate = new Date(eddDate);
@@ -368,4 +372,15 @@ function calculateFullGAA() {
 
 function updateEdd(){
     document.getElementById('edddate').value = addDaysToDate(document.getElementById('lmpdate').value, 280);
+}
+
+function initilizeApp(){
+    getVisitdata()
+    setTimeout(calculateFullGAA, 1000);
+    addChanges('cedddate')
+    addChanges('edddate')
+    addChanges('lmpdate')
+    addChanges('calculatedTime')
+    //calculateFullGAA()
+    speechToText()
 }

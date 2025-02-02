@@ -79,6 +79,7 @@ function deleteItem(counter){
 }
 
 function saveBill() {
+    document.getElementById('addPayment').setAttribute('disabled', 'true')
     let id = document.getElementById('patientId').value;
     let cashPayment = parseInt(document.getElementById('cashPayment').value)
     let onlinePayment = parseInt(document.getElementById('onlinePayment').value)

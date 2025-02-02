@@ -569,7 +569,7 @@ module.exports.showPrescription = async function(req, res){
             await visit.updateOne({isOpened:true});
             visit = await VisitData.findById(req.params.visitId).populate('Patient');
         }
-        let visits = await VisitData.find({Patient:visit.Patient},'VisitData').sort({createdAt:-1});
+        let visits = await VisitData.find({Patient:visit.Patient}).sort({createdAt:-1});
         let lastVisit = null
         if(visits.length > 1){
             lastVisit = visits[1]
@@ -742,6 +742,7 @@ module.exports.addAdvancePayment = async function(req, res){
             ReportNo:"IPDAD"+newBillNo,
             Total:req.body.Amount,
             BillDate:date,
+            Visit:req.body.visitId
         })
         await bill.updateOne({AdvancePaymentNumber:newBillNo})
         return res.status(200).json({

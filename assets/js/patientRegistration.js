@@ -1,6 +1,7 @@
 let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor','Husband','AppointmentDate','IdProof','paymentType'];
 
 function registerPatient() {
+    document.getElementById('register').setAttribute('disabled','true');
     let data = {}
 
     for (let i = 0; i < inputData.length; i++) {
@@ -108,6 +109,7 @@ function searchById() {
 
 
 function bookAppointmentWithId() {
+    document.getElementById('bookAppointment').setAttribute('disabled','true');
     let fees = document.getElementById('Fees').value;
     let AppointmentDate = document.getElementById('AppointmentDate').value;
     let paymentType = document.getElementById('paymentType').value;

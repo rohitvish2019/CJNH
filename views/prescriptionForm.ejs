@@ -20,7 +20,7 @@
         
 </head>
 
-<body onload="getVisitdata(), speechToText()">
+<body onload="initilizeApp()">
     <div class="main-body" style="overflow: hidden;">
         <div class="header">
             <label for="" style="font-size: small;">Reg No. NH/9255/JUN-2023</label>
@@ -144,24 +144,24 @@
                                 </div>
                                 
                                 <div style="margin-top: 2px;">
-                                    C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="<%= lastVisit.VisitData.cedddate %>">
+                                    C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'), calculateFullGAA()" value="<%= lastVisit.VisitData.cedddate %>">
                                 </div>
                                 <div style="margin-top: 2px;">
-                                    GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="<%= lastVisit.VisitData.edddate %>">
+                                    GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('calculatedTime'),calculateFullGAA()">
                                 </div>
                             <%}else{%>
                                 <div style="margin-top: 2px;">
-                                    LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')" value="">
+                                    LMP &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="lmpdate" onchange="addChanges('lmpdate')">
                                 </div>
                                 <div style="margin-top: 2px;">
-                                    EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')" value="">
+                                    EDD &nbsp;&nbsp;:&nbsp;&nbsp;<input style="width: 70%;" type="date" name="" id="edddate" onchange="addChanges('edddate')">
                                 </div>
                                 
                                 <div style="margin-top: 2px;">
-                                    C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()" value="">
+                                    C.EDD&nbsp;: <input style="width: 70%;" type="date" name="" id="cedddate" onchange="addChanges('cedddate'),calculateFullGAA()">
                                 </div>
                                 <div style="margin-top: 2px;">
-                                    GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')" value="">
+                                    GA &nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;<input type="text" style="width: 70%;" name="" id="calculatedTime" onchange="addChanges('edddate')">
                                 </div>
                             <%}%>
                             
