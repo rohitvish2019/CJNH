@@ -11,28 +11,20 @@
 
 <body style="text-align: center;border: 1px solid black; padding: 0px 10px 10px 10px; ">
     <div style="text-align: center; margin-bottom: 5px;">
-        
+        <div style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;padding: 5px;">
+            <span style="font-size: medium;"><i>Cash Memo</i></span>
+            <span>Reg No. NH/9255/JUN-2023</span>
+        </div>
         <div id="header">
-            <div style="margin-bottom: 1%; border-bottom: 1px dotted black; text-align: end;">
-                <span style="font-size: small;">Reg No. NH/9255/JUN-2023</span>
-            </div>
-            <label id="Reciept" style="font-size: larger;"><b>· Reciept ·</b></label>
-
+            <%-include('pdf_header')%>
             <div style="display: flex; justify-content: space-between;">
-                <img style="height: 70px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
-                <h1>Dr. Chanda Jain Nursing Home</h1>
-                <!--
-                <img style="height: 60px; " src="/images/doctorLogo.jpg" alt="Doctor-Logo">
-                -->
                 <%=visit.DischargeBillNumber%>
             </div>
-            <div style="padding: 2px;margin-top: 0;">
-                <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob: 6263169195</label>
-            </div>
+            
         </div>
     </div>
     <div class=" content">
-        Received with Thanks from <%=visit.Patient.Name%> W/O <%=visit.Patient.Husband%> Rs. <label id="rs"></label>. In words <label id="result"></label>.
+        Received with Thanks from <%=visit.Patient.Name%> W/O <%=visit.Patient.Husband%> Rs. <label id="rs"></label>/-- <br>In words <label id="result"></label> only/-
     </div>
     <div class="content">
         <span>Course by Cash / QR Code in Part / Full
@@ -43,11 +35,9 @@
         <span style="padding:0px 10px 0px 30px;"><b>Rs.</b></span>
         <textarea rows="1" style="resize: none;" id="amount" onchange="convertToWords(),updaters()"><%=visit.FinalBillAmount%></textarea>
     </div>
-    <div style="text-align: right; font-size: 20px;">
-        <span style="margin-right: 5%;"><b>Signature</b></span>
+    <div style="display: flex;justify-content: flex-end; margin-right: 50px;">
+        <span><i>Signature</i></span>
     </div>
-
-
     <button id="printButton" onclick="printMe()"
         style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
         class="btn btn-success"><i class="fa-solid fa-print"></i> <b>Print</b>

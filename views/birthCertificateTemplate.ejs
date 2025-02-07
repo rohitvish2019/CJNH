@@ -11,24 +11,12 @@
 
 <body style="text-align: center;">
     <div style="margin:15px; padding: 10px; border: 2px solid black;">
-        <div>
+        <div><div style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;padding: 5px;">
+            <span style="font-size: medium;"><i>Birth Certificate</i></span>
+            <span>Reg No. NH/9255/JUN-2023</span>
+        </div>
             <header>
-                <div
-                    style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;">
-                    <span style="font-size: medium;"><i></i></span>
-                    <span>Reg No. NH/9255/JUN-2023</span>
-                </div>
-                <div style="margin-top: 1.5%; display: flex; justify-content: space-between;">
-                    <div style="justify-content: left;">
-                        <img style="height: 60px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
-                    </div>
-                    <h1>Dr. Chanda Jain Nursing Home</h1>
-                    <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
-                </div>
-                <div style="text-align: center;">
-                    <label class="sub-heading">323, Civil Ward No. 7, Damoh (MP). Ph. 222441 (NH), Mob:
-                        6263169195</label>
-                </div>
+                <%-include('pdf_header')%>
             </header>
 
         </div>
@@ -50,14 +38,16 @@
 
             This is to certify that <b>Smt. <%=cert.Name%></b>, W/O <b>Shri. <%=cert.Husband%></b> age
             <b><%=cert.Age%></b>
-            years resident of
+            years <br> Resident of
             Village: <b><%=cert.Village%></b>, Tahsil: <b><%=cert.Tahsil%></b>, District: <b><%=cert.District%></b>.
             State:
             <b><%=cert.State%></b>
-            delivered a <b><%=cert.Gender%></b> child on
+            <br>
+            Delivered a <b><%=cert.Gender%></b> child on
             <b><%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[0].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[1].padStart(2,'0')%>-<%=new Date(birthDateTime).toLocaleString().split(', ')[0].split('/')[2]%></b>,
             At
             <b><%=new Date(birthDateTime).toLocaleString().split(', ')[1]%>.</b>
+            <br>
             Mode of Delivery : <b><%=cert.DeliveryType%></b>
             , Baby weight <b><%=cert.ChildWeight%> Kg</b> in my Nursing Home
         </div>

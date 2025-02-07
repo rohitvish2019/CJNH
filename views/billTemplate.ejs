@@ -13,20 +13,12 @@
 
     <body>
         <div class="bill-container" style="border: 1px solid black; padding: 5px;">
+            <div style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;padding: 5px;">
+                <span style="font-size: medium;"><i>Cash Memo</i></span>
+                <span>Reg No. NH/9255/JUN-2023</span>
+            </div>
             <header>
-                <div
-                    style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;">
-                    <span style="font-size: medium;"><i>Cash Memo</i></span>
-                    <span>Reg No. NH/9255/JUN-2023</span>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <div style="justify-content: left;">
-                        <img style="height: 60px;" src="/images/CJNH_Logo_Black.png" alt="CJNH Logo">
-                    </div>
-                    <span style="margin-top: 1.5%;" class="heading">Dr. Chanda Jain Nursing Home</span>
-                    <img style="height: 50px; padding: 5px;" src="/images/doctorLogo.jpg" alt="Doctor-Logo">
-                </div>
-                <label class="sub-heading">323, Civil Ward No. 7, Damoh. (MP) Pin - 470661</label>
+                <%-include('pdf_header')%>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
                     <label for="">Date :
                         <%=bill.createdAt.toLocaleString()%></label>
@@ -135,6 +127,7 @@
                     <span>A/c No. : 50200025216267</span><br>
                     <span>IFSC Code - HDFC0000914</span>
                 </div>
+                
                 <div style="margin-top: 9%; margin-right: 5%;">
                     <span><i>Signature</i></span>
                 </div>

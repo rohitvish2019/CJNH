@@ -1,3 +1,5 @@
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 function changeInputs(){
     let value = document.getElementById('filterType').value
     if(value == 'byDate'){
@@ -144,30 +146,33 @@ function showHistory(items){
     let cashTotal = 0
     let onlineTotal = 0
     let container = document.getElementById('historyBody');
+    let Notes = "";
     container.innerHTML=``;
     let color = ''
     for(let i=0;i<items.length;i++){
         if(items[i].type == 'Appointment'){
             color='#ffb0b0'
+            Notes="OPD Charges"
         }else if(items[i].type == 'Pathology'){
             color='#f4c6fc'
         }else if(items[i].type == 'DischargeBill'){
             color='#f258d5b3'
         }else if(items[i].type == 'Ultrasound'){
             color='#55f2f4'
+            Notes="USG charges"
         }else if(items[i].type == 'IPDAdvance'){
             color='#75f690'
+            Notes="Advance Payment"
         }else if(items[i].type == 'Other'){
             color='#edf675' 
+            Notes = items[i].Items[0].split('$')[0]
         }else{
             color='#d6d0d0'
         }
         
         let rowItem = document.createElement('tr');
         rowItem.id=items[i]._id+'row'
-        if(items[i].type == 'IPDAdvance'){
-            
-            rowItem.innerHTML=
+        rowItem.innerHTML=
         `
             <td>${i+1}</td>
             <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
@@ -178,25 +183,11 @@ function showHistory(items){
             <td>${items[i].Doctor}</td>
             <td>${items[i].CashPaid}</td>
             <td>${items[i].OnlinePaid}</td>
-            <td style='width:15%'><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
+            <td class="toBeRemovedinPDF">${Notes}</td>
+            <td style='width:15%' class="toBeRemovedinPDF"><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
             </td>   
         `
-        }else{
-            rowItem.innerHTML=
-        `
-            <td>${i+1}</td>
-            <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
-            <td>${items[i].Name}</td>
-            <td>₹ ${items[i].Total}</td>
-            <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
-            <td style = 'background-color:${color};font-weight:bold'><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
-            <td>${items[i].Doctor}</td>
-            <td>${items[i].CashPaid}</td>
-            <td>${items[i].OnlinePaid}</td>
-            <td style='width:15%'><button onclick='cancelSale("${items[i]._id}")' class='btn btn-danger'><i style='display:block;' class="fa-regular fa-rectangle-xmark"></i>Cancel</button>
-            </td>   
-        `
-        }
+        
         
         container.appendChild(rowItem);
         total = total  + +items[i].Total
@@ -261,6 +252,10 @@ function printMe(){
     let selects = document.getElementsByTagName('select');
     for(let i=0;i<selects.length;i++){
         selects[i].style.display='none'
+    }
+    let otherItems = document.getElementsByClassName('toBeRemovedinPDF');
+    for(let i=0;i<otherItems.length;i++){
+        otherItems[i].style.display='none'
     }
     window.print()
 }

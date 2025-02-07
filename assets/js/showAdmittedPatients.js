@@ -174,7 +174,7 @@ function setIPDData(visits, rooms){
         let dateOptions = { hour: '2-digit', minute: '2-digit', hour12: true,year: 'numeric', month: '2-digit', day: '2-digit' };
         rowItem.innerHTML=
         `
-        <th style='font-size:smaller'>${i+1}</th>
+        <th style='font-size:smaller'>${visits[i].Patient.IPDNumber}</th>
         <td style='font-size:smaller'>${visits[i].Patient.Id}</td>
         <td style='font-size:smaller'>${visits[i].Patient.Name}</td>
         <td style='font-size:smaller'>${visits[i].Patient.Age}</td>
@@ -206,21 +206,26 @@ function setIPDData(visits, rooms){
         </td>
         <td>
             <div class=" dropdown">
-                <button style="color: white;font-size:smaller !important;" class="btn btn-info dropdown-toggle" type="button" id="actions" data-bs-toggle="dropdown" aria-expanded="false">Generate</button>
+                <button style="color: white;font-size:smaller !important;" class="btn btn-info dropdown-toggle" type="button" id="actions" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                 <ul class="dropdown-menu">
                 <li><a target='_blank' class="dropdown-item" href="/patients/birthCertificate/${visits[i].Patient._id}">Birth Certificate</a></li>
                 <li><a target='_blank' class="dropdown-item" href="/patients/dischargeSheet/${visits[i]._id}">Discharge Sheet</a></li>
                 <li><a target='_blank' class="dropdown-item" href="/patients/AdmissionBill/${visits[i]._id}">Discharge Bill</a></li>
                 <li><a target='_blank' class="dropdown-item" href="/patients/DischargeReceipt/${visits[i]._id}">Final Receipt</a></li>
+                <li><a class="dropdown-item" onclick="openAdvancePayment('${visits[i].Patient.Id}','${visits[i].Patient.Name}','${visits[i]._id}')">Advance Payment</a></li>
+                <li><a class="dropdown-item" onclick="CancelIPD('${visits[i]._id}','${visits[i].Patient._id}')">Cancel IPD</a></li>
                 </ul>
             </div>
         </td>
+        <!--
         <td style="text-align: center !important;font-size:smaller">
             <button style='font-size:smaller' class="btn btn-info" onclick="openAdvancePayment('${visits[i].Patient.Id}','${visits[i].Patient.Name}','${visits[i]._id}')">Payment</button>
         </td>
+        
         <td style="text-align: center !important;">
             <button class="btn-danger btn" onclick="CancelIPD('${visits[i]._id}','${visits[i].Patient._id}')"><i class="fa-solid fa-ban"></i></button>
         </td>
+        -->
         `
         container.appendChild(rowItem)
         let selectContainer = document.getElementById('RoomType_'+visits[i]._id);
