@@ -177,7 +177,7 @@ function showHistory(items){
             <td>${i+1}</td>
             <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
             <td>${items[i].Name}</td>
-            <td>₹ ${items[i].Total}</td>
+            <td ondblclick="changePaymentMode('${items[i]._id}','${items[i].Total}')">₹ ${items[i].Total}</td>
             <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
             <td style = 'background-color:${color};font-weight:bold'><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
@@ -258,4 +258,25 @@ function printMe(){
         otherItems[i].style.display='none'
     }
     window.print()
+}
+
+function changePaymentMode(id, Total){
+    console.log(id + ":::::" + Total)
+    let newPaymentMethod = window.prompt("Payment method : enter O for online and C for cash")
+    if(newPaymentMethod == 'O' || newPaymentMethod == 'o'){
+        newPaymentMethod = "Online"
+    } else if (newPaymentMethod == 'C' || newPaymentMethod == 'c') {
+        newPaymentMethod = "Cash"
+    }
+    $.ajax({
+        url:'/sales/changePayment',
+        data:{
+            id,
+            newPaymentMethod,
+            Total
+        },
+        type:'POST',
+        success:function(data){},
+        error:function(err){}
+    })
 }

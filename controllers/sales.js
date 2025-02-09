@@ -351,3 +351,21 @@ module.exports.validateBill = async function(req , res){
         })
     }
 }
+
+module.exports.changePaymentMethod = async function(req, res){
+    try{
+        if(req.body.newPaymentMethod == 'Cash'){
+            await SalesData.findByIdAndUpdate(req.body.id, {$set : {OnlinePaid:0, CashPaid : req.body.Total} } )
+        } else {
+            await SalesData.findByIdAndUpdate(req.body.id, {$set : {OnlinePaid : req.body.Total, CashPaid : 0} } )
+        }
+        return res.status(200).json({
+            message : 'Updated payment method'
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message :'Error updating payment method'
+        })
+    }
+}

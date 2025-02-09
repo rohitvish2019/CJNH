@@ -11,5 +11,6 @@ Router.get('/bill/view/:id', passport.checkAuthentication, SalesController.getBi
 Router.get('/getHistoryByDate', passport.checkAuthentication, SalesController.getBillsByDate);
 Router.get('/getHistoryByRange', passport.checkAuthentication, SalesController.getBillsByDateRange);
 Router.delete('/cancel/', passport.checkAuthentication, SalesController.cancelSale);
-Router.get('/validateBill', passport.checkAuthentication, SalesController.validateBill)
+Router.get('/validateBill', passport.checkAuthentication, SalesController.validateBill);
+Router.post('/changePayment', passport.checkAuthentication, SalesController.changePaymentMethod);
 module.exports = Router;
