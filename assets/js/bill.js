@@ -121,6 +121,7 @@ function getDischargeBillItems(){
             let roomItemName = 'Room rent (for '+ data.daysCount + ') days'
             dischargeItems['roomRent'] = {"Name":roomItemName,"Price":data.daysCount*data.roomRent}
             total = total + data.daysCount*data.roomRent
+            let date_options= {day:'2-digit',month:'2-digit', year:'numeric'}
             for(i=0;i<data.advancedPayments.length;i++){
                 let item = data.advancedPayments[i].split('$');
                 let rowItem = document.createElement('tr');
@@ -128,7 +129,7 @@ function getDischargeBillItems(){
                 rowItem.innerHTML=
                 `
                     <td>${counter++}</td>
-                    <td style="text-align: left;">${item[0]} (${item[2]})</td>
+                    <td style="text-align: left;">${item[0]} (${new Date(item[2]).toLocaleDateString('en-IN',date_options)})</td>
                     <td><input readonly type='number' value=${item[1]}></td>
                     <td>
                         <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-solid fa-trash-can"></i> </span>
@@ -138,7 +139,7 @@ function getDischargeBillItems(){
                 container.appendChild(rowItem);
                 total = total + parseInt(item[1]);
                 
-                dischargeItems[item.toString()] = {"Name":item[0]+' on ' +item[2],"Price":item[1]}
+                dischargeItems[item.toString()] = {"Name":item[0]+' on ' +new Date(item[2]).toLocaleDateString('en-IN',date_options),"Price":item[1]}
             }
             document.getElementById('total').innerText='Total :'+total
         },

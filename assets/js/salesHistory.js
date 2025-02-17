@@ -146,10 +146,11 @@ function showHistory(items){
     let cashTotal = 0
     let onlineTotal = 0
     let container = document.getElementById('historyBody');
-    let Notes = "";
+    
     container.innerHTML=``;
     let color = ''
     for(let i=0;i<items.length;i++){
+        let Notes = "";
         if(items[i].type == 'Appointment'){
             color='#ffb0b0'
             Notes="OPD Charges"
@@ -165,7 +166,7 @@ function showHistory(items){
             Notes="Advance Payment"
         }else if(items[i].type == 'Other'){
             color='#edf675' 
-            Notes = items[i].Items[0].split('$')[0]
+            Notes = items[i].Items[0].split('$')[3]
         }else{
             color='#d6d0d0'
         }

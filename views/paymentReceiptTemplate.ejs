@@ -12,7 +12,7 @@
 <body style="text-align: center;border: 1px solid black; padding: 0px 10px 10px 10px; ">
     <div style="text-align: center; margin-bottom: 5px;">
         <div style="display: flex; border-bottom: 1px dotted black; font-size: small; justify-content: space-between;padding: 5px;">
-            <span style="font-size: medium;"><i>Cash Memo</i></span>
+            <span style="font-size: medium;"><i>Receipt</i></span>
             <span>Reg No. NH/9255/JUN-2023</span>
         </div>
         <div id="header">
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class=" content">
-        Received with Thanks from <%=visit.Patient.Name%> W/O <%=visit.Patient.Husband%> Rs. <label id="rs"></label>/-- <br>In words <label id="result"></label> only/-
+        Received with thanks from <%=visit.Patient.Name%> W/O <%=visit.Patient.Husband%> Rs. <label id="rs"></label> &nbsp;/- <br> ( In words <label id="result"></label> only ) on behalf of IPD no. <%=visit.Patient.IPDNumber%>
     </div>
     <div class="content">
         <span>Course by Cash / QR Code in Part / Full
