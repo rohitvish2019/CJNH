@@ -205,6 +205,7 @@ function setIPDData(visits, rooms){
                 <option value="MTP(Day)">MTP(Day)</option>
                 <option value="DHL(Day)">DHL(Day)</option>
                 <option value="CX Encirclage(Day)">CX Encirclage(Day)</option>
+                <option value="Other">Other</option>
             </select>
         </td>
         <td>
