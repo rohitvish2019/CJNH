@@ -14,7 +14,7 @@
     <title>Discharge Sheet</title>
 </head>
 
-<body class="container" onload="getDischargeData()">
+<body class="container" onload="getDischargeData()" id="cont1">
     <%if(birthInfo && birthInfo.Gender == 'Male'){%>
         <div style="display: flex;height: 100%;flex-direction: column; border: 1px solid black;background-color: #93d8f1;">
     <%}else{%>
@@ -332,6 +332,14 @@ Cried immediately
                         document.getElementById(keys[i]).innerText = data.dd[keys[i]]
                         changes[keys[i]] = data.dd[keys[i]]
                     }
+                    
+                    if(data.devId == 'main') {
+                        console.log("setting new height")
+                        let con = document.getElementById('cont1');
+                        con.style.height="1320px"
+                        con.style.width="920px"
+                    }
+                
                 },
                 error:function(err){
                     console.log(err)

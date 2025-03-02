@@ -202,6 +202,9 @@ function setIPDData(visits, rooms){
                 <option value="LSCS WITH T/L(Night)">LSCS WITH T/L(Night)</option>
                 <option value="LAPROSCOPY OP(Night)">LAPROSCOPY OP(Night)</option>
                 <option value="LAPROTOMY(Night)">LAPROTOMY(Night)</option>
+                <option value="MTP(Day)">MTP(Day)</option>
+                <option value="DHL(Day)">DHL(Day)</option>
+                <option value="CX Encirclage(Day)">CX Encirclage(Day)</option>
             </select>
         </td>
         <td>

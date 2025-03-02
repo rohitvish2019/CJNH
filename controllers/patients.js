@@ -9,6 +9,8 @@ const SalesData = require('../models/sales');
 const MedsData = require('../models/meds');
 const BirthData = require('../models/birthCertificates');
 const Patient = require('../models/patients');
+const PropertiesReader = require('properties-reader');
+const deviceProperties = PropertiesReader('./configs/device.properties');
 module.exports.patientRegistartionHome = function(req, res){
     try{
         return res.render('patientRegistration',{user:req.user})
@@ -809,8 +811,10 @@ module.exports.saveDischargeData = async function(req, res){
 module.exports.getDischargeData = async function(req, res){
     try{
         let visit = await VisitData.findByIdAndUpdate(req.params.id);
+        let devId = deviceProperties.get('id');
         return res.status(200).json({
             dd:visit.DischargeData,
+            devId,
             message:'result found'
         })
     }catch(err){
