@@ -19,7 +19,7 @@ module.exports.PathalogyHome = async function(req, res){
 
 module.exports.PathalogyHomeEmpty = async function(req, res){
     try{
-        let services = await ServicesData.find({});
+        let services = await ServicesData.find({}).sort({createdAt:1});
         return res.render('pathalogyHomeEmpty', {services, user:req.user})
     }catch(err){
         console.log(err);

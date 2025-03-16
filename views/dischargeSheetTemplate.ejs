@@ -121,20 +121,20 @@ L/E NO ACTIVE BLEEDING</textarea>
                 <span><b>Invst Done:</b></span>
                 <div class="invstdone" style="width:100%;  height: 65%; text-align: center;margin-left: 0 !important;">
                     <table class="table" style="height: 40%;width: 100%; ">
-                        <tr>
+                        <tr style="font-size: 12px;">
                             <td>Hb%</td>
                             <td>Bl gr & Rh</td>
                             <td>RBS(mg/dl)</td>
-                            <td>HIV</td>
-                            <td>HbsAg</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HIV &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>&nbsp;&nbsp;&nbsp;HbsAg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                             <td>TSH(μIU/mL)</td>
                         </tr>
                         <tr>
                             <td><input onchange="addChanged('hb_per')" id="hb_per" style="width: 96%;border: none;" type="text"></td>
                             <td style="width: 20%;"><input onchange="addChanged('blgr')" id="blgr" style="width: 96%;font-size: 13px !important;" type="text" list="values"></td>
                             <td><input onchange="addChanged('rbs')" id="rbs" style="width: 96%;" type="text"></td>
-                            <td><input onchange="addChanged('hiv')" id="hiv" style="width: 96%;" type="text"></td>
-                            <td><input onchange="addChanged('hbsag')" id="hbsag" style="width: 96%;" type="text"></td>
+                            <td><input onchange="addChanged('hiv')" id="hiv" style="width: 96%;font-size: 10px;" type="text" list="rnr"></td>
+                            <td><input onchange="addChanged('hbsag')" id="hbsag" style="width: 96%;font-size: 10px;" type="text" list="rnr"></td>
                             <td><input onchange="addChanged('tsh')" id="tsh" style="width: 96%;" type="text"></td>
                         </tr>
                         <datalist id="values">
@@ -146,6 +146,11 @@ L/E NO ACTIVE BLEEDING</textarea>
                             <option value="B Negative"></option>
                             <option value="AB Negative"></option>
                             <option value="O Negative"></option>
+                        </datalist>
+
+                        <datalist id="rnr">
+                            <option value="REACTIVE">REACTIVE</option>
+                            <option value="NR">NR</option>
                         </datalist>
                     </table>
                 </div>
@@ -355,6 +360,12 @@ Cried immediately
 
         function addChanged(id){
             //console.log(document.getElementById(id))
+            
+            if(document.getElementById(id).innerText == 'REACTIVE' || document.getElementById(id).value == 'REACTIVE'){
+                console.log('changing color')
+                document.getElementById(id).style.color = 'red';
+                document.getElementById(id).style.fontWeight = 'bolder';
+            }
             changes[id] = document.getElementById(id).value == '' ? document.getElementById(id).innerText : document.getElementById(id).value
         }
 
