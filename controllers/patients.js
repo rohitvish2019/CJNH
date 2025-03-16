@@ -10,7 +10,8 @@ const MedsData = require('../models/meds');
 const BirthData = require('../models/birthCertificates');
 const Patient = require('../models/patients');
 const PropertiesReader = require('properties-reader');
-const deviceProperties = PropertiesReader('./configs/device.properties');
+const { response } = require('express');
+const deviceProperties = PropertiesReader('C:/device.properties');
 module.exports.patientRegistartionHome = function(req, res){
     try{
         return res.render('patientRegistration',{user:req.user})
@@ -826,9 +827,15 @@ module.exports.getDischargeData = async function(req, res){
 
 module.exports.dischargeReceipt = async function(req, res){
     try{
-        let visit = await VisitData.findById(req.params.id,'Patient DischargeBillNumber FinalBillAmount AdmissionDate DischargeDate').populate('Patient');
+        let visit = await VisitData.findById(req.params.id,'Patient DischargeBillNumber FinalBillAmount AdmissionDate DischargeDate advancedPayments').populate('Patient');
         let RecieptNo = await Tracker.findOne({});
-        return res.render('paymentReceiptTemplate', {visit, user:req.user,RecieptNo:RecieptNo.RecieptNo})
+        let counts = visit.advancedPayments.length;
+        let advancePaid = 0
+        for(let i=0;i<counts;i++){
+            advancePaid = advancePaid + Math.abs(parseInt(visit.advancedPayments[i].split('$')[1]));
+        }
+        console.log(visit);
+        return res.render('paymentReceiptTemplate', {visit, user:req.user,RecieptNo:RecieptNo.RecieptNo,advancePaid})
     }catch(err){
         console.log(err);
         return res.render('Error_500')
@@ -888,3 +895,68 @@ module.exports.getIPDData = async function(req, res){
         })
     }
 }
+
+
+module.exports.hmisReport = async function(req, res){
+    console.log("Fetching hmis data")
+    try{
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        let totalNewOPDVisits,totalOPDAndIPDVisits,totalNormalDeliveries, totalNormalDeliveriesNight, totalNormalDeliveriesDay;
+        let totalCSectionDeliveries, totalCSectionDeliveriesNight, totalCSectionDeliveriesDay, totalBirthMale, totalBirthFemale, totalBirthLess2dot5;
+        let month = "03" //Feb
+        let year = "2025"
+        let daysInMonth = new Date(year,month,0).getDate();
+        let startDate = year + '-' + month + '-01';
+        let endDate = year + '-' + month + '-'+daysInMonth;
+        console.log("Start date : "+startDate)
+        console.log("End date : "+endDate)
+        totalOPDAndIPDVisits = await VisitData.find({Visit_date :{ $gte : startDate}, Visit_date : {$lte : endDate}, isValid:true, isCancelled:false}).countDocuments()
+        totalNormalDeliveries = await BirthData.find({DeliveryType:'Vaginal', GeneratedOn :{ $gte : startDate}, GeneratedOn:{ $lte : endDate}, isValid:true, isCancelled:false});
+        for(let i=0;i<totalNormalDeliveries.length;i++){
+            let time = totalNormalDeliveries[i].BirthTime;
+            if(isDaytime(time) == 'Night'){
+                totalNormalDeliveriesNight++;
+            } else {
+                totalNormalDeliveriesDay++;
+            }
+        }
+        totalNormalDeliveries = totalNormalDeliveries.length;
+        let response = {
+            totalOPDAndIPDVisits,
+            totalNormalDeliveries,
+            totalNormalDeliveriesNight,
+            totalNormalDeliveriesDay
+        }
+        console.log(response)
+        return res.status(200).json({
+            response 
+        })
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500')
+    }
+}
+
+
+function isDaytime(time) {
+    let [hour, minute] = time.split(":").map(Number); // Convert "HH:MM" to numbers
+    return hour >= 8 && hour < 20 ? "Day" : "Night";
+}
+
+module.exports.birthData = async function(req, res){
+    console.log(req.body);
+    try {
+        let certnumber = req.body.value;
+        let bdata = await BirthData.findOne({isValid:true, isCancelled:false, CertificateNumber: certnumber});
+        let patient = await PatientData.findOne({Id:bdata.OPDId});
+        console.log(bdata);
+        return res.status(200).json({
+            bdata,
+            patient
+        })
+    }catch(err) {
+        return res.status(500).json({
+            message:'Unable to fetch birth data'
+        })
+    }
+}  

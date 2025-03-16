@@ -94,7 +94,8 @@ input{
 
 textarea{
     background-color: transparent !important;
-    color: rgb(24, 6, 145);
+    color: rgb(17, 4, 101);
+    font-weight: bold;
 }
 input{
     background-color: transparent !important;

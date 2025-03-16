@@ -33,7 +33,7 @@
 
     <div style=" display: flex; font-size: 20px; margin-top: 5%; height: 25px;">
         <span style="padding:0px 10px 0px 30px;"><b>Rs.</b></span>
-        <textarea rows="1" style="resize: none;" id="amount" onchange="convertToWords(),updaters()"><%=visit.FinalBillAmount%></textarea>
+        <textarea rows="1" style="resize: none;" id="amount" onchange="convertToWords(),updaters()"><%=visit.FinalBillAmount + advancePaid%></textarea>
     </div>
     <div style="display: flex;justify-content: flex-end; margin-right: 50px;">
         <span><i>Signature</i></span>
