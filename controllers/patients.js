@@ -470,7 +470,9 @@ module.exports.getAdmissionBillItems = async function(req, res){
     try{
         let visit = await VisitData.findById(req.query.visitid).populate('Patient');
         let Items = await ServicesData.find({Category:visit.DeliveryType, Type:'AdmissionBill'},'Name Price').sort('createdAt');
-        let daysCount = get24HourTimeframes(visit.AdmissionDate, visit.AdmissionTime, visit.DischargeDate, visit.DischargeTime);
+        //Adjust 6 hours
+        let modifiedTime = addMinutesToDateTime(visit.AdmissionDate, visit.AdmissionTime, 360).split(' ');
+        let daysCount = get24HourTimeframes(modifiedTime[0], modifiedTime[1], visit.DischargeDate, visit.DischargeTime);
         let room = await ServicesData.findOne({Name:visit.RoomType, Type:'RoomCharges'});
         let advancedPayments = visit.advancedPayments;
         console.log(Items);
@@ -960,3 +962,20 @@ module.exports.birthData = async function(req, res){
         })
     }
 }  
+
+function addMinutesToDateTime(dateStr, timeStr, minutesToAdd) {
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const [hours, minutes] = timeStr.split(':').map(Number);
+
+    const date = new Date(year, month - 1, day, hours, minutes); // month is 0-indexed
+
+    date.setMinutes(date.getMinutes() + minutesToAdd);
+
+    const newYear = date.getFullYear();
+    const newMonth = String(date.getMonth() + 1).padStart(2, '0'); // back to 1-indexed
+    const newDay = String(date.getDate()).padStart(2, '0');
+    const newHours = String(date.getHours()).padStart(2, '0');
+    const newMinutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${newYear}-${newMonth}-${newDay} ${newHours}:${newMinutes}`;
+}

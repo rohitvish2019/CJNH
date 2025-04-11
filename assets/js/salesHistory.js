@@ -37,17 +37,6 @@ function getSalesHistoryDate(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.billsList.length < 1){
-                document.getElementById("historyBody").innerHTML=
-                `
-                <tr>
-                    <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
-                </tr>
-                `
-                document.getElementById('tvalue').innerText='Total Amount : 0'
-                document.getElementById('pagination').innerHTML=``
-                return
-            }
             showHistory(data.billsList)
 
         },
@@ -124,15 +113,6 @@ function getSalesHistoryRange(){
         },
         success:function(data){
             document.getElementById('loader').style.display='none'
-            if(data.billsList.length < 1){
-                document.getElementById("historyBody").innerHTML=
-                `
-                <tr>
-                    <td rowspan="3" colspan="9" style="text-align: center;">No Data found</td>
-                </tr>
-                `
-                return
-            }
             showHistory(data.billsList)
         },
         error:function(err){
@@ -142,6 +122,19 @@ function getSalesHistoryRange(){
 }
 
 function showHistory(items){
+    if(items.length < 1){
+        document.getElementById("historyBody").innerHTML=
+        `
+        <tr>
+            <td rowspan="3" colspan="11" style="text-align: center;">No Data found</td>
+        </tr>
+        `
+        document.getElementById('tvalue').innerText='Total Amount : ₹ 0'
+        document.getElementById('tvaluecash').innerText='Cash : ₹ 0'
+        document.getElementById('tvalueonline').innerText='Online : ₹ 0'
+        document.getElementById('pagination').innerHTML=``
+        return
+    }
     let total = 0
     let cashTotal = 0
     let onlineTotal = 0
