@@ -124,7 +124,7 @@ function getAllVisits(){
                 let item = document.createElement('a');
                 item.style.marginRight='25px'
                 item.href=otherDocs[r]
-                item.innerText=otherDocs[r].toString().split('_')[3]
+                item.innerText=otherDocs[r].toString().split('_')[1]
                 otherDocsContainer.appendChild(item)
             }
             }

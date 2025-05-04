@@ -21,7 +21,7 @@
                 <%-include('pdf_header')%>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
                     <label for="">Date :
-                        <%=bill.createdAt.toLocaleString()%></label>
+                        <%=bill.createdAt.toLocaleString('en-IN',{day:'2-digit', month:'2-digit', year :'numeric'})%></label>
                        
                     <label for="">Receipt No : <%=bill.ReportNo%></label>
                     

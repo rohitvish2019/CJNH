@@ -96,7 +96,7 @@ module.exports.addVisitAndPatient = async function(req, res){
             Gender:req.body.Gender,
             Husband:req.body.Husband,
             PatiendID:newPatientId,
-            Items:['OPD$1$'+req.body.Fees],
+            Items:['OPD '+'('+new Date(req.body.AppointmentDate).toLocaleDateString('en-IN',{day:'2-digit', month:'2-digit', year :'numeric'})+')'+'$1$'+req.body.Fees],
             type:'Appointment',
             Total:req.body.Fees,
             CashPaid:CashPaid,
@@ -576,9 +576,20 @@ module.exports.showPrescription = async function(req, res){
         }
         let visits = await VisitData.find({Patient:visit.Patient}).sort({createdAt:-1});
         let lastVisit = null
+        let visitCounter = 0;
+        while(visitCounter < visits.length) {
+            visits[visitCounter].VisitData != null && visits[visitCounter].VisitData.history == ''
+            if(visits[visitCounter].VisitData != null && visits[visitCounter].VisitData.history != '') {
+                lastVisit = visits[visitCounter];
+                break;
+            }
+            visitCounter++;
+        }
+        /*
         if(visits.length > 1){
             lastVisit = visits[1]
         }
+            */
         if(req.xhr){
             return res.status(200).json({
                 visitData:visit.VisitData,

@@ -178,7 +178,7 @@ function uploadReport(visitId, patient_id){
     formData.append('file', document.getElementById('file').files[0]);
     let date = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'}).split("/").join("_");
     let fileName = document.getElementById('fileName').value;
-    let link = "/uploads/"+date+"/"+timeStamp+'_'+fileName
+    let link = "/uploads/"+timeStamp+'_'+fileName
     $.ajax({
         url : '/uploads/report',
         type : 'POST',

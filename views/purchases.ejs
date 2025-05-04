@@ -111,7 +111,13 @@
                 <div class="input-group-prepend" style="margin-top: 2px;height: 38px;">
                   <span class="input-group-text" id="inputGroup-sizing-sm">Seller Name </span>
                 </div>
-                <input type="text" id="SellerName" class="form-control" >
+                <datalist id="sellersList">
+                    <%for(let i=0;i<sellers.length;i++){%>
+                    <option value="<%=sellers[i]%>"></option>
+                    <%}%>
+                </datalist>
+                
+                <input type="text" id="SellerName" class="form-control" list="sellersList">
             </div>
             <div class="input-group">
                 <div class="input-group-prepend" style="margin-top: 2px;height: 38px;">

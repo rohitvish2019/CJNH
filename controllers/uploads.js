@@ -9,7 +9,7 @@ module.exports.uploadTest = async function(req, res){
         let visit = await VisitData.findById(req.body.visitId);
         let date = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'2-digit',year:'numeric'}).split("/").join("_")
         console.log("--------------"+date)
-        let link = "/uploads/"+date+"/"+req.body.timeStamp+'_'+req.body.fileName
+        let link = "/uploads/"+req.body.timeStamp+'_'+req.body.fileName
         visit.OtherDocs.push(link);
         visit.save();
         return res.status(200).json({

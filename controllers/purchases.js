@@ -2,19 +2,24 @@ const InventoriesData = require('../models/inventories');
 const PurchaseData = require('../models/purchases');
 module.exports.home = async function(req, res){
     let inventory;
+    let purchases;
     try{
         inventory = await InventoriesData.find({}).distinct('Name');
+        sellers = await PurchaseData.find({},'Seller').distinct('Seller');
+        console.log("Sellers");
+        console.log(sellers);
     }catch(err){
         console.log(err + 'unable to find Inventories')
     }
-    return res.render('purchases', {inventory, user:req.user});
+    return res.render('purchases', {inventory,sellers, user:req.user});
 }
 
 module.exports.purchaseHistoryHome = async function(req, res){
     let inventory = await InventoriesData.find({},'Name').distinct('Name')
     let sellers = await PurchaseData.find({},'Seller').distinct('Seller');
+    let categories = await PurchaseData.find({},'Category').distinct('Category');
     console.log(sellers);
-    return res.render('purchaseHistory',{user:req.user, inventory, sellers});
+    return res.render('purchaseHistory',{user:req.user, inventory, sellers, categories});
 }
 
 module.exports.savePurchase = async function(req, res){
