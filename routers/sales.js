@@ -3,6 +3,7 @@ const Router = express.Router();
 const SalesController = require('../controllers/sales');
 const passport = require('../configs/passport-local-strategy')
 Router.get('/History/home',passport.checkAuthentication, SalesController.salesHistoryHome);
+Router.get('/History/reports', passport.checkAuthentication, SalesController.reportsHome)
 Router.get('/bill/pathology', passport.checkAuthentication, SalesController.newPathologyBill);
 Router.get('/bill/ultrasound', passport.checkAuthentication, SalesController.newUltrasoundBill);
 Router.get('/bill/others', passport.checkAuthentication, SalesController.newOtherBill);
@@ -13,4 +14,5 @@ Router.get('/getHistoryByRange', passport.checkAuthentication, SalesController.g
 Router.delete('/cancel/', passport.checkAuthentication, SalesController.cancelSale);
 Router.get('/validateBill', passport.checkAuthentication, SalesController.validateBill);
 Router.post('/changePayment', passport.checkAuthentication, SalesController.changePaymentMethod);
+Router.get('/reports/getHistoryByRange', passport.checkAuthentication, SalesController.getReportsRange);
 module.exports = Router;

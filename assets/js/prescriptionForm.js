@@ -189,8 +189,10 @@ function uploadReport(visitId, patient_id){
             let container= document.getElementById('otherDocs');
             let item = document.createElement('tr');
             item.innerHTML=
-            `
-                <td><a href='${link}' target='_blank'>${fileName}</a></td>
+            
+            `   
+                <td>${fileName}</td>
+                <td><a href='${link}' target='_blank'>View</a></td>
             `    
             container.appendChild(item)
             document.getElementById('fileName').value=''

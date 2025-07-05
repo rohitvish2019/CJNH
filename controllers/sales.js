@@ -2,7 +2,8 @@ const ServicesData = require('../models/servicesAndCharges');
 const SalesData = require('../models/sales')
 const PatientData = require('../models/patients');
 const Tracker = require('../models/tracker');
-const Visits = require('../models/visits')
+const Visits = require('../models/visits');
+const Sale = require('../models/sales');
 module.exports.salesHistoryHome = function(req, res){
     try{
         return res.render('salesHistory',{user:req.user});
@@ -366,6 +367,306 @@ module.exports.changePaymentMethod = async function(req, res){
         console.log(err);
         return res.status(500).json({
             message :'Error updating payment method'
+        })
+    }
+}
+
+module.exports.reportsHome = function(req, res) {
+    try{
+        return res.render('reports')
+    }catch(err){
+        return res.render("Error_500")
+    }
+}
+
+
+module.exports.getReportsRange = async function(req, res) {
+    try{
+
+        let BillType = req.query.BillType;
+        let Doctor = req.query.Doctor;
+        let billsList;
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
+
+        if(BillType == 'all'){
+            if(Doctor == 'all'){
+                billsList =  await Sale.aggregate([
+                {
+                    $match: {
+                    isValid: true,
+                    isCancelled: false,
+                    BillDate: { $gte: startDate, $lte: endDate }
+                    }
+                },
+                {
+                    $group: {
+                    _id: {
+                        date: "$BillDate",
+                        type: {
+                        $cond: [
+                            { $or: [{ $eq: ["$type", null] }, { $eq: ["$type", ""] }] },
+                            "Unknown",
+                            "$type"
+                        ]
+                        }
+                    },
+                    total: { $sum: "$Total" }
+                    }
+                },
+                {
+                    $group: {
+                    _id: "$_id.date",
+                    types: {
+                        $push: {
+                        k: {
+                            $replaceAll: {
+                            input: "$_id.type",
+                            find: " ",
+                            replacement: "_"
+                            }
+                        },
+                        v: "$total"
+                        }
+                    }
+                    }
+                },
+                {
+                    $project: {
+                    _id: 0,
+                    date: "$_id",
+                    feeSummary: {
+                        $arrayToObject: "$types"
+                    }
+                    }
+                },
+                {
+                    $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: [
+                        { date: "$date" },
+                        "$feeSummary"
+                        ]
+                    }
+                    }
+                },
+                {
+                    $sort: { date: 1 }
+                }
+                ]);
+            }else{
+                billsList = await Sale.aggregate([
+                {
+                    $match: {
+                    isValid: true,
+                    isCancelled: false,
+                    Doctor:Doctor,
+                    BillDate: { $gte: startDate, $lte: endDate }
+                    }
+                },
+                {
+                    $group: {
+                    _id: {
+                        date: "$BillDate",
+                        type: {
+                        $cond: [
+                            { $or: [{ $eq: ["$type", null] }, { $eq: ["$type", ""] }] },
+                            "Unknown",
+                            "$type"
+                        ]
+                        }
+                    },
+                    total: { $sum: "$Total" }
+                    }
+                },
+                {
+                    $group: {
+                    _id: "$_id.date",
+                    types: {
+                        $push: {
+                        k: {
+                            $replaceAll: {
+                            input: "$_id.type",
+                            find: " ",
+                            replacement: "_"
+                            }
+                        },
+                        v: "$total"
+                        }
+                    }
+                    }
+                },
+                {
+                    $project: {
+                    _id: 0,
+                    date: "$_id",
+                    feeSummary: {
+                        $arrayToObject: "$types"
+                    }
+                    }
+                },
+                {
+                    $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: [
+                        { date: "$date" },
+                        "$feeSummary"
+                        ]
+                    }
+                    }
+                },
+                {
+                    $sort: { date: 1 }
+                }
+                ]);
+            }
+            
+        }else{
+            
+            if(Doctor == 'all'){
+                billsList = await Sale.aggregate([
+                {
+                    $match: {
+                    isValid: true,
+                    isCancelled: false,
+                    type:BillType,
+                    BillDate: { $gte: startDate, $lte: endDate }
+                    }
+                },
+                {
+                    $group: {
+                    _id: {
+                        date: "$BillDate",
+                        type: {
+                        $cond: [
+                            { $or: [{ $eq: ["$type", null] }, { $eq: ["$type", ""] }] },
+                            "Unknown",
+                            "$type"
+                        ]
+                        }
+                    },
+                    total: { $sum: "$Total" }
+                    }
+                },
+                {
+                    $group: {
+                    _id: "$_id.date",
+                    types: {
+                        $push: {
+                        k: {
+                            $replaceAll: {
+                            input: "$_id.type",
+                            find: " ",
+                            replacement: "_"
+                            }
+                        },
+                        v: "$total"
+                        }
+                    }
+                    }
+                },
+                {
+                    $project: {
+                    _id: 0,
+                    date: "$_id",
+                    feeSummary: {
+                        $arrayToObject: "$types"
+                    }
+                    }
+                },
+                {
+                    $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: [
+                        { date: "$date" },
+                        "$feeSummary"
+                        ]
+                    }
+                    }
+                },
+                {
+                    $sort: { date: 1 }
+                }
+                ]);
+            }else{
+                billsList = await Sale.aggregate([
+                {
+                    $match: {
+                    isValid: true,
+                    isCancelled: false,
+                    Doctor:Doctor,
+                    type:BillType,
+                    BillDate: { $gte: startDate, $lte: endDate }
+                    }
+                },
+                {
+                    $group: {
+                    _id: {
+                        date: "$BillDate",
+                        type: {
+                        $cond: [
+                            { $or: [{ $eq: ["$type", null] }, { $eq: ["$type", ""] }] },
+                            "Unknown",
+                            "$type"
+                        ]
+                        }
+                    },
+                    total: { $sum: "$Total" }
+                    }
+                },
+                {
+                    $group: {
+                    _id: "$_id.date",
+                    types: {
+                        $push: {
+                        k: {
+                            $replaceAll: {
+                            input: "$_id.type",
+                            find: " ",
+                            replacement: "_"
+                            }
+                        },
+                        v: "$total"
+                        }
+                    }
+                    }
+                },
+                {
+                    $project: {
+                    _id: 0,
+                    date: "$_id",
+                    feeSummary: {
+                        $arrayToObject: "$types"
+                    }
+                    }
+                },
+                {
+                    $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: [
+                        { date: "$date" },
+                        "$feeSummary"
+                        ]
+                    }
+                    }
+                },
+                {
+                    $sort: { date: 1 }
+                }
+                ]);
+            }
+            
+        }
+        
+        return res.status(200).json({
+            message:'Bills fetched',
+            billsList
+        })
+        
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Internal Server Error : unable to find bills on specific dates'
         })
     }
 }

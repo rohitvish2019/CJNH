@@ -444,23 +444,31 @@ P/V </textarea>
 
     
 </body>
-<div id="fileInputs" style="position: absolute;top: 5%; left: 65%;">
-    Enter file name <input type="text" name="" id="fileName">
-    <input  type="file" id="file" accept="*" onchange="setname()">
-    <button style="padding: 5px;" onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
+<div id="fileInputs" style="position: absolute;">
+    <h4>Upload documents</h4>
+    <div style="border-bottom: 1px solid black;padding-bottom: 20px;">
+        <input type="text" name="" id="fileName">
+        <input  type="file" id="file" accept="*" onchange="setname()">
+        <button style="padding: 3px;padding-left: 13px; padding-right: 13px; border-radius: 4px;" onclick="uploadReport('<%=visit._id%>','<%=visit.Patient._id%>')">Upload</button>
+    </div>
     <div style="margin-top: 5%;">
-        <label for="">Other documents</label>
+        <b >
+            <label for="">Uploaded documents list</label>
+        </b>
+        
         <table border="1px solid gray">
-            <thead>
+            <thead style="background-color: antiquewhite;">
                 <tr>
-                    <th>Documents List</th>
+                    <th>Name</th>
+                    <th>Open</th>
                 </tr>
             </thead>
             
             <tbody id="otherDocs">
                 <%for(let i=0;i<visit.OtherDocs.length;i++){%>
                     <tr>
-                        <td><a target="_blank" href="<%=visit.OtherDocs[i]%>"><%=visit.OtherDocs[i].toString().split('_')[1]%></a></td>
+                        <td><%=visit.OtherDocs[i].toString().split('_')[1]%></td>
+                        <td><a target="_blank" href="<%=visit.OtherDocs[i]%>">View</a></td>
                     </tr>
                 <%}%>
             </tbody>

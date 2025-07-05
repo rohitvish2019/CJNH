@@ -198,3 +198,23 @@ button:disabled {
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 2);
 }
+
+#fileInputs{
+    top: 0;
+    left: 750px;
+    width: 600px;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    height: 600px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#fileInputs table {
+    width: 580px;
+    text-align: center;
+    margin-top: 15px;
+}
+#fileInputs table td {
+    border: 1px solid black;
+}
