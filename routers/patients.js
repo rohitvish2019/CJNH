@@ -25,6 +25,7 @@ Router.get('/AdmissionBill/:visitId', passport.checkAuthentication, PatientsCont
 Router.post('/saveDischargeBill', passport.checkAuthentication, PatientsController.saveDischargeBill);
 Router.post('/saveVisitPrescriptions', passport.checkAuthentication, PatientsController.saveVisitData);
 Router.get('/getHistory/:patientId', passport.checkAuthentication, PatientsController.patientHistoryHome);
+Router.get('/getHistory/raw/:patientId', passport.checkAuthentication, PatientsController.patientHistoryHomeRaw);
 Router.get('/getAllVisits/:patientId', passport.checkAuthentication,  PatientsController.getAllVisits);
 Router.get('/getDischargeBillItems', passport.checkAuthentication, PatientsController.getAdmissionBillItems);
 Router.get('/birthCertificate/:pid', passport.checkAuthentication, PatientsController.birthCertificateHome);
@@ -38,6 +39,9 @@ Router.get('/get/dischargeData/:id', passport.checkAuthentication, PatientsContr
 Router.get('/getIPDData/Range', passport.checkAuthentication, PatientsController.getIPDData);
 //Router.get('/hmis', PatientsController.hmisReport);
 
+//External APIs
+
+Router.post('/external/saveAppointment', PatientsController.addVisitAndPatientExternal);
 
 Router.post("/hmis", PatientsController.hmisReport);
 Router.post("/birthData", PatientsController.birthData);

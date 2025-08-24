@@ -165,3 +165,8 @@ function replaceUndefinedValues(obj) {
     }
     return obj;
   }
+
+function closeHistory(){
+    document.getElementById('frame').style.display='none'
+    document.getElementById('getHistory').style.display='block'
+}

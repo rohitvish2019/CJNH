@@ -67,7 +67,7 @@ function getAppointmentsToday(){
                     <tr id="${data.visits[i]._id}">
                         <th scope="row">${i+1}</th>
                         <td>${data.visits[i].Patient.Id}</td>
-                        <td>${data.visits[i].Patient.Doctor}</td>
+                        <td>${data.visits[i].Doctor}</td>
                         <td>${data.visits[i].Patient.Name}</td>
                         <td>${data.visits[i].Patient.Age}</td>
                         <td>${data.visits[i].Patient.Husband}</td>

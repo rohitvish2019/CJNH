@@ -26,9 +26,15 @@ function printPrescription() {
             document.getElementById('searchBox').style.display = 'none'
             document.getElementById('AddMed').style.display = 'none'
             document.getElementById('fileInputs').style.display='none'
+            document.getElementById('history-frame').style.display='none'
             window.print()
         }
     })
+}
+function openHistory(){
+    document.getElementById('frame').contentWindow.location.reload();
+    document.getElementById('frame').style.display='block'
+    
 }
 
 function removeEmptyValuesFromArray(inputArray){

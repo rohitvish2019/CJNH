@@ -1,4 +1,5 @@
 const PatientData = require('../models/patients');
+const Users = require('../models/users');
 const VisitData = require('../models/visits');
 const Tracker = require('../models/tracker');
 const Sales = require('../models/sales');
@@ -639,6 +640,16 @@ module.exports.patientHistoryHome = async function(req, res){
     }
 }
 
+module.exports.patientHistoryHomeRaw = async function(req, res){
+    try{
+        let patient = await PatientData.findById(req.params.patientId);
+        return res.render('patientHistoryRaw',{patient, user:req.user})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
+
+
 module.exports.getAllVisits = async function(req, res){
     try{
         let visits = await VisitData.find({Patient:req.params.patientId},'VisitData Visit_date Prescriptions OtherDocs').sort({createdAt:-1});
@@ -989,4 +1000,117 @@ function addMinutesToDateTime(dateStr, timeStr, minutesToAdd) {
     const newMinutes = String(date.getMinutes()).padStart(2, '0');
 
     return `${newYear}-${newMonth}-${newDay} ${newHours}:${newMinutes}`;
+}
+
+
+module.exports.addVisitAndPatientExternal = async function(req, res){
+    try{
+        let {doctorId,date, patientName, patientAge, patientMobile, patientGender, patientAddress,patientGuardianType, patientGuardianName, paymentType, paidAmount} = req.body;
+        let patient;
+        let tracker = await Tracker.findOne({});
+        let newPatientId = -1 
+        if(req.body.id && req.body.id != ""){
+            patient = await PatientData.findById(req.body.id);
+            console.log(patient)
+            if(!patient || patient == null){
+                return res.status(400).json({
+                    message:'Invalid Patient'
+                })
+            }
+        }else{
+            newPatientId = tracker.patientId+1
+            patient = await PatientData.create({
+                Name:patientName,
+                Age:patientAge,
+                Address:patientAddress,
+                Mobile:patientMobile,
+                Id:newPatientId,
+                Gender:patientGender,
+                Husband:patientGuardianName
+            });
+            await tracker.updateOne({patientId:newPatientId})
+        }
+        
+        let doctor = await Users.findById(doctorId);
+        console.log(doctor.Name);
+        let visit = await VisitData.create({
+            Patient:patient._id,
+            Type:'OPD',
+            Fees:paidAmount,
+            Doctor:doctor.Name,
+            Visit_date:date,
+            PaymentType:paymentType
+        });
+        let updatedReportNo = +tracker.AppointmentNumber + 1
+        await patient.updateOne({$push:{Visits:visit._id}});
+        let CashPaid = 0;
+        let OnlinePaid = 0;
+        let indiqooPaid = 0;
+        if(paymentType == 'Cash'){
+            CashPaid = paidAmount
+        }else if(paymentType == 'Online'){
+            OnlinePaid = paidAmount
+        } else if (paymentType == 'Paid to Indiqoo') {
+            indiqooPaid = paidAmount
+        }
+        let sale = await Sales.create({
+            ReportNo:'OPD'+tracker.AppointmentNumber,
+            Name:req.body.Name,
+            Age:req.body.Age,
+            Address:req.body.Address,
+            Mobile:req.body.Mobile,
+            Doctor:req.body.Doctor,
+            Gender:req.body.Gender,
+            Husband:req.body.Husband,
+            PatiendID:newPatientId,
+            Items:['OPD '+'('+new Date(req.body.AppointmentDate).toLocaleDateString('en-IN',{day:'2-digit', month:'2-digit', year :'numeric'})+')'+'$1$'+req.body.Fees],
+            type:'Appointment',
+            Total:req.body.Fees,
+            CashPaid:CashPaid,
+            indiqooPaid:indiqooPaid,
+            OnlinePaid:OnlinePaid,
+            BillDate:date,
+            IdProof:req.body.IdProof
+        })
+        await visit.updateOne({SaleId:sale._id})
+        await tracker.updateOne({AppointmentNumber:updatedReportNo})
+        return res.status(200).json({
+            message:'Patient added',
+            visit:sale._id
+        })
+    }catch(err){
+        console.log(err);
+        return res.status(200).json({
+            message:'Internal Server Error : Add patient or visit failed'
+        })
+    }
+}
+
+
+
+module.exports.getPatientByIdExternal = async function(req, res){
+    try{
+        let patient = await PatientData.findOne({
+        $or: [
+            {Id:req.params.id},
+            {Mobile:req.params.id},
+            
+        ],
+        isCancelled:false, isValid:true
+        }, 'Name Age Address Husband Gender')
+        if(patient){
+            return res.status(200).json({
+                patient,
+            })
+        }else{
+            return res.status(404).json({
+                message:'No patient found'
+            })
+        }
+    }catch(err){
+          console.log(err);
+          return res.status(500).json({
+                message:'Error 500 : Unable to find patient'
+          })
+    }   
 }

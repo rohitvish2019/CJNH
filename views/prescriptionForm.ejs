@@ -482,6 +482,10 @@ P/V </textarea>
     
     </div>
 </div>
+<button onclick="openHistory()" id="getHistory" style="position: absolute;top: 40px;left: 80%;z-index: 1;border-radius: 4px;"><H3></H3>istory</button>
+<div id="history-frame">
+    <iframe id="frame" src="http://localhost:4000/patients/getHistory/raw/<%=visit.Patient._id%>" frameborder="0"></iframe>
+</div>
 
 
 </html>

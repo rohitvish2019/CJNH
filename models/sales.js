@@ -21,6 +21,7 @@ const Sales = new mongoose.Schema({
     IdProof:String,
     CashPaid:Number,
     OnlinePaid:Number,
+    indiqooPaid:Number,
     Husband:String,
     BillDate:{
         type:String,
