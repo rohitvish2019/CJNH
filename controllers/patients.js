@@ -24,7 +24,7 @@ module.exports.patientRegistartionHome = function(req, res){
 
 module.exports.oldAppointmentsHome = function(req, res){
     try{
-        if(req.user.Role == 'Admin'){
+        if(req.user.Role == 'Admin' || true){
             return res.render('oldAppointments',{user:req.user})
         }else{
             return res.render('Error_403')
@@ -567,6 +567,11 @@ function get24HourTimeframes(startDate, startTime, endDate, endTime) {
 
 module.exports.showPrescription = async function(req, res){
     try{
+        if(req.user.Role != 'Admin'){
+            return res.status(200).json({
+                message : 'You are not authorized for this page access'
+            })
+        }
         let medsList = await MedsData.find({}).sort('Category')
         let visit = await VisitData.findById(req.params.visitId).populate('Patient');
         let today = new Date().toLocaleDateString();
@@ -633,6 +638,11 @@ module.exports.saveVisitData = async function(req, res){
 
 module.exports.patientHistoryHome = async function(req, res){
     try{
+        if(req.user.Role != 'Admin'){
+            return res.status(200).json({
+                message : 'You are not authorized for this page access'
+            })
+        }
         let patient = await PatientData.findById(req.params.patientId);
         return res.render('patientHistory',{patient, user:req.user})
     }catch(err){
