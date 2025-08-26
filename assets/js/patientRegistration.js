@@ -200,3 +200,7 @@ function bookAppointmentWithId() {
         }
     })
 }
+
+function setFees() {
+    
+}

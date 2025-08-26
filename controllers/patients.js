@@ -261,7 +261,7 @@ module.exports.bookVisitToday = async function(req, res){
             Type:'OPD',
             Fees:req.body.Fees,
             Doctor:req.body.Doctor,
-            Visit_date:req.body.date,
+            Visit_date:req.body.patient.AppointmentDate,
             Outside_docs:req.body.Outside_docs,
             PaymentType:req.body.paymentType
         });
@@ -286,7 +286,7 @@ module.exports.bookVisitToday = async function(req, res){
             Gender:patient.Gender,
             Husband:patient.Husband,
             PatiendID:patient.Id,
-            Items:['OPD$1$'+req.body.Fees],
+            Items:['OPD('+new Date(req.body.patient.AppointmentDate).toLocaleString("en-IN", {day:'2-digit', month:'2-digit', year:'numeric'})+')$1$'+req.body.Fees],
             type:'Appointment',
             Total:req.body.Fees,
             CashPaid:CashPaid,
@@ -1113,4 +1113,27 @@ module.exports.getPatientByIdExternal = async function(req, res){
                 message:'Error 500 : Unable to find patient'
           })
     }   
+}
+
+module.exports.recentReports = async function(req, res) {
+    try {
+        let visit = await VisitData.findById(req.query.visitId);
+        
+        let today = new Date();
+        today.setMonth(today.getMonth() - 3);
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); // months are 0-based
+        const dd = String(today.getDate()).padStart(2, '0');
+        const threeMonthsAgo = `${yyyy}-${mm}-${dd}`;
+        let reports = await Reportsdata.find({Patient:visit.Patient, Date : { $gte : threeMonthsAgo}});
+        let allReports = reports.flatMap(r => r.Items);
+        return res.status(200).json({
+            allReports
+        })
+    }catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            message :'Unable to get reports'
+        })
+    }
 }

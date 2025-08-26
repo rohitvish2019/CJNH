@@ -71,8 +71,12 @@
             <label for="Address"><i class="fas fa-map-marker-alt"></i> Address <span>*</span></label>
           </div>
           <div class="form-floating mb-2">
-            <input type="number" class="form-control" id="Fees" placeholder="name@example.com"
-              value="<%= new Date().getDay() == 0 ? 500 : 400%>">
+            <% if(user.Role == 'Admin' ) {%>
+                <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 500 : 400%>">
+            <%} else {%>
+              <input readonly type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 500 : 400%>">
+            <%}%>
+            
             <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
           </div>
           <div style="text-align: left; font-size: 12px;">

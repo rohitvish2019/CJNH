@@ -87,5 +87,6 @@ input.form-control {
 
 .table th, .table td {
     vertical-align: middle;
-    text-align: left;
+    text-align: center;
 }
+

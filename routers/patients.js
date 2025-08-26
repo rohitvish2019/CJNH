@@ -37,6 +37,7 @@ Router.post('/cancel/IPD/:id', passport.checkAuthentication, PatientsController.
 Router.post('/save/dischargeData', passport.checkAuthentication, PatientsController.saveDischargeData);
 Router.get('/get/dischargeData/:id', passport.checkAuthentication, PatientsController.getDischargeData);
 Router.get('/getIPDData/Range', passport.checkAuthentication, PatientsController.getIPDData);
+Router.get('/recentReports', passport.checkAuthentication, PatientsController.recentReports);
 //Router.get('/hmis', PatientsController.hmisReport);
 
 //External APIs

@@ -132,12 +132,14 @@ function showHistory(items){
         document.getElementById('tvalue').innerText='Total Amount : ₹ 0'
         document.getElementById('tvaluecash').innerText='Cash : ₹ 0'
         document.getElementById('tvalueonline').innerText='Online : ₹ 0'
-        document.getElementById('pagination').innerHTML=``
+        //document.getElementById('pagination').innerHTML=``
         return
     }
     let total = 0
     let cashTotal = 0
     let onlineTotal = 0
+    let cashCounter = 0;
+    let onlineCounter = 0
     let container = document.getElementById('historyBody');
     
     container.innerHTML=``;
@@ -187,6 +189,12 @@ function showHistory(items){
         total = total  + +items[i].Total
         cashTotal = cashTotal + +items[i].CashPaid
         onlineTotal = onlineTotal + +items[i].OnlinePaid
+        if(items[i].CashPaid > 0) {
+            cashCounter ++;
+        }
+        if(items[i].OnlinePaid > 0) {
+            onlineCounter ++
+        }
     }
     let printButton = document.createElement('button')
     printButton.innerText='Print'
@@ -195,8 +203,8 @@ function showHistory(items){
     printButton.addEventListener('click', printMe);
     document.getElementById('main-body').appendChild(printButton);
     document.getElementById('tvalue').innerText='Total : ₹ '+total
-    document.getElementById('tvaluecash').innerText='Cash : ₹ '+cashTotal
-    document.getElementById('tvalueonline').innerText='Online : ₹ '+onlineTotal
+    document.getElementById('tvaluecash').innerText='Cash ('+cashCounter + ') : ₹ '+cashTotal
+    document.getElementById('tvalueonline').innerText='Online ('+onlineCounter + '): ₹ ' +onlineTotal
 }
 
 

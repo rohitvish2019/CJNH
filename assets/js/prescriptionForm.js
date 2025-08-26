@@ -32,7 +32,7 @@ function printPrescription() {
     })
 }
 function openHistory(){
-    document.getElementById('frame').contentWindow.location.reload();
+    //document.getElementById('frame').contentWindow.location.reload();
     document.getElementById('frame').style.display='block'
     
 }
@@ -93,7 +93,28 @@ function getVisitdata() {
 function addChanges(id) {
     changes[id] = document.getElementById(id).value
 }
-
+function getRecentReports() {
+    let container = document.getElementById('reportsTable');
+    $.ajax({
+        url:'/patients/recentReports',
+        data:{
+            visitId :document.getElementById('visitId').innerText,
+        },
+        success: function(data) {
+            console.log(data.allReports.length)
+            for(let i=0;i<data.allReports.length;i++) {
+                let item = document.createElement('tr');
+                let reportItem = data.allReports[i].toString().split('$');
+                item.innerHTML=
+                `   <td>Sati date</td>
+                    <td>${reportItem[0]}</td>
+                    <td>${reportItem[1]}</td>
+                `
+                container.appendChild(item)
+            }
+        }
+    })
+}
 function addMed() {
     let container = document.getElementById('prescribedMeds');
     let item = document.createElement('tr');
@@ -384,11 +405,13 @@ function updateEdd(){
 
 function initilizeApp(){
     getVisitdata()
-    setTimeout(calculateFullGAA, 1000);
     addChanges('cedddate')
     addChanges('edddate')
     addChanges('lmpdate')
     addChanges('calculatedTime')
     //calculateFullGAA()
     speechToText()
+    document.getElementById('frame').style.display='none'
+    getRecentReports()
+    setTimeout(calculateFullGAA, 1000);
 }

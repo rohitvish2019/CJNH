@@ -8,6 +8,7 @@ function getAllVisits(){
                 if(data.visits[k].VisitData == null){
                     continue
                 }
+                
                 let visitData = replaceUndefinedValues(data.visits[k].VisitData)
                 let otherDocs = data.visits[k].OtherDocs
                 console.log(otherDocs)
@@ -18,7 +19,7 @@ function getAllVisits(){
                 `
                 <div>
                 <div class="card-header text-white">
-                    <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: ${data.visits[k].Visit_date.split('-')[2]+'-'+data.visits[k].Visit_date.split('-')[1]+'-'+data.visits[k].Visit_date.split('-')[0]}</h2>
+                    <h2 class="h5 mb-0"><i class="fas fa-calendar-alt"></i> Visit Date: ${new Date(data.visits[k].Visit_date).toLocaleString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'})}</h2>
                 </div>
                 <div class="card-body">
                     <div style="display: flex; height: 200px; justify-content: space-between;">
@@ -105,6 +106,19 @@ function getAllVisits(){
                             </tbody>
                         </table>
                     </div>
+                    <h5><i class="fa-solid fa-syringe"></i> <strong>Prescribed Medicines</strong></h5>
+                    <table class='table' >
+                        <thead style='text-align:center'>
+                            <tr>
+                                <th>Drug name</th>
+                                <th>Dosage</th>
+                                <th>Frequency/Duration</th>
+                                <th>Drug description</th>
+                            </tr>
+                        </thead>
+                        <tbody id='meds_${new Date(data.visits[k].Visit_date).toLocaleString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'})}'>
+                        </tbody>
+                    </table>
                     <div>
                         <h5><strong><i class="fa-regular fa-file-powerpoint"></i> Other uploaded documents</strong></h5>
                         <div id='otherDocs_${data.visits[k]._id}'>
@@ -127,6 +141,23 @@ function getAllVisits(){
                 item.innerText=otherDocs[r].toString().split('_')[1]
                 otherDocsContainer.appendChild(item)
             }
+            if(data.visits[k].Prescriptions && data.visits[k].Prescriptions.length > 0) {
+                    let containerId = 'meds_'+ new Date(data.visits[k].Visit_date).toLocaleString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'});
+                    for(let m=0;m<data.visits[k].Prescriptions.length;m++) {
+                        let medItem = document.createElement('tr');
+                        let itemArray = data.visits[k].Prescriptions[m].split('$');
+                        medItem.innerHTML=
+                        `
+                        <td>${itemArray[0]}</td>
+                        <td>${itemArray[1]}</td>
+                        <td>${itemArray[2]}</td>
+                        <td>${itemArray[3]}</td>
+                        `
+                        document.getElementById(containerId).appendChild(medItem)
+                    }
+                    console.log("Med contained id is "+ containerId)
+                    
+                }
             }
             let container = document.getElementById('pathReports');
             container.innerHTML=``;
@@ -139,6 +170,7 @@ function getAllVisits(){
                 `
                 container.appendChild(item)
             }
+            
             /*
             
             let keys = Object.keys(data.visitData)
@@ -167,6 +199,7 @@ function replaceUndefinedValues(obj) {
   }
 
 function closeHistory(){
+    
+    //window.location.reload()
     document.getElementById('frame').style.display='none'
-    document.getElementById('getHistory').style.display='block'
 }
