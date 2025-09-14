@@ -36,7 +36,7 @@ function addTest() {
         <td>${refRangeMin}</td>
         <td>${refRangeMax}</td>
         <td>${refRangeUnit}</td>
-        <td>${testResult}</td>
+        <td><input type='text' id='resultItem_${counter}' value = '${testResult}' onchange="changeResult(${counter})"></td>
         <td>${testCategory}</td>
         <td>
                 <label id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick="deleteItem(${counter})"><i class="fa-solid fa-trash-can"></i> </label>
@@ -66,6 +66,16 @@ function highlight(x) {
 function deleteItem(counter) {
     tests.splice(counter - 1, 1, '');
     document.getElementById('rowItem_' + counter).remove()
+}
+
+function changeResult(counter) {
+    let currentCounter  = counter -  1;
+    let thisTest = tests[currentCounter].toString().split('$');
+    let idToFind = 'resultItem_'+ counter
+    console.log(idToFind);
+    thisTest[1] = document.getElementById(idToFind).value;
+    let updatedresult = thisTest.join('$');
+    tests.splice(currentCounter, 1, updatedresult);
 }
 
 function saveTests() {

@@ -43,6 +43,8 @@ function getAppointmentsToday(){
         },
         success:function(data){
             let color=''
+            let completedCount = 0;
+            let pendingCount = 0;
             for(let i=0;i<data.visits.length;i++){
                 if(data.visits[i].Fees == 400){
                     color = '#75f690'
@@ -60,6 +62,9 @@ function getAppointmentsToday(){
                     bgcolor = 'green'
                     fontColor = 'white'
                     visitStatus='Completed'
+                    completedCount++;
+                } else {
+                    pendingCount++;
                 }
                  
                 rowItem.innerHTML=
@@ -88,6 +93,8 @@ function getAppointmentsToday(){
                 container.appendChild(rowItem)
             }
             document.getElementById('loader').style.display='none'
+            document.getElementById('completedCount').innerText = "Completed : "+completedCount;
+            document.getElementById('pendingCount').innerText = "Pending : "+pendingCount;
         },
         error:function(err){console.log(err)}
     })

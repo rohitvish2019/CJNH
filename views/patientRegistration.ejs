@@ -100,7 +100,7 @@
           </div>
           <div class="form-floating mb-2">
             <%let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date().getDate().toString().padStart(2,'0') %>
-            <input type="date" class="form-control" id="AppointmentDate" placeholder="name@example.com"
+            <input type="date" class="form-control" id="AppointmentDate" placeholder="name@example.com" onchange="setFees()"
               value="<%=date%>">
             <label for="Fees"><i class="fa-solid fa-calendar"></i> Appointment Date <span>*</span></label>
           </div>

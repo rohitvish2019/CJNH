@@ -104,9 +104,10 @@ function getRecentReports() {
             console.log(data.allReports.length)
             for(let i=0;i<data.allReports.length;i++) {
                 let item = document.createElement('tr');
-                let reportItem = data.allReports[i].toString().split('$');
+                let reportItem = data.allReports[i].item.toString().split('$');
+                let reportdate = new Date(data.allReports[i].date).toLocaleString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'})
                 item.innerHTML=
-                `   <td>Sati date</td>
+                `   <td>${reportdate}</td>
                     <td>${reportItem[0]}</td>
                     <td>${reportItem[1]}</td>
                 `

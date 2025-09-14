@@ -16,7 +16,10 @@
     <%-include('_header')%>
     <%-include('_loader')%>
   </header>
+  
   <div style="display: flex;justify-content: flex-end; padding-right: 4%; padding-top: 1%;">
+    <label id="pendingCount" style="margin-right: 20px;"></label>
+    <lable id="completedCount" style=" margin-right: 20px;"></lable>
     <button class="btn btn-success" style="margin-right: 2%;" onclick="getAppointmentsToday()"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
     <input type="checkbox" name="" id="ShowHideDisabled" onchange="getAppointmentsToday()">&nbsp;&nbsp; Show Disabled Appointments
   </div>

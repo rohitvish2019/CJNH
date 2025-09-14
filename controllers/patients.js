@@ -1136,7 +1136,13 @@ module.exports.recentReports = async function(req, res) {
         const dd = String(today.getDate()).padStart(2, '0');
         const threeMonthsAgo = `${yyyy}-${mm}-${dd}`;
         let reports = await Reportsdata.find({Patient:visit.Patient, Date : { $gte : threeMonthsAgo}});
-        let allReports = reports.flatMap(r => r.Items);
+        let allReports = reports.flatMap(r =>
+        (r.Items || []).map(item => ({
+            date: r.Date,
+            item: item
+        }))
+        );
+        allReports.sort((a, b) => new Date(b.date) - new Date(a.date));
         return res.status(200).json({
             allReports
         })

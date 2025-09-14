@@ -165,10 +165,15 @@ function setIPDData(visits, rooms){
     
     let container = document.getElementById('table-content')
     container.innerHTML=``;
+    let completedCount = 0;
+    let pendngCount = 0;
     for(let i=0;i<visits.length;i++){
         let rowItem = document.createElement('tr');
         if(visits[i].isDischarged == true){
             rowItem.style.backgroundColor='#bef5be'
+            completedCount ++
+        } else {
+            pendngCount ++
         }
         rowItem.id=visits[i]._id+'tr'
         let dateOptions = { hour: '2-digit', minute: '2-digit', hour12: true,year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -244,6 +249,8 @@ function setIPDData(visits, rooms){
         document.getElementById('DeliveryType_'+visits[i]._id).value=visits[i].DeliveryType
     }
     document.getElementById('loader').style.display='none'
+    document.getElementById('completedTotal').innerText = 'Completed : ' +completedCount;
+    document.getElementById('pendingTotal').innerText = "Pending : "+pendngCount;
 }
 
 let startDate = document.getElementById('startdate').value

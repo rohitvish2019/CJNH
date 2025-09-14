@@ -202,5 +202,37 @@ function bookAppointmentWithId() {
 }
 
 function setFees() {
-    
+    let lastVisitDate = document.getElementById('lastVisitDate').innerText;
+    if(lastVisitDate == 'NA') {
+        return;
+    }
+    let aptDate = document.getElementById('AppointmentDate').value;
+    lastVisitDate = lastVisitDate.split('-')[2] +'-'+ lastVisitDate.split('-')[1] +'-'+ lastVisitDate.split('-')[0]
+    let daysBetween = daysBetweenDates(aptDate, lastVisitDate);
+    if(daysBetween > 30) {
+        document.getElementById('Fees').value = 400
+    } else {
+        document.getElementById('Fees').value = 200
+    }
+}
+
+
+function daysBetweenDates(date1, date2) {
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(date1) || !dateRegex.test(date2)) {
+    return 1000;
+  }
+
+  const [y1, m1, d1] = date1.split("-").map(Number);
+  const [y2, m2, d2] = date2.split("-").map(Number);
+
+  const dt1 = new Date(y1, m1 - 1, d1);
+  const dt2 = new Date(y2, m2 - 1, d2);
+
+  if (isNaN(dt1.getTime()) || isNaN(dt2.getTime())) {
+    return 1000;
+  }
+
+  const diffMs = dt1.getTime() - dt2.getTime();
+  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
 }
