@@ -103,7 +103,8 @@ module.exports.addVisitAndPatient = async function(req, res){
             CashPaid:CashPaid,
             OnlinePaid:OnlinePaid,
             BillDate:date,
-            IdProof:req.body.IdProof
+            IdProof:req.body.IdProof,
+            PaymentType:req.body.paymentType
         })
         await visit.updateOne({SaleId:sale._id})
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
@@ -131,7 +132,7 @@ module.exports.getAppointmentsToday = async function(req, res){
             if(req.query.status == 'true'){
                 visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
             }else{
-                visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient');
+                visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient').populate('SaleId');
             }
 
             if(req.xhr){
@@ -292,6 +293,7 @@ module.exports.bookVisitToday = async function(req, res){
             CashPaid:CashPaid,
             OnlinePaid:OnlinePaid,
             BillDate:date,
+            PaymentType:req.body.paymentType
         })
         await tracker.updateOne({AppointmentNumber:updatedReportNo})
         await visit.updateOne({SaleId:sale._id})

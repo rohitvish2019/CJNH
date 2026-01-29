@@ -5,9 +5,21 @@ function changeInputs(){
     if(value == 'byDate'){
         document.getElementById('dateRangeInputs').style.display='none'
         document.getElementById('dateInput').style.display='block'
+        document.getElementById('pidInput').style.display='none'
+        document.getElementById('selectBillType').style.display='block'
+        document.getElementById('selectDoctor').style.display='block'
     }else if (value == 'byDateRange'){
         document.getElementById('dateInput').style.display='none'
         document.getElementById('dateRangeInputs').style.display='block'
+        document.getElementById('pidInput').style.display='none'
+        document.getElementById('selectBillType').style.display='block'
+        document.getElementById('selectDoctor').style.display='block'
+    } else if (value == 'byPatId') {
+        document.getElementById('dateInput').style.display = 'none'
+        document.getElementById('dateRangeInputs').style.display='block'
+        document.getElementById('pidInput').style.display='block'
+        document.getElementById('selectBillType').style.display='none'
+        document.getElementById('selectDoctor').style.display='none'
     }
 }
 changeInputs();
@@ -52,6 +64,8 @@ function getSalesHistory(){
         getSalesHistoryDate()
     }else if (value == 'byDateRange'){
         getSalesHistoryRange()
+    } else if (value == 'byPatId') {
+        getSalesByPatId()
     }
 }
 
@@ -280,5 +294,80 @@ function changePaymentMode(id, Total){
         type:'POST',
         success:function(data){},
         error:function(err){}
+    })
+}
+
+
+function getSalesByPatId(){
+    let startDate = document.getElementById('startDate').value
+    let endDate = document.getElementById('endDate').value
+    let patId = document.getElementById('patId').value
+    if(!startDate || startDate == null || startDate == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'Start date is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if(!endDate || endDate == null || endDate == ''){
+        new Noty({
+            theme: 'relax',
+            text: 'End date is mandatory',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if(startDate > endDate){
+        new Noty({
+            theme: 'relax',
+            text: 'Start date is greater than end date',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    if(patId == undefined || patId.length == 0 || patId == null) {
+        new Noty({
+            theme: 'relax',
+            text: 'Patient id is empty',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    let days = (new Date(endDate).getTime() - new Date(startDate).getTime())/(60*24*60*1000)
+    if( days > 365){
+        new Noty({
+            theme: 'relax',
+            text: 'Max 1 year allowed',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    document.getElementById('loader').style.display='block'
+    $.ajax({
+        url:'/sales/getHistoryByPatId',
+        type:'Get',
+        data:{
+            startDate,
+            endDate,
+            patId
+        },
+        success:function(data){
+            document.getElementById('loader').style.display='none'
+            showHistory(data.billsList)
+        },
+        error:function(err){
+            document.getElementById('loader').style.display='none'
+            console.log(err)}
     })
 }

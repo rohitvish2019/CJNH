@@ -356,9 +356,9 @@ module.exports.validateBill = async function(req , res){
 module.exports.changePaymentMethod = async function(req, res){
     try{
         if(req.body.newPaymentMethod == 'Cash'){
-            await SalesData.findByIdAndUpdate(req.body.id, {$set : {OnlinePaid:0, CashPaid : req.body.Total} } )
+            await SalesData.findByIdAndUpdate(req.body.id, {$set : {OnlinePaid:0, CashPaid : req.body.Total, PaymentType:'Cash'} } )
         } else {
-            await SalesData.findByIdAndUpdate(req.body.id, {$set : {OnlinePaid : req.body.Total, CashPaid : 0} } )
+            await SalesData.findByIdAndUpdate(req.body.id, {$set : {OnlinePaid : req.body.Total, CashPaid : 0, PaymentType:'Online'} } )
         }
         return res.status(200).json({
             message : 'Updated payment method'
@@ -667,6 +667,29 @@ module.exports.getReportsRange = async function(req, res) {
         console.log(err)
         return res.status(500).json({
             message:'Internal Server Error : unable to find bills on specific dates'
+        })
+    }
+}
+
+
+module.exports.getBillsByPatId = async function(req, res) {
+    try {
+        console.log(req.query)
+        let billsList = await SalesData.find({
+                    $and: [
+                        {BillDate:{$gte :req.query.startDate}},
+                        {BillDate: {$lte : req.query.endDate}},
+                        {PatiendID:req.query.patId},
+                        {isCancelled:false, isValid:true}
+                    ]
+                })
+        return res.status(200).json({
+            billsList
+        })
+    } catch(err) {
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to fetch Bills'
         })
     }
 }

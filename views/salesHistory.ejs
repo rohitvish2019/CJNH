@@ -24,6 +24,7 @@
                     <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
                         <option value="byDate" selected>Exact Date</option>
                         <option value="byDateRange">Date Range</option>
+                        <option value="byPatId">Patient Id</option>
                     </select>
                 </div>
                 
@@ -36,7 +37,11 @@
                     <label for=""><b>Date : </b>&nbsp;</label>
                     <input style="height: 32px" type="date" name="" id="selectedDate">
                 </div>
-                <div style="margin-right: 1%;">
+                <div id="pidInput" style="margin-right: 1%;">
+                    <label for=""><b>Patient Id : </b>&nbsp;</label>
+                    <input style="height: 32px" type="text" name="" id="patId">
+                </div>
+                <div style="margin-right: 1%;" id="selectBillType">
                     <select name="" id="billType" style="height: 70%;">
                         <option value="all">All Sales</option>
                         <option value="Appointment">Appointment Fees</option>
@@ -48,7 +53,7 @@
                         
                     </select>
                 </div>
-                <div>
+                <div id="selectDoctor">
                     <select name="" id="Doctor" style="height: 70%;">
                         <option value="">--Select Doctor--</option>
                         <option value="all" selected>All Doctors</option>
