@@ -69,4 +69,7 @@ th, td,tr{
     display: none;
     background-color: #f2f2f2;
 }
-
+.inline-div{
+    display: inline-block;
+    margin-left: 20px;
+}

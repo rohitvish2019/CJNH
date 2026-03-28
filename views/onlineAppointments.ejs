@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Appointments</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="/css/onlineAppointments.css">
+</head>
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+
+    <div class="main-body">
+        <div class="heading">
+            <h2>Online Appointments</h2>
+        </div>
+
+        <div class="search-div">
+            <div class="search-controls">
+                <input type="date" id="dateInput">
+                <button class="btn search-btn" style="background-color: #025E73;" onclick="searchAppointments()">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            <div class="status-strip">
+                <span id="resultCount">Search by date to view online appointments.</span>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="table table-striped table-bordered text-center" id="appointmentsTable">
+                <thead>
+                    <tr class="bg">
+                        <th scope="col">#</th>
+                        <th scope="col"><i class="fa-solid fa-id-badge"></i> Appointment Id</th>
+                        <th scope="col"><i class="fa-solid fa-stethoscope"></i> Doctor</th>
+                        <th scope="col"><i class="fas fa-user"></i> Patient Name</th>
+                        <th scope="col"><i class="fa-solid fa-phone"></i> Mobile</th>
+                        <th scope="col"><i class="fa-solid fa-arrow-up-1-9"></i> Age / Gender</th>
+                        <th scope="col"><i class="fa-regular fa-calendar"></i> Date</th>
+                        <th scope="col"><i class="fa-solid fa-indian-rupee-sign"></i> Paid</th>
+                        <th scope="col"><i class="fa-solid fa-square-check"></i> Status</th>
+                        <th scope="col"><i class="fa-solid fa-gears"></i> Action</th>
+                    </tr>
+                </thead>
+                <%-include('_loader')%>
+                <tbody>
+                    <tr>
+                        <td colspan="10">Search online appointments by date.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="linkModal">
+        <div class="link-modal-card">
+            <div class="link-modal-header">
+                <h5>Link Appointment</h5>
+                <button type="button" class="modal-close-btn" onclick="closeLinkModal()">X</button>
+            </div>
+            <div class="link-modal-body">
+                <label for="linkPatientId"><b>Patient Id</b></label>
+                <input type="text" id="linkPatientId" placeholder="Enter patient id">
+                <button type="button" style="background-color: #025E73;" class="btn modal-submit-btn inline-submit-btn" id="linkInlineSubmitBtn" onclick="submitLinkAndAccept()">Submit</button>
+                <div class="link-modal-note" id="linkModalNote">Enter an existing patient id to link this appointment.</div>
+            </div>
+            <div class="link-modal-footer">
+                <button type="button" class="btn modal-cancel-btn" onclick="closeLinkModal()">Cancel</button>
+                <button type="button" class="btn modal-submit-btn" id="linkSubmitBtn" onclick="submitLinkAndAccept()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dateInput = document.getElementById('dateInput');
+        const loader = document.getElementById('loader');
+        const resultCount = document.getElementById('resultCount');
+        const linkModal = document.getElementById('linkModal');
+        const linkPatientIdInput = document.getElementById('linkPatientId');
+        const linkModalNote = document.getElementById('linkModalNote');
+        const linkSubmitBtn = document.getElementById('linkSubmitBtn');
+        const linkInlineSubmitBtn = document.getElementById('linkInlineSubmitBtn');
+        const appointmentStore = {};
+        let pendingLinkAppointmentId = null;
+
+        dateInput.value = new Date().toISOString().split('T')[0];
+
+        async function searchAppointments() {
+            const date = dateInput.value;
+
+            if (!date) {
+                alert('Please select date');
+                return;
+            }
+
+            loader.style.display = 'block';
+            resultCount.innerText = 'Fetching appointments...';
+
+            try {
+                const response = await fetch(`/external/getAppointments?date=${date}`);
+                const data = await response.json();
+                const appointments = data && data.appointments && Array.isArray(data.appointments.appointments)
+                    ? data.appointments.appointments
+                    : [];
+                renderTable(appointments);
+            } catch (err) {
+                console.error(err);
+                renderTable([]);
+                resultCount.innerText = 'Unable to fetch appointments for the selected date.';
+                alert('Error fetching appointments');
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function renderTable(appointments) {
+            const tbody = document.querySelector('#appointmentsTable tbody');
+            tbody.innerHTML = '';
+            Object.keys(appointmentStore).forEach(key => delete appointmentStore[key]);
+
+            if (!appointments || appointments.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10">No Data Found</td></tr>';
+                resultCount.innerText = 'No online appointments found for the selected date.';
+                return;
+            }
+
+            resultCount.innerText = `Total online appointments: ${appointments.length}`;
+
+            appointments.forEach((appt, index) => {
+                appointmentStore[appt.appointmentId] = appt;
+                const row = document.createElement('tr');
+                row.setAttribute('data-appointment-id', appt.appointmentId || '');
+                const patientDetails = appt.patientDetails || {};
+                const appointmentId = appt.appointmentId || '-';
+                const doctorName = appt.doctorName || '-';
+                const patientName = patientDetails.name || '-';
+                const mobile = patientDetails.mobile || '-';
+                const ageGender = `${patientDetails.age || '-'} / ${patientDetails.gender || '-'}`;
+                const appointmentDate = appt.date || '-';
+                const amountPaid = appt.amountPaid ?? '-';
+                const status = appt.status || '-';
+
+                row.innerHTML = `
+                    <th scope="row">${index + 1}</th>
+                    <td>${appointmentId}</td>
+                    <td>${doctorName}</td>
+                    <td>${patientName}</td>
+                    <td>${mobile}</td>
+                    <td>${ageGender}</td>
+                    <td>${appointmentDate}</td>
+                    <td>${amountPaid}</td>
+                    <td>${status}</td>
+                    <td class="action-cell">
+                        <div class="dropdown">
+                            <button class="btn action-btn" style="background-color: #025E73;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Action
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item accept-item" type="button" onclick="acceptAppointment('${appointmentId}', this)">Accept</button></li>
+                                <li><button class="dropdown-item link-item" type="button" onclick="openLinkModal('${appointmentId}')">Link & Accept</button></li>
+                            </ul>
+                        </div>
+                    </td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        async function acceptAppointment(id, btn) {
+            try {
+                const appointment = appointmentStore[id];
+                if (!appointment) {
+                    alert('Appointment data not found');
+                    return;
+                }
+                btn.disabled = true;
+                const res = await fetch('/external/acceptAppointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ appointment })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    removeRowByAppointmentId(id);
+                } else {
+                    btn.disabled = false;
+                    alert(data.message || 'Failed to accept');
+                }
+            } catch (err) {
+                console.error(err);
+                btn.disabled = false;
+                alert('Error');
+            }
+        }
+
+        function openLinkModal(id) {
+            pendingLinkAppointmentId = id;
+            linkPatientIdInput.value = '';
+            linkModalNote.innerText = 'Enter an existing patient id to link this appointment.';
+            linkSubmitBtn.disabled = false;
+            linkInlineSubmitBtn.disabled = false;
+            linkModal.style.display = 'flex';
+            linkPatientIdInput.focus();
+        }
+
+        function closeLinkModal() {
+            pendingLinkAppointmentId = null;
+            linkModal.style.display = 'none';
+        }
+
+        async function submitLinkAndAccept() {
+            try {
+                const patientId = linkPatientIdInput.value.trim();
+                const appointment = appointmentStore[pendingLinkAppointmentId];
+
+                if (!patientId) {
+                    linkModalNote.innerText = 'Please enter patient id.';
+                    return;
+                }
+
+                if (!appointment) {
+                    linkModalNote.innerText = 'Appointment data not found.';
+                    return;
+                }
+
+                linkSubmitBtn.disabled = true;
+                linkInlineSubmitBtn.disabled = true;
+                const res = await fetch('/external/linkAndAcceptAppointment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ appointment, patientId })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    removeRowByAppointmentId(pendingLinkAppointmentId);
+                    closeLinkModal();
+                } else {
+                    linkSubmitBtn.disabled = false;
+                    linkInlineSubmitBtn.disabled = false;
+                    linkModalNote.innerText = data.message || 'Failed to link & accept';
+                }
+            } catch (err) {
+                console.error(err);
+                linkSubmitBtn.disabled = false;
+                linkInlineSubmitBtn.disabled = false;
+                linkModalNote.innerText = 'Error while linking appointment.';
+            }
+        }
+
+        function removeRowByAppointmentId(appointmentId) {
+            delete appointmentStore[appointmentId];
+            const row = document.querySelector(`tr[data-appointment-id="${appointmentId}"]`);
+            if (!row) {
+                searchAppointments();
+                return;
+            }
+            row.remove();
+
+            const rowsLeft = document.querySelectorAll('#appointmentsTable tbody tr').length;
+            if (rowsLeft === 0) {
+                renderTable([]);
+            } else {
+                resultCount.innerText = `Total online appointments: ${rowsLeft}`;
+            }
+        }
+
+        searchAppointments();
+    </script>
+</body>
+</html>

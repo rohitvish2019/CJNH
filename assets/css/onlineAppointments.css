@@ -1,0 +1,264 @@
+body{
+    min-height: 100vh;
+    width: 100%;
+    background-color: #f8f9fa;
+}
+
+.main-body{
+    padding-bottom: 2%;
+}
+
+.heading{
+    padding: 5px;
+    background-color: #343a40 !important;
+    text-align: center;
+    color: white;
+    border: 2px solid white;
+}
+
+.search-div{
+    height: 12%;
+    padding: 2%;
+    padding-bottom: 1%;
+    border-bottom: 2px dotted black;
+}
+
+.search-controls{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-controls input{
+    width: 15%;
+    height: 75%;
+    font-size: larger;
+    margin-top: .3%;
+    margin-right: 4%;
+}
+
+.search-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #025E73;
+    color: white;
+    width: 15%;
+    min-height: 38px;
+    padding: 6px 14px;
+    border: 1px solid #025E73;
+    font-weight: 600;
+    margin-right: 25px;
+}
+
+.search-btn:hover{
+    background-color: #014d5d;
+    border-color: #014d5d;
+    color: white;
+}
+
+.status-strip{
+    margin-top: 12px;
+    color: #495057;
+    font-weight: 600;
+}
+
+.table-wrapper{
+    padding: 1% 1.5%;
+    overflow: visible;
+    position: relative;
+}
+
+.bg th{
+    background-color: #025E73 !important;
+    color: white !important;
+    vertical-align: middle;
+}
+
+th, td, tr{
+    border-bottom: 1px solid #ddd !important;
+    vertical-align: middle !important;
+}
+
+.action-cell{
+    min-width: 180px;
+    position: relative;
+}
+
+.action-cell .dropdown{
+    position: relative;
+}
+
+.action-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px 4px;
+    color: white !important;
+    min-width: 135px;
+    min-height: 38px;
+    padding: 6px 14px;
+    background-color: #025E73;
+    border-color: #025E73;
+    font-weight: 600;
+}
+
+.action-btn:hover,
+.action-btn:focus,
+.action-btn:active{
+    background-color: #014d5d;
+    border-color: #014d5d;
+    color: white;
+}
+
+.action-btn.dropdown-toggle::after{
+    margin-left: 8px;
+    border-top-color: white;
+}
+
+.dropdown-menu{
+    border: 1px solid #d9e2e7;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    z-index: 2000;
+}
+
+.dropdown-item{
+    font-weight: 600;
+    padding: 9px 14px;
+}
+
+.dropdown-item.accept-item{
+    color: #198754;
+}
+
+.dropdown-item.accept-item:hover,
+.dropdown-item.accept-item:focus{
+    background-color: #e9f7ef;
+    color: #157347;
+}
+
+.dropdown-item.link-item{
+    color: #0d6efd;
+}
+
+.dropdown-item.link-item:hover,
+.dropdown-item.link-item:focus{
+    background-color: #eaf2ff;
+    color: #0b5ed7;
+}
+
+.loader{
+    position: fixed;
+    top: 42%;
+    left: 48%;
+    display: none;
+    z-index: 1050;
+}
+
+.modal-overlay{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.link-modal-card{
+    width: 420px;
+    max-width: 92%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.link-modal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background-color: #025E73;
+    color: white;
+}
+
+.link-modal-header h5{
+    margin: 0;
+    font-weight: 700;
+}
+
+.modal-close-btn{
+    border: none;
+    background: transparent;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.link-modal-body{
+    padding: 18px;
+}
+
+.link-modal-body input{
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.inline-submit-btn{
+    margin-top: 12px;
+    width: 100%;
+    font-weight: 600;
+}
+
+.link-modal-note{
+    margin-top: 10px;
+    color: #495057;
+    font-size: 14px;
+}
+
+.link-modal-footer{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 0 18px 18px 18px;
+}
+
+.modal-cancel-btn{
+    background-color: #6c757d;
+    color: white;
+}
+
+.modal-submit-btn{
+    background-color: #025E73;
+    color: white;
+}
+
+@media screen and (max-width: 768px){
+    .search-div{
+        padding: 4%;
+        height: auto;
+    }
+
+    .search-controls{
+        align-items: stretch;
+    }
+
+    .search-controls input{
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 12px;
+    }
+
+    .search-btn{
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .action-cell{
+        min-width: 210px;
+    }
+}

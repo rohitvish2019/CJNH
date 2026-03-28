@@ -30,6 +30,10 @@ const Visits = new mongoose.Schema({
     DeliveryType:String,
     DischargeBillNumber:String,
     FinalBillAmount:Number,
+    externalVisitId:String,
+    externalDoctorId:String,
+    isExternalySynced:Boolean,
+    isWebhookSynced:Boolean,
     OtherDocs:[
         {
             type:Array
