@@ -67,27 +67,27 @@
         </div>
         <div>
             <div class="inline-div">
-                <input type="checkbox" id="checkBoxforAppointmentFee">
+                <input type="checkbox" id="checkBoxforAppointmentFee" checked onchange="applySelectedColumns()">
                 <label for="checkBoxforAppointmentFee">Appointment Fees</label>
             </div>
             <div class="inline-div">
-                <input type="checkbox" id="checkBoxforPathology">
+                <input type="checkbox" id="checkBoxforPathology" checked onchange="applySelectedColumns()">
                 <label for="checkBoxforAppointmentFee">Pathology</label>
             </div>
             <div class="inline-div">
-                <input type="checkbox" id="checkBoxforDischargeBill">
+                <input type="checkbox" id="checkBoxforDischargeBill" checked onchange="applySelectedColumns()">
                 <label for="checkBoxforDischargeBill">Discharge Bills</label>
             </div>
             <div class="inline-div">
-                <input type="checkbox" id="checkBoxforUltrasound">
+                <input type="checkbox" id="checkBoxforUltrasound" checked onchange="applySelectedColumns()">
                 <label for="checkBoxforUltrasound">Ultrasound</label>
             </div>
             <div class="inline-div">
-                <input type="checkbox" id="checkBoxforIPDAdvance">
+                <input type="checkbox" id="checkBoxforIPDAdvance" checked onchange="applySelectedColumns()">
                 <label for="checkBoxforIPDAdvance">IPD Advance</label>
             </div>
             <div class="inline-div">
-                <input type="checkbox" id="checkBoxforOther">
+                <input type="checkbox" id="checkBoxforOther" checked onchange="applySelectedColumns()">
                 <label for="checkBoxforOther">Other</label>
             </div>
             
@@ -98,12 +98,12 @@
                     <tr class="bg">
                         <th>#</th>
                         <th>Date</th>
-                        <th>Appointment Fees</th>
-                        <th>Pathology</th>
-                        <th>Discharge Payment</th>
-                        <th>Ultrasound</th>
-                        <th>IPD Advance</th>
-                        <th>Other</th>
+                        <th class="report-col report-col-Appointment">Appointment Fees</th>
+                        <th class="report-col report-col-Pathology">Pathology</th>
+                        <th class="report-col report-col-DischargeBill">Discharge Payment</th>
+                        <th class="report-col report-col-Ultrasound">Ultrasound</th>
+                        <th class="report-col report-col-IPDAdvance">IPD Advance</th>
+                        <th class="report-col report-col-Other">Other</th>
                         <th>Total</th>
                     </tr>
                 </thead>

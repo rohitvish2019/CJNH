@@ -38,7 +38,7 @@ function normalizeExternalAppointment(appointment) {
         patientGender: patientDetails.gender || 'Other',
         patientAddress: patientDetails.address || '',
         patientGuardianName: patientDetails.guardianName || '',
-        paymentType: (appointment.amountPaid || 0) > 0 ? 'Online' : 'Cash',
+        paymentType: appointment.paymentType || 'NA',
         paidAmount: Number(appointment.amountPaid || 0),
     };
 }
@@ -69,6 +69,7 @@ async function syncAppointmentWebhook({ appointmentId, doctorId, visitId }) {
         );
 
         const responseData = webhookResponse.data || {};
+        console.log('Webhook response:', responseData);
         const webhookSuccess = responseData.success === true
             || responseData.status === 'success'
             || responseData.message === 'success';
@@ -98,20 +99,32 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
         throw error;
     }
 
-    const tracker = await Tracker.findOne({});
-    if (!tracker) {
-        const error = new Error('Tracker not configured');
-        error.statusCode = 500;
-        throw error;
-    }
-
     const existingVisit = await VisitData.findOne({
         externalVisitId: normalized.appointmentId,
         isCancelled: false
     });
+
     if (existingVisit) {
-        const error = new Error('Appointment already accepted');
-        error.statusCode = 409;
+        const webhook = await syncAppointmentWebhook({
+            appointmentId: normalized.appointmentId,
+            doctorId: normalized.doctorId,
+            visitId: existingVisit._id
+        });
+
+        return {
+            visitId: existingVisit._id,
+            patientMongoId: existingVisit.Patient,
+            patientId: null,
+            webhookSynced: webhook.synced,
+            webhookResponse: webhook.data,
+            alreadyAccepted: true
+        };
+    }
+
+    const tracker = await Tracker.findOne({});
+    if (!tracker) {
+        const error = new Error('Tracker not configured');
+        error.statusCode = 500;
         throw error;
     }
 
@@ -158,12 +171,12 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
     let cashPaid = 0;
     let onlinePaid = 0;
     let indiqooPaid = 0;
-    
+    console.log(normalized);
     if (normalized.paymentType === 'Cash') {
         cashPaid = normalized.paidAmount;
     } else if (normalized.paymentType === 'Online') {
         onlinePaid = normalized.paidAmount;
-    } else if (normalized.paymentType === 'Paid to Indiqoo') {
+    } else if (normalized.paymentType === 'Indiqoo') {
         indiqooPaid = normalized.paidAmount;
     }
 
@@ -214,7 +227,9 @@ module.exports.acceptAppointment = async function(req, res) {
         const result = await saveExternalAppointment({ appointment });
         return res.status(200).json({
             success: true,
-            message: 'Appointment accepted successfully',
+            message: result.alreadyAccepted
+                ? 'Appointment was already accepted. Webhook retried.'
+                : 'Appointment accepted successfully',
             result
         });
     } catch (err) {
@@ -254,7 +269,9 @@ module.exports.linkAndAcceptAppointment = async function(req, res) {
         const result = await saveExternalAppointment({ appointment, linkedPatient });
         return res.status(200).json({
             success: true,
-            message: 'Appointment linked and accepted successfully',
+            message: result.alreadyAccepted
+                ? 'Appointment was already accepted. Webhook retried.'
+                : 'Appointment linked and accepted successfully',
             result
         });
     } catch (err) {

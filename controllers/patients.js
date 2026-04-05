@@ -13,8 +13,20 @@ const Patient = require('../models/patients');
 const PropertiesReader = require('properties-reader');
 const { response } = require('express');
 const deviceProperties = PropertiesReader('C:/device.properties');
+const appSettings = require('../configs/appSettings');
+
+function getDefaultDoctorForSaleType(type, doctorName){
+    if(type == 'Pathology' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
+        return 'Dr Anuj Jain';
+    }
+    return doctorName;
+}
+
 module.exports.patientRegistartionHome = function(req, res){
     try{
+        if(!appSettings.isOpdRegistrationEnabled()){
+            return res.render('Error_403')
+        }
         return res.render('patientRegistration',{user:req.user})
     }catch(err){
         console.log(err)
@@ -37,6 +49,11 @@ module.exports.oldAppointmentsHome = function(req, res){
 // This methods add a visit for old patient and also creates a patient if its new.
 module.exports.addVisitAndPatient = async function(req, res){
     try{
+        if(!appSettings.isOpdRegistrationEnabled()){
+            return res.status(403).json({
+                message:'OPD registration is disabled'
+            })
+        }
         let day = new Date().getDate().toString().padStart(2,'0')
         let month = +new Date().getMonth()
         let year = new Date().getFullYear()
@@ -524,7 +541,7 @@ module.exports.saveDischargeBill = async function(req, res){
                 Gender:visit.Patient.Gender,
                 PatiendID:visit.Patient.Id,
                 Husband:visit.Patient.Husband,
-                Doctor:visit.Doctor,
+                Doctor:getDefaultDoctorForSaleType('DischargeBill', visit.Doctor),
                 IdProof:visit.Patient.IdProof,
                 CashPaid:req.body.cashPayment,
                 OnlinePaid:req.body.onlinePayment,
@@ -773,7 +790,7 @@ module.exports.addAdvancePayment = async function(req, res){
             Husband:visit.Patient.Husband,
             PatiendID:visit.Patient.Id,
             IdProof:visit.Patient.IdProof,
-            Doctor:visit.Doctor,
+            Doctor:getDefaultDoctorForSaleType('IPDAdvance', visit.Doctor),
             CashPaid:CashPaid,
             OnlinePaid:OnlinePaid,
             type:'IPDAdvance',

@@ -18,6 +18,14 @@ let Items = new Array();
 let counter = 0
 let total = 0
 let patient
+setDefaultDoctorForBilling();
+
+function setDefaultDoctorForBilling() {
+    if(document.getElementById('billType').value == 'Pathology' || document.getElementById('billType').value == 'Ultrasound'){
+        document.getElementById('docName').value = 'Dr Anuj Jain';
+    }
+}
+
 function addItems() {
     let container = document.getElementById('itemsTableBody');
     let itemName = document.getElementById('Item').value
@@ -125,7 +133,7 @@ function autoFillPatients() {
             document.getElementById('gender').value = data.patient.Gender;
             document.getElementById('address').value = data.patient.Address;
             document.getElementById('mobile').value = data.patient.Mobile;
-            document.getElementById('docName').value = data.patient.Doctor;
+            setDefaultDoctorForBilling()
             document.getElementById('IdProof').value = data.patient.IdProof;
             new Noty({
                 theme: 'relax',
@@ -141,7 +149,7 @@ function autoFillPatients() {
             document.getElementById('gender').value = '';
             document.getElementById('address').value = '';
             document.getElementById('mobile').value = '';
-            document.getElementById('docName').value = '';
+            setDefaultDoctorForBilling()
             document.getElementById('patientId').value = ''
             document.getElementById('IdProof').value = '';
             new Noty({

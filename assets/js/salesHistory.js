@@ -136,11 +136,12 @@ function getSalesHistoryRange(){
 }
 
 function showHistory(items){
+    resetSelectionState()
     if(items.length < 1){
         document.getElementById("historyBody").innerHTML=
         `
         <tr>
-            <td rowspan="3" colspan="11" style="text-align: center;">No Data found</td>
+            <td rowspan="3" colspan="12" style="text-align: center;">No Data found</td>
         </tr>
         `
         document.getElementById('tvalue').innerText='Total Amount : ₹ 0'
@@ -184,6 +185,7 @@ function showHistory(items){
         rowItem.id=items[i]._id+'row'
         rowItem.innerHTML=
         `
+            <td class="toBeRemovedinPDF"><input type="checkbox" class="sale-select" value="${items[i]._id}" onchange="updateBulkCancelState()"></td>
             <td>${i+1}</td>
             <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
             <td>${items[i].Name}</td>
@@ -210,15 +212,65 @@ function showHistory(items){
             onlineCounter ++
         }
     }
-    let printButton = document.createElement('button')
-    printButton.innerText='Print'
-    printButton.classList.add('btn')
-    printButton.classList.add('btn-primary')
-    printButton.addEventListener('click', printMe);
-    document.getElementById('main-body').appendChild(printButton);
+    let printButton = document.getElementById('printSalesHistoryBtn');
+    if(!printButton){
+        printButton = document.createElement('button')
+        printButton.id='printSalesHistoryBtn'
+        printButton.innerText='Print'
+        printButton.classList.add('btn')
+        printButton.classList.add('btn-primary')
+        printButton.addEventListener('click', printMe);
+        document.getElementById('main-body').appendChild(printButton);
+    }
     document.getElementById('tvalue').innerText='Total : ₹ '+total
     document.getElementById('tvaluecash').innerText='Cash ('+cashCounter + ') : ₹ '+cashTotal
     document.getElementById('tvalueonline').innerText='Online ('+onlineCounter + '): ₹ ' +onlineTotal
+}
+
+function resetSelectionState(){
+    const selectAll = document.getElementById('selectAllSales');
+    if(selectAll){
+        selectAll.checked = false;
+    }
+    updateBulkCancelState();
+}
+
+function toggleSelectAll(source){
+    let allCheckboxes = document.getElementsByClassName('sale-select');
+    for(let i=0;i<allCheckboxes.length;i++){
+        allCheckboxes[i].checked = source.checked;
+    }
+    updateBulkCancelState();
+}
+
+function updateBulkCancelState(){
+    let selectedCount = getSelectedSaleIds().length;
+    let bulkCancelBtn = document.getElementById('bulkCancelBtn');
+    if(bulkCancelBtn){
+        bulkCancelBtn.disabled = selectedCount < 1;
+    }
+    let selectAll = document.getElementById('selectAllSales');
+    let allCheckboxes = document.getElementsByClassName('sale-select');
+    if(selectAll){
+        if(allCheckboxes.length < 1){
+            selectAll.checked = false;
+            selectAll.indeterminate = false;
+            return;
+        }
+        selectAll.checked = selectedCount == allCheckboxes.length;
+        selectAll.indeterminate = selectedCount > 0 && selectedCount < allCheckboxes.length;
+    }
+}
+
+function getSelectedSaleIds(){
+    let selectedIds = [];
+    let allCheckboxes = document.getElementsByClassName('sale-select');
+    for(let i=0;i<allCheckboxes.length;i++){
+        if(allCheckboxes[i].checked){
+            selectedIds.push(allCheckboxes[i].value);
+        }
+    }
+    return selectedIds;
 }
 
 
@@ -232,8 +284,7 @@ function cancelSale(id){
                 saleId: id
             },
             success:function(data){
-                document.getElementById(id+'row').remove()
-                document.getElementById('tvalue').innerText=''
+                removeSalesRows([id])
             },
             error:function(err){
                 new Noty({
@@ -249,6 +300,99 @@ function cancelSale(id){
         })
     }
     
+}
+
+function bulkCancelSales(){
+    let selectedSaleIds = getSelectedSaleIds();
+    if(selectedSaleIds.length < 1){
+        new Noty({
+            theme: 'relax',
+            text: 'Please select sales to cancel',
+            type: 'error',
+            layout: 'topRight',
+            timeout: 1500
+        }).show();
+        return
+    }
+    let confirmation = window.confirm(selectedSaleIds.length + ' sales will be cancelled permantly');
+    if(confirmation){
+        $.ajax({
+            url:'/sales/bulkCancel',
+            type:'POST',
+            traditional:true,
+            data:{
+                saleIds:selectedSaleIds
+            },
+            success:function(data){
+                removeSalesRows(data.cancelledSaleIds || [])
+                if(data.failedSales && data.failedSales.length > 0){
+                    new Noty({
+                        theme: 'relax',
+                        text: data.failedSales.length + ' sale(s) could not be cancelled',
+                        type: 'warning',
+                        layout: 'topRight',
+                        timeout: 2000
+                    }).show();
+                }
+            },
+            error:function(err){
+                new Noty({
+                    theme: 'relax',
+                    text: 'Unable to bulk cancel sales',
+                    type: 'error',
+                    layout: 'topRight',
+                    timeout: 1500
+                }).show();
+                return
+            }
+    
+        })
+    }
+}
+
+function removeSalesRows(ids){
+    for(let i=0;i<ids.length;i++){
+        let row = document.getElementById(ids[i]+'row');
+        if(row){
+            row.remove()
+        }
+    }
+    resetSelectionState();
+    if(document.getElementById('historyBody').children.length < 1){
+        showHistory([])
+    }else{
+        updateVisibleTotals()
+    }
+}
+
+function updateVisibleTotals(){
+    let rows = document.getElementById('historyBody').children;
+    let total = 0;
+    let cashTotal = 0;
+    let onlineTotal = 0;
+    let cashCounter = 0;
+    let onlineCounter = 0;
+    for(let i=0;i<rows.length;i++){
+        let cells = rows[i].getElementsByTagName('td');
+        if(cells.length < 10){
+            continue;
+        }
+        let amount = +(cells[4].innerText.replace('₹', '').trim());
+        let cash = +(cells[8].innerText.trim());
+        let online = +(cells[9].innerText.trim());
+        total = total + amount;
+        cashTotal = cashTotal + cash;
+        onlineTotal = onlineTotal + online;
+        if(cash > 0){
+            cashCounter++;
+        }
+        if(online > 0){
+            onlineCounter++;
+        }
+    }
+    document.getElementById('tvalue').innerText='Total : ₹ '+total
+    document.getElementById('tvaluecash').innerText='Cash ('+cashCounter + ') : ₹ '+cashTotal
+    document.getElementById('tvalueonline').innerText='Online ('+onlineCounter + '): ₹ ' +onlineTotal
 }
 function printMe(){
     document.getElementById('header').style.display='none'

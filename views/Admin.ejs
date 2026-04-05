@@ -161,6 +161,18 @@
             <!-- SETTINGS TAB-->
             <div id="settings" style="text-align: center; padding: 10px; height: 75vh;" class="settings">
 
+                <div class="card" style="width: 100%; margin-bottom: 1.5rem; padding: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="text-align: left;">
+                            <h5 style="margin-bottom: 0.25rem;">OPD Registration</h5>
+                            <div>Enable or disable OPD registration page access</div>
+                        </div>
+                        <div class="form-check form-switch" style="font-size: 1.2rem;">
+                            <input class="form-check-input" type="checkbox" onchange="updateOpdRegistrationSetting()" role="switch" id="opdRegistrationToggle">
+                        </div>
+                    </div>
+                </div>
+
                 <div style="position: absolute; margin-left: 71%">
                     <button class="btn btn-primary" onclick="popupservicewindow()">Add New Service</button>
                 </div>

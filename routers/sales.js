@@ -13,6 +13,7 @@ Router.get('/getHistoryByDate', passport.checkAuthentication, SalesController.ge
 Router.get('/getHistoryByRange', passport.checkAuthentication, SalesController.getBillsByDateRange);
 Router.get('/getHistoryByPatId', passport.checkAuthentication, SalesController.getBillsByPatId);
 Router.delete('/cancel/', passport.checkAuthentication, SalesController.cancelSale);
+Router.post('/bulkCancel', passport.checkAuthentication, SalesController.bulkCancelSale);
 Router.get('/validateBill', passport.checkAuthentication, SalesController.validateBill);
 Router.post('/changePayment', passport.checkAuthentication, SalesController.changePaymentMethod);
 Router.get('/reports/getHistoryByRange', passport.checkAuthentication, SalesController.getReportsRange);

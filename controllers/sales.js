@@ -4,6 +4,14 @@ const PatientData = require('../models/patients');
 const Tracker = require('../models/tracker');
 const Visits = require('../models/visits');
 const Sale = require('../models/sales');
+
+function getDefaultDoctorForSaleType(type, doctorName){
+    if(type == 'Pathology' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
+        return 'Dr Anuj Jain';
+    }
+    return doctorName;
+}
+
 module.exports.salesHistoryHome = function(req, res){
     try{
         return res.render('salesHistory',{user:req.user});
@@ -136,7 +144,7 @@ module.exports.addSales = async function(req, res){
             Items:req.body.Items,
             PaymentType:req.body.paymentMode,
             IdProof :IdProof,
-            Doctor:req.body.patient.Doctor,
+            Doctor:getDefaultDoctorForSaleType(req.body.Type, req.body.patient.Doctor),
             OnlinePaid:req.body.onlinePayment,
             CashPaid:req.body.cashPayment
         })
@@ -300,30 +308,88 @@ module.exports.getBillsByDateRange = async function(req, res){
 module.exports.cancelSale = async function(req, res){
     try{
         if(req.user.Role == 'Admin' || req.user.Role == 'Doctor'){
-            let sale = await SalesData.findById(req.body.saleId);
-            let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled');
-            if(sale.type == 'IPDAdvance'){
-                let pattern = sale.Total + "\\$" + sale.BillDate;
-                await Visits.findByIdAndUpdate(sale.Visit, {$pull : { advancedPayments : { $regex : pattern}}});
-            }
-            await sale.updateOne({isCancelled:true})
-            if(appointment){
-                if(appointment.VisitData && appointment.VisitData.complaint.length > 0){
-                    return res.status(424).json({
-                        message:'Appointment already completed'
-                    })
-                }else{
-                    await appointment.updateOne({isCancelled:true})
-                }
-            }
+            const sale = await cancelSaleById(req.body.saleId);
             return res.status(200).json({
-                message:'Sales cancelled'
+                message:'Sales cancelled',
+                saleId:sale._id
             })
         }else{
             return res.status(403).json({
                 message:'Unauthorized action'
             })
         }
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Error cancelling sales'
+        })
+    }
+}
+
+async function cancelSaleById(saleId){
+    const sale = await SalesData.findById(saleId);
+    if(!sale){
+        const error = new Error('Sale not found');
+        error.statusCode = 404;
+        throw error;
+    }
+    if(sale.isCancelled){
+        return sale;
+    }
+    let appointment = await Visits.findOne({SaleId:sale._id},'isCancelled VisitData');
+    if(appointment && appointment.VisitData && appointment.VisitData.complaint && appointment.VisitData.complaint.length > 0){
+        const error = new Error('Appointment already completed');
+        error.statusCode = 424;
+        throw error;
+    }
+    if(sale.type == 'IPDAdvance'){
+        let pattern = sale.Total + "\\$" + sale.BillDate;
+        await Visits.findByIdAndUpdate(sale.Visit, {$pull : { advancedPayments : { $regex : pattern}}});
+    }
+    await sale.updateOne({isCancelled:true})
+    if(appointment){
+        await appointment.updateOne({isCancelled:true})
+    }
+    return sale;
+}
+
+module.exports.bulkCancelSale = async function(req, res){
+    try{
+        if(req.user.Role != 'Admin' && req.user.Role != 'Doctor'){
+            return res.status(403).json({
+                message:'Unauthorized action'
+            })
+        }
+        let saleIds = req.body.saleIds || [];
+        if(typeof saleIds == 'string'){
+            saleIds = [saleIds];
+        }
+        saleIds = [...new Set(saleIds.filter(id => id && id.length > 0))];
+        if(saleIds.length < 1){
+            return res.status(400).json({
+                message:'No sales selected'
+            })
+        }
+
+        const cancelledSaleIds = [];
+        const failedSales = [];
+        for(let i=0;i<saleIds.length;i++){
+            try{
+                const sale = await cancelSaleById(saleIds[i]);
+                cancelledSaleIds.push(sale._id.toString());
+            }catch(err){
+                failedSales.push({
+                    saleId:saleIds[i],
+                    message:err.message || 'Unable to cancel sale'
+                })
+            }
+        }
+
+        return res.status(200).json({
+            message:'Bulk cancel completed',
+            cancelledSaleIds,
+            failedSales
+        })
     }catch(err){
         console.log(err)
         return res.status(500).json({

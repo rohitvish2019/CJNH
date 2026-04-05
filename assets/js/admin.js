@@ -28,6 +28,7 @@ function openSettings() {
     document.getElementById('profile').style.display = 'none'
     document.getElementById('dashboard').style.display = 'none'
     document.getElementById('Medicine').style.display = 'none'
+    getOpdRegistrationSetting()
     getServices()
 }
 
@@ -161,6 +162,49 @@ function getServices() {
         }
     })
 
+}
+
+function getOpdRegistrationSetting() {
+    $.ajax({
+        url: '/user/appSettings',
+        type: 'GET',
+        success: function (data) {
+            document.getElementById('opdRegistrationToggle').checked = data.opdRegistrationEnabled;
+        },
+        error: function (err) {
+            console.log(err)
+        }
+    })
+}
+
+function updateOpdRegistrationSetting() {
+    let opdRegistrationEnabled = document.getElementById('opdRegistrationToggle').checked;
+    $.ajax({
+        url: '/user/updateAppSettings',
+        type: 'POST',
+        data: {
+            opdRegistrationEnabled
+        },
+        success: function (data) {
+            new Noty({
+                theme: 'relax',
+                text: data.opdRegistrationEnabled ? 'OPD registration enabled' : 'OPD registration disabled',
+                type: 'success',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+        },
+        error: function (err) {
+            new Noty({
+                theme: 'relax',
+                text: 'Unable to update OPD registration setting',
+                type: 'error',
+                layout: 'topRight',
+                timeout: 1500
+            }).show();
+            document.getElementById('opdRegistrationToggle').checked = !opdRegistrationEnabled;
+        }
+    })
 }
 
 function popupuserwindow() {

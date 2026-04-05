@@ -18,7 +18,7 @@
     style="padding-right:2%; padding-left: 2%;">
 
     <div class="logo">
-      <a href="/patients/new"><img src="/images/CJNH_Logo_White.png" alt="" srcset="" height="100%" width="100%"></a>
+      <a href="<%= opdRegistrationEnabled ? '/patients/new' : '/patients/getAppointments/old' %>"><img src="/images/CJNH_Logo_White.png" alt="" srcset="" height="100%" width="100%"></a>
 
     </div>
 
@@ -29,7 +29,11 @@
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             Patients</button>
           <ul class="dropdown-menu">
+            <% if(opdRegistrationEnabled){ %>
             <li><a class="dropdown-item" href="/patients/new">OPD Registration</a></li>
+            <% }else{ %>
+            <li><span class="dropdown-item disabled">OPD Registration Disabled</span></li>
+            <% } %>
             <li><a class="dropdown-item" href="/patients/getAppointments/today">Appointments Today</a></li>
             
             <li><a class="dropdown-item" href="/patients/getAppointments/old">Appointments By Date</a></li>

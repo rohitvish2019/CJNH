@@ -1,5 +1,13 @@
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const salesReportColumnMap = {
+    Appointment: 'checkBoxforAppointmentFee',
+    Pathology: 'checkBoxforPathology',
+    DischargeBill: 'checkBoxforDischargeBill',
+    Ultrasound: 'checkBoxforUltrasound',
+    IPDAdvance: 'checkBoxforIPDAdvance',
+    Other: 'checkBoxforOther'
+}
 function changeInputs(){
     let value = 'byDateRange';
     /*
@@ -14,6 +22,31 @@ function changeInputs(){
         */
 }
 changeInputs();
+
+function getSelectedReportTypes(){
+    let selectedTypes = [];
+    for(let type in salesReportColumnMap){
+        let checkbox = document.getElementById(salesReportColumnMap[type]);
+        if(checkbox && checkbox.checked){
+            selectedTypes.push(type);
+        }
+    }
+    return selectedTypes;
+}
+
+function applySelectedColumns(){
+    const selectedTypes = getSelectedReportTypes();
+    const allTypes = Object.keys(salesReportColumnMap);
+    for(let i=0;i<allTypes.length;i++){
+        const type = allTypes[i];
+        const shouldShow = selectedTypes.includes(type);
+        let elements = document.getElementsByClassName('report-col-' + type);
+        for(let j=0;j<elements.length;j++){
+            elements[j].style.display = shouldShow ? '' : 'none';
+        }
+    }
+    updateReportTotals();
+}
 
 function getSalesHistoryDate(){
     let selectedDate = document.getElementById('selectedDate').value
@@ -155,19 +188,17 @@ function showHistory(items, Doctor){
         let ultrasoundFees = items[i].Ultrasound == undefined ? 0 : parseInt(items[i].Ultrasound);
         let iPDAdvanceFees = items[i].IPDAdvance == undefined ? 0 : parseInt(items[i].IPDAdvance);
         let otherFees = items[i].Other == undefined ? 0 : parseInt(items[i].Other);
-        let total = appointmentFees + pathologyFees + dischargeBillFees + ultrasoundFees + iPDAdvanceFees + otherFees;
-        finalTotal = finalTotal + total;
         rowItem.innerHTML=
         `
             <td>${i+1}</td>
             <td>${items[i].date.split('-')[2]}-${items[i].date.split('-')[1]}-${items[i].date.split('-')[0]}</td>
-            <td>₹ ${appointmentFees}</td>
-            <td>₹ ${pathologyFees}</td>
-            <td>₹ ${dischargeBillFees}</td>
-            <td>₹ ${ultrasoundFees}</td>
-            <td>₹ ${iPDAdvanceFees}</td>
-            <td>₹ ${otherFees}</td> 
-            <td>₹ ${total}</td> 
+            <td class="report-col report-col-Appointment">₹ ${appointmentFees}</td>
+            <td class="report-col report-col-Pathology">₹ ${pathologyFees}</td>
+            <td class="report-col report-col-DischargeBill">₹ ${dischargeBillFees}</td>
+            <td class="report-col report-col-Ultrasound">₹ ${ultrasoundFees}</td>
+            <td class="report-col report-col-IPDAdvance">₹ ${iPDAdvanceFees}</td>
+            <td class="report-col report-col-Other">₹ ${otherFees}</td> 
+            <td class="report-total">₹ 0</td> 
         `
         
         
@@ -188,10 +219,31 @@ function showHistory(items, Doctor){
     }
         */  
     
-    document.getElementById('tvalue').innerText='Total : ₹ '+finalTotal
     document.getElementById('doctorName').innerText='Doctor :  '+Doctor
+    applySelectedColumns()
     
     
+}
+
+function updateReportTotals(){
+    let rows = document.getElementById('historyBody').children;
+    let selectedTypes = getSelectedReportTypes();
+    let finalTotal = 0;
+    for(let i=0;i<rows.length;i++){
+        let rowTotal = 0;
+        for(let j=0;j<selectedTypes.length;j++){
+            let cell = rows[i].getElementsByClassName('report-col-' + selectedTypes[j])[0];
+            if(cell){
+                rowTotal = rowTotal + +(cell.innerText.replace('₹', '').trim());
+            }
+        }
+        let totalCell = rows[i].getElementsByClassName('report-total')[0];
+        if(totalCell){
+            totalCell.innerText = '₹ ' + rowTotal;
+        }
+        finalTotal = finalTotal + rowTotal;
+    }
+    document.getElementById('tvalue').innerText='Total : ₹ '+finalTotal
 }
 
 /*

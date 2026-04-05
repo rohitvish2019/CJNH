@@ -13,6 +13,7 @@ const passport = require('passport');
 const passportLocal = require('./configs/passport-local-strategy');
 const ejs = require('ejs');
 const MongoStore = require('connect-mongo')
+const appSettings = require('./configs/appSettings');
 
 
 //const { request, urlencoded } = require('express');
@@ -72,6 +73,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passportLocal.setAuthenticatedUser);
+app.use(function(req, res, next){
+    res.locals.opdRegistrationEnabled = appSettings.isOpdRegistrationEnabled();
+    next();
+});
 
 
 

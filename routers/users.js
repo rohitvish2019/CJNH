@@ -9,7 +9,9 @@ Router.get('/Admin', passport.checkAuthentication, UsersController.adminHome)
 Router.get('/getAllUsers', passport.checkAuthentication, UsersController.getUsers);
 Router.post('/changeStatus', passport.checkAuthentication, UsersController.changeUserData);
 Router.get('/profile', passport.checkAuthentication, UsersController.getProfile);
+Router.get('/appSettings', passport.checkAuthentication, UsersController.getAppSettings);
 Router.post('/updateProfile', passport.checkAuthentication, UsersController.updateProfile);
+Router.post('/updateAppSettings', passport.checkAuthentication, UsersController.updateAppSettings);
 Router.get('/changePasswordHome', passport.checkAuthentication, UsersController.changePasswordHome);
 Router.post('/updatePassword', passport.checkAuthentication, UsersController.updatePassword);
 Router.post('/addNew', passport.checkAuthentication, UsersController.addUser)

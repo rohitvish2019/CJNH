@@ -1,12 +1,20 @@
 const { emit } = require("../models/patients")
 const Users = require("../models/users")
+const appSettings = require('../configs/appSettings');
+
+function getPostLoginRoute(user){
+    if(user.Role == 'Admin'){
+        return '/patients/getAppointments/today'
+    }
+    if(appSettings.isOpdRegistrationEnabled()){
+        return '/patients/new'
+    }
+    return '/patients/getAppointments/old'
+}
+
 module.exports.loginHome = function(req, res){
     if(req.isAuthenticated()){
-        if(req.user.Role == 'Admin'){
-            return res.redirect('/patients/getAppointments/today')
-        }else{
-            return res.redirect('/patients/new')
-        }
+        return res.redirect(getPostLoginRoute(req.user))
         
     }
     else{
@@ -17,11 +25,7 @@ module.exports.loginHome = function(req, res){
 }
 module.exports.createSession = async function(req, res){
     try{
-        if(req.user.Role == 'Admin'){
-            return res.redirect('/patients/getAppointments/today')
-        }else{
-            return res.redirect('/patients/new');
-        }
+        return res.redirect(getPostLoginRoute(req.user));
         
     }catch(err){
         console.log(err)
@@ -213,6 +217,46 @@ module.exports.updatePassword = async function(req, res){
         console.log(err)
         return res.status(500).json({
             message:'Internal server error'
+        })
+    }
+}
+
+module.exports.getAppSettings = function(req, res){
+    try{
+        if(req.user.Role != 'Admin'){
+            return res.status(403).json({
+                message:'Unauthorized request'
+            })
+        }
+        return res.status(200).json({
+            opdRegistrationEnabled: appSettings.isOpdRegistrationEnabled()
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to fetch settings'
+        })
+    }
+}
+
+module.exports.updateAppSettings = async function(req, res){
+    try{
+        if(req.user.Role != 'Admin'){
+            return res.status(403).json({
+                message:'Unauthorized request'
+            })
+        }
+        let status = req.body.opdRegistrationEnabled;
+        status = status === true || status === 'true';
+        const updatedStatus = await appSettings.setOpdRegistrationEnabled(status);
+        return res.status(200).json({
+            message:'Settings updated',
+            opdRegistrationEnabled: updatedStatus
+        })
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            message:'Unable to update settings'
         })
     }
 }
