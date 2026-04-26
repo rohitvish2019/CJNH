@@ -1,4 +1,4 @@
-let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor','Husband','AppointmentDate','IdProof','paymentType'];
+let inputData = ['Name', 'Gender', 'Age', 'Address', 'Mobile', 'Fees', 'Doctor','Husband','Father','AppointmentDate','IdProof','paymentType'];
 
 function registerPatient() {
     document.getElementById('register').setAttribute('disabled','true');

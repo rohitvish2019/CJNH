@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Appointments</title>
+    <title>Doctor Appointments</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -16,7 +16,7 @@
 
     <div class="main-body">
         <div class="heading">
-            <h2>Online Appointments</h2>
+            <h2>Doctor Appointments</h2>
         </div>
 
         <div class="search-div">
@@ -27,7 +27,7 @@
                 </button>
             </div>
             <div class="status-strip">
-                <span id="resultCount">Search by date to view online appointments.</span>
+                <span id="resultCount">Search by date to view doctor appointments.</span>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                 <%-include('_loader')%>
                 <tbody>
                     <tr>
-                        <td colspan="10">Search online appointments by date.</td>
+                        <td colspan="10">Search doctor appointments by date.</td>
                     </tr>
                 </tbody>
             </table>
@@ -102,7 +102,7 @@
             resultCount.innerText = 'Fetching appointments...';
 
             try {
-                const response = await fetch(`/external/getAppointments?date=${date}`);
+                const response = await fetch(`/external/getDoctorAppointments?date=${date}`);
                 const data = await response.json();
                 const appointments = data && data.appointments && Array.isArray(data.appointments.appointments)
                     ? data.appointments.appointments
@@ -125,11 +125,11 @@
 
             if (!appointments || appointments.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10">No Data Found</td></tr>';
-                resultCount.innerText = 'No online appointments found for the selected date.';
+                resultCount.innerText = 'No doctor appointments found for the selected date.';
                 return;
             }
 
-            resultCount.innerText = `Total online appointments: ${appointments.length}`;
+            resultCount.innerText = `Total doctor appointments: ${appointments.length}`;
 
             appointments.forEach((appt, index) => {
                 appointmentStore[appt.appointmentId] = appt;
@@ -191,7 +191,7 @@
                     return;
                 }
                 btn.disabled = true;
-                const res = await fetch('/external/acceptAppointment', {
+                const res = await fetch('/external/acceptDoctorAppointment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -246,7 +246,7 @@
 
                 linkSubmitBtn.disabled = true;
                 linkInlineSubmitBtn.disabled = true;
-                const res = await fetch('/external/linkAndAcceptAppointment', {
+                const res = await fetch('/external/linkAndAcceptDoctorAppointment', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -285,7 +285,7 @@
             if (rowsLeft === 0) {
                 renderTable([]);
             } else {
-                resultCount.innerText = `Total online appointments: ${rowsLeft}`;
+                resultCount.innerText = `Total doctor appointments: ${rowsLeft}`;
             }
         }
 

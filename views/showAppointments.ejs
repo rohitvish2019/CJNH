@@ -33,7 +33,7 @@
         <th scope="col"><i class="fa-solid fa-stethoscope"></i> Dr. Name</th>
         <th scope="col"><i class="fas fa-user"></i> Name</th>
         <th scope="col"><i class="fa-solid fa-arrow-up-1-9"></i></i> Age</th>
-        <th scope="col"><i class="fa-solid fa-person-rays"></i> Husband</th>
+        <th scope="col"><i class="fa-solid fa-person-rays"></i> Guardian</th>
         <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
         <th scope="col">₹ Fees(Method)</th>
         <th> <i class="fa-solid fa-notes-medical"></i> History</th>
@@ -53,8 +53,8 @@
         <td><%=visits[i].Doctor%></td>
         <td><%=visits[i].Patient.Name%></td>
         <td><%=visits[i].Patient.Age%></td>
-        <td><%=visits[i].Patient.Husband%></td>
-        <td><%=visits[i].Patient.Address%></td>
+        <td><%= visits[i].Husband || visits[i].Father || '-' %></td>
+        <td><%= visits[i].Patient.Address || '-' %></td>
         <td><%=visits[i].Fees%></td>
         <td><a target="_blank" href="/patients/getHistory/<%=visits[i].Patient._id%>">Patient History</a></td>
         <td><a target="_blank" href="/patients/getPrescription/<%=visits[i]._id%>">Prescription</a></td>

@@ -15,6 +15,8 @@ const Visits = new mongoose.Schema({
     AdmissionDate:String,
     DischargeDate:String,
     BroughtBy:String,
+    Father:String,
+    Husband:String,
     Reason:String,
     AdmissionTime:String,
     DischargeTime:String,

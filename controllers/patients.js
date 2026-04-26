@@ -82,6 +82,7 @@ module.exports.addVisitAndPatient = async function(req, res){
                 Id:newPatientId,
                 Gender:req.body.Gender,
                 Husband:req.body.Husband,
+                Father:req.body.Father,
                 IdProof:req.body.IdProof
             });
             await tracker.updateOne({patientId:newPatientId})
@@ -147,7 +148,7 @@ module.exports.getAppointmentsToday = async function(req, res){
             let visits;
             console.log(date)
             if(req.query.status == 'true'){
-                visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient');
+                visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient').populate('SaleId');
             }else{
                 visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient').populate('SaleId');
             }

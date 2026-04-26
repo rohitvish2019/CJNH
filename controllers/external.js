@@ -37,7 +37,8 @@ function normalizeExternalAppointment(appointment) {
         patientMobile: patientDetails.mobile || '',
         patientGender: patientDetails.gender || 'Other',
         patientAddress: patientDetails.address || '',
-        patientGuardianName: patientDetails.guardianName || '',
+        patientFatherName: patientDetails.fatherName || patientDetails.guardian?.father || (patientDetails.guardianType === 'Father' ? patientDetails.guardianName : '') || '',
+        patientHusbandName: patientDetails.husbandName || patientDetails.guardian?.husband || (patientDetails.guardianType === 'Husband' ? patientDetails.guardianName : '') || '',
         paymentType: appointment.paymentType || 'NA',
         paidAmount: Number(appointment.amountPaid || 0),
     };
@@ -140,27 +141,44 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
             Mobile: normalized.patientMobile,
             Id: patientIdForSale,
             Gender: normalized.patientGender,
-            Husband: normalized.patientGuardianName
+            Father: normalized.patientFatherName,
+            Husband: normalized.patientHusbandName
         });
         await tracker.updateOne({ patientId: patientIdForSale });
     } else {
         patientIdForSale = patient.Id;
+        // Update patient with guardian info if provided
+        const updateData = {};
+        if (normalized.patientFatherName && !patient.Father) {
+            updateData.Father = normalized.patientFatherName;
+        }
+        if (normalized.patientHusbandName && !patient.Husband) {
+            updateData.Husband = normalized.patientHusbandName;
+        }
+        if (Object.keys(updateData).length > 0) {
+            await PatientData.findByIdAndUpdate(patient._id, updateData);
+        }
     }
 
-    const doctor = await Users.findById(normalized.ehrDoctorId);
-    if (!doctor) {
-        const error = new Error('Doctor not found');
-        error.statusCode = 400;
-        throw error;
+    let doctor = null;
+    if (normalized.ehrDoctorId) {
+        doctor = await Users.findById(normalized.ehrDoctorId);
+        if (!doctor) {
+            const error = new Error('Doctor not found');
+            error.statusCode = 400;
+            throw error;
+        }
     }
 
     const visit = await VisitData.create({
         Patient: patient._id,
         Type: 'OPD',
         Fees: normalized.paidAmount,
-        Doctor: doctor.Name || normalized.doctorName,
+        Doctor: doctor && doctor.Name || normalized.doctorName,
         Visit_date: normalized.date,
         PaymentType: normalized.paymentType,
+        Father: normalized.patientFatherName,
+        Husband: normalized.patientHusbandName,
         externalVisitId: normalized.appointmentId,
         externalDoctorId: normalized.doctorId,
         isWebhookSynced: false
@@ -187,7 +205,7 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
         Age: patient.Age,
         Address: patient.Address,
         Mobile: patient.Mobile,
-        Doctor: doctor.Name || normalized.doctorName,
+        Doctor: doctor && doctor.Name || normalized.doctorName,
         Gender: patient.Gender,
         Husband: patient.Husband,
         PatiendID: patientIdForSale,
@@ -242,6 +260,90 @@ module.exports.acceptAppointment = async function(req, res) {
 }
 
 module.exports.linkAndAcceptAppointment = async function(req, res) {
+    try {
+        const appointment = req.body.appointment;
+        const patientId = req.body.patientId;
+
+        if (!patientId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Patient Id is required'
+            });
+        }
+
+        const linkedPatient = await PatientData.findOne({
+            Id: patientId,
+            isCancelled: false,
+            isValid: true
+        });
+
+        if (!linkedPatient) {
+            return res.status(404).json({
+                success: false,
+                message: 'Patient not found'
+            });
+        }
+
+        const result = await saveExternalAppointment({ appointment, linkedPatient });
+        return res.status(200).json({
+            success: true,
+            message: result.alreadyAccepted
+                ? 'Appointment was already accepted. Webhook retried.'
+                : 'Appointment linked and accepted successfully',
+            result
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(err.statusCode || 500).json({
+            success: false,
+            message: err.message || 'Unable to link and accept appointment'
+        });
+    }
+}
+
+// ============================================
+// SECOND DOCTOR APPOINTMENTS ENDPOINTS
+// ============================================
+
+module.exports.doctorAppointmentsHome = function(req,res){
+    res.render('doctorAppointments',)
+}
+
+module.exports.getDoctorAppointments = async function(req,res){
+    try{
+        const date = req.query.date;
+        let finalURL = process.env.External_API_URL + `?date=${date}`;
+        console.log('Fetching doctor appointments from:', finalURL);
+        let appointments = await axios.get(finalURL, { headers : { Authorization: `Bearer ${process.env.External_JWT_Token_2}` } });
+        appointments = appointments.data;
+        return res.status(200).json({ appointments });
+    }catch(err){
+        console.error('Error fetching doctor appointments:', err);
+        return res.status(500).json({ error: 'Failed to fetch appointments' });
+    }
+}
+
+module.exports.acceptDoctorAppointment = async function(req, res) {
+    try {
+        const appointment = req.body.appointment;
+        const result = await saveExternalAppointment({ appointment });
+        return res.status(200).json({
+            success: true,
+            message: result.alreadyAccepted
+                ? 'Appointment was already accepted. Webhook retried.'
+                : 'Appointment accepted successfully',
+            result
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(err.statusCode || 500).json({
+            success: false,
+            message: err.message || 'Unable to accept appointment'
+        });
+    }
+}
+
+module.exports.linkAndAcceptDoctorAppointment = async function(req, res) {
     try {
         const appointment = req.body.appointment;
         const patientId = req.body.patientId;

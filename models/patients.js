@@ -8,6 +8,7 @@ const Patients = new mongoose.Schema({
     Id:Number,
     Doctor:String,
     Husband:String,
+    Father:String,
     IdProof:String,
     Gender:{
         type:String,

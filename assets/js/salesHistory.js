@@ -147,14 +147,17 @@ function showHistory(items){
         document.getElementById('tvalue').innerText='Total Amount : ₹ 0'
         document.getElementById('tvaluecash').innerText='Cash : ₹ 0'
         document.getElementById('tvalueonline').innerText='Online : ₹ 0'
+        document.getElementById('tvalueindiqoo').innerText='Indiqoo : ₹ 0'
         //document.getElementById('pagination').innerHTML=``
         return
     }
     let total = 0
     let cashTotal = 0
     let onlineTotal = 0
+    let indiqooTotal = 0
     let cashCounter = 0;
     let onlineCounter = 0
+    let indiqooCounter = 0
     let container = document.getElementById('historyBody');
     
     container.innerHTML=``;
@@ -183,6 +186,10 @@ function showHistory(items){
         
         let rowItem = document.createElement('tr');
         rowItem.id=items[i]._id+'row'
+        rowItem.dataset.total = +(items[i].Total || 0)
+        rowItem.dataset.cashPaid = +(items[i].CashPaid || 0)
+        rowItem.dataset.onlinePaid = +(items[i].OnlinePaid || 0)
+        rowItem.dataset.indiqooPaid = +(items[i].indiqooPaid || 0)
         rowItem.innerHTML=
         `
             <td class="toBeRemovedinPDF"><input type="checkbox" class="sale-select" value="${items[i]._id}" onchange="updateBulkCancelState()"></td>
@@ -205,11 +212,15 @@ function showHistory(items){
         total = total  + +items[i].Total
         cashTotal = cashTotal + +items[i].CashPaid
         onlineTotal = onlineTotal + +items[i].OnlinePaid
+        indiqooTotal = indiqooTotal + +(items[i].indiqooPaid || 0)
         if(items[i].CashPaid > 0) {
             cashCounter ++;
         }
         if(items[i].OnlinePaid > 0) {
             onlineCounter ++
+        }
+        if((items[i].indiqooPaid || 0) > 0) {
+            indiqooCounter ++
         }
     }
     let printButton = document.getElementById('printSalesHistoryBtn');
@@ -225,6 +236,7 @@ function showHistory(items){
     document.getElementById('tvalue').innerText='Total : ₹ '+total
     document.getElementById('tvaluecash').innerText='Cash ('+cashCounter + ') : ₹ '+cashTotal
     document.getElementById('tvalueonline').innerText='Online ('+onlineCounter + '): ₹ ' +onlineTotal
+    document.getElementById('tvalueindiqoo').innerText='Indiqoo ('+indiqooCounter + '): ₹ ' +indiqooTotal
 }
 
 function resetSelectionState(){
@@ -370,29 +382,33 @@ function updateVisibleTotals(){
     let total = 0;
     let cashTotal = 0;
     let onlineTotal = 0;
+    let indiqooTotal = 0;
     let cashCounter = 0;
     let onlineCounter = 0;
+    let indiqooCounter = 0;
     for(let i=0;i<rows.length;i++){
-        let cells = rows[i].getElementsByTagName('td');
-        if(cells.length < 10){
-            continue;
-        }
-        let amount = +(cells[4].innerText.replace('₹', '').trim());
-        let cash = +(cells[8].innerText.trim());
-        let online = +(cells[9].innerText.trim());
+        let amount = +(rows[i].dataset.total || 0);
+        let cash = +(rows[i].dataset.cashPaid || 0);
+        let online = +(rows[i].dataset.onlinePaid || 0);
+        let indiqoo = +(rows[i].dataset.indiqooPaid || 0);
         total = total + amount;
         cashTotal = cashTotal + cash;
         onlineTotal = onlineTotal + online;
+        indiqooTotal = indiqooTotal + indiqoo;
         if(cash > 0){
             cashCounter++;
         }
         if(online > 0){
             onlineCounter++;
         }
+        if(indiqoo > 0){
+            indiqooCounter++;
+        }
     }
     document.getElementById('tvalue').innerText='Total : ₹ '+total
     document.getElementById('tvaluecash').innerText='Cash ('+cashCounter + ') : ₹ '+cashTotal
     document.getElementById('tvalueonline').innerText='Online ('+onlineCounter + '): ₹ ' +onlineTotal
+    document.getElementById('tvalueindiqoo').innerText='Indiqoo ('+indiqooCounter + '): ₹ ' +indiqooTotal
 }
 function printMe(){
     document.getElementById('header').style.display='none'
