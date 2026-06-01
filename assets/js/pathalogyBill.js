@@ -189,6 +189,7 @@ function checkValidations(){
         Address: document.getElementById('address').value,
         Mobile: document.getElementById('mobile').value,
         Doctor: document.getElementById('docName').value,
+        ReferredBy: document.getElementById('referredBy') ? document.getElementById('referredBy').value : '',
         IdProof : idProof
     }
     

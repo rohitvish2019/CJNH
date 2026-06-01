@@ -10,6 +10,7 @@ const SalesData = require('../models/sales');
 const MedsData = require('../models/meds');
 const BirthData = require('../models/birthCertificates');
 const Patient = require('../models/patients');
+const mongoose = require('mongoose');
 const PropertiesReader = require('properties-reader');
 const { response } = require('express');
 const deviceProperties = PropertiesReader('C:/device.properties');
@@ -230,8 +231,9 @@ module.exports.getPatientById = async function(req, res){
             ],
             isCancelled:false, isValid:true
         })
-        let visit = await VisitData.find({Patient:patient._id},'Fees createdAt').sort({"createdAt": -1}).limit(1);
+        let visit = [];
         if(patient){
+            visit = await VisitData.find({Patient:patient._id},'Fees createdAt').sort({"createdAt": -1}).limit(1);
             return res.status(200).json({
                 patient,
                 visit
@@ -250,6 +252,135 @@ module.exports.getPatientById = async function(req, res){
     }   
 }
 
+module.exports.getAllPatients = async function(req, res){
+    try{
+        const patients = await PatientData.find({ isCancelled:false, isValid:true }).sort({Name:1});
+        return res.status(200).json({
+            patients
+        });
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error : Unable to fetch patient list'
+        });
+    }
+}
+
+module.exports.searchPatients = async function(req, res){
+    try{
+        const query = (req.query.q || '').trim();
+        if(!query){
+            return res.status(400).json({
+                message:'Query is required',
+                patients: []
+            });
+        }
+        const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(safeQuery, 'i');
+        const conditions = [
+            { Name: regex },
+            { Mobile: regex }
+        ];
+        const numericId = Number(query);
+        if(!Number.isNaN(numericId)){
+            conditions.push({ Id: numericId });
+        }
+        const patients = await PatientData.find({
+            isCancelled:false,
+            isValid:true,
+            $or: conditions
+        }).select('Name Age Gender Mobile Address Id').sort({Name:1}).limit(25);
+        return res.status(200).json({
+            patients
+        });
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error : Unable to search patients',
+            patients: []
+        });
+    }
+}
+
+module.exports.getPatientDetailsByMongoId = async function(req, res){
+    try{
+        const mongoId = req.params.mongoId;
+        if(!mongoose.Types.ObjectId.isValid(mongoId)){
+            return res.status(400).json({
+                message:'Invalid patient id'
+            });
+        }
+        const patient = await PatientData.findById(mongoId).populate('Visits');
+        if(!patient){
+            return res.status(404).json({
+                message:'Patient not found'
+            });
+        }
+        return res.status(200).json({
+            patient
+        });
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error : Unable to fetch patient details'
+        });
+    }
+}
+
+module.exports.updatePatientDetails = async function(req, res){
+    try{
+        const mongoId = req.params.id;
+        if(!mongoose.Types.ObjectId.isValid(mongoId)){
+            return res.status(400).json({
+                message:'Invalid patient id'
+            });
+        }
+        const allowedFields = ['Name','Age','Address','Mobile','Doctor','Husband','Father','IdProof','Gender','Id'];
+        const updateData = {};
+        allowedFields.forEach(field => {
+            if(req.body[field] !== undefined && req.body[field] !== null){
+                if((field === 'Age' || field === 'Id') && req.body[field].toString().trim() === ''){
+                    return;
+                }
+                updateData[field] = req.body[field];
+            }
+        });
+        if(Object.keys(updateData).length === 0){
+            return res.status(400).json({
+                message:'No valid fields provided for update'
+            });
+        }
+        if(updateData.Age !== undefined){
+            const ageValue = Number(updateData.Age);
+            if(!Number.isNaN(ageValue)){
+                updateData.Age = ageValue;
+            } else {
+                delete updateData.Age;
+            }
+        }
+        if(updateData.Id !== undefined){
+            const idValue = Number(updateData.Id);
+            if(!Number.isNaN(idValue)){
+                updateData.Id = idValue;
+            }
+        }
+        const patient = await PatientData.findByIdAndUpdate(mongoId, updateData, { new:true }).populate('Visits');
+        if(!patient){
+            return res.status(404).json({
+                message:'Patient not found'
+            });
+        }
+        return res.status(200).json({
+            message:'Patient updated successfully',
+            patient
+        });
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Internal server error : Unable to update patient details'
+        });
+    }
+}
 
 module.exports.bookVisitToday = async function(req, res){
     try{
@@ -667,6 +798,15 @@ module.exports.patientHistoryHome = async function(req, res){
         return res.render('patientHistory',{patient, user:req.user})
     }catch(err){
         return res.render('Error_500')
+    }
+}
+
+module.exports.patientProfilePage = function(req, res){
+    try{
+        return res.render('patientProfile', { user:req.user, patientId:req.params.id });
+    }catch(err){
+        console.log(err);
+        return res.render('Error_500');
     }
 }
 

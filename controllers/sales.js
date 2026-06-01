@@ -146,7 +146,8 @@ module.exports.addSales = async function(req, res){
             IdProof :IdProof,
             Doctor:getDefaultDoctorForSaleType(req.body.Type, req.body.patient.Doctor),
             OnlinePaid:req.body.onlinePayment,
-            CashPaid:req.body.cashPayment
+            CashPaid:req.body.cashPayment,
+            ReferredBy: req.body.patient && req.body.patient.ReferredBy ? req.body.patient.ReferredBy : ''
         })
         
     return res.status(200).json({

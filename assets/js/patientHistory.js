@@ -37,6 +37,12 @@ function getAllVisits(){
                             <b>O/E:</b>
                             <textarea disabled rows="6" cols="60" name="" id="otherInfo" placeholder="">${visitData.OEs}</textarea>
                         </div>
+                        <div class="information">
+                            <b>Important dates:</b>
+                            <p>LMP : ${new Date(visitData.lmpdate).toLocaleDateString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'}) || ''}</p>
+                            <p>EDD : ${new Date(visitData.edddate).toLocaleDateString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'}) || ''}</p>
+                            <p>C.EDD : ${new Date(visitData.cedddate).toLocaleDateString('en-IN', {day:'2-digit', month:'2-digit', year:'numeric'}) || ''}</p>
+                        </div>
                     </div>
 
                     <div class="table-responsive">

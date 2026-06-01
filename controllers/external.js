@@ -24,6 +24,17 @@ module.exports.getAppointments = async function(req,res){
     }
 }
 
+function formatIdProof(patientDetails) {
+    const governmentId = patientDetails.governmentId || patientDetails.IdProof || patientDetails.idProof || '';
+    const governmentIdType = patientDetails.governmentIdType || patientDetails.idProofType || '';
+
+    if (governmentIdType && governmentId) {
+        return `${governmentIdType} - ${governmentId}`;
+    }
+
+    return governmentId || '';
+}
+
 function normalizeExternalAppointment(appointment) {
     const patientDetails = appointment.patientDetails || {};
     return {
@@ -39,6 +50,7 @@ function normalizeExternalAppointment(appointment) {
         patientAddress: patientDetails.address || '',
         patientFatherName: patientDetails.fatherName || patientDetails.guardian?.father || (patientDetails.guardianType === 'Father' ? patientDetails.guardianName : '') || '',
         patientHusbandName: patientDetails.husbandName || patientDetails.guardian?.husband || (patientDetails.guardianType === 'Husband' ? patientDetails.guardianName : '') || '',
+        patientIdProof: formatIdProof(patientDetails),
         paymentType: appointment.paymentType || 'NA',
         paidAmount: Number(appointment.amountPaid || 0),
     };
@@ -142,7 +154,8 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
             Id: patientIdForSale,
             Gender: normalized.patientGender,
             Father: normalized.patientFatherName,
-            Husband: normalized.patientHusbandName
+            Husband: normalized.patientHusbandName,
+            IdProof: normalized.patientIdProof
         });
         await tracker.updateOne({ patientId: patientIdForSale });
     } else {
@@ -155,8 +168,12 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
         if (normalized.patientHusbandName && !patient.Husband) {
             updateData.Husband = normalized.patientHusbandName;
         }
+        if (normalized.patientIdProof && !patient.IdProof) {
+            updateData.IdProof = normalized.patientIdProof;
+        }
         if (Object.keys(updateData).length > 0) {
             await PatientData.findByIdAndUpdate(patient._id, updateData);
+            Object.assign(patient, updateData);
         }
     }
 
@@ -214,6 +231,7 @@ async function saveExternalAppointment({ appointment, linkedPatient }) {
         ReportNo: 'OPD' + tracker.AppointmentNumber,
         Total: normalized.paidAmount,
         PaymentType: normalized.paymentType,
+        IdProof: patient.IdProof || normalized.patientIdProof,
         CashPaid: cashPaid,
         OnlinePaid: onlinePaid,
         indiqooPaid: indiqooPaid,

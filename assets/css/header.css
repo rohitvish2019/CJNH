@@ -30,6 +30,67 @@ ul{
     display: flex;
   }
 
+  .patient-search-container{
+    position: relative;
+    margin-left: 1rem;
+    width: 320px;
+  }
+
+  .patient-search-container .form-control{
+    height: 40px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  .patient-search-container .btn{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .search-results{
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1100;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  }
+
+  .patient-result-item .patient-result-main{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .patient-result-item .patient-result-meta{
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  .patient-result-item{
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .patient-search-detail{
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 1200;
+  }
+
+  .patient-search-detail .card-body{
+    max-height: 320px;
+    overflow-y: auto;
+  }
+
   .dropdown-menu.show{
     background-color: rgb(235, 238, 238);
   }

@@ -14,6 +14,7 @@ const Sales = new mongoose.Schema({
     Gender:String,
     PatiendID:String,
     Doctor:String,
+    ReferredBy:String,
     type:String,
     ReportNo:String,
     Total:Number,

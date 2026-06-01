@@ -66,6 +66,9 @@
             <li><a class="dropdown-item" href="/reports/history/home">Find Pathology Reports</a></li>
           </ul>
         </div>
+
+        
+
         <!--
         <div class="dropdown">
           <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -103,6 +106,26 @@
           </ul>
         </div>
 
+        <div class="patient-search-container">
+          <div class="input-group">
+            <input id="patientSearchInput" type="search" class="form-control" placeholder="Search patient by name, mobile or id">
+            <button id="patientSearchBtn" class="btn btn-light" type="button"><i class="fas fa-search"></i></button>
+          </div>
+          <div id="patientSearchResults" class="list-group search-results d-none"></div>
+          <div id="patientSearchDetail" class="card patient-search-detail d-none">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                  <h6 class="card-title mb-1">Patient details</h6>
+                  <small class="text-muted">Selected record</small>
+                </div>
+                <button type="button" class="btn-close" aria-label="Close" id="patientSearchClose"></button>
+              </div>
+              <div id="patientSearchDetailBody"></div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="logout-btn">
@@ -117,3 +140,131 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
     integrity="sha512-7Pi/otdlbbCR+LnW+F7PwFcSDJOuUJB3OxtEHbg4vSMvzvJjde4Po1v4BR9Gdc9aXNUNFVUY+SK51wWT8WF0Gg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  $(function(){
+    const $input = $('#patientSearchInput');
+    const $button = $('#patientSearchBtn');
+    const $results = $('#patientSearchResults');
+    const $detail = $('#patientSearchDetail');
+    const $detailBody = $('#patientSearchDetailBody');
+    let searchTimeout = null;
+    let patientsCache = [];
+
+    function clearResults(){
+      $results.empty().addClass('d-none');
+    }
+
+    function clearDetail(){
+      $detailBody.empty();
+      $detail.addClass('d-none');
+    }
+
+    function loadPatientCache(){
+      $.get('/patients/all')
+        .done(function(response){
+          patientsCache = response.patients || [];
+        })
+        .fail(function(){
+          console.error('Unable to preload patients list');
+        });
+    }
+
+    function renderResults(patients){
+      if(!patients || !patients.length){
+        $results.html('<div class="list-group-item text-muted">No patients found</div>').removeClass('d-none');
+        return;
+      }
+      const list = patients.map(p => {
+        return `<button type="button" class="list-group-item list-group-item-action patient-result-item" data-id="${p._id}">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="patient-result-main">
+              <strong>${p.Name || 'Unknown'}</strong>
+              <small class="text-muted ms-2">${p.Mobile || ''}</small>
+            </div>
+            <div class="text-end">
+              <span class="badge bg-secondary">${p.Id || ''}</span>
+            </div>
+          </div>
+          <div class="patient-result-meta text-truncate"><small class="text-muted">${p.Address ? p.Address.substring(0, 80) : ''}</small></div>
+        </button>`;
+      }).join('');
+      $results.html(list).removeClass('d-none');
+    }
+
+    function renderPatientDetail(patient){
+      if(!patient){
+        $detailBody.html('<div class="text-danger">Patient details unavailable.</div>');
+        $detail.removeClass('d-none');
+        return;
+      }
+      const rows = [
+        ['Name', patient.Name],
+        ['Patient Id', patient.Id],
+        ['Mobile', patient.Mobile],
+        ['Age', patient.Age],
+        ['Gender', patient.Gender],
+        ['Address', patient.Address],
+        ['Father', patient.Father],
+        ['Husband', patient.Husband],
+        ['Mongo Id', patient._id]
+      ].map(([label, value]) => {
+        if(value === undefined || value === null || value === '') return '';
+        return `<p class="mb-1"><strong>${label}:</strong> ${value}</p>`;
+      }).join('');
+      $detailBody.html(rows || '<div class="text-muted">No additional fields available.</div>');
+      $detail.removeClass('d-none');
+    }
+
+    function searchPatients(){
+      const q = $input.val().trim();
+      if(q.length < 2){
+        clearResults();
+        return;
+      }
+      const escaped = q.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'i');
+      const filtered = patientsCache.filter(p => {
+        return regex.test(p.Name || '') || regex.test(p.Mobile || '') || regex.test((p.Id || '').toString());
+      }).slice(0, 25);
+      if(filtered.length){
+        renderResults(filtered);
+        return;
+      }
+      // Fallback to API search if cache is empty or no local results
+      $.get('/patients/search', { q })
+        .done(function(response){
+          renderResults(response.patients || []);
+        })
+        .fail(function(){
+          $results.html('<div class="list-group-item text-danger">Search failed</div>').removeClass('d-none');
+        });
+    }
+
+    $button.on('click', function(){
+      searchPatients();
+    });
+
+    $input.on('input', function(){
+      clearDetail();
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(searchPatients, 250);
+    });
+
+    $results.on('click', '.patient-result-item', function(){
+      const id = $(this).data('id');
+      window.location.href = `/patients/profile/${id}`;
+    });
+
+    $('#patientSearchClose').on('click', function(){
+      clearDetail();
+    });
+
+    $(document).on('click', function(event){
+      if(!$(event.target).closest('.patient-search-container').length){
+        clearResults();
+      }
+    });
+
+    loadPatientCache();
+  });
+</script>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .heading {
+            padding: 10px;
+            background-color: #343a40 !important;
+            text-align: center;
+            color: white;
+            border: 2px solid white;
+            margin-bottom: 16px;
+        }
+        .profile-card {
+            width: 100%;
+            margin: 0;
+            padding: 24px;
+        }
+        .profile-actions {
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .profile-actions .btn {
+            min-width: 140px;
+            height: 40px;
+            margin-bottom: 1%;
+        }
+        .profile-form label {
+            font-weight: 600;
+        }
+        .profile-form .form-control {
+            border-radius: 6px;
+        }
+        .profile-actions {
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <%-include('_header')%>
+    </header>
+
+    <main class="container-fluid profile-card">
+        <div class="heading">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1"><i class="fas fa-user-circle"></i> Patient Profile</h2>
+                    <small>View and edit patient details</small>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm w-100">
+            <div class="card-body" id="profileContent">
+                <div class="text-center py-5" id="profileLoading">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-3 mb-0">Loading patient profile...</p>
+                </div>
+                <div id="profileError" class="alert alert-danger d-none" role="alert"></div>
+                <div id="profileSuccess" class="alert alert-success d-none" role="alert"></div>
+                <form id="patientProfileForm" class="profile-form d-none">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <p class="mb-2"><strong>ID Proof:</strong> <span id="profileIdProofDisplay"></span></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="inputName">Name</label>
+                            <input id="inputName" class="form-control" placeholder="Patient name">
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="inputId">Patient Id</label>
+                            <input id="inputId" class="form-control" placeholder="Patient Id">
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="inputAge">Age</label>
+                            <input id="inputAge" type="number" class="form-control" placeholder="Age">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="inputGender">Gender</label>
+                            <select id="inputGender" class="form-control">
+                                <option value="">Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="inputMobile">Mobile</label>
+                            <input id="inputMobile" class="form-control" placeholder="Mobile">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="inputDoctor">Doctor</label>
+                            <input id="inputDoctor" class="form-control" placeholder="Doctor">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="inputIdProof">ID Proof</label>
+                            <input id="inputIdProof" name="IdProof" type="text" class="form-control" placeholder="ID Proof">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="inputFather">Father</label>
+                            <input id="inputFather" class="form-control" placeholder="Father name">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="inputHusband">Husband</label>
+                            <input id="inputHusband" class="form-control" placeholder="Husband name">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="inputAddress">Address</label>
+                            <textarea id="inputAddress" class="form-control" rows="1" placeholder="Address"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-none profile-actions mt-3" id="profileButtons">
+                    <button id="savePatientBtn" type="button" class="btn btn-success">Save changes</button>
+                    <button id="refreshPatientBtn" type="button" class="btn btn-secondary">Refresh</button>
+                </div>
+                <div id="profileVisits" class="d-none mt-4">
+                    <div class="card mt-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">Visits</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0 visit-table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                            <th>Doctor</th>
+                                            <th>Fees</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="visitRows"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const patientId = '<%= patientId %>';
+        const detailUrl = `/patients/details/${patientId}`;
+        const updateUrl = `/patients/update/${patientId}`;
+
+        function showError(message) {
+            document.getElementById('profileLoading').classList.add('d-none');
+            const errorEl = document.getElementById('profileError');
+            errorEl.textContent = message;
+            errorEl.classList.remove('d-none');
+            document.getElementById('profileSuccess').classList.add('d-none');
+        }
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('profileSuccess');
+            successEl.textContent = message;
+            successEl.classList.remove('d-none');
+            document.getElementById('profileError').classList.add('d-none');
+        }
+
+        function populateForm(patient) {
+            document.getElementById('inputName').value = patient.Name || '';
+            document.getElementById('inputId').value = patient.Id || '';
+            document.getElementById('inputAge').value = patient.Age || '';
+            document.getElementById('inputGender').value = patient.Gender || '';
+            document.getElementById('inputMobile').value = patient.Mobile || '';
+            document.getElementById('inputDoctor').value = patient.Doctor || '';
+            document.getElementById('inputIdProof').value = patient.IdProof || '';
+            document.getElementById('inputFather').value = patient.Father || '';
+            document.getElementById('inputHusband').value = patient.Husband || '';
+            document.getElementById('inputAddress').value = patient.Address || '';
+        }
+
+        function renderVisits(visits) {
+            const visitRows = document.getElementById('visitRows');
+            visitRows.innerHTML = '';
+            if (!visits || !visits.length) {
+                visitRows.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No visits found</td></tr>';
+                return;
+            }
+            visits.forEach(visit => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${visit.Visit_date || '-'}</td>
+                    <td>${visit.Type || '-'}</td>
+                    <td>${visit.Doctor || '-'}</td>
+                    <td>${visit.Fees != null ? visit.Fees : '-'}</td>
+                    <td>${visit.isCancelled ? 'Cancelled' : visit.isValid === false ? 'Invalid' : 'Active'}</td>`;
+                visitRows.appendChild(row);
+            });
+        }
+
+        function showProfile(patient) {
+            populateForm(patient);
+            document.getElementById('profileIdProofDisplay').textContent = patient.IdProof || 'Not provided';
+            renderVisits(patient.Visits || []);
+            document.getElementById('profileLoading').classList.add('d-none');
+            document.getElementById('patientProfileForm').classList.remove('d-none');
+            document.getElementById('profileButtons').classList.remove('d-none');
+            document.getElementById('profileVisits').classList.remove('d-none');
+        }
+
+        function loadProfile() {
+            document.getElementById('profileLoading').classList.remove('d-none');
+            fetch(detailUrl, { credentials: 'same-origin' })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.patient) {
+                        showError(data.message || 'Patient record was not found.');
+                        return;
+                    }
+                    showProfile(data.patient);
+                })
+                .catch(() => {
+                    showError('Unable to fetch patient data.');
+                });
+        }
+
+        function sendUpdate() {
+            const payload = {
+                Name: document.getElementById('inputName').value.trim(),
+                Id: document.getElementById('inputId').value.trim(),
+                Age: document.getElementById('inputAge').value.trim(),
+                Gender: document.getElementById('inputGender').value,
+                Mobile: document.getElementById('inputMobile').value.trim(),
+                Doctor: document.getElementById('inputDoctor').value.trim(),
+                IdProof: document.getElementById('inputIdProof').value.trim(),
+                Father: document.getElementById('inputFather').value.trim(),
+                Husband: document.getElementById('inputHusband').value.trim(),
+                Address: document.getElementById('inputAddress').value.trim()
+            };
+            fetch(updateUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(payload)
+            })
+                .then(response => response.json().then(data => ({ status: response.status, body: data })))
+                .then(result => {
+                    if (result.status === 200 && result.body.patient) {
+                        showSuccess(result.body.message || 'Patient updated successfully.');
+                        renderVisits(result.body.patient.Visits || []);
+                    } else {
+                        showError(result.body.message || 'Unable to update patient details.');
+                    }
+                })
+                .catch(() => {
+                    showError('Unable to update patient details.');
+                });
+        }
+
+        document.getElementById('savePatientBtn').addEventListener('click', sendUpdate);
+        document.getElementById('refreshPatientBtn').addEventListener('click', loadProfile);
+        loadProfile();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

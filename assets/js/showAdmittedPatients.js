@@ -89,7 +89,8 @@ function addAdvancePayment(){
                 layout: 'topRight',
                 timeout: 1500
             }).show();
-            closePopup()
+            closePopup();
+            window.open('/sales/bill/view/'+data.saledId)
             return
         },
         error:function(err){}
@@ -104,8 +105,12 @@ function openAdvancePayment(id,Name, visitId){
 }
 
 function closePopup(){
-    document.getElementById('addPaymentPopup').style.display='none'
-    document.getElementById('deliveryDetails').style.display='none'
+    if(document.getElementById('addPaymentPopup')){
+        document.getElementById('addPaymentPopup').style.display='none'
+    }
+    if(document.getElementById('deliveryDetails')){
+        document.getElementById('deliveryDetails').style.display='none'
+    }
 }
 
 
