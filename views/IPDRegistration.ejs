@@ -85,8 +85,9 @@
                     <div class="form-floating">
                         <select class="form-select" id="Doctor" aria-label="Floating label select example">
                             <option selected disabled value="">--Select--</option>
-                            <option value="Dr Anuj Jain">Dr Anuj Jain</option>
-                            <option value="Dr Swati Jain">Dr Swati Jain</option>
+                            <% for (let i = 0; i < hospitalConfig.doctors.length; i++) { %>
+                                <option value="<%= hospitalConfig.doctors[i].name %>"><%= hospitalConfig.doctors[i].name %></option>
+                            <% } %>
                         </select>
                         <label for="Gender"><i class="fa-solid fa-user-doctor"></i> Doctor <span>*</span></label>
                     </div>

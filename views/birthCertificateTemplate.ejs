@@ -58,16 +58,16 @@
                     <label>Signature of Parent</label>
                 </div>
                 <div>
-                    <label style="display: block;font-size: 22px;"><b>(Dr Swati Jain)</b></label>
-                    <label>MBBS, DGO</label>
+                    <label style="display: block;font-size: 22px;"><b>(<%= hospitalConfig.doctorMap.dr_swati.name %>)</b></label>
+                    <label><%= hospitalConfig.doctorMap.dr_swati.qualification %></label>
                 </div>
                 <div>
-                    <label style="display: block;font-size: 22px;"><b>(Dr Anuj Jain)</b></label>
-                    <label>MBBS, DGO</label>
+                    <label style="display: block;font-size: 22px;"><b>(<%= hospitalConfig.doctorMap.dr_anuj.name %>)</b></label>
+                    <label><%= hospitalConfig.doctorMap.dr_anuj.qualification %></label>
                 </div>
             </div>
             <div style="display: flex;justify-content: end;">
-                <i>Prop. Dr. Chanda Jain Nursing Home</i>
+                <i>Prop. <%= hospitalConfig.name %></i>
             </div>
 
         </div>

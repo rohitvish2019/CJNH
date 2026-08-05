@@ -72,9 +72,9 @@
           </div>
           <div class="form-floating mb-2">
             <% if(user.Role == 'Admin' ) {%>
-                <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 500 : 400%>">
+                <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 800 : 500%>">
             <%} else {%>
-              <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 500 : 400%>">
+              <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 800 : 500%>">
             <%}%>
             
             <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
@@ -87,8 +87,9 @@
         <div class="right">
           <select class="form-select mb-2" id="Doctor" aria-label="Floating label select example">
             <option selected disabled value="">--Select Doctor--</option>
-            <option value="Dr Anuj Jain">Dr Anuj Jain</option>
-            <option value="Dr Swati Jain">Dr Swati Jain</option>
+            <% for (let i = 0; i < hospitalConfig.doctors.length; i++) { %>
+              <option value="<%= hospitalConfig.doctors[i].name %>"><%= hospitalConfig.doctors[i].name %></option>
+            <% } %>
           </select>
           <div class="form-floating mb-2">
             <input type="text" class="form-control mb2" id="Husband" placeholder="name@example.com">

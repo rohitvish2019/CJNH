@@ -46,9 +46,9 @@ function getAppointmentsToday(){
             let completedCount = 0;
             let pendingCount = 0;
             for(let i=0;i<data.visits.length;i++){
-                if(data.visits[i].Fees == 400){
+                if(data.visits[i].Fees == 500){
                     color = '#75f690'
-                }else if(data.visits[i].Fees == 200){
+                }else if(data.visits[i].Fees == 300){
                     color = '#edf675'
                 }else{
                     color='#ffb0b0'

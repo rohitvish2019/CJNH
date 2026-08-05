@@ -65,14 +65,14 @@ function searchById() {
             let today = new Date();
             let lastVisitDate = new Date(data.visit[0].createdAt)
             let daysBetween = Math.floor(Math.abs(today-lastVisitDate) / (1000*86400));
-            let todaysFees = 400;
+            let todaysFees = 500;
             
             if(daysBetween < 31){
-                todaysFees = 200
+                todaysFees = 300
             }
             let day = new Date().getDay();
             if(day == 0){
-                todaysFees = 500
+                todaysFees = 800
             }
             let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date().getDate().toString().padStart(2,'0')
             document.getElementById('Fees').value = todaysFees
@@ -96,7 +96,7 @@ function searchById() {
                     document.getElementById(inputData[i]).value = '';
                 }
             }
-            document.getElementById('Fees').value = 400 
+            document.getElementById('Fees').value = 500 
             document.getElementById('patientID').value ='';
             document.getElementById('lastFeesPaid').innerText = 'NA'
             document.getElementById('lastVisitDate').innerText = 'NA'
@@ -210,9 +210,9 @@ function setFees() {
     lastVisitDate = lastVisitDate.split('-')[2] +'-'+ lastVisitDate.split('-')[1] +'-'+ lastVisitDate.split('-')[0]
     let daysBetween = daysBetweenDates(aptDate, lastVisitDate);
     if(daysBetween > 30) {
-        document.getElementById('Fees').value = 400
+        document.getElementById('Fees').value = 500
     } else {
-        document.getElementById('Fees').value = 200
+        document.getElementById('Fees').value = 300
     }
 }
 

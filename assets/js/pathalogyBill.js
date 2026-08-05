@@ -22,7 +22,8 @@ setDefaultDoctorForBilling();
 
 function setDefaultDoctorForBilling() {
     if(document.getElementById('billType').value == 'Pathology' || document.getElementById('billType').value == 'Ultrasound'){
-        document.getElementById('docName').value = 'Dr Anuj Jain';
+        const defaultDoctorName = window.hospitalConfig?.doctorMap?.dr_anuj?.name || 'Dr Anuj Jain';
+        document.getElementById('docName').value = defaultDoctorName;
     }
 }
 

@@ -21,7 +21,7 @@
                 <%-include('pdf_header')%>
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
                     <div><%if(bill.type == 'Ultrasound'){%>
-                        <b>Ultrasonologist  : Dr. Anuj Jain</b>
+                        <b>Ultrasonologist  : <%= hospitalConfig.doctorMap.dr_anuj.name %></b>
                     <%} else if (bill.type == 'Pathology') {%>
                         <b>Referred By : <%=bill.ReferredBy%></b>
                     <%}%></div>
@@ -136,7 +136,7 @@
                 <div style="font-size: small; margin-top:10px; text-align: left;">
                     <span><b>Bank Details:</b></span><br>
                     <span>HDFC BANK, Damoh</span><br>
-                    <span>A/c Name: Dr. Chanda Jain Nursing Home</span><br>
+                    <span>A/c Name: <%= hospitalConfig.name %></span><br>
                     <span>A/c No. : 50200025216267</span><br>
                     <span>IFSC Code - HDFC0000914</span>
                 </div>

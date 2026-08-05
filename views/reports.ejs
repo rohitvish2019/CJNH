@@ -53,8 +53,9 @@
                     <select name="" id="Doctor" style="height: 70%;">
                         <option value="">--Select Doctor--</option>
                         <option value="all" selected>All Doctors</option>
-                        <option value="Dr Anuj Jain">Dr Anuj Jain</option>
-                        <option value="Dr Swati Jain"> Dr Swati Jain</option>
+                        <% for (let i = 0; i < hospitalConfig.doctors.length; i++) { %>
+                            <option value="<%= hospitalConfig.doctors[i].name %>"><%= hospitalConfig.doctors[i].name %></option>
+                        <% } %>
                     </select>
                 </div>
                 <button style="height: 80%;margin-left: 2%; margin-bottom: 1%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>

@@ -14,6 +14,7 @@ const passportLocal = require('./configs/passport-local-strategy');
 const ejs = require('ejs');
 const MongoStore = require('connect-mongo')
 const appSettings = require('./configs/appSettings');
+const hospitalConfig = require('./configs/hospitalConfig');
 
 
 //const { request, urlencoded } = require('express');
@@ -75,6 +76,7 @@ app.use(passport.session());
 app.use(passportLocal.setAuthenticatedUser);
 app.use(function(req, res, next){
     res.locals.opdRegistrationEnabled = appSettings.isOpdRegistrationEnabled();
+    res.locals.hospitalConfig = hospitalConfig.getHospitalConfig();
     next();
 });
 

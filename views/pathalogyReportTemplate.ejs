@@ -88,8 +88,8 @@
             <div class="header report-div">
                 <div style="display: flex;justify-content: center;">
                     <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <label style="font-size: 30px; border-bottom: 2px dashed black;"> Dr Chanda Jain Nursing Home </label>
-                    <label style="font-size: 14px;margin-top: 2px;margin-left: 13px;">Reg No. NH/9255/JUN-2023</label>
+                    <label style="font-size: 30px; border-bottom: 2px dashed black;"><%= hospitalConfig.name %></label>
+                    <label style="font-size: 14px;margin-top: 2px;margin-left: 13px;">Reg No. <%= hospitalConfig.registrationNumber %></label>
                 </div>
                 <div style="display: flex;height: 100%;">
                     <div class="div3">
@@ -139,7 +139,7 @@
                     </div>
                     <div>
                         <label class="patient-heading">Doctor</label>
-                        <span class="patient-value">Dr Anuj Jain</span>
+                        <span class="patient-value"><%= hospitalConfig.doctorMap.dr_anuj.name %></span>
                     </div>
                 </div>
             </div>

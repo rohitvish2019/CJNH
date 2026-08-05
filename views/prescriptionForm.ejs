@@ -23,13 +23,11 @@
 <body onload="initilizeApp()">
     <div class="main-body" style="overflow: hidden;">
         <div class="header">
-            <label for="" style="font-size: small;">Reg No. NH/9255/JUN-2023</label>
+            <label for="" style="font-size: small;">Reg No. <%= hospitalConfig.registrationNumber %></label>
             <div class="name">
-                <label style="font-size: 31px;font-weight: bolder; color: rgb(201, 8, 8);">डॉ. चंदा &nbsp;जैन
-                    &nbsp;नर्सिंग &nbsp;होम</label>
-                <label style="font-size: 18px; font-weight: 500;margin-top: 0.3%;">सिविल वार्ड नंबर 7 दमोह (म.
-                    प्र.)</label>
-                <label style="font-size: 14px;">Mob: 6263169195, Ph No: 07812-222441</label>
+                <label style="font-size: 31px;font-weight: bolder; color: rgb(201, 8, 8);"><%= hospitalConfig.nameHindi %></label>
+                <label style="font-size: 18px; font-weight: 500;margin-top: 0.3%;"><%= hospitalConfig.addressHindi %></label>
+                <label style="font-size: 14px;">Mob: <%= hospitalConfig.mobile %>, Ph No: <%= hospitalConfig.phone %></label>
             </div>
             
         </div>
@@ -37,52 +35,40 @@
         <%let boldFalse = '100'%>
         <div class="doctors-info">
             <div class="doc-info-left">
-                <%if(user.Name == 'Dr Anuj Jain'){%>
-                    <label class="doc-name" style="font-weight: bold;">डॉ. अनुज जैन</label>
-                    <label style="font-weight: bold;">MBBS, DGO</label>
+                <% if (user.Name == hospitalConfig.doctorMap.dr_anuj.name) { %>
+                    <label class="doc-name" style="font-weight: bold;"><%= hospitalConfig.doctorMap.dr_anuj.nameHindi %></label>
+                    <label style="font-weight: bold;"><%= hospitalConfig.doctorMap.dr_anuj.qualification %></label>
                     <br>
-                <%}else{%>
-                    <label class="doc-name" style="font-weight: 100;">डॉ. अनुज जैन</label>
-                    <label style="font-weight: 100;">MBBS, DGO</label>
-                <%}%>
-                
-                <div>
-                    <label class="old-info">स्त्री रोग विशेषज्ञ</label>
-                    <label class="old-info">CF. Sr. No. Addl./MPMC-7259</label>
-                </div>
+                <% } else { %>
+                    <label class="doc-name" style="font-weight: 100;"><%= hospitalConfig.doctorMap.dr_anuj.nameHindi %></label>
+                    <label style="font-weight: 100;"><%= hospitalConfig.doctorMap.dr_anuj.qualification %></label>
+                <% } %>
 
-                <div>
-                    <label class="old-info" style="font-size: 10px;">FMF LONDON CERTIFIED SONOGRAPHER [ID 174684]</label>
-                </div>
-                <div>
-                    <label class="old-info">मिलने का समय</label>
-                    <label class="old-info">सुबह 10 बजे से शाम 5 बजे तक</label>
-                </div>
-                
-
+                <% for (let i = 0; i < hospitalConfig.doctorMap.dr_anuj.description.length; i++) { %>
+                    <div>
+                        <label class="old-info"><%= hospitalConfig.doctorMap.dr_anuj.description[i] %></label>
+                    </div>
+                <% } %>
             </div>
             <div class="hospital-photo" style="display: flex;justify-content: center;flex-direction: column;align-items: center;margin-left: 3%;">
                 <img style="background-color: black;" height="70%" width="60%" src="/images/CJNH_Logo_White.png" alt="">
-                <label style="color: red;font-weight: bolder;">* रविवार अवकाश *</label>
+                <label style="color: red;font-weight: bolder;"><%= hospitalConfig.otherDescription %></label>
             </div>
             <div class="doc-info-right">
-                <%if(user.Name == 'Dr Swati Jain'){%>
-                    <label class="doc-name" style="font-weight: bold;">डॉ. स्वाति जैन</label>
-                    <label style="font-weight: bold;">MBBS, DGO</label>
-                <%}else{%>
-                    <label class="doc-name" style="font-weight: 100;">डॉ. स्वाति जैन</label>
-                    <label style="font-weight: 100;">MBBS, DGO</label>
+                <% if (user.Name == hospitalConfig.doctorMap.dr_swati.name) { %>
+                    <label class="doc-name" style="font-weight: bold;"><%= hospitalConfig.doctorMap.dr_swati.nameHindi %></label>
+                    <label style="font-weight: bold;"><%= hospitalConfig.doctorMap.dr_swati.qualification %></label>
+                <% } else { %>
+                    <label class="doc-name" style="font-weight: 100;"><%= hospitalConfig.doctorMap.dr_swati.nameHindi %></label>
+                    <label style="font-weight: 100;"><%= hospitalConfig.doctorMap.dr_swati.qualification %></label>
                     <br>
-                <%}%>
-                
-                <label class="old-info">स्त्री रोग विशेषज्ञ</label>
-                <label class="old-info">CF. SR. No. Addl./MPMC-6978</label>
-                <div>
-                    <label class="old-info">CERTIFIED COLPOSCOPIST [ MUMBAI ] </label>
-                </div>
-                <label class="old-info">मिलने का समय सुबह 11बजे से 1 बजे, 1:30 से शाम 3 बजे</label>
-                <label class="old-info"></label>
+                <% } %>
 
+                <% for (let i = 0; i < hospitalConfig.doctorMap.dr_swati.description.length; i++) { %>
+                    <div>
+                        <label class="old-info"><%= hospitalConfig.doctorMap.dr_swati.description[i] %></label>
+                    </div>
+                <% } %>
             </div>
         </div>
         <div class="patient-info">
