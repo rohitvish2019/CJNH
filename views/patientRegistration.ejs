@@ -72,12 +72,16 @@
           </div>
           <div class="form-floating mb-2">
             <% if(user.Role == 'Admin' ) {%>
-                <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 800 : 500%>">
+                <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 700 : 500%>">
             <%} else {%>
-              <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 800 : 500%>">
+              <input type="number" class="form-control" id="Fees" placeholder="name@example.com" value="<%= new Date().getDay() == 0 ? 700 : 500%>">
             <%}%>
             
             <label for="Mobile"> <b>₹</b> Fees<span>*</span></label>
+          </div>
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="emergencyBooking" onchange="setFees()">
+            <label class="form-check-label" for="emergencyBooking">Emergency Booking</label>
           </div>
           <div style="text-align: left; font-size: 12px;">
             <span>* Mandatory Details</span>

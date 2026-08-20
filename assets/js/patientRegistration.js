@@ -72,7 +72,7 @@ function searchById() {
             }
             let day = new Date().getDay();
             if(day == 0){
-                todaysFees = 800
+                todaysFees = 700
             }
             let date = new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date().getDate().toString().padStart(2,'0')
             document.getElementById('Fees').value = todaysFees
@@ -202,8 +202,16 @@ function bookAppointmentWithId() {
 }
 
 function setFees() {
+    const emergencyBooking = document.getElementById('emergencyBooking');
+    if (emergencyBooking && emergencyBooking.checked) {
+        document.getElementById('Fees').value = 700;
+        return;
+    }
     let lastVisitDate = document.getElementById('lastVisitDate').innerText;
     if(lastVisitDate == 'NA') {
+        const appointmentDate = document.getElementById('AppointmentDate').value;
+        const selectedDate = appointmentDate ? new Date(appointmentDate + 'T00:00:00') : new Date();
+        document.getElementById('Fees').value = selectedDate.getDay() == 0 ? 700 : 500;
         return;
     }
     let aptDate = document.getElementById('AppointmentDate').value;

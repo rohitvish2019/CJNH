@@ -67,6 +67,7 @@ function getDashboardData() {
             document.getElementById('canAptcount').innerHTML = data.cancelledApt
             //document.getElementById('canPathcount').innerHTML = data.cancelledPath
             document.getElementById('pathcount').innerHTML = data.pathBills
+            document.getElementById('outsourcePathcount').innerHTML = data.outsourcePathBills
             document.getElementById('aptcount').innerHTML = data.appointments
             document.getElementById('usgcount').innerHTML = data.ultraSoundBill
             

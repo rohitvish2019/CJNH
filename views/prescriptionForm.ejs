@@ -46,13 +46,13 @@
 
                 <% for (let i = 0; i < hospitalConfig.doctorMap.dr_anuj.description.length; i++) { %>
                     <div>
-                        <label class="old-info"><%= hospitalConfig.doctorMap.dr_anuj.description[i] %></label>
+                        <label class="old-info" style="font-size: 10px;"><%= hospitalConfig.doctorMap.dr_anuj.description[i] %></label>
                     </div>
                 <% } %>
             </div>
             <div class="hospital-photo" style="display: flex;justify-content: center;flex-direction: column;align-items: center;margin-left: 3%;">
                 <img style="background-color: black;" height="70%" width="60%" src="/images/CJNH_Logo_White.png" alt="">
-                <label style="color: red;font-weight: bolder;"><%= hospitalConfig.otherDescription %></label>
+                <label style="color: red;font-weight: bolder;font-size: 14px;"><%= hospitalConfig.otherDescription %></label>
             </div>
             <div class="doc-info-right">
                 <% if (user.Name == hospitalConfig.doctorMap.dr_swati.name) { %>
@@ -100,7 +100,7 @@
             <div class="patient-data" style="width: 18%; ">
                 <small for=""><b>Date & Time</b></small>
                 <%let months= ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec']%>
-                <label style="font-size: small;">
+                <label style="font-size: 12px;">
                     
                     <%= new Date(visit.Visit_date).toLocaleDateString('en-IN',{year: 'numeric', month: '2-digit', day: '2-digit'})%>
                     <% let n = new Date(visit.updatedAt).toLocaleString('en-IN', {
@@ -364,7 +364,7 @@ P/V </textarea>
                 </div>
                 <div style="margin-top: 25px;margin-left: 2%;">
                     <b>Other advice</b>
-                    <textarea rows="5" style="width: 99%;border-bottom: none;" name="" onchange="addChanges('OtherAdvice')" id="OtherAdvice" placeholder=""></textarea>
+                    <textarea rows="4" style="width: 99%;border-bottom: none;" name="" onchange="addChanges('OtherAdvice')" id="OtherAdvice" placeholder=""></textarea>
                 </div>
 
                 <div
@@ -389,13 +389,13 @@ P/V </textarea>
 
                     <div>
                         <label style="width: 35%;">NT on</label>
-                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;font-size: 10px;" type="text"
                             onchange="addChanges('NT')" id="NT">
                     </div>
 
                     <div>
                         <label style="width: 35%;">TS on</label>
-                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;" type="text"
+                        <input style="width: 63%;border: none;border-bottom: .5px dotted black;font-size: 10px;" type="text"
                             onchange="addChanges('TS')" id="TS">
                     </div>
 

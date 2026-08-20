@@ -5,6 +5,7 @@ const passport = require('../configs/passport-local-strategy')
 Router.get('/History/home',passport.checkAuthentication, SalesController.salesHistoryHome);
 Router.get('/History/reports', passport.checkAuthentication, SalesController.reportsHome)
 Router.get('/bill/pathology', passport.checkAuthentication, SalesController.newPathologyBill);
+Router.get('/bill/outsource-pathology', passport.checkAuthentication, SalesController.newOutsourcePathologyBill);
 Router.get('/bill/ultrasound', passport.checkAuthentication, SalesController.newUltrasoundBill);
 Router.get('/bill/others', passport.checkAuthentication, SalesController.newOtherBill);
 Router.post('/saveBill', passport.checkAuthentication, SalesController.addSales);

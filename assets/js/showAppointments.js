@@ -66,7 +66,7 @@ function getAppointmentsToday(){
                 } else {
                     pendingCount++;
                 }
-                 
+                
                 rowItem.innerHTML=
                 `
                     <tr id="${data.visits[i]._id}">
@@ -77,7 +77,10 @@ function getAppointmentsToday(){
                         <td>${data.visits[i].Patient.Age}</td>
                         <td>${data.visits[i].Patient.Husband}</td>
                         <td>${data.visits[i].Patient.Address}</td>
-                        <td style='background-color:${color};font-weight:bold;color:black'>${data.visits[i].Fees} (${data.visits[i].SaleId.PaymentType})</td>
+                        <td style='background-color:${color};font-weight:bold;color:black'>
+                            ${data.visits[i].Fees} (${data.visits[i].SaleId.PaymentType})
+                            <div><small id="createdAt_${data.visits[i]._id}" style="font-size:10px;color:#222;display:block;margin-top:4px"></small></div>
+                        </td>
                         <td><a target='_blank' href="/patients/getHistory/${data.visits[i].Patient._id}">Patient History</a></td>
                         <td><a target='_blank' href="/patients/getPrescription/${data.visits[i]._id}">Prescription</a></td>
                         <td>
@@ -91,6 +94,21 @@ function getAppointmentsToday(){
                     </tr>
                 `
                 container.appendChild(rowItem)
+                // populate createdAt converted to IST (use provided convertUTCtoIST if available)
+                try{
+                    const caElem = document.getElementById('createdAt_'+data.visits[i]._id);
+                    if(caElem){
+                        if(typeof convertUTCToIST === 'function'){
+                            caElem.innerText = convertUTCToIST(data.visits[i].createdAt);
+                        } else if (typeof utcToIST === 'function'){
+                            caElem.innerText = utcToIST(data.visits[i].createdAt);
+                        } else {
+                            // fallback: convert using JS Intl in Asia/Kolkata
+                            const d = new Date(data.visits[i].createdAt);
+                            caElem.innerText = d.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                        }
+                    }
+                }catch(err){console.warn('createdAt populate error',err)}
             }
             document.getElementById('loader').style.display='none'
             document.getElementById('completedCount').innerText = "Completed : "+completedCount;
@@ -128,3 +146,28 @@ function getAppointmentsToday(){
     });
         
   }
+
+  function utcToIST(utcTime) {
+    if (!utcTime || typeof utcTime !== 'string') {
+        return null;
+    }
+
+    const date = new Date(utcTime);
+
+    // Invalid date
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    })
+        .format(date)
+        .replace(',', ' at');
+}

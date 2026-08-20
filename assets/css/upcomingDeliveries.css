@@ -1,0 +1,22 @@
+
+.tr, td, tr, th{
+    text-align: center;
+    border: 1px dotted;
+    border-top: none;
+  }
+
+  .bg th{
+    background-color: #025E73 !important;
+    border-right: 1px dotted black;
+    color: white !important;
+  }
+
+  .tbody {
+    overflow: auto;
+  }
+  .loader{
+    position: fixed;
+    top: 35%;
+    left: 48%;
+    display: none;
+  }

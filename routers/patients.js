@@ -5,6 +5,8 @@ const passport = require('../configs/passport-local-strategy')
 Router.post('/addVisit',passport.checkAuthentication,  PatientsController.addVisitAndPatient);
 Router.get('/getAppointments/today', passport.checkAuthentication, PatientsController.getAppointmentsToday);
 Router.get('/getAppointments/old', passport.checkAuthentication, PatientsController.oldAppointmentsHome);
+Router.get('/upcoming-deliveries', passport.checkAuthentication, PatientsController.upcomingDeliveriesHome);
+Router.get('/upcoming-deliveries/search', passport.checkAuthentication, PatientsController.getUpcomingDeliveries);
 Router.get('/getAppointmentsByDate',passport.checkAuthentication,  PatientsController.getAppointmentsByDate);
 Router.get('/new', passport.checkAuthentication, PatientsController.patientRegistartionHome)
 Router.get('/search', passport.checkAuthentication, PatientsController.searchPatients);

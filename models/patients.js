@@ -10,6 +10,9 @@ const Patients = new mongoose.Schema({
     Husband:String,
     Father:String,
     IdProof:String,
+    lmpdate:String,
+    edddate:String,
+    cedddate:String,
     Gender:{
         type:String,
         enum:['Male','Female','Other']

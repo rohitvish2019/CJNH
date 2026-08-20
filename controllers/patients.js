@@ -13,7 +13,6 @@ const Patient = require('../models/patients');
 const mongoose = require('mongoose');
 const PropertiesReader = require('properties-reader');
 const { response } = require('express');
-const deviceProperties = PropertiesReader('C:/device.properties');
 const appSettings = require('../configs/appSettings');
 
 function getDefaultDoctorForSaleType(type, doctorName){
@@ -45,6 +44,40 @@ module.exports.oldAppointmentsHome = function(req, res){
     }catch(err){
         console.log(err)
         return res.render('Error_500')
+    }
+}
+
+module.exports.upcomingDeliveriesHome = function(req, res){
+    try{
+        return res.render('upcomingDeliveries', {visits:[], user:req.user})
+    }catch(err){
+        console.log(err)
+        return res.render('Error_500')
+    }
+}
+
+module.exports.getUpcomingDeliveries = async function(req, res){
+    try{
+        const {startDate, endDate} = req.query;
+        const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+        if(!datePattern.test(startDate || '') || !datePattern.test(endDate || '') || startDate > endDate){
+            return res.status(400).json({
+                message:'Please provide a valid start date and end date'
+            });
+        }
+        const patients = await PatientData.find({
+            cedddate: {$gte:startDate, $lte:endDate},
+            isCancelled:false,
+            isValid:true
+        })
+            .select('Id Name Age Mobile Doctor Address lmpdate edddate cedddate')
+            .sort({cedddate:1, Name:1});
+        return res.status(200).json({patients});
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({
+            message:'Unable to fetch upcoming deliveries'
+        });
     }
 }
 // This methods add a visit for old patient and also creates a patient if its new.
@@ -147,11 +180,18 @@ module.exports.getAppointmentsToday = async function(req, res){
             let year = new Date().getFullYear()
             let date = year +'-'+ (month+1).toString().padStart(2,'0') +'-'+ day;
             let visits;
-            console.log(date)
+            console.log(req.user.Name);
+            let doctorRegEx = 'other'
+            if(containsIgnoreCase(req.user.Name, "anuj")){
+                doctorRegEx = 'anuj'
+            } else if (containsIgnoreCase(req.user.Name, "swati") ){
+                doctorRegEx = 'swati'
+            }
+
             if(req.query.status == 'true'){
-                visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor:req.user.Name}).populate('Patient').populate('SaleId');
+                visits = await VisitData.find({Visit_date:date, isCancelled:false, Type:'OPD', Doctor: { $regex: doctorRegEx, $options:'i'}}).populate('Patient').populate('SaleId');
             }else{
-                visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor:req.user.Name}).populate('Patient').populate('SaleId');
+                visits = await VisitData.find({Visit_date:date, isCancelled:false, isValid:true, Type:'OPD',Doctor: { $regex: doctorRegEx, $options:'i'}}).populate('Patient').populate('SaleId');
             }
 
             if(req.xhr){
@@ -163,7 +203,7 @@ module.exports.getAppointmentsToday = async function(req, res){
                 return res.render('showAppointments',{visits,user:req.user});
             }
         }else{
-            return res.render('Error_403')
+            return res.render('Error_403');
         }
     }catch(err){
         console.log(err)
@@ -776,7 +816,25 @@ module.exports.dischargeSheet = async function(req, res){
 
 module.exports.saveVisitData = async function(req, res){
     try{
-        await VisitData.findByIdAndUpdate(req.body.visitId, {VisitData:req.body.visitData, Prescriptions:req.body.prescribedMeds});
+        const visit = await VisitData.findByIdAndUpdate(
+            req.body.visitId,
+            {VisitData:req.body.visitData, Prescriptions:req.body.prescribedMeds},
+            {new:true}
+        );
+        if(!visit){
+            return res.status(404).json({
+                message:'Visit not found'
+            });
+        }
+        const pregnancyFields = {};
+        ['lmpdate', 'edddate', 'cedddate'].forEach(field => {
+            if(Object.prototype.hasOwnProperty.call(req.body.visitData || {}, field)){
+                pregnancyFields[field] = req.body.visitData[field];
+            }
+        });
+        if(Object.keys(pregnancyFields).length > 0){
+            await PatientData.findByIdAndUpdate(visit.Patient, {$set:pregnancyFields});
+        }
         return res.status(200).json({
             message:'Prescription saved'
         })
@@ -1006,10 +1064,9 @@ module.exports.saveDischargeData = async function(req, res){
 module.exports.getDischargeData = async function(req, res){
     try{
         let visit = await VisitData.findByIdAndUpdate(req.params.id);
-        let devId = deviceProperties.get('id');
         return res.status(200).json({
             dd:visit.DischargeData,
-            devId,
+            devId:"main",
             message:'result found'
         })
     }catch(err){
@@ -1312,4 +1369,13 @@ module.exports.recentReports = async function(req, res) {
             message :'Unable to get reports'
         })
     }
+}
+
+function containsIgnoreCase(string, substring) {
+    console.log(string," : "+ substring);
+  if (typeof string !== 'string' || typeof substring !== 'string') {
+    console.log("here me failing")
+    return false;
+  }
+  return string.toLowerCase().includes(substring.toLowerCase());
 }

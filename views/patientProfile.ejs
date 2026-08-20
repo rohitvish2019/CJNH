@@ -41,6 +41,19 @@
         .profile-actions {
             justify-content: flex-end;
         }
+        #profileTitle {
+            color: white;
+        }
+        .appointment-modal {
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            inset: 0;
+            z-index: 1050;
+            overflow-y: auto;
+        }
+        .appointment-modal .modal-dialog {
+            margin: 8vh auto;
+        }
     </style>
 </head>
 
@@ -53,8 +66,8 @@
         <div class="heading">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h2 class="mb-1"><i class="fas fa-user-circle"></i> Patient Profile</h2>
-                    <small>View and edit patient details</small>
+                    <h2 class="mb-1"><i class="fas fa-user-circle"></i> <span id="profileTitle">Patient Profile</span></h2>
+                    <small id="profileSubtitle">Patient Address</small>
                 </div>
             </div>
         </div>
@@ -125,6 +138,7 @@
                     </div>
                 </form>
                 <div class="d-none profile-actions mt-3" id="profileButtons">
+                    <button id="bookAppointmentBtn" type="button" class="btn btn-primary">Book Appointment</button>
                     <button id="savePatientBtn" type="button" class="btn btn-success">Save changes</button>
                     <button id="refreshPatientBtn" type="button" class="btn btn-secondary">Refresh</button>
                 </div>
@@ -155,10 +169,60 @@
         </div>
     </main>
 
+    <div id="appointmentModal" class="appointment-modal d-none" role="dialog" aria-modal="true" aria-labelledby="appointmentModalTitle">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 id="appointmentModalTitle" class="modal-title">Book Appointment</h5>
+                    <button id="closeAppointmentModalBtn" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="appointmentDate">Appointment Date</label>
+                        <input id="appointmentDate" type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentDoctor">Doctor</label>
+                        <select id="appointmentDoctor" class="form-control">
+                            <option value="">--Select Doctor--</option>
+                            <% for (let i = 0; i < hospitalConfig.doctors.length; i++) { %>
+                                <option value="<%= hospitalConfig.doctors[i].name %>"><%= hospitalConfig.doctors[i].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointmentFees">Fees</label>
+                        <input id="appointmentFees" type="number" min="0" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input id="emergencyBooking" type="checkbox" class="form-check-input">
+                            <label for="emergencyBooking" class="form-check-label">Emergency Booking</label>
+                        </div>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label for="appointmentPaymentType">Payment Type</label>
+                        <select id="appointmentPaymentType" class="form-control">
+                            <option value="">--Select Payment Type--</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Online">Online</option>
+                            <option value="NA">NA</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelAppointmentBtn" type="button" class="btn btn-secondary">Cancel</button>
+                    <button id="confirmAppointmentBtn" type="button" class="btn btn-primary">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const patientId = '<%= patientId %>';
         const detailUrl = `/patients/details/${patientId}`;
         const updateUrl = `/patients/update/${patientId}`;
+        let currentPatient = null;
 
         function showError(message) {
             document.getElementById('profileLoading').classList.add('d-none');
@@ -208,6 +272,9 @@
         }
 
         function showProfile(patient) {
+            currentPatient = patient;
+            document.getElementById('profileTitle').textContent = `${patient.Name || 'Patient'} (${patient.Id || 'NA'})`;
+            document.getElementById('profileSubtitle').textContent = patient.Address || 'Address not provided';
             populateForm(patient);
             document.getElementById('profileIdProofDisplay').textContent = patient.IdProof || 'Not provided';
             renderVisits(patient.Visits || []);
@@ -215,6 +282,111 @@
             document.getElementById('patientProfileForm').classList.remove('d-none');
             document.getElementById('profileButtons').classList.remove('d-none');
             document.getElementById('profileVisits').classList.remove('d-none');
+        }
+
+        function localDateString(date) {
+            const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+            return offsetDate.toISOString().slice(0, 10);
+        }
+
+        function getLatestVisitDate() {
+            if (!currentPatient || !currentPatient.Visits || !currentPatient.Visits.length) {
+                return null;
+            }
+            const dates = currentPatient.Visits
+                .map(visit => visit.createdAt || visit.Visit_date)
+                .filter(Boolean)
+                .map(value => new Date(value))
+                .filter(value => !Number.isNaN(value.getTime()));
+            if (!dates.length) {
+                return null;
+            }
+            return new Date(Math.max(...dates.map(value => value.getTime())));
+        }
+
+        function calculateAppointmentFees() {
+            const appointmentDate = document.getElementById('appointmentDate').value;
+            if (!appointmentDate) {
+                return;
+            }
+            const selectedDate = new Date(appointmentDate + 'T00:00:00');
+            const lastVisitDate = getLatestVisitDate();
+            let fees = 500;
+            if (lastVisitDate) {
+                const daysBetween = Math.floor((selectedDate - lastVisitDate) / (1000 * 60 * 60 * 24));
+                fees = daysBetween > 30 ? 500 : 300;
+            }
+            if (selectedDate.getDay() === 0) {
+                fees = 700;
+            }
+            if (document.getElementById('emergencyBooking').checked) {
+                fees = 700;
+            }
+            document.getElementById('appointmentFees').value = fees;
+        }
+
+        function openAppointmentModal() {
+            if (!currentPatient) {
+                showError('Patient details are still loading.');
+                return;
+            }
+            document.getElementById('appointmentDate').value = localDateString(new Date());
+            document.getElementById('appointmentDoctor').value = currentPatient.Doctor || '';
+            document.getElementById('appointmentPaymentType').value = '';
+            document.getElementById('emergencyBooking').checked = false;
+            calculateAppointmentFees();
+            document.getElementById('appointmentModal').classList.remove('d-none');
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointmentModal').classList.add('d-none');
+        }
+
+        function bookAppointment() {
+            const date = document.getElementById('appointmentDate').value;
+            const Doctor = document.getElementById('appointmentDoctor').value;
+            const Fees = document.getElementById('appointmentFees').value;
+            const paymentType = document.getElementById('appointmentPaymentType').value;
+            if (!date || !Doctor || !Fees || !paymentType) {
+                showError('Appointment date, doctor, fees, and payment type are mandatory.');
+                return;
+            }
+            const button = document.getElementById('confirmAppointmentBtn');
+            button.disabled = true;
+            const patient = {
+                Name: currentPatient.Name,
+                Age: currentPatient.Age,
+                Address: currentPatient.Address,
+                Mobile: currentPatient.Mobile,
+                Gender: currentPatient.Gender,
+                Husband: currentPatient.Husband,
+                Father: currentPatient.Father,
+                IdProof: currentPatient.IdProof,
+                Doctor,
+                AppointmentDate: date
+            };
+            fetch('/patients/visits/bookToday', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ PatientId: currentPatient.Id, date, Fees, patient, Doctor, paymentType, IdProof: currentPatient.IdProof || '' })
+            })
+                .then(response => response.json().then(data => ({ ok: response.ok, data })))
+                .then(result => {
+                    if (!result.ok) {
+                        throw new Error(result.data.message || 'Unable to book appointment.');
+                    }
+                    closeAppointmentModal();
+                    showSuccess(result.data.message || 'Appointment booked successfully.');
+                    loadProfile();
+                    if (result.data.visit) {
+                        window.open('/sales/bill/view/' + result.data.visit);
+                    }
+                })
+                .catch(error => showError(error.message || 'Unable to book appointment.'))
+                .finally(() => {
+                    button.disabled = false;
+                });
         }
 
         function loadProfile() {
@@ -270,6 +442,12 @@
 
         document.getElementById('savePatientBtn').addEventListener('click', sendUpdate);
         document.getElementById('refreshPatientBtn').addEventListener('click', loadProfile);
+        document.getElementById('bookAppointmentBtn').addEventListener('click', openAppointmentModal);
+        document.getElementById('closeAppointmentModalBtn').addEventListener('click', closeAppointmentModal);
+        document.getElementById('cancelAppointmentBtn').addEventListener('click', closeAppointmentModal);
+        document.getElementById('appointmentDate').addEventListener('change', calculateAppointmentFees);
+        document.getElementById('emergencyBooking').addEventListener('change', calculateAppointmentFees);
+        document.getElementById('confirmAppointmentBtn').addEventListener('click', bookAppointment);
         loadProfile();
     </script>
 

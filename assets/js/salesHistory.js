@@ -169,6 +169,9 @@ function showHistory(items){
             Notes="OPD Charges"
         }else if(items[i].type == 'Pathology'){
             color='#f4c6fc'
+        }else if(items[i].type == 'Pathology_ots'){
+            color='#e6c9ff'
+            Notes='Outsource Pathology'
         }else if(items[i].type == 'DischargeBill'){
             color='#f258d5b3'
         }else if(items[i].type == 'Ultrasound'){

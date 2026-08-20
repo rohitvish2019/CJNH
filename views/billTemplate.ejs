@@ -22,7 +22,7 @@
                 <div style="display: flex;justify-content: space-between;margin-bottom: 10px;">
                     <div><%if(bill.type == 'Ultrasound'){%>
                         <b>Ultrasonologist  : <%= hospitalConfig.doctorMap.dr_anuj.name %></b>
-                    <%} else if (bill.type == 'Pathology') {%>
+                    <%} else if (bill.type == 'Pathology' || bill.type == 'Pathology_ots') {%>
                         <b>Referred By : <%=bill.ReferredBy%></b>
                     <%}%></div>
                     <div></div>

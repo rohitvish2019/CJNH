@@ -481,12 +481,14 @@ module.exports.dashboard = async function(req, res){
             let cancelledApt = await SalesData.find({type:'Appointment', BillDate:today, isValid:false}).countDocuments()
             let pathBills = await SalesData.find({type:'Pathology', BillDate:today}).countDocuments()
             let cancelledPath = await SalesData.find({type:'Pathology', BillDate:today, isValid:false}).countDocuments()
+            let outsourcePathBills = await SalesData.find({type:'Pathology_ots', BillDate:today}).countDocuments()
             let ultraSoundBill = await SalesData.find({type:'Ultrasound',BillDate:today}).countDocuments();
             return res.status(200).json({
                 appointments,
                 cancelledApt,
                 pathBills,
                 cancelledPath,
+                outsourcePathBills,
                 ultraSoundBill
             })
         }else{

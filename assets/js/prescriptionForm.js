@@ -398,6 +398,30 @@ function calculateFullGAA() {
     // Return the full GAA as weeks and days
     document.getElementById('calculatedTime').value= fullWeeks + ' Weeks and '+ remainingDays + ' days'
 
+    // Fill NT and TS ranges using helper functions (they expect DD-MM-YYYY)
+    try {
+        if (EDD && EDD.indexOf('-') > -1) {
+            const parts = EDD.split('-'); // YYYY-MM-DD
+            const eddForFns = parts[2] + '-' + parts[1] + '-' + parts[0]; // DD-MM-YYYY
+
+            const ntRange = typeof getNTScanWeek === 'function' ? getNTScanWeek(eddForFns).range : null;
+            const tsRange = typeof getTargetScanWeek === 'function' ? getTargetScanWeek(eddForFns).range : null;
+
+            const ntElem = document.getElementById('NT');
+            const tsElem = document.getElementById('TS');
+            if (ntElem && ntRange) {
+                ntElem.value = ntRange;
+                addChanges('NT');
+            }
+            if (tsElem && tsRange) {
+                tsElem.value = tsRange;
+                addChanges('TS');
+            }
+        }
+    } catch (err) {
+        console.warn('Error filling NT/TS ranges:', err);
+    }
+
   }
 
 function updateEdd(){
@@ -415,4 +439,55 @@ function initilizeApp(){
     document.getElementById('frame').style.display='none'
     getRecentReports()
     setTimeout(calculateFullGAA, 1000);
+}
+
+function getNTScanWeek(edd) {
+    const [day, month, year] = edd.split('-').map(Number);
+
+    const startDate = new Date(year, month - 1, day);
+    startDate.setDate(startDate.getDate() - (28 * 7));
+
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 6);
+
+    const formatDate = (date) => {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+
+        return `${dd}-${mm}-${yyyy}`;
+    };
+
+    return {
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
+        range: `${formatDate(startDate)} to ${formatDate(endDate)}`
+    };
+}
+
+function getTargetScanWeek(edd) {
+    const [day, month, year] = edd.split('-').map(Number);
+
+    const startDate = new Date(year, month - 1, day);
+
+    // Start of 20th week
+    startDate.setDate(startDate.getDate() - (20 * 7));
+
+    // 14 days = 20th + 21st week
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 13);
+
+    const formatDate = (date) => {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+
+        return `${dd}-${mm}-${yyyy}`;
+    };
+
+    return {
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
+        range: `${formatDate(startDate)} to ${formatDate(endDate)}`
+    };
 }

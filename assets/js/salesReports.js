@@ -3,6 +3,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 const salesReportColumnMap = {
     Appointment: 'checkBoxforAppointmentFee',
     Pathology: 'checkBoxforPathology',
+    Pathology_ots: 'checkBoxforOutsourcePathology',
     DischargeBill: 'checkBoxforDischargeBill',
     Ultrasound: 'checkBoxforUltrasound',
     IPDAdvance: 'checkBoxforIPDAdvance',
@@ -184,6 +185,7 @@ function showHistory(items, Doctor){
         rowItem.id=items[i]._id+'row'
         let appointmentFees = items[i].Appointment == undefined ? 0 : parseInt(items[i].Appointment);
         let pathologyFees = items[i].Pathology == undefined ? 0 : parseInt(items[i].Pathology);
+        let outsourcePathologyFees = items[i].Pathology_ots == undefined ? 0 : parseInt(items[i].Pathology_ots);
         let dischargeBillFees = items[i].DischargeBill == undefined ? 0 : parseInt(items[i].DischargeBill);
         let ultrasoundFees = items[i].Ultrasound == undefined ? 0 : parseInt(items[i].Ultrasound);
         let iPDAdvanceFees = items[i].IPDAdvance == undefined ? 0 : parseInt(items[i].IPDAdvance);
@@ -194,6 +196,7 @@ function showHistory(items, Doctor){
             <td>${items[i].date.split('-')[2]}-${items[i].date.split('-')[1]}-${items[i].date.split('-')[0]}</td>
             <td class="report-col report-col-Appointment">₹ ${appointmentFees}</td>
             <td class="report-col report-col-Pathology">₹ ${pathologyFees}</td>
+            <td class="report-col report-col-Pathology_ots">₹ ${outsourcePathologyFees}</td>
             <td class="report-col report-col-DischargeBill">₹ ${dischargeBillFees}</td>
             <td class="report-col report-col-Ultrasound">₹ ${ultrasoundFees}</td>
             <td class="report-col report-col-IPDAdvance">₹ ${iPDAdvanceFees}</td>

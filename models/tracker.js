@@ -3,6 +3,7 @@ const Trackers = new mongoose.Schema({
     patientId:Number,
     ReportNo:Number,
     PathologyBillNo:Number,
+    OutsourcePathologyBillNo:Number,
     AppointmentNumber:Number,
     AdmissionNo:Number,
     BirthCertificateNumber:Number,

@@ -6,7 +6,7 @@ const Visits = require('../models/visits');
 const Sale = require('../models/sales');
 
 function getDefaultDoctorForSaleType(type, doctorName){
-    if(type == 'Pathology' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
+    if(type == 'Pathology' || type == 'Pathology_ots' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
         return 'Dr Anuj Jain';
     }
     return doctorName;
@@ -47,6 +47,15 @@ module.exports.newPathologyBill = async function(req, res){
     try{
         let services = await ServicesData.find({}, 'Name');
         return res.render('pathologyBill', {services, user:req.user})
+    }catch(err){
+        return res.render('Error_500')
+    }
+}
+
+module.exports.newOutsourcePathologyBill = async function(req, res){
+    try{
+        let services = await ServicesData.find({}, 'Name');
+        return res.render('outsourcePathologyBill', {services, user:req.user})
     }catch(err){
         return res.render('Error_500')
     }
@@ -120,6 +129,10 @@ module.exports.addSales = async function(req, res){
             rptType = 'PATH'
             BillNo = tracker.PathologyBillNo + 1
             await tracker.updateOne({PathologyBillNo:BillNo});
+        }else if(req.body.Type == 'Pathology_ots'){
+            rptType = 'OTS'
+            BillNo = (tracker.OutsourcePathologyBillNo || 0) + 1
+            await tracker.updateOne({OutsourcePathologyBillNo:BillNo});
         }else if(req.body.Type == 'Other'){
             rptType = 'DC'
             BillNo = tracker.OtherBillNumber + 1
@@ -198,19 +211,25 @@ module.exports.getBillsByDate = async function(req, res){
         let BillType = req.query.BillType;
         let date = req.query.selectedDate;
         let Doctor = req.query.Doctor;
+        let doctorRegEx = 'other'
+        if(containsIgnoreCase(req.query.Doctor, "anuj")){
+            doctorRegEx = 'anuj'
+        } else if (containsIgnoreCase(req.query.Doctor, "swati") ){
+            doctorRegEx = 'swati'
+        }
         let billsList;
         if(BillType == 'all'){
             if(Doctor == 'all'){
                 billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true});
             }else{
-                billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true, Doctor:Doctor});
+                billsList = await SalesData.find({BillDate:date,isCancelled:false, isValid:true, Doctor: { $regex: doctorRegEx, $options:'i'}});
             }
             
         }else{
             if(Doctor == 'all'){
                 billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true});
             }else{
-                billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true, Doctor:Doctor});
+                billsList = await SalesData.find({BillDate:date,type:req.query.BillType, isCancelled:false, isValid:true, Doctor: { $regex: doctorRegEx, $options:'i'}});
             }
             
         }
@@ -225,6 +244,16 @@ module.exports.getBillsByDate = async function(req, res){
             message:'Internal Server Error : unable to find bills on specific date'
         })
     }
+}
+
+
+function containsIgnoreCase(string, substring) {
+    console.log(string," : "+ substring);
+  if (typeof string !== 'string' || typeof substring !== 'string') {
+    console.log("here me failing")
+    return false;
+  }
+  return string.toLowerCase().includes(substring.toLowerCase());
 }
 /*
 function addOneDay(date) {
