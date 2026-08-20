@@ -6,9 +6,9 @@ const Visits = require('../models/visits');
 const Sale = require('../models/sales');
 
 function getDefaultDoctorForSaleType(type, doctorName){
-    if(type == 'Pathology' || type == 'Pathology_ots' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
+    if(type == 'Pathology' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
         return 'Dr Anuj Jain';
-    }
+    } 
     return doctorName;
 }
 
@@ -20,29 +20,7 @@ module.exports.salesHistoryHome = function(req, res){
     }
     
 }
-/*
-function convertIstToUtc(istDate) {
-    // Parse the IST date string into a Date object
-    const [year, month, day] = istDate.split('-').map(Number);
 
-    // Check if the date is valid
-    if (!year || !month || !day) {
-        throw new Error("Invalid IST date format. Use 'YYYY-MM-DD'.");
-    }
-
-    // Create IST date object
-    const istDateObj = new Date(year, month - 1, day, 0, 0, 0); // Month is 0-indexed
-
-    // Convert to UTC by subtracting 5 hours and 30 minutes (330 minutes)
-    const utcOffsetMinutes = 330;
-    const utcDate = new Date(istDateObj.getTime() - utcOffsetMinutes * 60 * 1000);
-
-    // Format the UTC date into a readable string
-    //const utcDateString = utcDate.toISOString().split('T')[0]; // Extract only the date part
-
-    return utcDate;
-}
-*/
 module.exports.newPathologyBill = async function(req, res){
     try{
         let services = await ServicesData.find({}, 'Name');

@@ -22,7 +22,13 @@ let patient
 setDefaultDoctorForBilling();
 
 function setDefaultDoctorForBilling() {
-    if(document.getElementById('billType').value == 'Pathology' || document.getElementById('billType').value == 'Pathology_ots' || document.getElementById('billType').value == 'Ultrasound'){
+    const bt = document.getElementById('billType') ? document.getElementById('billType').value : '';
+    // For outsource pathology bills (`Pathology_ots`) we want the doctor field empty
+    if (bt === 'Pathology_ots') {
+        document.getElementById('docName').value = '';
+        return;
+    }
+    if (bt === 'Pathology' || bt === 'Ultrasound'){
         const defaultDoctorName = window.hospitalConfig?.doctorMap?.dr_anuj?.name || 'Dr Anuj Jain';
         document.getElementById('docName').value = defaultDoctorName;
     }
