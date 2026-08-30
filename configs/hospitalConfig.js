@@ -47,6 +47,8 @@ function getHospitalConfig() {
         mobile: getValue('hospital.mobile', ''),
         logoPath: getValue('hospital.logo.path', ''),
         otherDescription: getValue('hospital.other.description', ''),
+        otherDescription1: getValue('hospital.other.description1', ''),
+        otherDescription2: getValue('hospital.other.description2', ''),
         doctors,
         doctorMap
     };

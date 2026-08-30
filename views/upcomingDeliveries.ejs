@@ -17,13 +17,20 @@
     <%-include('_loader')%>
   </header>
 
-  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding: 1% 4% 0;">
-    <label for="startDate"><b>Start Date</b></label>
-    <input id="startDate" type="date" class="form-control" style="width: auto;">
-    <label for="endDate"><b>End Date</b></label>
-    <input id="endDate" type="date" class="form-control" style="width: auto;">
-    <button id="searchDeliveriesBtn" class="btn btn-success"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
-    <label id="deliveryCount"></label>
+  <div style="padding: 1% 4% 0;">
+    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 10px;">
+      <span id="summaryCounts" class="badge-group" style="font-size: 14px; font-weight: 600; color: #333; margin-right: auto; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <span class="badge badge-success" style="padding: 6px 10px; font-size: 13px;">Delivered: <strong id="deliveredCount">0</strong></span>
+        <span class="badge badge-warning" style="padding: 6px 10px; font-size: 13px; color: #333; background-color: #fff3cd;">Pending: <strong id="pendingCount">0</strong></span>
+        <span class="badge badge-danger" style="padding: 6px 10px; font-size: 13px;">Due: <strong id="dueCount">0</strong></span>
+      </span>
+      <label for="startDate"><b>Start Date</b></label>
+      <input id="startDate" type="date" class="form-control" style="width: auto;">
+      <label for="endDate"><b>End Date</b></label>
+      <input id="endDate" type="date" class="form-control" style="width: auto;">
+      <button id="searchDeliveriesBtn" class="btn btn-success"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+      <label id="deliveryCount"></label>
+    </div>
   </div>
 
   <table class="table table-striped table-bordered" style="margin: 8px 0;">
@@ -36,9 +43,8 @@
         <th scope="col">Age</th>
         <th scope="col">Mobile</th>
         <th scope="col"><i class="fa-solid fa-stethoscope"></i> Doctor</th>
-        <th scope="col">LMP</th>
-        <th scope="col">EDD</th>
         <th scope="col">C.EDD</th>
+        <th scope="col">Delivery Status</th>
         <th scope="col"><i class="fas fa-map-marker-alt"></i> Address</th>
         <th scope="col">Profile</th>
       </tr>

@@ -379,12 +379,7 @@ function calculateFullGAA() {
     // Get today's date
     const today = new Date();
     //today.setHours(0, 0, 0, 0); // Set the time to midnight for accurate comparison
-  
-    // Ensure that the pregnancy start date is not in the future
-    if (pregnancyStartDate > today) {
-      throw new Error("pregnancy Start Date cannot be in the future. Please provide a valid EDD.");
-    }
-  
+
     // Calculate the difference in time between today and the pregnancy start date
     const timeDifference = today - pregnancyStartDate;
   
@@ -398,24 +393,60 @@ function calculateFullGAA() {
     // Return the full GAA as weeks and days
     document.getElementById('calculatedTime').value= fullWeeks + ' Weeks and '+ remainingDays + ' days'
 
-    // Fill NT and TS ranges using helper functions (they expect DD-MM-YYYY)
+    // Show NT and TS ranges only when their calculated window is still in the future.
     try {
         if (EDD && EDD.indexOf('-') > -1) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
             const parts = EDD.split('-'); // YYYY-MM-DD
             const eddForFns = parts[2] + '-' + parts[1] + '-' + parts[0]; // DD-MM-YYYY
 
-            const ntRange = typeof getNTScanWeek === 'function' ? getNTScanWeek(eddForFns).range : null;
-            const tsRange = typeof getTargetScanWeek === 'function' ? getTargetScanWeek(eddForFns).range : null;
+            const ntInfo = typeof getNTScanWeek === 'function' ? getNTScanWeek(eddForFns) : null;
+            const tsInfo = typeof getTargetScanWeek === 'function' ? getTargetScanWeek(eddForFns) : null;
+
+            const parseDdMmYyyy = (value) => {
+                if (!value || typeof value !== 'string') return null;
+                const parts = value.split('-');
+                if (parts.length !== 3) return null;
+
+                let day = Number(parts[0]);
+                let month = Number(parts[1]);
+                let year = Number(parts[2]);
+
+                if (!day || !month || !year) return null;
+
+                if (String(year).length === 2) {
+                    year = 2000 + year;
+                }
+
+                const parsed = new Date(year, month - 1, day);
+                parsed.setHours(0, 0, 0, 0);
+                return parsed;
+            };
+
+            const ntRange = ntInfo && parseDdMmYyyy(ntInfo.endDate) >= today ? ntInfo.range : null;
+            const tsRange = tsInfo && parseDdMmYyyy(tsInfo.endDate) >= today ? tsInfo.range : null;
 
             const ntElem = document.getElementById('NT');
             const tsElem = document.getElementById('TS');
-            if (ntElem && ntRange) {
-                ntElem.value = ntRange;
-                addChanges('NT');
+            if (ntElem) {
+                if (ntRange) {
+                    ntElem.value = ntRange;
+                    addChanges('NT');
+                } else {
+                    ntElem.value = '';
+                    addChanges('NT');
+                }
             }
-            if (tsElem && tsRange) {
-                tsElem.value = tsRange;
-                addChanges('TS');
+            if (tsElem) {
+                if (tsRange) {
+                    tsElem.value = tsRange;
+                    addChanges('TS');
+                } else {
+                    tsElem.value = '';
+                    addChanges('TS');
+                }
             }
         }
     } catch (err) {
@@ -453,15 +484,15 @@ function getNTScanWeek(edd) {
     const formatDate = (date) => {
         const dd = String(date.getDate()).padStart(2, '0');
         const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const yyyy = date.getFullYear();
+        const yy = String(date.getFullYear()).slice(-2);
 
-        return `${dd}-${mm}-${yyyy}`;
+        return `${dd}-${mm}-${yy}`;
     };
 
     return {
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
-        range: `${formatDate(startDate)} to ${formatDate(endDate)}`
+        range: `${formatDate(startDate).replace(/-/g, '/')} to ${formatDate(endDate).replace(/-/g, '/')}`
     };
 }
 
@@ -480,14 +511,14 @@ function getTargetScanWeek(edd) {
     const formatDate = (date) => {
         const dd = String(date.getDate()).padStart(2, '0');
         const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const yyyy = date.getFullYear();
+        const yy = String(date.getFullYear()).slice(-2);
 
-        return `${dd}-${mm}-${yyyy}`;
+        return `${dd}-${mm}-${yy}`;
     };
 
     return {
         startDate: formatDate(startDate),
         endDate: formatDate(endDate),
-        range: `${formatDate(startDate)} to ${formatDate(endDate)}`
+        range: `${formatDate(startDate).replace(/-/g, '/')} to ${formatDate(endDate).replace(/-/g, '/')}`
     };
 }

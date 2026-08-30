@@ -148,6 +148,11 @@ function showHistory(items){
         document.getElementById('tvaluecash').innerText='Cash : ₹ 0'
         document.getElementById('tvalueonline').innerText='Online : ₹ 0'
         document.getElementById('tvalueindiqoo').innerText='Indiqoo : ₹ 0'
+        document.getElementById('tvalue').className = 'badge badge-primary'
+        document.getElementById('tvaluecash').className = 'badge badge-success'
+        document.getElementById('tvalueonline').className = 'badge badge-info'
+        document.getElementById('tvalueindiqoo').className = 'badge badge-warning'
+        document.getElementById('tvalueindiqoo').style.color = '#333'
         //document.getElementById('pagination').innerHTML=``
         return
     }
@@ -193,6 +198,11 @@ function showHistory(items){
         rowItem.dataset.cashPaid = +(items[i].CashPaid || 0)
         rowItem.dataset.onlinePaid = +(items[i].OnlinePaid || 0)
         rowItem.dataset.indiqooPaid = +(items[i].indiqooPaid || 0)
+
+        const entryDate = items[i].BillDate ? `${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}` : 'NA';
+        const createdAtIst = utcToIST(items[i].createdAt || items[i].created_at);
+        const entryTimeText = createdAtIst ? createdAtIst.split(' at ')[1] || createdAtIst : 'NA';
+
         rowItem.innerHTML=
         `
             <td class="toBeRemovedinPDF"><input type="checkbox" class="sale-select" value="${items[i]._id}" onchange="updateBulkCancelState()"></td>
@@ -200,7 +210,10 @@ function showHistory(items){
             <td>${items[i].PatiendID == null ? 'NA':items[i].PatiendID}</td>
             <td>${items[i].Name}</td>
             <td ondblclick="changePaymentMode('${items[i]._id}','${items[i].Total}')">₹ ${items[i].Total}</td>
-            <td>${items[i].BillDate.split('-')[2]}-${items[i].BillDate.split('-')[1]}-${items[i].BillDate.split('-')[0]}</td>
+            <td>
+                <div>${entryDate}</div>
+                <div style="font-size: 14px; line-height: 1.3; color: #555; margin-top: 2px;">${entryTimeText}</div>
+            </td>
             <td style = 'background-color:${color};font-weight:bold'><a target='_blank' href='/sales/bill/view/${items[i]._id}'>${items[i].ReportNo}</a></td>
             <td>${items[i].Doctor}</td>
             <td>${items[i].CashPaid}</td>
@@ -240,6 +253,11 @@ function showHistory(items){
     document.getElementById('tvaluecash').innerText='Cash ('+cashCounter + ') : ₹ '+cashTotal
     document.getElementById('tvalueonline').innerText='Online ('+onlineCounter + '): ₹ ' +onlineTotal
     document.getElementById('tvalueindiqoo').innerText='Indiqoo ('+indiqooCounter + '): ₹ ' +indiqooTotal
+    document.getElementById('tvalue').className = 'badge badge-primary'
+    document.getElementById('tvaluecash').className = 'badge badge-success'
+    document.getElementById('tvalueonline').className = 'badge badge-info'
+    document.getElementById('tvalueindiqoo').className = 'badge badge-warning'
+    document.getElementById('tvalueindiqoo').style.color = '#333'
 }
 
 function resetSelectionState(){
@@ -533,4 +551,30 @@ function getSalesByPatId(){
             document.getElementById('loader').style.display='none'
             console.log(err)}
     })
+}
+
+
+ function utcToIST(utcTime) {
+    if (!utcTime || typeof utcTime !== 'string') {
+        return null;
+    }
+
+    const date = new Date(utcTime);
+
+    // Invalid date
+    if (Number.isNaN(date.getTime())) {
+        return null;
+    }
+
+    return new Intl.DateTimeFormat('en-IN', {
+        timeZone: 'Asia/Kolkata',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    })
+        .format(date)
+        .replace(',', ' at');
 }

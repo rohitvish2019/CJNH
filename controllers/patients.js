@@ -65,6 +65,7 @@ module.exports.getUpcomingDeliveries = async function(req, res){
                 message:'Please provide a valid start date and end date'
             });
         }
+
         const patients = await PatientData.find({
             cedddate: {$gte:startDate, $lte:endDate},
             isCancelled:false,
@@ -72,7 +73,38 @@ module.exports.getUpcomingDeliveries = async function(req, res){
         })
             .select('Id Name Age Mobile Doctor Address lmpdate edddate cedddate')
             .sort({cedddate:1, Name:1});
-        return res.status(200).json({patients});
+
+        const patientIds = patients
+            .map(patient => patient.Id)
+            .filter(id => id !== undefined && id !== null && id !== '');
+
+        const nineMonthsAgo = new Date();
+        nineMonthsAgo.setMonth(nineMonthsAgo.getMonth() - 9);
+        const birthCertificateCutoff = nineMonthsAgo.toISOString().slice(0, 10);
+
+        const validBirthCertificates = patientIds.length
+            ? await BirthData.find({
+                OPDId: {$in: patientIds},
+                isValid: true,
+                isCancelled: false,
+                GeneratedOn: {$gte: birthCertificateCutoff, $exists: true, $ne: ''}
+            }).select('OPDId')
+            : [];
+
+        const validBirthCertificateIds = new Set(
+            validBirthCertificates.map(cert => cert.OPDId)
+        );
+
+        const enrichedPatients = patients.map(patient => {
+            const hasValidBirthCertificate = validBirthCertificateIds.has(patient.Id);
+            return {
+                ...patient.toObject ? patient.toObject() : patient,
+                hasValidBirthCertificate,
+                birthCertificateStatus: hasValidBirthCertificate ? 'Yes' : 'No'
+            };
+        });
+
+        return res.status(200).json({patients: enrichedPatients});
     }catch(err){
         console.log(err);
         return res.status(500).json({
@@ -1352,7 +1384,7 @@ module.exports.recentReports = async function(req, res) {
         const mm = String(today.getMonth() + 1).padStart(2, '0'); // months are 0-based
         const dd = String(today.getDate()).padStart(2, '0');
         const threeMonthsAgo = `${yyyy}-${mm}-${dd}`;
-        let reports = await Reportsdata.find({Patient:visit.Patient, Date : { $gte : threeMonthsAgo}});
+        let reports = await Reportsdata.find({Patient:visit.Patient, Date : { $gte : threeMonthsAgo}, isCancelled:false, isValid:true}).sort({Date:-1});
         let allReports = reports.flatMap(r =>
         (r.Items || []).map(item => ({
             date: r.Date,

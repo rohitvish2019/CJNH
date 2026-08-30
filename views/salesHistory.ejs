@@ -18,31 +18,30 @@
         <div class="heading">
             <h2>Sales History</h2>
         </div>
-        <div class="searchElements" style="display: flex; justify-content:flex-start; margin-top: 1%;">
-                <div style="margin-right: 1%;">
-                    
-                    <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;">
+        <div class="searchElements" style="display: flex; justify-content:flex-start; align-items: center; flex-wrap: nowrap; gap: 8px; margin-top: 1%; padding: 0 .3%; overflow-x: auto;">
+                <div style="display: flex; align-items: center; margin-right: 2px;">
+                    <select name="" id="filterType" onchange="changeInputs()" style="height: 36px; min-height: 36px; padding: 5px 6px; margin: 0; font-size: 13px;">
                         <option value="byDate" selected>Exact Date</option>
                         <option value="byDateRange">Date Range</option>
                         <option value="byPatId">Patient Id</option>
                     </select>
                 </div>
                 
-                <div id="dateRangeInputs" style="margin-right: 1%;">
-                    <label for=""><b>Date Range : </b>&nbsp;</label>
-                    <input type="date" name="" id="startDate">
-                    <input type="date" name="" id="endDate">
+                <div id="dateRangeInputs" style="display: flex; align-items: center; margin-right: 2px;">
+                    <label for="" style="margin: 0 8px 0 0; font-size: 13px;"><b>Date Range : </b>&nbsp;</label>
+                    <input type="date" name="" id="startDate" style="height: 36px; min-height: 36px; padding: 2px 2px; margin: 0; font-size: 13px;">
+                    <input type="date" name="" id="endDate" style="height: 36px; min-height: 36px; padding: 2px 2px; margin: 0 0 0 8px; font-size: 13px;">
                 </div>
-                <div id="dateInput" style="margin-right: 1%;">
-                    <label for=""><b>Date : </b>&nbsp;</label>
-                    <input style="height: 32px" type="date" name="" id="selectedDate">
+                <div id="dateInput" style="display: flex; align-items: center; margin-right: 2px;">
+                    <label for="" style="margin: 0 8px 0 0; font-size: 13px;"><b>Date : </b>&nbsp;</label>
+                    <input type="date" name="" id="selectedDate" style="height: 36px; min-height: 36px; padding: 2px 2px; margin: 0; font-size: 13px;">
                 </div>
-                <div id="pidInput" style="margin-right: 1%;">
-                    <label for=""><b>Patient Id : </b>&nbsp;</label>
-                    <input style="height: 32px" type="text" name="" id="patId">
+                <div id="pidInput" style="display: flex; align-items: center; margin-right: 2px;">
+                    <label for="" style="margin: 0 8px 0 0; font-size: 13px;"><b>Patient Id : </b>&nbsp;</label>
+                    <input type="text" name="" id="patId" style="height: 36px; min-height: 36px; padding: 2px 2px; margin: 0; font-size: 13px;">
                 </div>
-                <div style="margin-right: 1%;" id="selectBillType">
-                    <select name="" id="billType" style="height: 70%;">
+                <div style="margin-right: 2px;" id="selectBillType">
+                    <select name="" id="billType" style="height: 36px; min-height: 36px; padding: 2px 2px; margin: 0; font-size: 13px;">
                         <option value="all">All Sales</option>
                         <option value="Appointment">Appointment Fees</option>
                         <option value="Pathology"> Pathology Bill</option>
@@ -51,11 +50,10 @@
                         <option value="Ultrasound">Ultrasound Bills</option>
                         <option value="IPDAdvance">IPD Advance payment</option>
                         <option value="Other">Other</option>
-                        
                     </select>
                 </div>
-                <div id="selectDoctor">
-                    <select name="" id="Doctor" style="height: 70%;">
+                <div id="selectDoctor" style="display: flex; align-items: center;">
+                    <select name="" id="Doctor" style="height: 36px; min-height: 36px; padding: 2px 2px; margin: 0; font-size: 13px;">
                         <option value="">--Select Doctor--</option>
                         <option value="all" selected>All Doctors</option>
                         <% for (let i = 0; i < hospitalConfig.doctors.length; i++) { %>
@@ -63,16 +61,15 @@
                         <% } %>
                     </select>
                 </div>
-                <button style="height: 80%;margin-left: 2%; margin-bottom: 1%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>
-                <button style="height: 80%;margin-left: 1%; margin-bottom: 1%;" class="btn btn-danger toBeRemovedinPDF" id="bulkCancelBtn" onclick="bulkCancelSales()" disabled>Bulk Cancel</button>
-                <b style="margin-left: 1%;" id="tvalue"></b>
-                <b style="margin-left: 1%;" id="tvaluecash"></b>
-                <b style="margin-left: 1%;" id="tvalueonline"></b>
-                <b style="margin-left: 1%;" id="tvalueindiqoo"></b>
-            <div>
-                <b id="tvalue"></b>
+                <button style="height: 36px; min-height: 36px; margin: 0;font-size: 11px; border-radius: 999px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);" class="btn btn-success" onclick="getSalesHistory()">Search</button>
+                <button style="height: 36px; min-height: 36px; margin: 0;font-size: 11px; border-radius: 999px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);" class="btn btn-danger toBeRemovedinPDF" id="bulkCancelBtn" onclick="bulkCancelSales()" disabled>Bulk Cancel</button>
+                <div style="display: flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 12px; background: #e4e7eb; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); margin-left: 2px;">
+                    <span id="tvalue" class="badge badge-primary" style="font-size: 11px; padding: 6px 8px; border-radius: 12px; line-height: 1.2; white-space: nowrap;">Total : ₹ 0</span>
+                    <span id="tvaluecash" class="badge badge-success" style="font-size: 11px; padding: 6px 8px; border-radius: 12px; line-height: 1.2; white-space: nowrap;">Cash : ₹ 0</span>
+                    <span id="tvalueonline" class="badge badge-info" style="font-size: 11px; padding: 6px 8px; border-radius: 12px; line-height: 1.2; white-space: nowrap;">Online : ₹ 0</span>
+                    <span id="tvalueindiqoo" class="badge badge-warning" style="font-size: 11px; padding: 6px 8px; border-radius: 12px; color: #333; line-height: 1.2; white-space: nowrap;">Indiqoo : ₹ 0</span>
+                </div>
             </div>
-        </div>
         <div class="table-body" style="overflow: auto;">
             <table class="table table-striped table-bordered">
                 <thead style="position: relative; top: 0%;">
