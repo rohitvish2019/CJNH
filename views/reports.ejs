@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sales History</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js" integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css" integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/js/vendor/noty-3.1.4.min.js"></script>
+<link rel="stylesheet" href="/css/vendor/noty-3.1.4.min.css" />
+<script src="/js/vendor/jquery.min.js"></script>
 
 <link rel="stylesheet" href="/css/purchasesHistory.css">
 </head>
@@ -18,27 +18,14 @@
         <div class="heading">
             <h2>Agregate Sales Reports</h2>
         </div>
-        <div class="searchElements" style="display: flex; justify-content:flex-start; margin-top: 1%;">
-                <!--
-                <div style="margin-right: 1%;">
-                    <select name="" id="filterType" onchange="changeInputs()" style="height: 70%;"> 
-                        <option value="byDateRange">Date Range</option>
-                    </select>
-                </div>
-                -->
-                <div id="dateRangeInputs" style="margin-right: 1%;">
+        <div class="searchElements" style="display: flex; justify-content:flex-start; align-items: center; gap: 10px; margin-top: 1%; flex-wrap: wrap;">
+                <div id="dateRangeInputs" style="margin-right: 1%; display: flex; align-items: center; gap: 6px;">
                     <label for=""><b>Date Range : </b>&nbsp;</label>
                     <input type="date" name="" id="startDate">
                     <input type="date" name="" id="endDate">
                 </div>
-                <!--
-                <div id="dateInput" style="margin-right: 1%;">
-                    <label for=""><b>Date : </b>&nbsp;</label>
-                    <input style="height: 32px" type="date" name="" id="selectedDate">
-                </div>
-                -->
                 <div style="margin-right: 1%;">
-                    <select name="" id="billType" style="height: 70%;">
+                    <select name="" id="billType" style="height: 36px; min-height: 36px; padding: 5px 6px; font-size: 13px;">
                         <option value="all">All Sales</option>
                         <option value="Appointment">Appointment Fees</option>
                         <option value="Pathology"> Pathology Bill</option>
@@ -47,11 +34,10 @@
                         <option value="Ultrasound">Ultrasound Bills</option>
                         <option value="IPDAdvance">IPD Advance payment</option>
                         <option value="Other">Other</option>
-                        
                     </select>
                 </div>
                 <div>
-                    <select name="" id="Doctor" style="height: 70%;">
+                    <select name="" id="Doctor" style="height: 36px; min-height: 36px; padding: 5px 6px; font-size: 13px;">
                         <option value="">--Select Doctor--</option>
                         <option value="all" selected>All Doctors</option>
                         <% for (let i = 0; i < hospitalConfig.doctors.length; i++) { %>
@@ -59,13 +45,12 @@
                         <% } %>
                     </select>
                 </div>
-                <button style="height: 80%;margin-left: 2%; margin-bottom: 1%;" class="btn btn-success" onclick="getSalesHistory()">Search</button>
-                <b style="margin-left: 1%;" id="tvalue"></b>
-                <b style="margin-left: 1%;" id="doctorName"></b>
-                <button style="height: 80%;margin-left: 2%; margin-bottom: 1%;" class="btn btn-primary" onclick="printMe()">Print</button>
-            <div>
-                <b id="tvalue"></b>
-            </div>
+                <button style="height: 36px; min-height: 36px; margin: 0; padding: 6px 14px; font-size: 11px; border-radius: 999px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);" class="btn btn-success" onclick="getSalesHistory()">Search</button>
+                <div style="display: flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 12px; background: #e4e7eb; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08); margin-left: 2px;">
+                    <b id="tvalue" style="display: inline-flex; align-items: center; justify-content: center; min-height: 26px; padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 999px; background: rgba(0, 123, 255, 0.12); color: #004085; border: 1px solid rgba(0, 123, 255, 0.3); margin: 0;">Total : ₹ 0</b>
+                    <b id="doctorName" style="display: inline-flex; align-items: center; justify-content: center; min-height: 26px; padding: 5px 10px; font-size: 11px; font-weight: 600; border-radius: 999px; background: rgba(108, 117, 125, 0.12); color: #495057; border: 1px solid rgba(108, 117, 125, 0.25); margin: 0;">Doctor : All</b>
+                </div>
+                <button style="height: 36px; min-height: 36px; margin: 0; padding: 6px 14px; font-size: 11px; border-radius: 999px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);" class="btn btn-primary" onclick="printMe()">Print</button>
         </div>
         <div>
             <div class="inline-div">

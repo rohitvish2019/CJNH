@@ -479,7 +479,7 @@ function getNTScanWeek(edd) {
     startDate.setDate(startDate.getDate() - (28 * 7));
 
     const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 6);
+    endDate.setDate(endDate.getDate() + 7);
 
     const formatDate = (date) => {
         const dd = String(date.getDate()).padStart(2, '0');
@@ -506,7 +506,7 @@ function getTargetScanWeek(edd) {
 
     // 14 days = 20th + 21st week
     const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 13);
+    endDate.setDate(endDate.getDate() + 14);
 
     const formatDate = (date) => {
         const dd = String(date.getDate()).padStart(2, '0');

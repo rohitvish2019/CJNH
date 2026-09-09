@@ -5,15 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admitted Patients</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
-    integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
-    integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="/js/vendor/noty-3.1.4.min.js"></script>
+  <link rel="stylesheet" href="/css/vendor/noty-3.1.4.min.css" />
+  <link rel="stylesheet" href="/css/vendor/fontawesome-5.15.4.min.css">
   <link rel="stylesheet" href="/css/showAdmittedPatients.css">
 
 
@@ -28,7 +22,7 @@
     <%-include('_loader')%>
   </div>
   <input type="hidden" id="visitId">
-  <div style="display: flex;margin-top: 5px;margin-bottom: 3px;">
+  <div style="display: flex; align-items: center; gap: 12px; margin-top: 5px; margin-bottom: 8px; padding: 6px 10px; flex-wrap: wrap;">
     <div style="margin-left: 5px;">
       <b>Entry Date Range</b>
     </div>
@@ -41,15 +35,12 @@
       <input id="endDate" type="date" value="<%=new Date().getFullYear() + '-' + (Number(new Date().getMonth()) + 1).toString().padStart(2,'0') + '-' + new Date().getDate().toString().padStart(2,'0')%>">
     </div>
     <div style="margin-left: 2%;">
-      <input class="btn btn-success" onclick="getIPDDataRange()" type="button" value="Filter">
+      <input class="btn btn-success pill-button" onclick="getIPDDataRange()" type="button" value="Filter">
     </div>
-    <div style="margin-left: 20px;">
-      <label id="completedTotal"></label>
+    <div class="summary-pill-container">
+      <label id="completedTotal" class="summary-pill summary-pill-success"></label>
+      <label id="pendingTotal" class="summary-pill summary-pill-warning"></label>
     </div>
-    <div style="margin-left: 20px;">
-      <label id="pendingTotal"></label>
-    </div>
-    
   </div>
   <table class="table">
     <caption> List of Admitted Patients</caption>

@@ -38,6 +38,51 @@
     
 }
 
+.summary-pill-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: #e4e7eb;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  margin-left: 2px;
+}
+
+.summary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 26px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 999px;
+  line-height: 1.2;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.summary-pill-success {
+  background: rgba(40, 167, 69, 0.15);
+  color: #155724;
+  border: 1px solid rgba(40, 167, 69, 0.35);
+}
+
+.summary-pill-warning {
+  background: rgba(255, 193, 7, 0.18);
+  color: #7a5200;
+  border: 1px solid rgba(255, 193, 7, 0.55);
+}
+
+.pill-button {
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
 #addPaymentPopup{
   width: 30%;
   position: fixed;

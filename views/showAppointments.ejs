@@ -5,9 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Appointments</title>
-  <script src="https://kit.fontawesome.com/f419dc6d9b.js" crossorigin="anonymous"></script>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/css/vendor/fontawesome-5.15.4.min.css">
   <link rel="stylesheet" href="/css/showAppointments.css">
 </head>
 
@@ -17,11 +15,15 @@
     <%-include('_loader')%>
   </header>
   
-  <div style="display: flex;justify-content: flex-end; padding-right: 4%; padding-top: 1%;">
-    <label id="pendingCount" style="margin-right: 20px;"></label>
-    <lable id="completedCount" style=" margin-right: 20px;"></lable>
-    <button class="btn btn-success" style="margin-right: 2%;" onclick="getAppointmentsToday()"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
-    <input type="checkbox" name="" id="ShowHideDisabled" onchange="getAppointmentsToday()">&nbsp;&nbsp; Show Disabled Appointments
+  <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding-right: 4%; padding-top: 1%; flex-wrap: wrap;">
+    <div class="summary-pill-container">
+      <label id="pendingCount" class="summary-pill summary-pill-warning"></label>
+      <label id="completedCount" class="summary-pill summary-pill-success"></label>
+    </div>
+    <button class="btn btn-success pill-button" onclick="getAppointmentsToday()"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
+    <label class="show-disabled-toggle">
+      <input type="checkbox" name="" id="ShowHideDisabled" onchange="getAppointmentsToday()">&nbsp;&nbsp; Show Disabled Appointments
+    </label>
   </div>
   
   <table class="table table-striped table-bordered" style="margin: 8px 0px; ">

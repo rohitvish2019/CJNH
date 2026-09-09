@@ -14,6 +14,16 @@
   .tbody {
     overflow: auto;
   }
+
+  #tableBody tr {
+    background-color: transparent;
+  }
+
+  #tableBody tr td,
+  #tableBody tr th {
+    background-color: inherit;
+  }
+
   .loader{
     position: fixed;
     top: 35%;

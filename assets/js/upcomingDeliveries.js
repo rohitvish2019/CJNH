@@ -19,9 +19,11 @@ function localDateString(date) {
 
 function setDefaultDeliveryDates() {
   const today = new Date();
+  const startDate = new Date(today);
   const endDate = new Date(today);
+  startDate.setDate(startDate.getDate() - 7);
   endDate.setDate(endDate.getDate() + 7);
-  document.getElementById('startDate').value = localDateString(today);
+  document.getElementById('startDate').value = localDateString(startDate);
   document.getElementById('endDate').value = localDateString(endDate);
 }
 
@@ -82,6 +84,14 @@ function renderDeliveries(patients) {
       <td>${escapeHtml(patient.Address || '-')}</td>
       <td><a target="_blank" href="/patients/profile/${encodeURIComponent(patient._id)}">View Profile</a></td>
     `;
+
+    const cells = row.querySelectorAll('td, th');
+    if (row.style.backgroundColor) {
+      cells.forEach(cell => {
+        cell.style.backgroundColor = row.style.backgroundColor;
+      });
+    }
+
     container.appendChild(row);
   });
 

@@ -4,12 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
-        integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.css"
-        integrity="sha512-0p3K0H3S6Q4bEWZ/WmC94Tgit2ular2/n0ESdfEX8l172YyQj8re1Wu9s/HT9T/T2osUw5Gx/6pAZNk3UKbESw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="/js/vendor/noty-3.1.4.min.js"></script>
+    <link rel="stylesheet" href="/css/vendor/noty-3.1.4.min.css" />
     <link rel="stylesheet" href="/css/dischargeSheet.css">
     <title>Discharge Sheet</title>
 </head>
@@ -256,7 +252,7 @@ Cried immediately
                 <div style=" width: 100%; height: 55%; padding-left:8px ; text-align: center; margin-top: 7%;">
                     <span style="font-size: 15px;">- बच्चे का टीकाकरण नियमित करायें ।</span><br><hr>
                     <span style="font-size: 15px;">- ⁠परिवार नियोजन अपनाए ।</span><br><hr>
-                    <span style="font-size: 15px;">- ⁠आवश्यकता पड़ने पर या 1 - 1/2 माह बाद बुधवार को दिखाये ।</span>
+                    <span style="font-size: 15px;">- ⁠आवश्यकता पड़ने पर या 1 - 1/2 माह बाद <mark style="background-color: rgb(243, 243, 142);"> बुधवार </mark>को दिखाये ।</span>
                 </div>
                 
             </div>
@@ -292,9 +288,7 @@ Cried immediately
         style="width: 50%;background-color: #198754;border: none;color: white;border-radius: 1.3rem;font-size: medium;padding: 10px;"
         class="btn btn-success"><b>Save & Print</b></button>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/vendor/jquery.min.js"></script>
     <script>
         let changes = new Object();
         function saveChanges(){
