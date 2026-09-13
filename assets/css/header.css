@@ -32,19 +32,31 @@ ul{
 
   .patient-search-container{
     position: relative;
-    margin-left: 1rem;
-    width: 320px;
+    flex: 0 0 210px;
+    margin-left: .5rem;
+    width: 210px;
   }
 
   .patient-search-container .form-control{
-    height: 40px;
+    height: 32px;
+    min-width: 0;
+    font-size: 12px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
   }
 
   .patient-search-container .btn{
+    height: 32px;
+    padding: 4px 9px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+  }
+
+  @media (max-width: 1200px){
+    .patient-search-container{
+      flex-basis: 170px;
+      width: 170px;
+    }
   }
 
   .search-results{

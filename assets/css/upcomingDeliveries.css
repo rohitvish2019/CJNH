@@ -24,6 +24,29 @@
     background-color: inherit;
   }
 
+  .delivery-summary-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+  }
+
+  .delivery-summary-delivered {
+    color: #155724;
+    background-color: #d4edda;
+  }
+
+  .delivery-summary-pending {
+    color: #856404;
+    background-color: #fff3cd;
+  }
+
+  .delivery-summary-due {
+    color: #721c24;
+    background-color: #f8d7da;
+  }
+
   .loader{
     position: fixed;
     top: 35%;

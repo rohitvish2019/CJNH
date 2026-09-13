@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Stock</title>
+    <script src="/js/vendor/noty-3.1.4.min.js"></script>
+    <link rel="stylesheet" href="/css/vendor/noty-3.1.4.min.css" />
+    <link rel="stylesheet" href="/css/vendor/bootstrap-5.3.3.min.css" />
+    <link rel="stylesheet" href="/css/vendor/fontawesome-5.15.4.min.css">
+    <link rel="stylesheet" href="/css/purchases.css">
+</head>
+<body>
+    <header><%-include('_header')%></header>
+    <div id="loader" style="position: fixed;top:50%;left:35%;display:none;"><%-include('_loader')%></div>
+    <div style="display:flex;justify-content:space-between;width:99%;">
+        <div style="width:71%;margin-left:.5%;">
+            <div style="overflow-y:auto;height:500px;border-top:2px dotted white;">
+                <h4 class="text-white text-center" style="padding:10px;background-color:#343a40;">Pharmacy Stock</h4>
+                <table class="table table-striped table-bordered">
+                    <thead><tr class="bg"><th>#</th><th>Medicine</th><th>Batch No.</th><th>Expiry Date</th><th>Purchase Price</th><th>Selling Price</th><th>Quantity</th><th>Supplier</th><th>Category</th><th>Remove</th></tr></thead>
+                    <tbody id="prescriptionTableBody"></tbody>
+                </table>
+            </div>
+            <div style="display:flex;justify-content:center;margin:12px;"><button onclick="saveStock()" class="btn btn-success">Save Stock</button></div>
+        </div>
+        <div class="prescription-form" style="width:29%;">
+            <h4 style="text-align:center;font-weight:bold;">Add Stock</h4>
+            <div class="input-group"><span class="input-group-text">Medicine *</span><input style="text-transform:uppercase;" type="text" id="Item" class="form-control" list="medicineList"><datalist id="medicineList"><% inventory.forEach(function(item){ %><option value="<%=item%>"></option><% }); %></datalist></div>
+            <div class="input-group"><span class="input-group-text">Batch No</span><input type="text" id="Batch" class="form-control"></div>
+            <div class="input-group"><span class="input-group-text">Expiry Date</span><input type="date" id="ExpiryDate" class="form-control"></div>
+            <div class="input-group"><span class="input-group-text">Purchase Price</span><input type="number" id="PurchasePrice" class="form-control" min="0"></div>
+            <div class="input-group"><span class="input-group-text">Selling Price</span><input type="number" id="SellingPrice" class="form-control" min="0"></div>
+            <div class="input-group"><span class="input-group-text">Quantity *</span><input type="number" id="Quantity" class="form-control"></div>
+            <div class="input-group"><span class="input-group-text">Supplier</span><input type="text" id="Supplier" class="form-control" list="sellersList"><datalist id="sellersList"><% sellers.forEach(function(seller){ %><option value="<%=seller%>"></option><% }); %></datalist></div>
+            <div class="input-group"><span class="input-group-text">Category</span><select id="Category" class="form-control"><option value="Medicine">Medicine</option><option value="Other">Other</option></select></div>
+            <div style="margin-top:10%;text-align:center;"><button class="btn btn-success" onclick="addStockRow()">Add Stock</button></div>
+        </div>
+    </div>
+    <script src="/js/pharmacyStock.js"></script>
+</body>
+</html>

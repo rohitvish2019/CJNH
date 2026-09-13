@@ -66,8 +66,8 @@ function addNewItems(){
         <td style="text-align: left;">${itemName}</td>
         <td><input id='${itemName}newItem_p' onchange='saveChanges(${itemName}newItem)' value = '${itemPrice}'></td>
         <td>
-            <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-solid fa-trash-can"></i> </span>
-            <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fa-regular fa-trash-can"></i> </span>
+            <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fas fa-trash-alt"></i> </span>
+            <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${itemName+'newItem'}")'"><i class="fas fa-trash-alt"></i> </span>
         </td>
     `
     document.getElementById('billingDetails').appendChild(rowItem);
@@ -96,8 +96,8 @@ function getDischargeBillItems(){
                     <td style="text-align: left;">${data.Items[i].Name}</td>
                     <td><input id='${data.Items[i]._id}_p' type='number' onchange=saveChanges('${data.Items[i]._id}') value='${data.Items[i].Price}'></td>
                     <td>
-                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-solid fa-trash-can"></i> </span>
-                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-regular fa-trash-can"></i> </span>
+                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-solid fa-trash-alt"></i> </span>
+                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${data.Items[i]._id}")'"><i class="fa-regular fa-trash-alt"></i> </span>
                     </td>
                 `
                 container.appendChild(rowItem);
@@ -113,8 +113,8 @@ function getDischargeBillItems(){
                 <td><input id='roomRent_p' type='number' onchange=saveChanges('roomRent') value='${data.daysCount * data.roomRent}'></td>
                 <td>
                 
-                <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-solid fa-trash-can"></i> </span>
-                <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-regular fa-trash-can"></i> </span>
+                <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-solid fa-trash-alt"></i> </span>
+                <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("roomRent")'"><i class="fa-regular fa-trash-alt"></i> </span>
                 </td>
             `
             container.appendChild(rooRentRow)
@@ -132,8 +132,8 @@ function getDischargeBillItems(){
                     <td style="text-align: left;">${item[0]} (${new Date(item[2]).toLocaleDateString('en-IN',date_options)})</td>
                     <td><input readonly type='number' value=${item[1]}></td>
                     <td>
-                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-solid fa-trash-can"></i> </span>
-                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-regular fa-trash-can"></i> </span>
+                        <span id="dustbinDark${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:inline-block; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-solid fa-trash-alt"></i> </span>
+                        <span id="dustbinLight${counter}" onmouseover = "highlight(${counter})" onmouseout = "unhighlight(${counter})" style="display:none; margin: 1%;" onclick='deleteItems("${item.toString()}")'"><i class="fa-regular fa-trash-alt"></i> </span>
                     </td>
                 `
                 container.appendChild(rowItem);

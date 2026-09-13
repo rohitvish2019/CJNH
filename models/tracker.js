@@ -9,6 +9,7 @@ const Trackers = new mongoose.Schema({
     BirthCertificateNumber:Number,
     USGBillNumber:Number,
     OtherBillNumber:Number,
+    PharmaBilNumber:Number,
     AdvancePaymentNumber:Number,
     IPDNumber:Number,
     RecieptNo:Number,

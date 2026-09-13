@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Pharmacy Stock</title>
+    <link rel="stylesheet" href="/css/vendor/bootstrap-5.3.3.min.css">
+    <link rel="stylesheet" href="/css/vendor/fontawesome-5.15.4.min.css">
+    <link rel="stylesheet" href="/css/upcomingDeliveries.css">
+    <style>
+        .stock-page { padding: 22px 4%; }
+        .stock-search { display: flex; gap: 8px; max-width: 620px; margin-bottom: 18px; }
+        .stock-search input { flex: 1; }
+        .stock-table-wrap { overflow-x: auto; }
+        .stock-table th { white-space: nowrap; }
+        .stock-message { margin-top: 14px; }
+        .add-stock-form { display: flex; gap: 6px; align-items: center; min-width: 220px; }
+        .add-stock-form input { width: 90px; }
+    </style>
+</head>
+<body>
+    <header><%-include('_header')%></header>
+    <main class="stock-page">
+        <h2>Manage Pharmacy Stock</h2>
+        <form id="stockSearchForm" class="stock-search">
+            <input id="medicineSearch" class="form-control" type="search" placeholder="Search medicine name" autocomplete="off" required>
+            <button class="btn btn-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </form>
+        <div id="stockMessage" class="stock-message"></div>
+        <div class="stock-table-wrap">
+            <table class="table table-bordered table-striped stock-table">
+                <thead>
+                    <tr class="bg">
+                        <th>#</th><th>Medicine</th><th>Batch</th><th>Expiry</th><th>Purchase Price</th><th>Selling Price</th><th>Current Stock</th><th>Add Stock</th>
+                    </tr>
+                </thead>
+                <tbody id="stockResults">
+                    <tr><td colspan="8" class="text-center">Search for a medicine to view its batches.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="/js/pharmacyManageStock.js"></script>
+</body>
+</html>

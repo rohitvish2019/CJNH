@@ -24,6 +24,10 @@
     font-weight: 500;
     border-bottom:1px solid black;
   }
+
+#table-content > .completed-row > * {
+  background-color: #bef5be !important;
+}
 #closeButton{
   font-size: larger;
 }

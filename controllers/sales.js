@@ -4,10 +4,12 @@ const PatientData = require('../models/patients');
 const Tracker = require('../models/tracker');
 const Visits = require('../models/visits');
 const Sale = require('../models/sales');
+const hospitalConfig = require('../configs/hospitalConfig');
+const PharmacyMedicine = require('../models/pharmacyMedicines');
 
 function getDefaultDoctorForSaleType(type, doctorName){
     if(type == 'Pathology' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
-        return 'Dr Anuj Jain';
+        return hospitalConfig.getHospitalConfig().doctors[0]?.name || doctorName;
     } 
     return doctorName;
 }
@@ -91,6 +93,35 @@ module.exports.addSales = async function(req, res){
             Patient = null
         }
 
+        const pharmacyDeductions = [];
+        if(req.body.Type == 'Pharmacy'){
+            const requestedStock = new Map();
+            for(const item of (req.body.PharmacyItems || [])){
+                const quantity = Number(item.quantity);
+                if(!item.medicineId || !Number.isInteger(quantity) || quantity < 1){
+                    return res.status(400).json({message:'Invalid pharmacy stock item'});
+                }
+                requestedStock.set(item.medicineId, (requestedStock.get(item.medicineId) || 0) + quantity);
+            }
+            if(!requestedStock.size){
+                return res.status(400).json({message:'No pharmacy stock items provided'});
+            }
+            for(const [medicineId, quantity] of requestedStock){
+                const updatedMedicine = await PharmacyMedicine.findOneAndUpdate(
+                    {_id: medicineId, isActive: true, isCancelled: false, quantity: {$gte: quantity}},
+                    {$inc: {quantity: -quantity}},
+                    {new: true}
+                );
+                if(!updatedMedicine){
+                    for(const deduction of pharmacyDeductions){
+                        await PharmacyMedicine.updateOne({_id: deduction.medicineId}, {$inc: {quantity: deduction.quantity}});
+                    }
+                    return res.status(400).json({message:'Insufficient stock for one or more medicines'});
+                }
+                pharmacyDeductions.push({medicineId, quantity});
+            }
+        }
+
         let tracker = await Tracker.findOne({});
         
         let day = new Date().getDate().toString().padStart(2,'0')
@@ -115,8 +146,14 @@ module.exports.addSales = async function(req, res){
             rptType = 'DC'
             BillNo = tracker.OtherBillNumber + 1
             await tracker.updateOne({OtherBillNumber:BillNo});
+        }else if(req.body.Type == 'Pharmacy'){
+            rptType = 'PH'
+            BillNo = (tracker.PharmaBilNumber || 0) + 1
+            await tracker.updateOne({PharmaBilNumber:BillNo});
         }
-        let sale = await SalesData.create({
+        let sale;
+        try {
+            sale = await SalesData.create({
             Patient:Id,
             Name:Name,
             Age:Age,
@@ -133,13 +170,20 @@ module.exports.addSales = async function(req, res){
             BillDate:date,
             Total:req.body.Total,
             Items:req.body.Items,
+            PharmacyItems:req.body.Type == 'Pharmacy' ? req.body.PharmacyItems : undefined,
             PaymentType:req.body.paymentMode,
             IdProof :IdProof,
             Doctor:getDefaultDoctorForSaleType(req.body.Type, req.body.patient.Doctor),
             OnlinePaid:req.body.onlinePayment,
             CashPaid:req.body.cashPayment,
             ReferredBy: req.body.patient && req.body.patient.ReferredBy ? req.body.patient.ReferredBy : ''
-        })
+            });
+        } catch(err) {
+            for(const deduction of pharmacyDeductions){
+                await PharmacyMedicine.updateOne({_id: deduction.medicineId}, {$inc: {quantity: deduction.quantity}});
+            }
+            throw err;
+        }
         
     return res.status(200).json({
         message:'Bill created successfully',

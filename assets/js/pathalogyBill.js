@@ -1,14 +1,19 @@
 function setPriceAndNotes() {
     let name = document.getElementById('Item').value;
+    const isPharmacyBilling = document.getElementById('billType').value == 'Pharmacy';
     $.ajax({
-        url: '/reports/getServiceByName/',
+        url: isPharmacyBilling ? '/pharmacy/medicine' : '/reports/getServiceByName/',
         type: 'Get',
         data: {
             name
         },
         success: function (data) {
-            document.getElementById('Price').value = data.service.Price == undefined ? '' : data.service.Price
-            document.getElementById('Notes').value = data.service.Notes == undefined ? '' : data.service.Notes
+            const price = isPharmacyBilling ? data.medicine.sellingPrice : data.service.Price;
+            document.getElementById('Price').value = price == undefined ? '' : price;
+            document.getElementById('Notes').value = isPharmacyBilling ? '' : (data.service.Notes == undefined ? '' : data.service.Notes);
+            if(isPharmacyBilling){
+                window.selectedPharmacyMedicineId = data.medicine._id;
+            }
             //document.getElementById('Type').value = data.service.Type == undefined ? '' : data.service.Type
         },
         error: function (err) {}
@@ -18,16 +23,62 @@ let Items = new Array();
 let counter = 0
 let total = 0
 let patient
+let pharmacyItems = []
 setDefaultDoctorForBilling();
 
 function setDefaultDoctorForBilling() {
-    if(document.getElementById('billType').value == 'Pathology' || document.getElementById('billType').value == 'Ultrasound'){
-        const defaultDoctorName = window.hospitalConfig?.doctorMap?.dr_anuj?.name || 'Dr Anuj Jain';
+    if(document.getElementById('billType').value == 'Pathology' || document.getElementById('billType').value == 'Ultrasound' || document.getElementById('billType').value == 'Pharmacy'){
+        const defaultDoctorName = window.hospitalConfig?.doctors?.[0]?.name || '';
         document.getElementById('docName').value = defaultDoctorName;
     }
 }
 
+async function addPharmacyItems() {
+    const itemName = document.getElementById('Item').value.trim();
+    const quantity = Number(document.getElementById('Quantity').value);
+    const notes = document.getElementById('Notes').value == 'undefined' ? '' : document.getElementById('Notes').value;
+    if(!itemName || !Number.isInteger(quantity) || quantity < 1){
+        new Noty({text: 'Medicine name and a positive whole quantity are required', type: 'error', layout: 'topRight', timeout: 1500}).show();
+        return;
+    }
+
+    try {
+        const response = await fetch(`/pharmacy/allocate?name=${encodeURIComponent(itemName)}&quantity=${quantity}`);
+        const data = await response.json();
+        if(!response.ok) throw new Error(data.message || 'Unable to allocate medicine stock');
+
+        data.allocations.forEach(allocation => {
+            const rowItem = document.createElement('tr');
+            rowItem.id = 'rowItem_' + (++counter);
+            rowItem.innerHTML = `
+                <td>${counter}</td>
+                <td>${allocation.name}${allocation.batchNumber ? ' (' + allocation.batchNumber + ')' : ''}</td>
+                <td id="price_${counter}">${allocation.sellingPrice}</td>
+                <td id="qty_${counter}">${allocation.quantity}</td>
+                <td>${notes}</td>
+                <td><span onclick="deleteItem(${counter})"><i class="fa-solid fa-trash-can"></i></span></td>
+            `;
+            document.getElementById('itemsTableBody').appendChild(rowItem);
+            Items.push(allocation.name + '$' + allocation.quantity + '$' + allocation.sellingPrice + '$' + notes);
+            pharmacyItems[counter - 1] = {medicineId: allocation.medicineId, quantity: allocation.quantity, price: allocation.sellingPrice};
+            total += allocation.sellingPrice * allocation.quantity;
+        });
+        document.getElementById('total').innerText = total;
+        document.getElementById('Item').value = '';
+        document.getElementById('Price').value = '';
+        document.getElementById('Quantity').value = 1;
+        document.getElementById('Notes').value = '';
+        window.selectedPharmacyMedicineId = null;
+    } catch (error) {
+        new Noty({text: error.message, type: 'error', layout: 'topRight', timeout: 1500}).show();
+    }
+}
+
 function addItems() {
+    if(document.getElementById('billType').value == 'Pharmacy'){
+        addPharmacyItems();
+        return;
+    }
     let container = document.getElementById('itemsTableBody');
     let itemName = document.getElementById('Item').value
     let itemPrice = document.getElementById('Price').value
@@ -65,6 +116,9 @@ function addItems() {
     document.getElementById('Item').value = ''
     document.getElementById('Price').value = ''
     document.getElementById('total').innerText = total
+    if(document.getElementById('billType').value == 'Pharmacy'){
+        window.selectedPharmacyMedicineId = null;
+    }
 }
 
 function unhighlight(x) {
@@ -80,6 +134,9 @@ function highlight(x) {
 function deleteItem(counter){
     console.log('deleting item on position '+ (counter - 1))
     Items.splice(counter-1, 1, '');
+    if(document.getElementById('billType').value == 'Pharmacy'){
+        pharmacyItems[counter - 1] = null;
+    }
     let itemPrice = parseInt(document.getElementById('price_'+counter).innerText)
     let itemQty = parseInt(document.getElementById('qty_'+counter).innerText)
     total = total - itemPrice*itemQty
@@ -108,6 +165,7 @@ function saveBill() {
         data: {
             Type:document.getElementById('billType').value,
             Items,
+            PharmacyItems: pharmacyItems.filter(Boolean),
             patient,
             Total:total,
             cashPayment,

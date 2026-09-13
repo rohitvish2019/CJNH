@@ -175,7 +175,7 @@ function setIPDData(visits, rooms){
     for(let i=0;i<visits.length;i++){
         let rowItem = document.createElement('tr');
         if(visits[i].isDischarged == true){
-            rowItem.style.backgroundColor='#bef5be'
+            rowItem.classList.add('completed-row')
             completedCount ++
         } else {
             pendngCount ++

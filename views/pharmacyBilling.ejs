@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Billing</title>
+    <script src="/js/vendor/noty-3.1.4.min.js"></script>
+    <link rel="stylesheet" href="/css/vendor/noty-3.1.4.min.css" />
+    <link rel="stylesheet" href="/css/vendor/bootstrap-5.3.3.min.css" />
+    <link rel="stylesheet" href="/css/vendor/fontawesome-5.15.4.min.css">
+    <link rel="stylesheet" href="/css/pathologyBill.css">
+</head>
+<body>
+    <header><%-include('_header')%></header>
+    <div id="loader" style="position:fixed;top:50%;left:35%;display:none;"><%-include('_loader')%></div>
+    <input type="hidden" value="Pharmacy" id="billType">
+    <div class="patient-container text-center" style="padding:1%;color:white;background-color:#343a40;">
+        <div class="patient-data"><label class="patient-data-heading">Name</label><input class="patient-data-value" id="patName"></div>
+        <div class="patient-data"><label class="patient-data-heading">Age</label><input class="patient-data-value" id="age"></div>
+        <div class="patient-data"><label class="patient-data-heading">Gender</label><input class="patient-data-value" id="gender" value="Female"></div>
+        <div class="patient-data"><label class="patient-data-heading">Address</label><input class="patient-data-value" id="address"></div>
+        <div class="patient-data"><label class="patient-data-heading">Mobile</label><input class="patient-data-value" id="mobile"></div>
+        <div class="patient-data"><label class="patient-data-heading">Doctor</label><input class="patient-data-value" id="docName" value="Pharmacy"></div>
+        <div style="text-align:center;padding-left:4%;border-left:1px solid white;"><input style="width:80%;text-align:center;font-size:medium;margin:2%;" type="text" id="patientId" placeholder="Patient Id"><br><button class="btn btn-success" onclick="autoFillPatients()">Autofill</button></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;width:99%;padding-top:1%;">
+        <div style="width:71%;margin-left:.5%;"><div style="overflow-y:auto;height:500px;"><h2 style="text-align:center;">Pharmacy Billing</h2><table class="table table-bordered table-striped"><thead><tr class="bg"><th>#</th><th>Medicine</th><th>Price</th><th>Quantity</th><th>Notes</th><th>Delete</th></tr></thead><tbody id="itemsTableBody"></tbody></table></div><div style="display:flex;justify-content:center;margin:2%;"><button onclick="checkValidations()" class="btn btn-success">Save</button></div></div>
+            <div class="prescription-form" style="width:29%;padding-top:20px;"><h4 style="text-align:center;font-weight:bold;">Add Medicine</h4><div class="input-group input-group-sm mb-1"><span class="input-group-text">Medicine</span><input type="text" id="Item" class="form-control" list="medicineList" onchange="setPriceAndNotes()"><datalist id="medicineList"><% inventory.forEach(function(item){ %><option value="<%=item%>"></option><% }); %></datalist></div><div class="input-group input-group-sm mb-1"><span class="input-group-text">Price</span><input type="number" id="Price" class="form-control" readonly></div><div class="input-group input-group-sm mb-1"><span class="input-group-text">Quantity</span><input type="number" id="Quantity" class="form-control" value="1"></div><div class="input-group input-group-sm mb-1"><span class="input-group-text">Notes</span><input type="text" id="Notes" class="form-control"></div><div style="text-align:center;margin-top:10%;"><button class="btn btn-success" onclick="addItems()">Add</button></div><div style="margin-top:10%;">Total: <label id="total">0</label></div><div id="paymentPoppup" style="display:none;"><div class="input-group input-group-sm mb-1"><span class="input-group-text">Cash</span><input onchange="setuppayments()" id="cashPayment" type="number" class="form-control"></div><div class="input-group input-group-sm mb-1"><span class="input-group-text">Online</span><input id="onlinePayment" type="number" class="form-control"></div><button onclick="closePopup()" class="btn btn-danger">Cancel</button><button onclick="saveBill()" id="addPayment" class="btn btn-success">Save</button></div></div>
+    </div>
+    <script>window.hospitalConfig = <%- JSON.stringify(hospitalConfig) %>;</script>
+    <script src="/js/pathalogyBill.js"></script>
+</body>
+</html>

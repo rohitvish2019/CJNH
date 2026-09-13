@@ -66,9 +66,11 @@ function renderDeliveries(patients) {
         pending += 1;
         row.style.backgroundColor = '#f8d7da';
       } else {
+        deliveryStatus = 'Due';
         due += 1;
       }
     } else {
+      deliveryStatus = 'Due';
       due += 1;
     }
 

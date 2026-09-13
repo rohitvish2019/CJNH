@@ -14,10 +14,11 @@ const mongoose = require('mongoose');
 const PropertiesReader = require('properties-reader');
 const { response } = require('express');
 const appSettings = require('../configs/appSettings');
+const hospitalConfig = require('../configs/hospitalConfig');
 
 function getDefaultDoctorForSaleType(type, doctorName){
     if(type == 'Pathology' || type == 'DischargeBill' || type == 'IPDAdvance' || type == 'Ultrasound'){
-        return 'Dr Anuj Jain';
+        return hospitalConfig.getHospitalConfig().doctors[0]?.name || doctorName;
     }
     return doctorName;
 }

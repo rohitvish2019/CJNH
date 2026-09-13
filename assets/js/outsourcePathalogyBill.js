@@ -29,7 +29,7 @@ function setDefaultDoctorForBilling() {
         return;
     }
     if (bt === 'Pathology' || bt === 'Ultrasound'){
-        const defaultDoctorName = window.hospitalConfig?.doctorMap?.dr_anuj?.name || 'Dr Anuj Jain';
+        const defaultDoctorName = window.hospitalConfig?.doctors?.[0]?.name || '';
         document.getElementById('docName').value = defaultDoctorName;
     }
 }
